@@ -24,7 +24,7 @@ const Icon = styled.div`
 
 const LoginDiv = styled.div`
   width: 24.6vw;
-  height: 200px;
+  height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -112,7 +112,7 @@ const LoginButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: border;
+  font-weight: 600;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import closebook from "../../img/background/closebook.png";
 import theme3 from "../../img/background/theme/3.jpg";
-import theme9 from "../../img/background/theme/9.jpg";
+import background from "../../img/background/theme/background.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: url(${theme9});
+  background-image: url(${background});
   background-size: cover;
   background-position: fixed;
   display: flex;
