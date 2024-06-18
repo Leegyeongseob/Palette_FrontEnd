@@ -66,6 +66,8 @@ const InputDetailDiv = styled.div`
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
     padding-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
   }
 `;
 const RegisterationInput1 = styled.input`
@@ -76,6 +78,8 @@ const RegisterationInput1 = styled.input`
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   padding-left: 10px;
+  font-size: 16px;
+  font-weight: 600;
 `;
 const Text = styled.div`
   width: 10px;
@@ -95,6 +99,8 @@ const RegisterationInput2 = styled.input`
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   padding-left: 4px;
+  font-size: 16px;
+  font-weight: 600;
 `;
 const FindPassword = () => {
   return (

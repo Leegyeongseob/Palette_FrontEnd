@@ -3,6 +3,7 @@ import openbook from "../../img/background/openbook.png";
 import background from "../../img/background/theme/background.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
+import BookMark from "../bookmark/BookMark";
 
 const Background = styled.div`
   width: 100vw;
@@ -16,8 +17,8 @@ const Background = styled.div`
   align-items: center;
 `;
 const LogoDiv = styled.div`
-  width: 418px;
-  height: 210px;
+  width: 30vw;
+  height: 170px;
   display: flex;
   justify-content: center;
   align-items: center;

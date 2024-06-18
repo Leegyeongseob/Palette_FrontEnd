@@ -9,8 +9,8 @@ import SignupPage from "./pages/login/SignupPage";
 import FindEmail from "./pages/login/FindEmail";
 import FindPassword from "./pages/login/FindPassword";
 import ChatMain from "./pages/chat/chat";
-
 import GlobalStyle from "./global/GlobalStyle";
+import DateClothes from "./pages/dateclothes/DateClothes";
 function App() {
   return (
     <>
@@ -20,7 +20,8 @@ function App() {
         <Routes>
           <Route element={<OpenBook />}>
             <Route path="/" element={<MainPage />} />
-            <Route path="/chat" element={<ChatMain />}></Route>
+            <Route path="/date-clothes" element={<DateClothes />} />
+            <Route path="/chat" element={<ChatMain />} />
           </Route>
           <Route element={<CloseBook />}>
             <Route path="/not-login" element={<NotLogin />} />
