@@ -3,8 +3,12 @@ import personicon from "../../img/loginImg/person-icon.png";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+const Contain = styled.div`
+  width: auto;
+  height: auto;
+`;
 const IconDiv = styled.div`
-  width: 418px;
+  width: 24.6vw;
   height: 140px;
   display: flex;
   justify-content: center;
@@ -19,8 +23,8 @@ const Icon = styled.div`
 `;
 
 const LoginDiv = styled.div`
-  width: 418px;
-  height: 160px;
+  width: 24.6vw;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -61,8 +65,8 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 const FindDiv = styled.div`
-  width: 418px;
-  height: 30px;
+  width: 24.6vw;
+  height: 40px;
   display: flex;
   justify-content: space-evenly;
   & > div {
@@ -92,7 +96,7 @@ const ForgotPassword = styled.div`
   cursor: pointer;
 `;
 const ButtonDiv = styled.div`
-  width: 418px;
+  width: 450px;
   height: 114px;
   display: flex;
   justify-content: center;
@@ -119,7 +123,7 @@ const SigninDiv = styled.div`
 `;
 const LoginPage = () => {
   return (
-    <>
+    <Contain>
       <IconDiv>
         <Icon />
       </IconDiv>
@@ -160,7 +164,7 @@ const LoginPage = () => {
           <LoginButton>Login</LoginButton>
         </Link>
       </ButtonDiv>
-    </>
+    </Contain>
   );
 };
 

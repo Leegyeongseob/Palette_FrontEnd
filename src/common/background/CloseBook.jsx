@@ -24,7 +24,7 @@ const BookTheme = styled.div`
   background-image: url(${theme3});
 `;
 const LogoDiv = styled.div`
-  width: 418px;
+  width: 450px;
   height: 150px;
   display: flex;
   justify-content: center;

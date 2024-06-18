@@ -16,7 +16,7 @@ const Background = styled.div`
   align-items: center;
 `;
 const LogoDiv = styled.div`
-  width: 300px;
+  width: 418px;
   height: 210px;
   display: flex;
   justify-content: center;

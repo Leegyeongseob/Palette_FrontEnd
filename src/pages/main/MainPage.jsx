@@ -7,8 +7,8 @@ const BookSign = styled.div`
 `;
 const BookTheme = styled.div`
   width: 52.6vw;
-  height: 71vh;
-  margin-top: 1vh;
+  height: 68vh;
+  margin-top: 4vh;
   margin-left: 0.8vw;
   background-image: url(${theme11});
   background-size: cover;
