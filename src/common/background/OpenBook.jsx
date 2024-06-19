@@ -17,11 +17,19 @@ const Background = styled.div`
   align-items: center;
 `;
 const LogoDiv = styled.div`
-  width: 30vw;
+  width: 10vw;
   height: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const BookMarkDiv = styled.div`
+  width: 22vw;
+  height: 170px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 8vh; // 추가된 부분
 `;
 const Logo = styled.img`
   width: 140px;
@@ -36,14 +44,27 @@ const Book = styled.div`
   display: flex;
   justify-content: center;
 `;
+const TopContain = styled.div`
+  width: auto;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const OpenBook = () => {
   return (
     <Background>
-      <LogoDiv>
-        <Link to="/">
-          <Logo alt="logo" src={logo} />
-        </Link>
-      </LogoDiv>
+      <TopContain>
+        <BookMarkDiv />
+        <LogoDiv>
+          <Link to="/">
+            <Logo alt="logo" src={logo} />
+          </Link>
+        </LogoDiv>
+        <BookMarkDiv>
+          <BookMark />
+        </BookMarkDiv>
+      </TopContain>
       <Book>
         <Outlet />
       </Book>

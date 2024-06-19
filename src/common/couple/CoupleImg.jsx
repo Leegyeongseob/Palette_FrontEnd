@@ -6,12 +6,15 @@ const Contain = styled.div`
   width: auto;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: ${({ clothes }) => (clothes ? "space-evenly" : "center")};
   align-items: center;
 `;
 const ProfileDiv = styled.div`
-  width: 8vw;
-  height: 23vh;
+  width: ${({ clothes }) => (clothes ? "23vw" : "8vw")};
+  height: ${({ clothes }) => (clothes ? "15vh" : "23vh")};
+  display: ${({ clothes }) => (clothes ? "flex" : "block")};
+  flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
+  justify-content: flex-end;
 `;
 const ProfileImgDiv = styled.div`
   width: 8vw;
@@ -28,8 +31,8 @@ const HeartDiv = styled.div`
   align-items: center;
 `;
 const Heart = styled.div`
-  width: 70px;
-  height: 70px;
+  width: ${({ clothes }) => (clothes ? "50px" : "70px")};
+  height: ${({ clothes }) => (clothes ? "50px" : "70px")};
   background-image: url(${heart});
   background-size: cover;
 `;
@@ -41,32 +44,32 @@ const Profile = styled.div`
   border-radius: 50%;
 `;
 const Text = styled.div`
-  width: 8vw;
+  width: ${({ clothes }) => (clothes ? "7vw" : "8vw")};
   height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   font-weight: 600;
-  color: white;
+  color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
 `;
-const CoupleImg = () => {
+const CoupleImg = ({ clothes = false }) => {
   return (
-    <Contain>
-      <ProfileDiv>
+    <Contain clothes={clothes}>
+      <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
           <Profile imageurl={manprofile} />
         </ProfileImgDiv>
-        <Text>알콩</Text>
+        <Text clothes={clothes}>알콩</Text>
       </ProfileDiv>
       <HeartDiv>
-        <Heart />
+        <Heart clothes={clothes} />
       </HeartDiv>
-      <ProfileDiv>
+      <ProfileDiv clothes={clothes} direction={true}>
         <ProfileImgDiv>
           <Profile imageurl={womanprofile} />
         </ProfileImgDiv>
-        <Text>달콩</Text>
+        <Text clothes={clothes}>달콩</Text>
       </ProfileDiv>
     </Contain>
   );
