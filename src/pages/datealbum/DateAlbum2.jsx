@@ -93,6 +93,59 @@ const BookSign2 = styled.div`
       animation: ${turnPageLeft} 1.8s forwards;
     `}
 `;
+const ContentWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수직 중앙 정렬 */
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
+`;
+const ContentWrapper2 = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수직 중앙 정렬 */
+  ${({ animate2 }) =>
+    animate2 &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
+`;
+const ImgWrapper2 = styled.div`
+  width: 90%;
+  height: 81%;
+  background-color: #eccdaf;
+  margin-top: 6%;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const ImgBox2 = styled.div`
+  width: 32%;
+  height: 28%;
+  background-color: gray;
+  display: flex;
+  margin-left: 1%;
+  margin-top: 1%;
+`;
+
+const Dday = styled.div`
+  width: 90%;
+  height: 11%;
+  font-size: 30px;
+  margin-left: 5%;
+  display: flex; /* 요소를 플렉스 박스로 설정 */
+  justify-content: left; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+`;
 
 const NextButton = styled.div`
   width: 20px;
@@ -137,12 +190,15 @@ const InputDetailDiv2 = styled.div`
 `;
 
 const AddButton = styled.div`
-  width: 80px;
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
+  width: 90%;
+  height: 9%;
+  justify-content: right;
   align-items: center;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #c8c8c8;
+`;
+const AddTema = styled.div`
   font-size: 14px;
   color: black;
   font-weight: bolder;
@@ -151,46 +207,18 @@ const AddButton = styled.div`
     font-size: 15px;
   }
 `;
-const AlbumTitle = styled.div`
-  width: 13vw;
-  height: 3vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 23px;
-  color: #000;
-  font-weight: 800;
-`;
-
-const CoupleDiv = styled.div`
-  width: 330px;
-  height: 170px;
-  margin-left: 100px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const AddPic = styled.div`
-  width: 90%;
-  height: 30px;
-  margin-left: 30px;
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: right;
-  align-items: center;
+const AddAlbum = styled.div`
   font-size: 14px;
   color: black;
-  border-bottom: 1px solid #c8c8c8;
   font-weight: bolder;
+  margin-left: 10px;
   cursor: pointer;
   &:hover {
-    color: #444444;
+    font-size: 15px;
   }
 `;
 
-const DateAlbum = () => {
+const DateAlbum2 = () => {
   const [animate, setAnimate] = useState(false);
   const [animate2, setAnimate2] = useState(false);
   const navigate = useNavigate();
@@ -216,17 +244,45 @@ const DateAlbum = () => {
       </InputDetailDiv>
       <BookTheme>
         <BookSign animate={animate}>
-          <CoupleDiv>
-            <CoupleImg />
-          </CoupleDiv>
-          <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
-          <AddPic>사진 업로드</AddPic>
+          <ContentWrapper animate={animate}>
+            <AddButton>
+              <AddTema>사진 업로드</AddTema>
+            </AddButton>
+            <ImgWrapper2>
+              <Dday>♥ D + 150 ♥</Dday>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+            </ImgWrapper2>
+          </ContentWrapper>
         </BookSign>
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate2={animate2}>
-          <AddButton>테마 추가</AddButton>
-          <AddButton>앨범 추가</AddButton>
+          <ContentWrapper2 animate2={animate2}>
+            <AddButton>
+              <AddTema>테마 추가</AddTema>
+              <AddAlbum>앨범 추가</AddAlbum>
+            </AddButton>
+            <ImgWrapper2>
+              <Dday>알콩 ♥ 달콩</Dday>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+              <ImgBox2></ImgBox2>
+            </ImgWrapper2>
+          </ContentWrapper2>
         </BookSign2>
       </BookTheme2>
       <InputDetailDiv2>
@@ -236,4 +292,4 @@ const DateAlbum = () => {
   );
 };
 
-export default DateAlbum;
+export default DateAlbum2;
