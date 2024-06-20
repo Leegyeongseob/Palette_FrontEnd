@@ -16,16 +16,16 @@ const turnPageRight = keyframes`
     transform-origin: right;
   } 
   100% {
-    transform: perspective(2000px) rotateY(180deg);
+    transform: perspective(1000px) rotateY(180deg);
     transform-origin: right;
   }
 `;
 
 const BookTheme = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.7vw;
   background-image: url(${theme8});
   background-size: cover;
   display: flex;
@@ -34,9 +34,9 @@ const BookTheme = styled.div`
 
 const BookTheme2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.05vw;
   background-image: url(${theme8_1});
   background-size: cover;
   display: flex;
@@ -45,7 +45,7 @@ const BookTheme2 = styled.div`
 
 const BookSign = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   background-image: url(${theme8});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
@@ -60,8 +60,9 @@ const BookSign = styled.div`
 
 const BookSign2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   display: flex;
+  border-left: 0.5px solid black;
 `;
 
 const BackButton = styled.div`
@@ -115,7 +116,7 @@ const AlbumTitle = styled.div`
 const CoupleDiv = styled.div`
   width: 330px;
   height: 170px;
-  margin-left: 200px;
+  margin-left: 100px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -148,7 +149,7 @@ const DateAlbum3 = () => {
     setAnimate(true);
     setTimeout(() => {
       navigate("/date-album2");
-    }, 1200); // 애니메이션 지속 시간 후 페이지 이동
+    }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
   return (

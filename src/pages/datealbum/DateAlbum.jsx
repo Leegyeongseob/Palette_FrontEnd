@@ -16,16 +16,16 @@ const turnPageLeft = keyframes`
     transform-origin: left;
   } 
   100% {
-    transform: perspective(2000px) rotateY(-180deg);
+    transform: perspective(1000px) rotateY(-180deg);
     transform-origin: left;
   }
 `;
 
 const BookTheme = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.7vw;
   background-image: url(${theme8});
   background-size: cover;
   display: flex;
@@ -34,9 +34,9 @@ const BookTheme = styled.div`
 
 const BookTheme2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.05vw;
   background-image: url(${theme8_1});
   background-size: cover;
   display: flex;
@@ -45,22 +45,24 @@ const BookTheme2 = styled.div`
 
 const BookSign = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
 `;
 
 const BookSign2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   background-image: url(${theme8_1});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
   transform-origin: left;
+  border-left: 0.5px solid black;
   display: flex;
   ${({ animate }) =>
     animate &&
     css`
       animation: ${turnPageLeft} 1.8s forwards;
     `}
+  overflow: hidden;
 `;
 
 const NextButton = styled.div`
@@ -131,7 +133,7 @@ const AddPic = styled.div`
 const CoupleDiv = styled.div`
   width: 330px;
   height: 170px;
-  margin-left: 200px;
+  margin-left: 100px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -145,7 +147,7 @@ const DateAlbum = () => {
     setAnimate(true);
     setTimeout(() => {
       navigate("/date-album2");
-    }, 2000); // 애니메이션 지속 시간 후 페이지 이동
+    }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
   return (

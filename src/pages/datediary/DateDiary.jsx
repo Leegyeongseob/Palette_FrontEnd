@@ -6,10 +6,9 @@ const BookTheme = styled.div`
   width: 26vw;
   height: 69vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.7vw;
   background-image: url(${theme3});
   background-size: cover;
-  opacity: 0.8;
   display: flex;
   justify-content: space-between;
 `;
@@ -17,10 +16,9 @@ const BookTheme2 = styled.div`
   width: 26vw;
   height: 69vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.05vw;
   background-image: url(${theme3_1});
   background-size: cover;
-  opacity: 0.8;
   display: flex;
   justify-content: space-between;
 `;

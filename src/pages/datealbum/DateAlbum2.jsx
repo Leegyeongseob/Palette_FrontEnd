@@ -16,7 +16,7 @@ const turnPageRight = keyframes`
     transform-origin: right;
   } 
   100% {
-    transform: perspective(2000px) rotateY(180deg);
+    transform: perspective(1000px) rotateY(180deg);
     transform-origin: right;
   }
 `;
@@ -31,16 +31,16 @@ const turnPageLeft = keyframes`
     transform-origin: left;
   } 
   100% {
-    transform: perspective(2000px) rotateY(-180deg);
+    transform: perspective(1000px) rotateY(-180deg);
     transform-origin: left;
   }
 `;
 
 const BookTheme = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.7vw;
   background-image: url(${theme8});
   background-size: cover;
   display: flex;
@@ -50,9 +50,9 @@ const BookTheme = styled.div`
 
 const BookTheme2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.8vw;
+  margin-left: 0.05vw;
   background-image: url(${theme8_1});
   background-size: cover;
   display: flex;
@@ -62,7 +62,7 @@ const BookTheme2 = styled.div`
 
 const BookSign = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   background-image: url(${theme8});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg);
@@ -78,12 +78,13 @@ const BookSign = styled.div`
 
 const BookSign2 = styled.div`
   width: 26vw;
-  height: 69vh;
+  height: 67vh;
   background-image: url(${theme8_1});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg);
   transform-origin: left;
   position: absolute;
+  border-left: 0.5px solid black;
   display: flex;
   z-index: ${({ animate2 }) => (animate2 ? 2 : 1)};
   ${({ animate2 }) =>
@@ -164,7 +165,7 @@ const AlbumTitle = styled.div`
 const CoupleDiv = styled.div`
   width: 330px;
   height: 170px;
-  margin-left: 200px;
+  margin-left: 100px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -198,14 +199,14 @@ const DateAlbum = () => {
     setAnimate(true);
     setTimeout(() => {
       navigate("/date-album");
-    }, 1200);
+    }, 1800);
   };
 
   const handleNext = () => {
     setAnimate2(true);
     setTimeout(() => {
       navigate("/date-album3");
-    }, 1200);
+    }, 1800);
   };
 
   return (
