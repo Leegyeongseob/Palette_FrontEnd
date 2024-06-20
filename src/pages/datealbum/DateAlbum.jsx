@@ -145,7 +145,7 @@ const DateAlbum = () => {
     setAnimate(true);
     setTimeout(() => {
       navigate("/date-album2");
-    }, 1200); // 애니메이션 지속 시간 후 페이지 이동
+    }, 2000); // 애니메이션 지속 시간 후 페이지 이동
   };
 
   return (

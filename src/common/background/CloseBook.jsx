@@ -10,7 +10,6 @@ const Background = styled.div`
   height: 100vh;
   background-image: url(${background});
   background-size: cover;
-  background-position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,26 +17,32 @@ const Background = styled.div`
 `;
 const BookTheme = styled.div`
   width: 24.5vw;
-  height: 78vh;
-  margin-top: 7vh;
+  height: 74vh;
+  margin-top: 9vh;
   margin-left: 3vw;
   background-image: url(${theme3});
   background-size: cover;
   background-position: center;
 `;
 const LogoDiv = styled.div`
-  width: 450px;
-  height: 150px;
+  width: 23.438vw;
+  height: 15.74vh;
   display: flex;
   justify-content: center;
   align-items: end;
 `;
 const Logo = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 7.292vw;
+  height: 14.69vh;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
 `;
 const Contents = styled.div`
-  width: 418px;
+  width: 21.771vw;
   height: 59vh;
 `;
 const Book = styled.div`

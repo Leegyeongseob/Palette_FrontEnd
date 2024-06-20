@@ -87,11 +87,11 @@ const StroeButton = styled.div`
   }
 `;
 const ClothesForm = styled.div`
-  width: auto;
+  width: 13.2vw;
   height: auto;
   background-color: #fff;
   border-radius: 10px;
-  border: none;
+  border: 2px solid pink;
   display: flex;
   flex-direction: column;
   align-items: center;

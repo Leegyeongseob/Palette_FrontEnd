@@ -3,10 +3,14 @@ import personicon from "../../img/loginImg/person-icon.png";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import naver from "../../img/loginImg/naver.png";
+import kakao from "../../img/loginImg/kakako.png";
 const Contain = styled.div`
   width: auto;
   height: auto;
 `;
+
 const IconDiv = styled.div`
   width: 24.6vw;
   height: 140px;
@@ -24,7 +28,7 @@ const Icon = styled.div`
 
 const LoginDiv = styled.div`
   width: 24.6vw;
-  height: 220px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -64,6 +68,7 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const FindDiv = styled.div`
   width: 24.6vw;
   height: 40px;
@@ -73,6 +78,7 @@ const FindDiv = styled.div`
     display: flex;
   }
 `;
+
 const Signin = styled.div`
   width: 70px;
   height: 30px;
@@ -81,6 +87,7 @@ const Signin = styled.div`
   font-weight: bolder;
   cursor: pointer;
 `;
+
 const ForgotId = styled.div`
   width: 70px;
   height: 20px;
@@ -88,6 +95,7 @@ const ForgotId = styled.div`
   color: #b44a4a;
   cursor: pointer;
 `;
+
 const ForgotPassword = styled.div`
   width: 70px;
   height: 20px;
@@ -95,6 +103,7 @@ const ForgotPassword = styled.div`
   color: #b44a4a;
   cursor: pointer;
 `;
+
 const ButtonDiv = styled.div`
   width: 450px;
   height: 114px;
@@ -102,6 +111,7 @@ const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const LoginButton = styled.div`
   width: 180px;
   height: 50px;
@@ -118,8 +128,64 @@ const LoginButton = styled.div`
     background-color: rgba(0, 0, 0, 0.6);
   }
 `;
+
+const SimpleLogin = styled.div`
+  width: 450px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    width: 250px;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+`;
+
 const SigninDiv = styled.div`
   display: flex;
+`;
+
+const CircleSide = styled.div`
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  &:hover {
+    transform: scale(0.9);
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
+`;
+const GoogleIcon = styled(FcGoogle)`
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+`;
+
+const NaverIcon = styled.div`
+  width: 50px;
+  height: 50px;
+  background-image: url(${naver});
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+`;
+
+const KakaoIcon = styled.div`
+  width: 50px;
+  height: 50px;
+  background-image: url(${kakao});
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
 `;
 const LoginPage = () => {
   return (
@@ -159,6 +225,21 @@ const LoginPage = () => {
           </Link>
         </div>
       </FindDiv>
+      <SimpleLogin>
+        <div>
+          <CircleSide>
+            <GoogleIcon />
+          </CircleSide>
+
+          <CircleSide>
+            <NaverIcon />
+          </CircleSide>
+
+          <CircleSide>
+            <KakaoIcon />
+          </CircleSide>
+        </div>
+      </SimpleLogin>
       <ButtonDiv>
         <Link to="/" style={{ textDecoration: "none" }}>
           <LoginButton>Login</LoginButton>

@@ -16,7 +16,7 @@ const TitleDiv = styled.div`
 `;
 const InputDiv = styled.div`
   width: 24.6vw;
-  height: 420px;
+  height: 380px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -110,7 +110,7 @@ const EmailAthouized = styled.div`
   align-items: center;
   font-size: 14px;
   color: #b44a4a;
-  font-weight: bolder;
+  font-weight: 700;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
@@ -178,6 +178,12 @@ const SignupButton = styled.div`
     background-color: rgba(0, 0, 0, 0.6);
   }
 `;
+const InputDetailDiv2 = styled.div`
+  width: 340px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+`;
 const SignupPage = () => {
   return (
     <Contain>
@@ -218,22 +224,21 @@ const SignupPage = () => {
           <input className="InputClass" />
         </InputDetailDiv>
         <InputDetailDiv>
-          <label>핸드폰 번호</label>
-          <input className="InputPhone1" />
-          <Text>-</Text>
-          <input className="InputPhone2" />
-          <Text>-</Text>
-          <input className="InputPhone3" />
-        </InputDetailDiv>
-        <InputDetailDiv>
           <label>커플이름</label>
           <input className="InputClass" />
         </InputDetailDiv>
         <InputDetailDiv>
           <CoupleText>커플 이름이 있어야 가입이 가능합니다.</CoupleText>
-          <Empty></Empty>
+          <Empty />
           <EmailAthouized>만들기</EmailAthouized>
         </InputDetailDiv>
+        <InputDetailDiv2>
+          <CoupleText style={{ fontSize: "16px", fontWeight: "600" }}>
+            약관 보기
+          </CoupleText>
+          <Empty />
+          <EmailAthouized>보기</EmailAthouized>
+        </InputDetailDiv2>
       </InputDiv>
       <ButtonDiv>
         <Link to="/login-page" style={{ textDecoration: "none" }}>

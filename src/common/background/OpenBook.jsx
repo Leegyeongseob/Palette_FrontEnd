@@ -34,6 +34,12 @@ const BookMarkDiv = styled.div`
 const Logo = styled.img`
   width: 140px;
   height: 140px;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
 `;
 const Book = styled.div`
   width: 63vw;
