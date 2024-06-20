@@ -7,18 +7,18 @@ import clothesBg from "../../img/background/theme/clothes_background.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { Link } from "react-router-dom";
 const BookMarkDiv = styled.div`
-  width: 360px;
-  height: 100px;
+  width: 18.75vw;
+  height: 10.493vh;
 
   display: flex;
   justify-content: space-between;
 `;
 const BookMarks = styled.div`
-  width: 50px;
-  height: 100px;
+  width: 2.604vw;
+  height: 10.493vh;
   border: 1px solid #000;
   border-radius: 10px 10px 0 0;
-  font-size: 14px;
+  font-size: 0.729vw;
   font-weight: 600;
   writing-mode: vertical-lr;
   display: flex;
