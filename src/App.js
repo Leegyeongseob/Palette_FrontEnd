@@ -12,6 +12,10 @@ import ChatMain from "./pages/chat/chat";
 import GlobalStyle from "./global/GlobalStyle";
 import DateClothes from "./pages/dateclothes/DateClothes";
 import DatePlanner from "./pages/dateplanner/DatePlanner";
+import DateAlbum from "./pages/datealbum/DateAlbum";
+import DateDiary from "./pages/datediary/DateDiary";
+import DateAlbum2 from "./pages/datealbum/DateAlbum2";
+import DateAlbum3 from "./pages/datealbum/DateAlbum3";
 function App() {
   return (
     <>
@@ -22,6 +26,10 @@ function App() {
           <Route element={<OpenBook />}>
             <Route path="/" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
+            <Route path="/date-album" element={<DateAlbum />} />
+            <Route path="/date-album2" element={<DateAlbum2 />} />
+            <Route path="/date-album3" element={<DateAlbum3 />} />
+            <Route path="/date-diary" element={<DateDiary />} />
             <Route path="/chat" element={<ChatMain />} />
             <Route path="/dateplanner" element={<DatePlanner />} />
           </Route>
