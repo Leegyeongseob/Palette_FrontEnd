@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import naver from "../../img/loginImg/naver.png";
 import kakao from "../../img/loginImg/kakako.png";
+import { SiGnuprivacyguard } from "react-icons/si";
+import { useState } from "react";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -13,7 +15,7 @@ const Contain = styled.div`
 
 const IconDiv = styled.div`
   width: 24.6vw;
-  height: 14.69vh;
+  height: 13vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +30,7 @@ const Icon = styled.div`
 
 const LoginDiv = styled.div`
   width: 24.6vw;
-  height: 18.888vh;
+  height: 19.888vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -41,24 +43,6 @@ const InputContainer = styled.div`
   height: 5.247vh;
   display: flex;
   align-items: center;
-`;
-
-const InputDiv = styled.input`
-  width: 100%;
-  height: 100%;
-  padding-left: 2.083vw;
-  border: none;
-  border-bottom: 0.21vh solid gray;
-  background-color: transparent;
-  font-size: 0.833vw;
-  font-weight: bolder;
-  outline: none;
-  &::placeholder {
-    text-align: center;
-    font-size: 0.833vw;
-    color: #b44a4a;
-    font-weight: bolder;
-  }
 `;
 
 const IconWrapper = styled.div`
@@ -197,7 +181,70 @@ const MdLockOutlineStyled = styled(MdLockOutline)`
   height: 2.518vh;
   color: gray;
 `;
+const SiGnuprivacyguardStyle = styled(SiGnuprivacyguard)`
+  width: 1.25vw;
+  height: 2.518vh;
+  color: gray;
+`;
+const InputDiv = styled.input`
+  width: 100%;
+  height: 100%;
+  padding-left: 2.083vw;
+  border: none;
+  border-bottom: 0.21vh solid gray;
+  background-color: transparent;
+  font-size: 0.833vw;
+  font-weight: bolder;
+  outline: none;
+  &::placeholder {
+    text-align: center;
+    font-size: 0.833vw;
+    color: #b44a4a;
+    font-weight: bolder;
+  }
+`;
+const Message = styled.div`
+  width: 100%;
+  font-size: 0.6vw;
+  display: flex;
+  justify-content: center;
+  color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+`;
 const LoginPage = () => {
+  // 키보드 입력
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  // 유효성 검사
+  const [isId, setIsId] = useState("");
+  const [isPassword, setIsPassword] = useState("");
+  // 에러 메세지
+  const [idMessage, setIdMessage] = useState("");
+  const [pwdMessage, setPwMessage] = useState("");
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  const onChangeEmail = (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setInputEmail(e.target.value);
+    if (!emailRegex.test(e.target.value)) {
+      setIdMessage("이메일 형식이 올바르지 않습니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 형식 입니다.");
+      setIsId(true);
+    }
+  };
+  // 비밀번호 8자리 이상.
+  const onChangePw = (e) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const passwordCurrent = e.target.value;
+    setInputPassword(passwordCurrent);
+    if (!passwordRegex.test(passwordCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPassword(false);
+    } else {
+      setPwMessage("안전한 비밀번호입니다.)");
+      setIsPassword(true);
+    }
+  };
   return (
     <Contain>
       <IconDiv>
@@ -208,20 +255,34 @@ const LoginPage = () => {
           <IconWrapper>
             <MdOutlineMailOutlineStyle />
           </IconWrapper>
-          <InputDiv type="text" placeholder="Email ID" />
+          <InputDiv
+            type="text"
+            placeholder="Email ID"
+            value={inputEmail}
+            onChange={onChangeEmail}
+          />
         </InputContainer>
+        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         <InputContainer>
           <IconWrapper>
             <MdLockOutlineStyled />
           </IconWrapper>
-          <InputDiv type="password" placeholder="Password" />
+          <InputDiv
+            type="password"
+            placeholder="Password"
+            value={inputPassword}
+            onChange={onChangePw}
+          />
         </InputContainer>
+        {inputPassword && (
+          <Message isCorrect={isPassword}>{pwdMessage}</Message>
+        )}
       </LoginDiv>
       <FindDiv>
         <div>
           <Link to="/signup-page" style={{ textDecoration: "none" }}>
             <SigninDiv>
-              <MdLockOutlineStyled />
+              <SiGnuprivacyguardStyle />
               <Signin>&nbsp;Sign in</Signin>
             </SigninDiv>
           </Link>

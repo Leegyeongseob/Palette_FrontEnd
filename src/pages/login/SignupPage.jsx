@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -31,7 +32,7 @@ const InputDetailDiv = styled.div`
   & > label {
     width: 5.729vw;
     height: auto;
-    font-size: 0.833vw;
+    font-size: 0.8vw;
     color: #b44a4a;
     display: flex;
     font-weight: bolder;
@@ -46,7 +47,7 @@ const InputDetailDiv = styled.div`
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
     padding-left: 0.521vw;
-    font-size: 0.833vw;
+    font-size: 0.8vw;
     font-weight: 600;
   }
   & > .InputEmail {
@@ -57,7 +58,7 @@ const InputDetailDiv = styled.div`
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
     padding-left: 0.521vw;
-    font-size: 0.833vw;
+    font-size: 0.8vw;
     font-weight: 600;
   }
 `;
@@ -151,25 +152,101 @@ const InputDetailDiv2 = styled.div`
   display: flex;
   justify-content: center;
 `;
+const Message = styled.div`
+  width: 100%;
+  font-size: 0.6vw;
+  display: flex;
+  justify-content: center;
+  color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+`;
 const SignupPage = () => {
+  // 키보드 입력
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPwd, setInputPwd] = useState("");
+  const [inputPwdCheck, setInputPwdCheck] = useState("");
+  // 유효성 확인
+  const [isId, setIsId] = useState("");
+  const [isPwd, setIsPwd] = useState("");
+  const [isPwdCheack, setIsPwdCheck] = useState("");
+  // 에러 메세지
+  const [idMessage, setIdMessage] = useState("");
+  const [pwdMessage, setPwMessage] = useState("");
+  //비밀번호 확인 메세지
+  const [pwdCheckMessage, setPwdCheckMessage] = useState("");
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  const onChangeEmail = (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setInputEmail(e.target.value);
+    if (!emailRegex.test(e.target.value)) {
+      setIdMessage("이메일 형식이 올바르지 않습니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 형식 입니다.");
+      setIsId(true);
+    }
+  };
+  // 비밀번호 8자리 이상.
+  const onChangePw = (e) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const passwordCurrent = e.target.value;
+    setInputPwd(passwordCurrent);
+    if (!passwordRegex.test(passwordCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPwd(false);
+    } else {
+      setPwMessage("안전한 비밀번호입니다.)");
+      setIsPwd(true);
+    }
+  };
+  // 비밀번호 일치 확인
+  const onCheckPw = (e) => {
+    const passwordInput = e.target.value;
+    setInputPwdCheck(passwordInput);
+    if (passwordInput !== inputPwd) {
+      setPwdCheckMessage("일치하지 않습니다.");
+      setIsPwdCheck(false);
+    } else {
+      setPwdCheckMessage("일치합니다.");
+      setIsPwdCheck(true);
+    }
+  };
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
       <InputDiv>
         <InputDetailDiv>
           <label>이메일</label>
-          <input className="InputEmail" />
+          <input
+            className="InputEmail"
+            value={inputEmail}
+            onChange={onChangeEmail}
+          />
           <Empty></Empty>
           <EmailAthouized>인증</EmailAthouized>
         </InputDetailDiv>
+        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         <InputDetailDiv>
           <label>비밀번호</label>
-          <input type="password" className="InputClass" />
+          <input
+            type="password"
+            className="InputClass"
+            value={inputPwd}
+            onChange={onChangePw}
+          />
         </InputDetailDiv>
+        {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
         <InputDetailDiv>
           <label>비밀번호 확인</label>
-          <input type="password" className="InputClass" />
+          <input
+            type="password"
+            className="InputClass"
+            value={inputPwdCheck}
+            onChange={onCheckPw}
+          />
         </InputDetailDiv>
+        {inputPwdCheck && (
+          <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
+        )}
         <InputDetailDiv>
           <label>이름</label>
           <input className="InputClass" />

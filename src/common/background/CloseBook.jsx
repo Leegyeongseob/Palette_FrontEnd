@@ -16,7 +16,7 @@ const Background = styled.div`
   align-items: center;
 `;
 const BookTheme = styled.div`
-  width: 24.5vw;
+  width: 24vw;
   height: 74vh;
   margin-top: 9vh;
   margin-left: 3vw;

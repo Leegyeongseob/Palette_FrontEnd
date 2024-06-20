@@ -56,32 +56,32 @@ const Swiper = ({ shoes, clothNum, OnePiece }) => {
     womanPath + "top/1.jpg",
     womanPath + "top/2.jpg",
     womanPath + "top/3.jpg",
-    womanPath + "top/4.jpg",
-    womanPath + "top/5.jpg",
-    womanPath + "top/6.jpg",
+    // womanPath + "top/4.jpg",
+    // womanPath + "top/5.jpg",
+    // womanPath + "top/6.jpg",
   ];
   const womanPants = [
     womanPath + "pants/1.jpg",
     womanPath + "pants/2.jpg",
     womanPath + "pants/3.jpg",
-    womanPath + "pants/4.jpg",
-    womanPath + "pants/5.jpg",
-    womanPath + "pants/6.jpg",
+    // womanPath + "pants/4.jpg",
+    // womanPath + "pants/5.jpg",
+    // womanPath + "pants/6.jpg",
   ];
   const womanShoes = [
     womanPath + "shoes/1.jpg",
     womanPath + "shoes/2.jpg",
     womanPath + "shoes/3.jpg",
-    womanPath + "shoes/4.jpg",
-    womanPath + "shoes/5.jpg",
-    womanPath + "shoes/6.jpg",
+    // womanPath + "shoes/4.jpg",
+    // womanPath + "shoes/5.jpg",
+    // womanPath + "shoes/6.jpg",
   ];
   const womanOnepiece = [
     womanPath + "onepiece/1.jpg",
     womanPath + "onepiece/2.jpg",
     womanPath + "onepiece/3.jpg",
-    womanPath + "onepiece/4.jpg",
-    womanPath + "onepiece/5.jpg",
+    // womanPath + "onepiece/4.jpg",
+    // womanPath + "onepiece/5.jpg",
   ];
 
   const clothGroups = {
