@@ -12,11 +12,11 @@ const turnPageLeft = keyframes`
     transform-origin: left;
   }
   30% {
-    transform: perspective(1400px) rotateY(-25deg);
+    transform: perspective(1600px) rotateY(-25deg);
     transform-origin: left;
   } 
   100% {
-    transform: perspective(1000px) rotateY(-180deg);
+    transform: perspective(2000px) rotateY(-180deg);
     transform-origin: left;
   }
 `;
@@ -37,36 +37,10 @@ const BookTheme2 = styled.div`
   height: 69vh;
   margin-top: 5vh;
   margin-left: 0.8vw;
-  position: relative;
-`;
-
-const BackgroundImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-image: url(${theme8_1});
   background-size: cover;
-  z-index: 1; /* FrontImage 보다 뒤에 위치 */
-`;
-
-const FrontImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(${theme8_1});
-  background-size: cover;
-  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
-  transform-origin: left;
-  z-index: 2;
-  ${({ animate }) =>
-    animate &&
-    css`
-      animation: ${turnPageLeft} 1.8s forwards;
-    `}
+  display: flex;
+  justify-content: space-between;
 `;
 
 const BookSign = styled.div`
@@ -75,36 +49,48 @@ const BookSign = styled.div`
 `;
 
 const BookSign2 = styled.div`
+  width: 26vw;
+  height: 69vh;
+  background-image: url(${theme8_1});
+  background-size: cover;
+  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
+  transform-origin: left;
   display: flex;
-  justify-content: center;
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${turnPageLeft} 1.8s forwards;
+    `}
 `;
 
 const NextButton = styled.div`
   width: 20px;
   height: 20px;
   font-weight: 600;
-  color: #000;
+  font-size: 20px;
+  margin-left: 20px;
+  color: white;
   cursor: pointer;
-  z-index: 3;
   &:hover {
-    color: purple;
+    color: #ff6750;
   }
 `;
 
 const InputDetailDiv = styled.div`
-  width: 26vw;
-  height: 69vh;
+  width: 20px;
+  height: 20px;
   display: flex;
-  justify-content: center; /* 중앙 배치 */
+  justify-content: center;
   align-items: center;
-  position: relative;
-  justify-content: flex-end;
+  margin-top: 30%;
 `;
 const AlbumTitle = styled.div`
-  width: 16vw;
-  height: 4vh;
+  width: 13vw;
+  height: 3vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 23px;
   color: #000;
   font-weight: 800;
 `;
@@ -126,7 +112,8 @@ const AddButton = styled.div`
 `;
 const AddPic = styled.div`
   width: 90%;
-  margin-left: 25px;
+  height: 30px;
+  margin-left: 30px;
   border: none;
   outline: none;
   display: flex;
@@ -134,19 +121,19 @@ const AddPic = styled.div`
   align-items: center;
   font-size: 14px;
   color: black;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #c8c8c8;
   font-weight: bolder;
   cursor: pointer;
   &:hover {
-    font-size: 15px;
+    color: #444444;
   }
 `;
 const CoupleDiv = styled.div`
-  width: flex;
-  height: flex;
+  width: 330px;
+  height: 170px;
   margin-left: 200px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 `;
 
@@ -163,27 +150,25 @@ const DateAlbum = () => {
 
   return (
     <>
+      <InputDetailDiv />
       <BookTheme>
         <BookSign>
-          <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
           <CoupleDiv>
             <CoupleImg />
           </CoupleDiv>
+          <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
           <AddPic>사진 업로드</AddPic>
         </BookSign>
       </BookTheme>
       <BookTheme2>
-        <BackgroundImage />
-        <FrontImage animate={animate}>
-          <BookSign2>
-            <AddButton>테마 추가</AddButton>
-            <AddButton>앨범 추가</AddButton>
-          </BookSign2>
-          <InputDetailDiv>
-            <NextButton onClick={handleNext}>▶</NextButton>
-          </InputDetailDiv>
-        </FrontImage>
+        <BookSign2 animate={animate}>
+          <AddButton>테마 추가</AddButton>
+          <AddButton>앨범 추가</AddButton>
+        </BookSign2>
       </BookTheme2>
+      <InputDetailDiv>
+        <NextButton onClick={handleNext}>▶▶</NextButton>
+      </InputDetailDiv>
     </>
   );
 };

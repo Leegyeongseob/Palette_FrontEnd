@@ -37,10 +37,10 @@ const StyledLink = styled(Link)`
 const BookMark = () => {
   return (
     <BookMarkDiv>
-      <StyledLink to="/">
+      <StyledLink to="/date-diary">
         <BookMarks imageurl={theme3}>다이어리</BookMarks>
       </StyledLink>
-      <StyledLink to="/">
+      <StyledLink to="/date-album">
         <BookMarks imageurl={theme8}>갤러리</BookMarks>
       </StyledLink>
       <StyledLink to="/date-clothes">

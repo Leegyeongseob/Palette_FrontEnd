@@ -2,7 +2,7 @@ import styled, { keyframes, css } from "styled-components";
 import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleDday from "../../common/couple/CoupleDday";
-import CoupleImg from "../../common/couple/CoupleImg";
+import CoupleImg from "../../common/couple/CoupleImgMini";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,11 +12,11 @@ const turnPageRight = keyframes`
     transform-origin: right;
   }
   30% {
-    transform: perspective(1400px) rotateY(25deg);
+    transform: perspective(1600px) rotateY(25deg);
     transform-origin: right;
   } 
   100% {
-    transform: perspective(1000px) rotateY(180deg);
+    transform: perspective(2000px) rotateY(180deg);
     transform-origin: right;
   }
 `;
@@ -27,11 +27,11 @@ const turnPageLeft = keyframes`
     transform-origin: left;
   }
   30% {
-    transform: perspective(1400px) rotateY(-25deg);
+    transform: perspective(1600px) rotateY(-25deg);
     transform-origin: left;
   } 
   100% {
-    transform: perspective(1000px) rotateY(-180deg);
+    transform: perspective(2000px) rotateY(-180deg);
     transform-origin: left;
   }
 `;
@@ -41,6 +41,10 @@ const BookTheme = styled.div`
   height: 69vh;
   margin-top: 5vh;
   margin-left: 0.8vw;
+  background-image: url(${theme8});
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
   position: relative;
 `;
 
@@ -49,56 +53,39 @@ const BookTheme2 = styled.div`
   height: 69vh;
   margin-top: 5vh;
   margin-left: 0.8vw;
+  background-image: url(${theme8_1});
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
   position: relative;
 `;
 
-const BackgroundImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const BookSign = styled.div`
+  width: 26vw;
+  height: 69vh;
   background-image: url(${theme8});
   background-size: cover;
-  /* FrontImage 보다 뒤에 위치 */
-`;
-const BackgroundImage2 = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(${theme8_1});
-  background-size: cover;
-  /* FrontImage 보다 뒤에 위치 */
-`;
-
-const FrontImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(${theme8});
-  background-size: cover;
-  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
+  transform: perspective(1000px) rotateY(0deg);
   transform-origin: left;
+  position: absolute;
+  z-index: ${({ animate }) => (animate ? 2 : 0)};
   ${({ animate }) =>
     animate &&
     css`
       animation: ${turnPageRight} 1.8s forwards;
     `}
 `;
-const FrontImage2 = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+
+const BookSign2 = styled.div`
+  width: 26vw;
+  height: 69vh;
   background-image: url(${theme8_1});
   background-size: cover;
-  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
+  transform: perspective(1000px) rotateY(0deg);
   transform-origin: left;
+  position: absolute;
+  display: flex;
+  z-index: ${({ animate2 }) => (animate2 ? 2 : 1)};
   ${({ animate2 }) =>
     animate2 &&
     css`
@@ -106,44 +93,46 @@ const FrontImage2 = styled.div`
     `}
 `;
 
-const BookSign = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const BookSign2 = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const NextButton = styled.div`
   width: 20px;
   height: 20px;
   font-weight: 600;
-  color: #000;
+  font-size: 20px;
+  margin-left: 20px;
+  color: white;
   cursor: pointer;
   &:hover {
-    color: purple;
+    color: #ff6750;
+  }
+`;
+const BackButton = styled.div`
+  width: 20px;
+  height: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 30px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    color: #ff6750;
   }
 `;
 
 const InputDetailDiv = styled.div`
-  width: 26vw;
-  height: 69vh;
   display: flex;
-  justify-content: center; /* 중앙 배치 */
+  justify-content: center;
   align-items: center;
-  position: relative;
-  justify-content: flex-start;
+  width: 20px;
+  height: 20px;
+  margin-top: 30%;
 `;
 const InputDetailDiv2 = styled.div`
-  width: 26vw;
-  height: 69vh;
+  width: 20px;
+  height: 20px;
   display: flex;
-  justify-content: center; /* 중앙 배치 */
+  justify-content: center;
   align-items: center;
-  position: relative;
-  justify-content: flex-end;
+  margin-top: 30%;
 `;
 
 const AddButton = styled.div`
@@ -161,6 +150,44 @@ const AddButton = styled.div`
     font-size: 15px;
   }
 `;
+const AlbumTitle = styled.div`
+  width: 13vw;
+  height: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  color: #000;
+  font-weight: 800;
+`;
+
+const CoupleDiv = styled.div`
+  width: 330px;
+  height: 170px;
+  margin-left: 200px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const AddPic = styled.div`
+  width: 90%;
+  height: 30px;
+  margin-left: 30px;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 14px;
+  color: black;
+  border-bottom: 1px solid #c8c8c8;
+  font-weight: bolder;
+  cursor: pointer;
+  &:hover {
+    color: #444444;
+  }
+`;
 
 const DateAlbum = () => {
   const [animate, setAnimate] = useState(false);
@@ -171,41 +198,39 @@ const DateAlbum = () => {
     setAnimate(true);
     setTimeout(() => {
       navigate("/date-album");
-    }, 1200); // 애니메이션 지속 시간 후 페이지 이동
+    }, 1200);
   };
 
   const handleNext = () => {
     setAnimate2(true);
     setTimeout(() => {
       navigate("/date-album3");
-    }, 1200); // 애니메이션 지속 시간 후 페이지 이동
+    }, 1200);
   };
 
   return (
     <>
+      <InputDetailDiv>
+        <BackButton onClick={handleBack}>◀◀</BackButton>
+      </InputDetailDiv>
       <BookTheme>
-        <BackgroundImage />
-        <FrontImage animate={animate}>
-          <BookSign>
-            <AddButton>사진 업로드</AddButton>
-          </BookSign>
-          <InputDetailDiv>
-            <NextButton onClick={handleBack}>◀</NextButton>
-          </InputDetailDiv>
-        </FrontImage>
+        <BookSign animate={animate}>
+          <CoupleDiv>
+            <CoupleImg />
+          </CoupleDiv>
+          <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
+          <AddPic>사진 업로드</AddPic>
+        </BookSign>
       </BookTheme>
       <BookTheme2>
-        <BackgroundImage2 />
-        <FrontImage2 animate2={animate2}>
-          <BookSign2>
-            <AddButton>테마 추가</AddButton>
-            <AddButton>앨범 추가</AddButton>
-          </BookSign2>
-          <InputDetailDiv2>
-            <NextButton onClick={handleNext}>▶</NextButton>
-          </InputDetailDiv2>
-        </FrontImage2>
+        <BookSign2 animate2={animate2}>
+          <AddButton>테마 추가</AddButton>
+          <AddButton>앨범 추가</AddButton>
+        </BookSign2>
       </BookTheme2>
+      <InputDetailDiv2>
+        <NextButton onClick={handleNext}>▶▶</NextButton>
+      </InputDetailDiv2>
     </>
   );
 };
