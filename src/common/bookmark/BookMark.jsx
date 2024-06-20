@@ -46,10 +46,10 @@ const BookMark = () => {
       <StyledLink to="/date-clothes">
         <BookMarks imageurl={clothesBg}>데이트룩</BookMarks>
       </StyledLink>
-      <StyledLink to="/">
+      <StyledLink to="/dateplanner">
         <BookMarks imageurl={theme6}>데이트코스</BookMarks>
       </StyledLink>
-      <StyledLink to="/">
+      <StyledLink to="/board-guestbook">
         <BookMarks imageurl={boardBg}>게시판</BookMarks>
       </StyledLink>
       <StyledLink to="/chat">
