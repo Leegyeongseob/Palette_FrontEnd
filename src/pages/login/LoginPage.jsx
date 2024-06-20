@@ -99,7 +99,8 @@ const ButtonDiv = styled.div`
 const LoginButton = styled.div`
   width: 9.375vw;
   height: 5.247vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${({ isActive }) =>
+    isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.1)"};
   border-radius: 1.042vw;
   font-size: 1.198vw;
   color: #b44a4a;
@@ -107,9 +108,10 @@ const LoginButton = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  cursor: pointer;
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: ${({ isActive }) =>
+      isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
 `;
 
@@ -313,7 +315,7 @@ const LoginPage = () => {
       </SimpleLogin>
       <ButtonDiv>
         <Link to="/" style={{ textDecoration: "none" }}>
-          <LoginButton>Login</LoginButton>
+          <LoginButton isActive={isId && isPassword}>Login</LoginButton>
         </Link>
       </ButtonDiv>
     </Contain>

@@ -69,7 +69,8 @@ const EmailAthouized = styled.div`
   width: 2.604vw;
   border-radius: 0.521vw;
   border: none;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${({ isActive }) =>
+    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   padding-left: 0.208vw;
@@ -77,11 +78,12 @@ const EmailAthouized = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 0.729vw;
-  color: #b44a4a;
+  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
   font-weight: 700;
-  cursor: pointer;
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: ${({ isActive }) =>
+      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   }
 `;
 const RegisterationInput1 = styled.input`
@@ -132,18 +134,20 @@ const ButtonDiv = styled.div`
 const SignupButton = styled.div`
   width: 9.375vw;
   height: 5.247vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${({ isActive }) =>
+    isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   border-radius: 1.042vw;
   font-weight: 600;
   font-size: 1.094vw;
-  color: #b44a4a;
+  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: border;
-  cursor: pointer;
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: ${({ isActive }) =>
+      isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
 `;
 const InputDetailDiv2 = styled.div`
@@ -159,6 +163,7 @@ const Message = styled.div`
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
 `;
+
 const SignupPage = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
@@ -210,6 +215,7 @@ const SignupPage = () => {
       setIsPwdCheck(true);
     }
   };
+
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
@@ -222,7 +228,7 @@ const SignupPage = () => {
             onChange={onChangeEmail}
           />
           <Empty></Empty>
-          <EmailAthouized>인증</EmailAthouized>
+          <EmailAthouized isActive={isId}>인증</EmailAthouized>
         </InputDetailDiv>
         {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         <InputDetailDiv>
@@ -274,19 +280,21 @@ const SignupPage = () => {
         <InputDetailDiv>
           <CoupleText>커플 이름이 있어야 가입이 가능합니다.</CoupleText>
           <Empty />
-          <EmailAthouized>만들기</EmailAthouized>
+          <EmailAthouized isActive={true}>만들기</EmailAthouized>
         </InputDetailDiv>
         <InputDetailDiv2>
           <CoupleText style={{ fontSize: "0.833vw", fontWeight: "600" }}>
             약관 보기
           </CoupleText>
           <Empty />
-          <EmailAthouized>보기</EmailAthouized>
+          <EmailAthouized isActive={true}>보기</EmailAthouized>
         </InputDetailDiv2>
       </InputDiv>
       <ButtonDiv>
         <Link to="/login-page" style={{ textDecoration: "none" }}>
-          <SignupButton>가입하기</SignupButton>
+          <SignupButton isActive={isId && isPwd && isPwdCheack}>
+            가입하기
+          </SignupButton>
         </Link>
       </ButtonDiv>
     </Contain>
