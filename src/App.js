@@ -17,6 +17,8 @@ import DateDiary from "./pages/datediary/DateDiary";
 import DateAlbum2 from "./pages/datealbum/DateAlbum2";
 import DateAlbum3 from "./pages/datealbum/DateAlbum3";
 import BoardGuestbook from "./pages/board/BoardGuestbook";
+import BoardDetails from "./pages/board/BoardDetails";
+import BoardWrite from "./pages/board/BoardWrite";
 function App() {
   return (
     <>
@@ -34,6 +36,8 @@ function App() {
             <Route path="/chat" element={<ChatMain />} />
             <Route path="/dateplanner" element={<DatePlanner />} />
             <Route path="/board-guestbook" element={<BoardGuestbook />} />
+            <Route path="/board-details" element={<BoardDetails />} />
+            <Route path="/board-write" element={<BoardWrite />} />
           </Route>
           <Route element={<CloseBook />}>
             <Route path="/not-login" element={<NotLogin />} />

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
-import CandyImg from "../../img/mainImg/커플2.jpg";
+import AddPhoto from "../../img/board/AddPhoto.png";
 import { useState } from "react";
 
 const BookTheme = styled.div`
@@ -101,7 +101,7 @@ const NameHover = styled(BoardTd)`
     color: blue;
   }
 `;
-const BoardPaginationContainer = styled.div`
+const PaginationContainer = styled.div`
   margin-top: 2vh;
   margin-left: 1.5vw;
   width: 22.5vw;
@@ -109,133 +109,7 @@ const BoardPaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const BoardPaginationButton = styled.button`
-  margin: 0 5px;
-  padding: 5px 10px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  cursor: pointer;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;
-const CenterArea = styled.div`
-  width: 1.5vw;
-  height: 68.5vh;
-`;
-const GuestbookSide = styled.div`
-  width: 25.8vw;
-  height: 68.5vh;
-`;
-const GuestbookTitle = styled.div`
-  margin-top: 2.5vh;
-  width: 25.5vw;
-  height: 5vh;
-  font-size: 20px;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookGrayBar = styled.div`
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 0.4vh;
-  background-color: #b0b0b0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookContainer = styled.div`
-  margin-top: 3vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 49.5vh;
-  border: 1px solid black;
-  background-color: #e8e8e8;
-`;
-const GuestbookArea = styled.div`
-  width: 22.5vw - 1px;
-  height: 12.375vh;
-  border: 1px solid black;
-`;
-const GuestbookHead = styled.div`
-  width: 22.5vw - 1px;
-  height: 2.375vh;
-  background-color: #cdcfc4;
-  border-bottom: 1px solid black;
-  display: flex;
-`;
-const GuestbookNo = styled.div`
-  width: 3vw;
-  height: 2.375vh;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookNickname = styled.div`
-  width: 6vw;
-  height: 2.375vh;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookDate = styled.div`
-  width: 7vw;
-  height: 2.375vh;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookDelete = styled.div`
-  margin-left: 3vw;
-  width: 3vw;
-  height: 2.375vh;
-  font-size: 12px;
-  font-weight: 500;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-const GuestbookBody = styled.div`
-  width: 22.5vw - 1px;
-  height: 10vh;
-  background-color: #eccdb0;
-  border-bottom: 2px solid black;
-  display: flex;
-`;
-const GuestbookImage = styled.div`
-  width: 6vw;
-  height: 10vh - 1px;
-  background-image: url(${CandyImg});
-  background-size: cover;
-`;
-const GuestbookMain = styled.div`
-  margin-left: 1vw;
-  margin-right: 1vw;
-  width: 14.5vw;
-  height: 10vh - 1px;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-const GuestbookPaginationContainer = styled.div`
-  margin-top: 2vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookPaginationButton = styled.button`
+const PaginationButton = styled.button`
   margin: 0 5px;
   padding: 5px 10px;
   background-color: #ffffff;
@@ -246,7 +120,85 @@ const GuestbookPaginationButton = styled.button`
   }
 `;
 
-const BoardData = [
+const CenterArea = styled.div`
+  width: 1.5vw;
+  height: 68.5vh;
+`;
+
+const WriteSide = styled.div`
+  width: 25.8vw;
+  height: 68.5vh;
+`;
+const BackToGuestbook = styled.div`
+  margin-top: 2vh;
+  margin-left: 19vw;
+  width: 8vw;
+  height: 1vh;
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
+const WriteTitle = styled.div`
+  margin-left: 1.5vw;
+  margin-top: 4vh;
+  width: 22.8vw;
+  height: 7vh;
+  display: flex;
+`;
+const WriteTitleInput = styled.input`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 30px;
+`;
+const WriteGrayBar = styled.div`
+  margin-left: 1.5vw;
+  width: 22.5vw;
+  height: 0.4vh;
+  background-color: #b0b0b0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const WriteAddPhoto = styled.div`
+  margin-top: 1.2vh;
+  margin-left: 1vw;
+  width: 3.5vw;
+  height: 3.5vh;
+  background-image: url(${AddPhoto});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+const WriteMain = styled.div`
+  margin-left: 1.5vw;
+  margin-top: 1.2vh;
+  width: 22.8vw;
+  height: 40vh;
+  display: flex; /* 수직 정렬을 위해 Flexbox 사용 */
+  align-items: flex-start; /* 맨 위 정렬 */
+`;
+const WriteMainInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 20px;
+  resize: none; /* 크기 조정 불가능하도록 설정 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+`;
+
+const data = [
   { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
   { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
   { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
@@ -260,7 +212,7 @@ const BoardData = [
 ];
 const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 
-const BoardGuestbook = () => {
+const BoardWrite = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // 페이지 번호 클릭 시 이벤트 처리 함수
@@ -288,7 +240,7 @@ const BoardGuestbook = () => {
             </tr>
           </thead>
           <tbody>
-            {BoardData.map((item) => (
+            {data.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover>{item.name}</NameHover>
@@ -297,57 +249,35 @@ const BoardGuestbook = () => {
             ))}
           </tbody>
         </BoardTable>
-        <BoardPaginationContainer>
-          {[...Array(Math.ceil(BoardData.length / itemsPerPage))].map(
-            (_, index) => (
-              <BoardPaginationButton
-                key={index + 1}
-                onClick={() => handleClick(index + 1)}
-                style={{
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}
-              >
-                {index + 1}
-              </BoardPaginationButton>
-            )
-          )}
-        </BoardPaginationContainer>
+        <PaginationContainer>
+          {[...Array(Math.ceil(data.length / itemsPerPage))].map((_, index) => (
+            <PaginationButton
+              key={index + 1}
+              onClick={() => handleClick(index + 1)}
+              style={{
+                fontWeight: currentPage === index + 1 ? "bold" : "normal",
+              }}
+            >
+              {index + 1}
+            </PaginationButton>
+          ))}
+        </PaginationContainer>
       </BoardSide>
       <CenterArea></CenterArea>
-      <GuestbookSide>
-        <GuestbookTitle>방명록</GuestbookTitle>
-        <GuestbookGrayBar />
-        <GuestbookContainer>
-          <GuestbookArea>
-            <GuestbookHead>
-              <GuestbookNo>No.1</GuestbookNo>
-              <GuestbookNickname>캔디</GuestbookNickname>
-              <GuestbookDate>(2024.02.15)</GuestbookDate>
-              <GuestbookDelete>삭제</GuestbookDelete>
-            </GuestbookHead>
-            <GuestbookBody>
-              <GuestbookImage></GuestbookImage>
-              <GuestbookMain>
-                데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-                세우고 있어요.
-              </GuestbookMain>
-            </GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-        </GuestbookContainer>
-      </GuestbookSide>
+      <WriteSide>
+        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
+          <BackToGuestbook>돌아가기</BackToGuestbook>
+        </Link>
+        <WriteTitle>
+          <WriteTitleInput type="text" placeholder="제목" />
+        </WriteTitle>
+        <WriteGrayBar />
+        <WriteAddPhoto />
+        <WriteMain>
+          <WriteMainInput placeholder="내용을 입력하세요." />
+        </WriteMain>
+      </WriteSide>
     </BookTheme>
   );
 };
-export default BoardGuestbook;
+export default BoardWrite;
