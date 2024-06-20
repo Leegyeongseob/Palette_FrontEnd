@@ -22,6 +22,8 @@ const BookTheme = styled.div`
   margin-top: 7vh;
   margin-left: 3vw;
   background-image: url(${theme3});
+  background-size: cover;
+  background-position: center;
 `;
 const LogoDiv = styled.div`
   width: 450px;

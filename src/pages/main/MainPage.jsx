@@ -7,15 +7,14 @@ import couple1 from "../../img/mainImg/커플1.jpg";
 import couple2 from "../../img/mainImg/커플2.jpg";
 import couple3 from "../../img/mainImg/커플3.jpg";
 import couple4 from "../../img/mainImg/커플4.jpg";
-import BookMark from "../../common/bookmark/BookMark";
 const BookSign = styled.div`
   width: 25.8vw;
   height: 69vh;
 `;
 const BookTheme = styled.div`
-  width: 54vw;
+  width: 53vw;
   height: 69vh;
-  margin-top: 5vh;
+  margin-top: 4vh;
   margin-left: 0.8vw;
   background-image: url(${theme11});
   background-size: cover;
@@ -102,10 +101,6 @@ const Ddays = styled.div`
   align-items: center;
   color: #000;
   font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
 `;
 const Picture = styled.div`
   width: 150px;
