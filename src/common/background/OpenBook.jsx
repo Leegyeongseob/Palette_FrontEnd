@@ -18,22 +18,22 @@ const Background = styled.div`
 `;
 const LogoDiv = styled.div`
   width: 10vw;
-  height: 170px;
+  height: 17.838vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const BookMarkDiv = styled.div`
   width: 22vw;
-  height: 170px;
+  height: 17.838vh;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   margin-top: 8vh; // 추가된 부분
 `;
 const Logo = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 7.292vw;
+  height: 14.69vh;
   border-radius: 50%;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
@@ -52,7 +52,7 @@ const Book = styled.div`
 `;
 const TopContain = styled.div`
   width: auto;
-  height: 170px;
+  height: 17.838vh;
   display: flex;
   justify-content: center;
   align-items: center;

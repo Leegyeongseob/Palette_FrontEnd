@@ -2,7 +2,7 @@ import styled from "styled-components";
 const Dday = styled.div`
   width: 20vw;
   height: 15vh;
-  font-size: 80px;
+  font-size: 4.167vw;
   font-weight: 700;
   display: flex;
   justify-content: center;

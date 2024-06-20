@@ -13,22 +13,22 @@ const Contain = styled.div`
 
 const IconDiv = styled.div`
   width: 24.6vw;
-  height: 140px;
+  height: 14.69vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const Icon = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 5.208vw;
+  height: 10.493vh;
   background-image: url(${personicon});
   background-size: cover;
 `;
 
 const LoginDiv = styled.div`
   width: 24.6vw;
-  height: 180px;
+  height: 18.888vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -37,8 +37,8 @@ const LoginDiv = styled.div`
 
 const InputContainer = styled.div`
   position: relative;
-  width: 200px;
-  height: 50px;
+  width: 10.417vw;
+  height: 5.247vh;
   display: flex;
   align-items: center;
 `;
@@ -46,16 +46,16 @@ const InputContainer = styled.div`
 const InputDiv = styled.input`
   width: 100%;
   height: 100%;
-  padding-left: 40px;
+  padding-left: 2.083vw;
   border: none;
-  border-bottom: 2px solid gray;
+  border-bottom: 0.21vh solid gray;
   background-color: transparent;
-  font-size: 16px;
+  font-size: 0.833vw;
   font-weight: bolder;
   outline: none;
   &::placeholder {
     text-align: center;
-    font-size: 16px;
+    font-size: 0.833vw;
     color: #b44a4a;
     font-weight: bolder;
   }
@@ -63,7 +63,7 @@ const InputDiv = styled.input`
 
 const IconWrapper = styled.div`
   position: absolute;
-  margin-left: 10px;
+  margin-left: 0.521vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,7 +71,7 @@ const IconWrapper = styled.div`
 
 const FindDiv = styled.div`
   width: 24.6vw;
-  height: 40px;
+  height: 4.197vh;
   display: flex;
   justify-content: space-evenly;
   & > div {
@@ -80,44 +80,44 @@ const FindDiv = styled.div`
 `;
 
 const Signin = styled.div`
-  width: 70px;
-  height: 30px;
-  font-size: 16px;
+  width: 3.646vw;
+  height: 3.148vh;
+  font-size: 0.833vw;
   color: #b44a4a;
   font-weight: bolder;
   cursor: pointer;
 `;
 
 const ForgotId = styled.div`
-  width: 70px;
-  height: 20px;
-  font-size: 16px;
+  width: 3.646vw;
+  height: 2.099vh;
+  font-size: 0.833vw;
   color: #b44a4a;
   cursor: pointer;
 `;
 
 const ForgotPassword = styled.div`
-  width: 70px;
-  height: 20px;
-  font-size: 16px;
+  width: 3.646vw;
+  height: 2.099vh;
+  font-size: 0.833vw;
   color: #b44a4a;
   cursor: pointer;
 `;
 
 const ButtonDiv = styled.div`
-  width: 450px;
-  height: 114px;
+  width: 23.438vw;
+  height: 11.962vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const LoginButton = styled.div`
-  width: 180px;
-  height: 50px;
+  width: 9.375vw;
+  height: 5.247vh;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
-  font-size: 23px;
+  border-radius: 1.042vw;
+  font-size: 1.198vw;
   color: #b44a4a;
   display: flex;
   justify-content: center;
@@ -130,14 +130,14 @@ const LoginButton = styled.div`
 `;
 
 const SimpleLogin = styled.div`
-  width: 450px;
-  height: 50px;
+  width: 23.438vw;
+  height: 5.247vh;
   display: flex;
   justify-content: center;
   align-items: center;
   & > div {
-    width: 250px;
-    height: 50px;
+    width: 13.021vw;
+    height: 5.247vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -149,8 +149,8 @@ const SigninDiv = styled.div`
 `;
 
 const CircleSide = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 2.604vw;
+  height: 5.247vh;
   border: none;
   border-radius: 50%;
   background-color: transparent;
@@ -165,14 +165,14 @@ const CircleSide = styled.div`
   }
 `;
 const GoogleIcon = styled(FcGoogle)`
-  width: 50px;
-  height: 50px;
+  width: 2.604vw;
+  height: 5.247vh;
   cursor: pointer;
 `;
 
 const NaverIcon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 2.604vw;
+  height: 5.247vh;
   background-image: url(${naver});
   background-size: cover;
   background-position: center;
@@ -180,12 +180,22 @@ const NaverIcon = styled.div`
 `;
 
 const KakaoIcon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 2.604vw;
+  height: 5.247vh;
   background-image: url(${kakao});
   background-size: cover;
   background-position: center;
   cursor: pointer;
+`;
+const MdOutlineMailOutlineStyle = styled(MdOutlineMailOutline)`
+  width: 1.25vw;
+  height: 2.518vh;
+  color: gray;
+`;
+const MdLockOutlineStyled = styled(MdLockOutline)`
+  width: 1.25vw;
+  height: 2.518vh;
+  color: gray;
 `;
 const LoginPage = () => {
   return (
@@ -196,13 +206,13 @@ const LoginPage = () => {
       <LoginDiv>
         <InputContainer>
           <IconWrapper>
-            <MdOutlineMailOutline size={24} color="gray" />
+            <MdOutlineMailOutlineStyle />
           </IconWrapper>
           <InputDiv type="text" placeholder="Email ID" />
         </InputContainer>
         <InputContainer>
           <IconWrapper>
-            <MdLockOutline size={24} color="gray" />
+            <MdLockOutlineStyled />
           </IconWrapper>
           <InputDiv type="password" placeholder="Password" />
         </InputContainer>
@@ -211,7 +221,7 @@ const LoginPage = () => {
         <div>
           <Link to="/signup-page" style={{ textDecoration: "none" }}>
             <SigninDiv>
-              <MdOutlineMailOutline size={24} color="gray" />
+              <MdLockOutlineStyled />
               <Signin>&nbsp;Sign in</Signin>
             </SigninDiv>
           </Link>

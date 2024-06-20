@@ -81,6 +81,7 @@ const RecentTitle = styled.div`
   align-items: center;
   color: #000;
   font-weight: 800;
+  font-size: 0.9vw;
 `;
 const Recents = styled.div`
   width: 16vw;
@@ -89,22 +90,28 @@ const Recents = styled.div`
   align-items: center;
   color: #000;
   font-weight: 800;
+  font-size: 0.833vw;
+  border-radius: 0.521vw;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
+    transform: scale(0.95);
     color: blue;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
 `;
 const Ddays = styled.div`
   width: 8vw;
   height: 4vh;
+  font-size: 0.833vw;
   display: flex;
   align-items: center;
   color: #000;
   font-weight: 600;
 `;
 const Picture = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 7.813vw;
+  height: 15.74vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
 `;

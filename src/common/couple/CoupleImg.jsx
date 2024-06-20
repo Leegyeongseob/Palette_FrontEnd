@@ -31,25 +31,25 @@ const HeartDiv = styled.div`
   align-items: center;
 `;
 const Heart = styled.div`
-  width: ${({ clothes }) => (clothes ? "50px" : "70px")};
-  height: ${({ clothes }) => (clothes ? "50px" : "70px")};
+  width: ${({ clothes }) => (clothes ? "2.604vw" : "3.646vw")};
+  height: ${({ clothes }) => (clothes ? "5.247vh" : "7.345vh")};
   background-image: url(${heart});
   background-size: cover;
 `;
 const Profile = styled.div`
-  width: 130px;
-  height: 130px;
+  width: 6.771vw;
+  height: 13.641vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   border-radius: 50%;
 `;
 const Text = styled.div`
   width: ${({ clothes }) => (clothes ? "7vw" : "8vw")};
-  height: 70px;
+  height: 7.345vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 1.042vw;
   font-weight: 600;
   color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
 `;

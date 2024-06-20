@@ -22,7 +22,7 @@ const BookTheme = styled.div`
 const Title = styled.div`
   width: 26vw;
   height: 6vh;
-  font-size: 30px;
+  font-size: 1.563vw;
   font-weight: 540;
   display: flex;
   align-items: center;
@@ -38,7 +38,7 @@ const Options = styled.div`
   width: 5vw;
   height: 4vh;
   background-color: #fff;
-  font-size: 14px;
+  font-size: 0.729vw;
   font-weight: 600;
   display: flex;
   justify-content: center;
@@ -64,18 +64,18 @@ const OptionsDiv = styled.div`
   justify-content: space-between;
 `;
 const ButtonDiv = styled.div`
-  width: 450px;
-  height: 114px;
+  width: 23.438vw;
+  height: 11.962vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const StroeButton = styled.div`
-  width: 130px;
-  height: 40px;
+  width: 6.771vw;
+  height: 4.197vh;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
-  font-size: 23px;
+  border-radius: 1.042vw;
+  font-size: 1.198vw;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -90,7 +90,7 @@ const ClothesForm = styled.div`
   width: 13.2vw;
   height: auto;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 0.521vw;
   border: 2px solid pink;
   display: flex;
   flex-direction: column;

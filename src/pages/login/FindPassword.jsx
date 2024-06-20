@@ -7,32 +7,32 @@ const Contain = styled.div`
 `;
 const IconDiv = styled.div`
   width: 24.6vw;
-  height: 180px;
+  height: 18.888vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const InputDiv = styled.div`
   width: 24.6vw;
-  height: 200px;
+  height: 20.986vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 `;
 const ButtonDiv = styled.div`
-  width: 450px;
-  height: 114px;
+  width: 23.438vw;
+  height: 11.962vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 180px;
-  height: 50px;
+  width: 9.375vw;
+  height: 5.247vh;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
-  font-size: 23px;
+  border-radius: 1.042vw;
+  font-size: 1.198vw;
   color: #b44a4a;
   display: flex;
   justify-content: center;
@@ -44,14 +44,14 @@ const FindButton = styled.div`
   }
 `;
 const InputDetailDiv = styled.div`
-  width: 340px;
-  height: 32px;
+  width: 17.708vw;
+  height: 3.358vh;
 
   display: flex;
   & > label {
-    width: 110px;
+    width: 5.729vw;
     height: auto;
-    font-size: 16px;
+    font-size: 0.833vw;
     color: #b44a4a;
     display: flex;
     font-weight: bolder;
@@ -59,47 +59,47 @@ const InputDetailDiv = styled.div`
     align-items: center;
   }
   & > .InputClass {
-    width: 220px;
-    border-radius: 10px;
+    width: 11.458vw;
+    border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 10px;
-    font-size: 16px;
+    padding-left: 0.521vw;
+    font-size: 0.833vw;
     font-weight: 600;
   }
 `;
 const RegisterationInput1 = styled.input`
-  width: 120px;
-  border-radius: 10px;
+  width: 6.25vw;
+  border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 10px;
-  font-size: 16px;
+  padding-left: 0.521vw;
+  font-size: 0.833vw;
   font-weight: 600;
 `;
 const Text = styled.div`
-  width: 10px;
-  height: 32px;
+  width: 0.521vw;
+  height: 3.358vh;
   font-weight: bolder;
-  font-size: 16px;
+  font-size: 0.833vw;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const RegisterationInput2 = styled.input`
-  width: 20px;
-  border-radius: 10px;
+  width: 1.042vw;
+  border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 4px;
-  font-size: 16px;
+  padding-left: 0.208vw;
+  font-size: 0.833vw;
   font-weight: 600;
 `;
 const FindPassword = () => {

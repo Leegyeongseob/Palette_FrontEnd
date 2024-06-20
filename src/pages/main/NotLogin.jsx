@@ -34,6 +34,8 @@ const LoginDiv = styled.div`
   align-items: center;
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
+  width: 6.25vw;
+  height: 12.592vh;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -48,7 +50,7 @@ const NotLogin = () => {
       <PaletteDiv>Palette</PaletteDiv>
       <LoginDiv>
         <Link to="/login-page">
-          <StyledBsPersonCircle size={120} color="rgba(0,0,0,0.7)" />
+          <StyledBsPersonCircle color="rgba(0,0,0,0.7)" />
         </Link>
       </LoginDiv>
     </Contain>
