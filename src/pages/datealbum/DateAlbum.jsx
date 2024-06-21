@@ -47,7 +47,7 @@ const BookSign = styled.div`
   height: 67vh;
   display: flex;
   flex-direction: column;
-  align-items: center; /* 수직 중앙 정렬 */
+  align-items: center;
 `;
 
 const BookSign2 = styled.div`
@@ -71,7 +71,7 @@ const ContentWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* 수직 중앙 정렬 */
+  align-items: center;
   ${({ animate }) =>
     animate &&
     css`
@@ -142,9 +142,9 @@ const Dday = styled.div`
   height: 11%;
   font-size: 30px;
   margin-left: 5%;
-  display: flex; /* 요소를 플렉스 박스로 설정 */
-  justify-content: left; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
+  display: flex;
+  justify-content: left;
+  align-items: center;
 `;
 
 const AlbumTitle = styled.div`

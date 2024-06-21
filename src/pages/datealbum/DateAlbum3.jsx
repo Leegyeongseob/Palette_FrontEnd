@@ -108,9 +108,9 @@ const Dday = styled.div`
   height: 11%;
   font-size: 30px;
   margin-left: 5%;
-  display: flex; /* 요소를 플렉스 박스로 설정 */
-  justify-content: left; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
+  display: flex;
+  justify-content: left;
+  align-items: center;
 `;
 
 const BackButton = styled.div`
@@ -128,7 +128,7 @@ const BackButton = styled.div`
 
 const InputDetailDiv = styled.div`
   display: flex;
-  justify-content: center; /* 중앙 배치 */
+  justify-content: center;
   align-items: center;
   width: 20px;
   height: 20px;
