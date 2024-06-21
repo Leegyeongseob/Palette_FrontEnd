@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
@@ -263,6 +264,14 @@ const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 const BoardGuestbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
+  const navigate = useNavigate();
+
+  const handleNameClick = (id) => {
+    navigate(`/board-details`);
+
+    // navigate(`/board-details/${id}`);
+  };
+
   // 페이지 번호 클릭 시 이벤트 처리 함수
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -291,7 +300,9 @@ const BoardGuestbook = () => {
             {BoardData.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
-                <NameHover>{item.name}</NameHover>
+                <NameHover onClick={() => handleNameClick(item.id)}>
+                  {item.name}
+                </NameHover>
                 <BoardTd>{item.date}</BoardTd>
               </tr>
             ))}

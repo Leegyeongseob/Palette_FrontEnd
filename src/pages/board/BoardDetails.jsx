@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
+import CandyImg from "../../img/mainImg/커플2.jpg";
 import { useState } from "react";
 
 const BookTheme = styled.div`
@@ -49,7 +52,7 @@ const BoardGrayBar = styled.div`
   margin-left: 1.5vw;
   width: 22.5vw;
   height: 0.4vh;
-  background-color: #bebebe;
+  background-color: #b0b0b0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +64,7 @@ const BoardPost = styled.div`
   height: 1vh;
   font-size: 11px;
   font-weight: 600;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,17 +102,7 @@ const NameHover = styled(BoardTd)`
     color: blue;
   }
 `;
-const CenterArea = styled.div`
-  width: 1.5vw;
-  height: 68.5vh;
-  background-color: black;
-`;
-const GuestbookSide = styled.div`
-  width: 25.8vw;
-  height: 68.5vh;
-  background-color: blue;
-`;
-const PaginationContainer = styled.div`
+const BoardPaginationContainer = styled.div`
   margin-top: 2vh;
   margin-left: 1.5vw;
   width: 22.5vw;
@@ -116,7 +110,7 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const PaginationButton = styled.button`
+const BoardPaginationButton = styled.button`
   margin: 0 5px;
   padding: 5px 10px;
   background-color: #ffffff;
@@ -127,7 +121,65 @@ const PaginationButton = styled.button`
   }
 `;
 
-const data = [
+const CenterArea = styled.div`
+  width: 1.5vw;
+  height: 68.5vh;
+`;
+
+const DetailsSide = styled.div`
+  width: 25.8vw;
+  height: 68.5vh;
+`;
+const BackToGuestbook = styled.div`
+  margin-top: 2vh;
+  margin-left: 19vw;
+  width: 8vw;
+  height: 1vh;
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
+const DetailsNumber = styled.div`
+  margin-left: 1.5vw;
+  margin-top: 3vh;
+  width: 10vw;
+  height: 3vh;
+  font-size: 24px;
+`;
+const DetailsTitle = styled.div`
+  margin-left: 1.5vw;
+  width: 22.8vw;
+  height: 3vh;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const DetailsGrayBar = styled.div`
+  margin-top: 1.5vh;
+  margin-left: 1.5vw;
+  width: 22.5vw;
+  height: 0.4vh;
+  background-color: #b0b0b0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const DetailsMain = styled.div`
+  margin-left: 1.5vw;
+  margin-top: 1.2vh;
+  width: 22.8vw;
+  height: 45vh;
+`;
+
+const BoardData = [
   { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
   { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
   { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
@@ -144,6 +196,14 @@ const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 const BoardDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
+  const navigate = useNavigate();
+
+  const handleNameClick = (id) => {
+    navigate(`/board-details`);
+
+    // navigate(`/board-details/${id}`);
+  };
+
   // 페이지 번호 클릭 시 이벤트 처리 함수
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -157,7 +217,9 @@ const BoardDetails = () => {
           <CoupleImg />
         </CoupleDiv>
         <BoardGrayBar />
-        <BoardPost>새 게시물</BoardPost>
+        <Link to="/board-write" style={{ textDecoration: "none" }}>
+          <BoardPost>새 게시물</BoardPost>
+        </Link>
         <BoardTable>
           <thead>
             <tr>
@@ -167,31 +229,45 @@ const BoardDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {BoardData.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
-                <NameHover>{item.name}</NameHover>
+                <NameHover onClick={() => handleNameClick(item.id)}>
+                  {item.name}
+                </NameHover>
                 <BoardTd>{item.date}</BoardTd>
               </tr>
             ))}
           </tbody>
         </BoardTable>
-        <PaginationContainer>
-          {[...Array(Math.ceil(data.length / itemsPerPage))].map((_, index) => (
-            <PaginationButton
-              key={index + 1}
-              onClick={() => handleClick(index + 1)}
-              style={{
-                fontWeight: currentPage === index + 1 ? "bold" : "normal",
-              }}
-            >
-              {index + 1}
-            </PaginationButton>
-          ))}
-        </PaginationContainer>
+        <BoardPaginationContainer>
+          {[...Array(Math.ceil(BoardData.length / itemsPerPage))].map(
+            (_, index) => (
+              <BoardPaginationButton
+                key={index + 1}
+                onClick={() => handleClick(index + 1)}
+                style={{
+                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
+                }}
+              >
+                {index + 1}
+              </BoardPaginationButton>
+            )
+          )}
+        </BoardPaginationContainer>
       </BoardSide>
       <CenterArea></CenterArea>
-      <GuestbookSide></GuestbookSide>
+      <DetailsSide>
+        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
+          <BackToGuestbook>돌아가기</BackToGuestbook>
+        </Link>
+        <DetailsNumber>No.9</DetailsNumber>
+        <DetailsTitle>한강 데이트!!</DetailsTitle>
+        <DetailsGrayBar />
+        <DetailsMain>
+          가나다라마바사 123456789 아자차카타파하 아자차카타파하 아자차카타파하
+        </DetailsMain>
+      </DetailsSide>
     </BookTheme>
   );
 };

@@ -184,8 +184,8 @@ const WriteMain = styled.div`
   margin-top: 1.2vh;
   width: 22.8vw;
   height: 40vh;
-  display: flex; /* 수직 정렬을 위해 Flexbox 사용 */
-  align-items: flex-start; /* 맨 위 정렬 */
+  display: flex;
+  align-items: flex-start;
 `;
 const WriteMainInput = styled.textarea`
   width: 100%;
@@ -196,6 +196,21 @@ const WriteMainInput = styled.textarea`
   font-size: 20px;
   resize: none; /* 크기 조정 불가능하도록 설정 */
   overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+`;
+const WritePost = styled.div`
+  margin-top: 2vh;
+  margin-left: 19vw;
+  width: 8vw;
+  heigth: 1vh;
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue
 `;
 
 const data = [
@@ -276,6 +291,9 @@ const BoardWrite = () => {
         <WriteMain>
           <WriteMainInput placeholder="내용을 입력하세요." />
         </WriteMain>
+        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
+          <WritePost>게시하기</WritePost>
+        </Link>
       </WriteSide>
     </BookTheme>
   );
