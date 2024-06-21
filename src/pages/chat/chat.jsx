@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaRegImage, FaGear, FaHeart } from "react-icons/fa6";
+import {
+  BsEmojiAngry,
+  BsEmojiAstonished,
+  BsEmojiFrown,
+  BsEmojiDizzy,
+  BsEmojiExpressionless,
+  BsEmojiGrin,
+  BsEmojiHeartEyes,
+} from "react-icons/bs";
+
 import { MdEmojiEmotions } from "react-icons/md";
-import chatBackground from "../../img/chat/pcchatimg/9.jpg";
+import chatBack1 from "../../img/chat/pcchatimg/9.jpg";
+import chatBack2 from "../../img/chat/pcchatimg/6.jpg";
+import chatBack3 from "../../img/chat/pcchatimg/8.jpg";
 
 const GlobalStyle = styled.div`
   /* 스크롤바 스타일 */
@@ -22,17 +34,17 @@ const GlobalStyle = styled.div`
 `;
 
 const Chatpage = styled.div`
-  width: 60vw;
-  height: 65vh;
+  width: 54vw;
+  height: 68vh;
   margin-top: 5vh;
-  background: url(${chatBackground}) no-repeat center center;
+  background: url(${(props) => props.backgroundImage}) no-repeat center center;
   background-size: cover;
   position: relative;
 `;
 
 const Textarea = styled.div`
-  width: 60vw;
-  height: 50vh;
+  width: 54vw;
+  height: ${(props) => (props.isPlusMenuVisible ? "30vh" : "50vh")};
   overflow-y: auto;
   padding: 10px;
   background: transparent;
@@ -47,7 +59,7 @@ const TopText = styled.div`
 `;
 
 const PlusMenu = styled.div`
-  width: 60vw;
+  width: 54vw;
   height: 18vh;
   background-color: gray;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
@@ -56,22 +68,45 @@ const PlusMenu = styled.div`
 `;
 
 const TemaMenu = styled.div`
-  width: 60vw;
+  width: 54vw;
   height: 18vh;
-  background-color: gray;
+  background-color: #a5a5a5b7;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
   position: absolute;
   bottom: 10vh;
+  img {
+    width: 18vw;
+    height: auto;
+    max-height: 100%;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 `;
 
 const EmojiMenu = styled.div`
-  width: 60vw;
+  width: 54vw;
   height: 18vh;
   background-color: gray;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
   position: absolute;
   bottom: 10vh;
+  justify-content: space-around;
 `;
+
+const EmojiIcon = styled.div`
+  font-size: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    color: #ffcc00; /* 호버 시 색상 변경 */
+  }
+`;
+
 const PlusMenuBtn = styled.div`
   font-size: 50px;
   padding: 10px;
@@ -158,6 +193,7 @@ const InputText = styled.div`
 const ChatMain = () => {
   const [isPlusMenuVisible, setPlusMenuVisible] = useState(false);
   const [inputText, setInputText] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState(chatBack1);
   const [isTemaMenuVisible, setTemaMenuVisible] = useState(false);
   const [isEmojiMenuVisible, setEmojiMenuVisible] = useState(false);
 
@@ -179,22 +215,28 @@ const ChatMain = () => {
     setTemaMenuVisible(false);
   };
 
+  const handleTemaClick = (image) => {
+    setBackgroundImage(image);
+    setTemaMenuVisible(false);
+  };
+
   const handleInputChange = (event) => {
-    setInputText(event.target.value); // 입력된 텍스트 업데이트
+    setInputText(event.target.value);
   };
 
   const handleSendClick = () => {
-    // Send 버튼 클릭 시 처리할 로직
-    console.log("전송된 텍스트:", inputText); // 예시로 콘솔에 출력
-    // 여기에 데이터베이스로 전송하는 코드를 추가할 수 있습니다.
-    // 예를 들어, axios나 fetch를 사용하여 백엔드 API에 데이터 전송
+    console.log("전송된 텍스트:", inputText);
   };
 
   return (
     <GlobalStyle>
-      <Chatpage>
+      <Chatpage backgroundImage={backgroundImage}>
         <TopText>상대방 이름</TopText>
-        <Textarea>
+        <Textarea
+          isPlusMenuVisible={
+            isPlusMenuVisible || isTemaMenuVisible || isEmojiMenuVisible
+          }
+        >
           <p>샘플 텍스트 1</p>
           <p>샘플 텍스트 2</p>
           <p>샘플 텍스트 3</p>
@@ -221,8 +263,46 @@ const ChatMain = () => {
             <MdEmojiEmotions className="icon 임티" onClick={toggleEmojiMenu} />
           </PlusMenuBtn>
         </PlusMenu>
-        <TemaMenu isVisible={isTemaMenuVisible}>테마선택메뉴</TemaMenu>
-        <EmojiMenu isVisible={isEmojiMenuVisible}>임티선택메뉴</EmojiMenu>
+        <TemaMenu isVisible={isTemaMenuVisible}>
+          <img
+            src={chatBack1}
+            alt="테마1"
+            onClick={() => handleTemaClick(chatBack1)}
+          />
+          <img
+            src={chatBack2}
+            alt="테마2"
+            onClick={() => handleTemaClick(chatBack2)}
+          />
+          <img
+            src={chatBack3}
+            alt="테마3"
+            onClick={() => handleTemaClick(chatBack3)}
+          />
+        </TemaMenu>
+        <EmojiMenu isVisible={isEmojiMenuVisible}>
+          <EmojiIcon>
+            <BsEmojiHeartEyes />
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiAngry></BsEmojiAngry>
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiAstonished />
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiFrown />
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiDizzy />
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiExpressionless />
+          </EmojiIcon>
+          <EmojiIcon>
+            <BsEmojiGrin />
+          </EmojiIcon>
+        </EmojiMenu>
         <InputText>
           <button className="plus" onClick={togglePlusMenu}></button>
           <input
