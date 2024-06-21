@@ -14,6 +14,7 @@ moment.locale("ko");
 // Styled components
 const StyledCalendarWrapper = styled.div`
   width: 90%;
+  height: 70%;
   margin-bottom: 5%;
   margin-top: 2%;
   display: flex;
@@ -218,20 +219,20 @@ const BookSign2 = styled.div`
 
 const CoupleDiv = styled.div`
   width: 100%;
-  height: 20%;
+  height: 18%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Dday = styled.div`
   width: 90%;
-  height: 15%;
-  margin-top: 5%;
-  font-size: 24px;
+  height: 10%;
+  margin-top: 2%;
+  font-size: 1.3vw;
   font-weight: 600;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 const BoardWrapper = styled.div`
@@ -261,7 +262,7 @@ const LineUp = styled.div`
 const PicDate = styled.div`
   width: 50%;
   height: 90%;
-  font-size: 20px;
+  font-size: 1vw;
   display: flex;
   margin-left: 3%;
   align-items: flex-end;
@@ -270,18 +271,23 @@ const PicDate = styled.div`
 const DdayWe = styled.div`
   width: 50%;
   height: 90%;
-  font-size: 15px;
+  font-size: 0.729vw;
   display: flex;
   margin-right: 3%;
   align-items: flex-end;
   justify-content: flex-end;
 `;
 
-const DateAlbum = () => {
+const DateDiary = () => {
   const today = new Date();
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
-  const attendDay = ["2024-06-18", "2023-12-13", "2024-07-20"];
+  const [selectedDate, setSelectedDate] = useState(today);
+
+  const attendDay = ["2024-06-18", "2023-12-13", "2024-07-20", "2024-01-23"];
+  const anniversaryDate = moment("2024-01-23");
+  const daysTogether = moment(today).diff(anniversaryDate, "days") + 1;
+  const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -290,13 +296,18 @@ const DateAlbum = () => {
   const handleTodayClick = () => {
     setActiveStartDate(today);
     setDate(today);
+    setSelectedDate(today);
+  };
+
+  const handleDateClick = (date) => {
+    setSelectedDate(date);
   };
 
   return (
     <>
       <BookTheme>
         <BookSign>
-          <Dday>♥ D + 150 ♥</Dday>
+          <Dday>♥ D + {daysTogether} ♥</Dday>
           <CoupleDiv>
             <CoupleImg />
           </CoupleDiv>
@@ -304,6 +315,7 @@ const DateAlbum = () => {
             <StyledCalendar
               value={date}
               onChange={handleDateChange}
+              onClickDay={handleDateClick}
               formatDay={(locale, date) => moment(date).format("D")}
               formatYear={(locale, date) => moment(date).format("YYYY")}
               formatMonthYear={(locale, date) =>
@@ -348,8 +360,18 @@ const DateAlbum = () => {
           <BoardWrapper>
             <DiaryBoard>
               <LineUp>
-                <PicDate>2024.06.21</PicDate>
-                <DdayWe>우리 만난 지 150일 째</DdayWe>
+                <PicDate>
+                  {selectedDate
+                    ? moment(selectedDate).format("YYYY.MM.DD")
+                    : ""}
+                </PicDate>
+                {moment(selectedDate).isSame(anniversaryDate, "day") ? (
+                  <DdayWe>우리 처음 만난 날</DdayWe>
+                ) : moment(selectedDate).isBefore(anniversaryDate) ? (
+                  <DdayWe>우리 만나기 전</DdayWe>
+                ) : (
+                  <DdayWe>우리 만난 지 {SdaysTogether}일 째</DdayWe>
+                )}
               </LineUp>
             </DiaryBoard>
           </BoardWrapper>
@@ -359,4 +381,4 @@ const DateAlbum = () => {
   );
 };
 
-export default DateAlbum;
+export default DateDiary;
