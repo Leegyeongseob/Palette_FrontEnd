@@ -4,7 +4,7 @@ import theme3_1 from "../../img/background/theme/3-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment/locale/ko"; // moment에서 한국어 설정을 불러옵니다.
 
@@ -249,6 +249,7 @@ const DiaryBoard = styled.div`
   width: 90%;
   height: 93%;
   display: flex;
+  flex-direction: column;
   background-color: #e7bfa1;
 `;
 
@@ -259,6 +260,16 @@ const LineUp = styled.div`
   flex-direction: row;
   border-bottom: 3px solid #c8c8c8;
 `;
+
+const LineDown = styled.div`
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 const PicDate = styled.div`
   width: 50%;
   height: 90%;
@@ -278,20 +289,177 @@ const DdayWe = styled.div`
   justify-content: flex-end;
 `;
 
+const BoardTitle = styled.div`
+  width: 90%;
+  height: 6%;
+  font-size: 0.729vw;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 800;
+`;
+
+const MemoInput = styled.textarea`
+  width: 90%;
+  height: 80%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #eccdaf;
+  resize: none;
+  outline-color: #eccdaf; /* 외곽선 색상 설정 (선택 사항) */
+  overflow: hidden;
+`;
+const ButtonWrap = styled.div`
+  width: 900%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`
+
+const SaveButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e7bfa1;
+  cursor: pointer;
+  &:hover {
+    background-color: #d3a78a;
+  }
+`;
+const ClearButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e7bfa1;
+  cursor: pointer;
+  &:hover {
+    background-color: #d3a78a;
+  }
+`;
+
+const CheckboxWrapper = styled.div`
+  width: 90%;
+  display: flex;
+  align-items: center;
+  margin-top:0.5rem;
+`;
+
+const EventInput = styled.input`
+  width: 60%;
+  margin-left: 0.5rem;  
+  padding: 0.2rem;
+  font-size: 1rem;
+  border: solid #eccdaf;
+  border-radius: 0.3rem;
+  background-color: #eccdaf;
+  /* outline: none; */
+  outline-color: #eccdaf;
+`;
+const AddButton = styled.button`
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #e7bfa1;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #eccdaf;
+  }
+`;
+
+const CustomCheckbox = styled.input` /* 체크박스 커스텀 */
+  appearance: none; 
+  width: 16px;
+  height: 16px;
+  border: 2px solid #a1bae7;
+  background-color: #eccdaf;
+  border-radius: 4px;
+  margin-right: 6px;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #92a9d3; /* 체크된 상태의 배경색 */
+    border-color: #a1bae7;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 3px darkgray; /* 포커스 시 테두리 스타일 */
+  }
+  &:hover {
+    background-color: #e7bfa1;
+  }
+`;
+
+const RemoveButton = styled.button`
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #e7bfa1;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #eccdaf;
+  }
+`;
+
 const DateDiary = () => {
   const today = new Date();
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(today);
+  const [memos, setMemos] = useState({}); // 날짜별 일기를 저장하는 상태
+  const [currentMemo, setCurrentMemo] = useState(""); // 현재 입력 중인 일기 상태
+  const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]);
 
-  const attendDay = ["2024-06-18", "2023-12-13", "2024-07-20", "2024-01-23"];
+  const attendDay = [""];
   const anniversaryDate = moment("2024-01-23");
   const daysTogether = moment(today).diff(anniversaryDate, "days") + 1;
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
+  const memoTextAreaRef = useRef(null);
+
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
   };
+
+
+  useEffect(() => {
+    const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
+    setCurrentMemo(memoData.memo || "");
+    setEvents(memoData.events || []);
+  }, [selectedDate, memos]);
+
+
+  useEffect(() => {
+    const memoTextArea = memoTextAreaRef.current;
+    if (memoTextArea) {
+      const handleWheel = (event) => {
+        memoTextArea.scrollTop += event.deltaY;
+      };
+      memoTextArea.addEventListener('wheel', handleWheel);
+      return () => {
+        memoTextArea.removeEventListener('wheel', handleWheel);
+      };
+    }
+  }, []);
+  
 
   const handleTodayClick = () => {
     setActiveStartDate(today);
@@ -301,7 +469,72 @@ const DateDiary = () => {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    setCurrentMemo(memos[moment(date).format("YYYY-MM-DD")] || "");
+    const memoData = memos[moment(date).format("YYYY-MM-DD")] || {};
+    setEvents(memoData.events || [{ isEvent: false, eventText: "" }]);
   };
+
+  const handleMemoChange = (e) => {
+    setCurrentMemo(e.target.value);
+  };
+  const handleEventChange = (index) => (e) => {
+    const newEvents = [...events];
+    newEvents[index].isEvent = e.target.checked;
+    setEvents(newEvents);
+  };
+
+  const handleEventTextChange = (index) => (e) => {
+    const newEvents = [...events];
+    newEvents[index].eventText = e.target.value;
+    setEvents(newEvents);
+  };
+
+  const handleAddEvent = () => {
+    if (events.length < 5) {
+      setEvents([...events, { isEvent: false, eventText: "" }]);
+    }
+  };
+
+  const handleRemoveEvent = (index) => () => {
+    const newEvents = [...events];
+    newEvents.splice(index, 1);
+    setEvents(newEvents);
+  };
+
+  const handleMemoSave = () => {
+    const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
+
+ if (currentMemo.trim() === "" && events.every(event => !event.eventText.trim())) {
+    alert("일기나 일정 중 최소 하나를 입력하세요.");
+    return; // 일기나 일정이 모두 비어 있으면 저장을 중단
+  }
+    // 오늘 날짜와 선택된 날짜가 같은지 확인
+    const isToday = moment(selectedDate).isSame(today, "day");
+
+    // 일기 저장
+    setMemos((prevMemos) => ({
+      ...prevMemos,
+      [formattedSelectedDate]: { memo: currentMemo, events },
+    }));
+
+    if (!isToday) {
+      // 달력에 점을 찍는 로직 추가 (필요 시)
+    }
+  };
+  const handleClear = () => {
+    const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
+  
+    setMemos((prevMemos) => {
+      const updatedMemos = { ...prevMemos };
+      delete updatedMemos[formattedSelectedDate]; 
+      return updatedMemos;
+    });
+  
+    setEvents([{ isEvent: false, eventText: "" }]);
+    setCurrentMemo(""); 
+  };
+  
+
 
   return (
     <>
@@ -348,6 +581,10 @@ const DateDiary = () => {
                     <StyledDot key={moment(date).format("YYYY-MM-DD")} />
                   );
                 }
+                /// 해당 날짜에 일기가 있는지 확인하고 점 추가
+                if (memos[moment(date).format("YYYY-MM-DD")] && !moment(date).isSame(today, "day")) {
+                  html.push(<StyledDot key={`memo-${moment(date).format("YYYY-MM-DD")}`} />);
+                }
                 return <>{html}</>;
               }}
             />
@@ -373,6 +610,38 @@ const DateDiary = () => {
                   <DdayWe>우리 만난 지 {SdaysTogether}일 째</DdayWe>
                 )}
               </LineUp>
+              <LineDown>
+              <BoardTitle>[오늘의 일정]</BoardTitle>
+              {events.map((event, index) => (
+                <CheckboxWrapper key={index}>
+                  <CustomCheckbox
+                    type="checkbox"
+                    checked={event.isEvent}
+                    onChange={handleEventChange(index)}
+                  />
+                  <EventInput
+                    value={event.eventText}
+                    onChange={handleEventTextChange(index)}
+                    placeholder="일정을 입력하세요"
+                  />
+                  <RemoveButton onClick={handleRemoveEvent(index)}>-</RemoveButton>
+                </CheckboxWrapper>
+              ))}
+              {events.length < 5 && (
+                <AddButton onClick={handleAddEvent}>+</AddButton>
+              )}
+              <BoardTitle>[오늘의 일기]</BoardTitle>
+              <MemoInput
+              ref={memoTextAreaRef}
+                value={currentMemo}
+                onChange={handleMemoChange}
+                placeholder="오늘의 일기를 작성해주세요 ~ `-`" 
+                  />
+                  <ButtonWrap>
+              <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+              <ClearButton onClick={handleClear}>삭제</ClearButton>
+              </ButtonWrap>
+              </LineDown>
             </DiaryBoard>
           </BoardWrapper>
         </BookSign2>
