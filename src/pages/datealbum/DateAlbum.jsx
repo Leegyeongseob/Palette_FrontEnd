@@ -121,6 +121,11 @@ const ImgWrapper2 = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 
 const ImgBox = styled.div`
   width: 15vh;
@@ -130,17 +135,31 @@ const ImgBox = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 1%;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    cursor: ${({ hasImage }) => (hasImage ? "pointer" : "default")}; 
+    ${({ hasImage }) =>
+      hasImage &&
+      `
+      & > ${Img} {
+        transform: scale(1.1); /* 이미지 확대 효과 */
+      }
+      &::after {
+        content: "삭제하기";
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+    `}
+  }
 `;
-// const ImgBox2 = styled.div`
-//   width: 32%;
-//   height: 15vh;
-//   background-color: gray;
-//   align-items: center;
-//   justify-content: center;
-//   display: flex;
-//   margin-left: 1%;
-//   margin-top: 1%;
-// `;
 
 const Dday = styled.div`
   width: 90%;
@@ -228,17 +247,11 @@ const PlusButton = styled.button`
     background-color: #aaa;
   }
 `;
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+
 
 const DateAlbum = () => {
   const [animate, setAnimate] = useState(false);
-  const [imgBoxes, setImgBoxes] = useState(
-    Array(15).fill(null).map((_, index) => (index === 0 ? '+' : null))
-  );
+  const [imgBoxes, setImgBoxes] = useState(Array(15).fill(null).map((_, index) => (index === 0 ? '+' : null)));
   const [images, setImages] = useState(Array(15).fill(null));
   const navigate = useNavigate();
 
@@ -248,6 +261,7 @@ const DateAlbum = () => {
       navigate("/date-album2");
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
+  
   const handleAddImage = (index) => {
     const newImgBoxes = [...imgBoxes];
     const newImages = [...images];
@@ -261,6 +275,28 @@ const DateAlbum = () => {
     setImages(newImages);
   };
 
+  const handleDeleteImage = (index) => {
+    const newImgBoxes = [...imgBoxes];
+    const newImages = [...images];
+
+    newImages.splice(index, 1); // 클릭된 이미지를 배열에서 제거
+    newImages.push(null); // 배열의 마지막에 null 추가
+
+    // 기존 + 버튼 위치를 찾아 제거
+    const plusIndex = newImgBoxes.indexOf('+');
+    if (plusIndex !== -1) {
+      newImgBoxes[plusIndex] = null;
+    }
+
+    // + 버튼을 마지막 null 위치에 추가
+    const nextPlusIndex = newImages.indexOf(null);
+    if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
+      newImgBoxes[nextPlusIndex] = '+';
+    }
+
+    setImgBoxes(newImgBoxes);
+    setImages(newImages);
+  };
 
   return (
     <>
@@ -273,15 +309,19 @@ const DateAlbum = () => {
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
           <AddPic>사진 업로드</AddPic>
           <ImgWrapper>
-            {imgBoxes.slice(0, 6).map((box, index) => (
-              <ImgBox key={index}>
-                {images[index] && <Img src={images[index]} alt={`album-${index + 1}`} />}
-                {box === '+' && (
-                  <PlusButton onClick={() => handleAddImage(index)}>+</PlusButton>
-                )}
-              </ImgBox>
-            ))}
-          </ImgWrapper>
+          {imgBoxes.slice(0, 6).map((box, index) => (
+            <ImgBox
+              key={index}
+              onClick={() => images[index] && handleDeleteImage(index)}
+              hasImage={images[index] !== null}
+            >
+              {images[index] && <Img src={images[index]} alt={`album-${index + 1}`} />}
+              {box === '+' && (
+                <PlusButton onClick={() => handleAddImage(index)}>+</PlusButton>
+              )}
+            </ImgBox>
+          ))}
+        </ImgWrapper>
         </BookSign>
       </BookTheme>
       <BookTheme2>
@@ -292,16 +332,20 @@ const DateAlbum = () => {
               <AddAlbum>앨범 추가</AddAlbum>
             </AddButton>
             <ImgWrapper2>
-              <Dday>♥ D + 150 ♥</Dday>
-              {imgBoxes.slice(6).map((box, index) => (
-                <ImgBox key={index + 6}>
-                  {images[index + 6] && <Img src={images[index + 6]} alt={`album-${index + 7}`} />}
-                  {box === '+' && (
-                    <PlusButton onClick={() => handleAddImage(index + 6)}>+</PlusButton>
-                  )}
-                </ImgBox>
-              ))}
-            </ImgWrapper2>
+            <Dday>♥ D + 150 ♥</Dday>
+            {imgBoxes.slice(6, 15).map((box, index) => (
+              <ImgBox
+                key={index + 6}
+                onClick={() => images[index + 6] && handleDeleteImage(index + 6)}
+                hasImage={images[index + 6] !== null}
+              >
+                {images[index + 6] && <Img src={images[index + 6]} alt={`album-${index + 7}`} />}
+                {box === '+' && (
+                  <PlusButton onClick={() => handleAddImage(index + 6)}>+</PlusButton>
+                )}
+              </ImgBox>
+            ))}
+          </ImgWrapper2>
           </ContentWrapper>
         </BookSign2>
       </BookTheme2>
