@@ -104,8 +104,10 @@ const InputDetailDiv = styled.div`
 
 const ImgWrapper = styled.div`
   width: 90%;
-  height: 50%;
+  height: 33vh;
   background-color: #eccdaf;
+  align-items: center;
+  justify-content: center;
   margin-top: 20%;
   display: flex;
   flex-wrap: wrap;
@@ -121,21 +123,24 @@ const ImgWrapper2 = styled.div`
 `;
 
 const ImgBox = styled.div`
-  width: 32%;
-  height: 48%;
+  width: 15vh;
+  height: 15vh;
   background-color: gray;
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 1%;
-  margin-top: 1%;
 `;
-const ImgBox2 = styled.div`
-  width: 32%;
-  height: 28%;
-  background-color: gray;
-  display: flex;
-  margin-left: 1%;
-  margin-top: 1%;
-`;
+// const ImgBox2 = styled.div`
+//   width: 32%;
+//   height: 15vh;
+//   background-color: gray;
+//   align-items: center;
+//   justify-content: center;
+//   display: flex;
+//   margin-left: 1%;
+//   margin-top: 1%;
+// `;
 
 const Dday = styled.div`
   width: 90%;
@@ -211,9 +216,30 @@ const CoupleDiv = styled.div`
   display: flex;
   align-items: center;
 `;
+const PlusButton = styled.button`
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  border-radius: 50px;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #aaa;
+  }
+`;
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 
 const DateAlbum = () => {
   const [animate, setAnimate] = useState(false);
+  const [imgBoxes, setImgBoxes] = useState(
+    Array(15).fill(null).map((_, index) => (index === 0 ? '+' : null))
+  );
+  const [images, setImages] = useState(Array(15).fill(null));
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -222,6 +248,19 @@ const DateAlbum = () => {
       navigate("/date-album2");
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
+  const handleAddImage = (index) => {
+    const newImgBoxes = [...imgBoxes];
+    const newImages = [...images];
+
+    newImgBoxes[index] = null; 
+    if (index + 1 < newImgBoxes.length) {
+      newImgBoxes[index + 1] = '+';
+    }
+    newImages[index] = require(`../../img/album/${index + 1}.jpeg`);
+    setImgBoxes(newImgBoxes);
+    setImages(newImages);
+  };
+
 
   return (
     <>
@@ -234,12 +273,14 @@ const DateAlbum = () => {
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
           <AddPic>사진 업로드</AddPic>
           <ImgWrapper>
-            <ImgBox></ImgBox>
-            <ImgBox></ImgBox>
-            <ImgBox></ImgBox>
-            <ImgBox></ImgBox>
-            <ImgBox></ImgBox>
-            <ImgBox></ImgBox>
+            {imgBoxes.slice(0, 6).map((box, index) => (
+              <ImgBox key={index}>
+                {images[index] && <Img src={images[index]} alt={`album-${index + 1}`} />}
+                {box === '+' && (
+                  <PlusButton onClick={() => handleAddImage(index)}>+</PlusButton>
+                )}
+              </ImgBox>
+            ))}
           </ImgWrapper>
         </BookSign>
       </BookTheme>
@@ -252,15 +293,14 @@ const DateAlbum = () => {
             </AddButton>
             <ImgWrapper2>
               <Dday>♥ D + 150 ♥</Dday>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
-              <ImgBox2></ImgBox2>
+              {imgBoxes.slice(6).map((box, index) => (
+                <ImgBox key={index + 6}>
+                  {images[index + 6] && <Img src={images[index + 6]} alt={`album-${index + 7}`} />}
+                  {box === '+' && (
+                    <PlusButton onClick={() => handleAddImage(index + 6)}>+</PlusButton>
+                  )}
+                </ImgBox>
+              ))}
             </ImgWrapper2>
           </ContentWrapper>
         </BookSign2>
