@@ -84,7 +84,7 @@ const NextButton = styled.div`
   width: 20px;
   height: 20px;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 1.1vw;
   margin-left: 20px;
   color: white;
   cursor: pointer;
@@ -128,7 +128,7 @@ const Img = styled.img`
 `;
 
 const ImgBox = styled.div`
-  width: 15vh;
+  width: 7.4vw;
   height: 15vh;
   background-color: gray;
   display: flex;
@@ -155,7 +155,7 @@ const ImgBox = styled.div`
         color: white;
         padding: 2px 5px;
         border-radius: 3px;
-        font-size: 12px;
+        font-size: 0.6vw;
       }
     `}
   }
@@ -164,7 +164,7 @@ const ImgBox = styled.div`
 const Dday = styled.div`
   width: 90%;
   height: 11%;
-  font-size: 30px;
+  font-size: 1.4vw;
   margin-left: 5%;
   display: flex;
   justify-content: left;
@@ -176,7 +176,7 @@ const AlbumTitle = styled.div`
   height: 4%;
   display: flex;
   align-items: center;
-  font-size: 23px;
+  font-size: 1.1vw;
   color: #000;
   font-weight: 800;
 `;
@@ -191,22 +191,22 @@ const AddButton = styled.div`
   border-bottom: 1px solid #c8c8c8;
 `;
 const AddTema = styled.div`
-  font-size: 14px;
+  font-size: 0.78vw;
   color: black;
   font-weight: bolder;
   cursor: pointer;
   &:hover {
-    font-size: 15px;
+    font-size: 0.81vw;
   }
 `;
 const AddAlbum = styled.div`
-  font-size: 14px;
+  font-size: 0.78vw;
   color: black;
   font-weight: bolder;
   margin-left: 10px;
   cursor: pointer;
   &:hover {
-    font-size: 15px;
+    font-size: 0.81vw;
   }
 `;
 
@@ -218,7 +218,7 @@ const AddPic = styled.div`
   display: flex;
   justify-content: right;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.73vw;
   color: black;
   border-bottom: 1px solid #c8c8c8;
   font-weight: bolder;
@@ -234,11 +234,11 @@ const CoupleDiv = styled.div`
   margin-left: 100%;
   display: flex;
   align-items: center;
-`;
+`;  
 const PlusButton = styled.button`
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
+  width: 2.5vw;
+  height: 5vh;
+  font-size: 1.4vw;
   border-radius: 50px;
   background-color: #ccc;
   border: none;
@@ -342,7 +342,7 @@ const DateAlbum = () => {
                 {images[index + 6] && <Img src={images[index + 6]} alt={`album-${index + 7}`} />}
                 {box === '+' && (
                   <PlusButton onClick={() => handleAddImage(index + 6)}>+</PlusButton>
-                )}
+                )}  
               </ImgBox>
             ))}
           </ImgWrapper2>

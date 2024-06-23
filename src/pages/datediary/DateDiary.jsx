@@ -314,7 +314,7 @@ const MemoInput = styled.textarea`
   overflow: hidden;
 `;
 const ButtonWrap = styled.div`
-  width: 900%;
+  width: 90%;
   height: 10%;
   display: flex;
   align-items: center;
