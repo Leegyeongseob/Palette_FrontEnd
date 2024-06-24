@@ -34,7 +34,7 @@ const useAddress = () => {
         `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`,
         {
           headers: {
-            Authorization: `KakaoAK 2dda918f299fb6e8325412499bf9a08a`,
+            Authorization: `KakaoAK cf7f64c11a25e169648e8e5788e75f53`,
           },
         }
       );
