@@ -148,6 +148,7 @@ const VisitDiv = styled.div`
 const VisitPlus = styled(FcPlus)`
   width: 1.563vw;
   height: 3.148vh;
+  cursor: pointer;
 `;
 const SettingDiv = styled.div`
   width: 25.8vw;

@@ -164,14 +164,66 @@ const Message = styled.div`
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
 `;
 const TermsForm = styled.div`
-  width: 40vw;
+  width: 30vw;
   height: 60vh;
-  background-color: lightgreen;
+  background-color: #fff;
+  border: 5px solid #cefdce;
   border-radius: 10px;
+  padding: 20px;
   position: absolute;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  overflow-y: auto;
 `;
 
+const TermsTitle = styled.div`
+  font-size: 1.2vw; /* Adjust size as needed */
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const TermsContent = styled.p`
+  font-size: 0.8vw; /* Adjust size as needed */
+  line-height: 1.4; /* Adjust line height for better readability */
+  color: #333; /* Darker text color */
+`;
+
+const TermsActions = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > .termAgree {
+    width: 10vw;
+    height: auto;
+  }
+`;
+
+const TermsCheckbox = styled.input`
+  margin-right: 10px;
+`;
+
+const TermsLabel = styled.label`
+  font-size: 0.8vw; /* Adjust size as needed */
+`;
+
+const TermsButton = styled.button`
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 0.9vw; /* Adjust size as needed */
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
+  &:hover {
+    background-color: ${({ isActive }) =>
+      isActive ? "#8e3636" : "rgba(0, 0, 0, 0.2)"};
+  }
+`;
+
+const TermsScrollableContent = styled.div`
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+`;
 const SignupPage = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
@@ -294,7 +346,6 @@ const SignupPage = () => {
       setIsTermClickBtn(false);
     }
   };
-
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
@@ -386,40 +437,66 @@ const SignupPage = () => {
           </EmailAthouized>
         </InputDetailDiv2>
         <TermsForm isOpen={isTermClickBtn}>
-          ### 계정 사용에 관한 약관 1. **계정 생성 및 관리** 1.1. 회원은 본
-          약관에 동의하고, 본 서비스에서 제공하는 절차에 따라 회원가입을
-          완료해야 합니다. 1.2. 회원은 본인의 이메일 주소를 사용하여 하나의
-          계정만을 생성할 수 있습니다. 1.3. 회원은 본인의 계정 정보를 타인과
-          공유하거나 양도할 수 없습니다. 2. **회원 정보의 정확성** 2.1. 회원은
-          회원가입 시 제공한 정보가 정확하고 최신 정보임을 보장해야 합니다. 2.2.
-          회원 정보가 변경된 경우, 회원은 즉시 본 서비스에 이를 업데이트해야
-          합니다. 3. **계정 보안** 3.1. 회원은 본인의 계정 비밀번호를 안전하게
-          관리해야 하며, 비밀번호 유출로 인한 모든 책임은 회원에게 있습니다.
-          3.2. 회원은 계정의 무단 사용을 인지한 경우 즉시 본 서비스에 이를
-          통보해야 합니다. 4. **서비스 이용** 4.1. 회원은 본 서비스를 법령 및 본
-          약관에 따라 이용해야 합니다. 4.2. 회원은 본 서비스를 이용하여 불법
-          행위, 타인의 권리를 침해하는 행위를 해서는 안 됩니다. 5. **계정 정지
-          및 해지** 5.1. 회원이 본 약관을 위반한 경우, 본 서비스는 사전 통지
-          없이 회원의 계정을 일시 정지하거나 해지할 수 있습니다. 5.2. 회원은
-          언제든지 본 서비스에 요청하여 계정을 해지할 수 있습니다. 6. **책임
-          제한** 6.1. 본 서비스는 회원의 귀책사유로 인한 계정 사용 상의 문제에
-          대해 책임을 지지 않습니다. 6.2. 본 서비스는 회원 간 또는 회원과 제 3자
-          간의 분쟁에 대해 관여하지 않으며, 이에 대한 책임을 지지 않습니다. 7.
-          **약관의 변경** 7.1. 본 서비스는 필요 시 본 약관을 변경할 수 있으며,
-          변경된 약관은 회원에게 공지한 후 효력이 발생합니다. 7.2. 회원이 변경된
-          약관에 동의하지 않을 경우, 회원은 계정 해지를 통해 이용 계약을 종료할
-          수 있습니다.
-          <div>
-            <input
-              type="checkbox"
-              checked={isTermAccepted}
-              onChange={handleCheckboxChange}
-            />
-            <label>약관에 동의합니다.</label>
-          </div>
-          <button onClick={handleAgreeButtonClick} disabled={!isTermAccepted}>
-            동의
-          </button>
+          <TermsScrollableContent>
+            <TermsTitle>계정 사용에 관한 약관</TermsTitle>
+            <TermsContent>
+              1. **계정 생성 및 관리** <br />
+              &nbsp;1.1. 회원은 본 약관에 동의하고, 본 서비스에서 제공하는
+              절차에 따라 회원가입을 완료해야 합니다. <br />
+              &nbsp;1.2. 회원은 본인의 이메일 주소를 사용하여 하나의 계정만을
+              생성할 수 있습니다. <br />
+              &nbsp;1.3. 회원은 본인의 계정 정보를 타인과 공유하거나 양도할 수
+              없습니다. <br /> <br />
+              2. **회원 정보의 정확성** <br />
+              &nbsp;2.1. 회원은 회원가입 시 제공한 정보가 정확하고 최신 정보임을
+              보장해야 합니다. <br />
+              &nbsp;2.2. 회원정보가 변경된 경우, 회원은 즉시 본 서비스에 이를
+              업데이트해야 합니다. <br /> <br />
+              3. **계정 보안** <br />
+              &nbsp;3.1. 회원은 본인의 계정 비밀번호를 안전하게 관리해야 하며,
+              비밀번호 유출로 인한 모든 책임은 회원에게 있습니다. <br />
+              &nbsp;3.2. 회원은 계정의 무단 사용을 인지한 경우 즉시 본 서비스에
+              이를 통보해야 합니다. <br /> <br />
+              4. **서비스 이용** <br />
+              &nbsp;4.1. 회원은 본 서비스를 법령 및 본 약관에 따라 이용해야
+              합니다.
+              <br />
+              &nbsp;4.2. 회원은 본 서비스를 이용하여 불법 행위, 타인의 권리를
+              침해하는 행위를 해서는 안 됩니다. <br /> <br />
+              5. **계정 정지 및 해지** <br />
+              &nbsp;5.1. 회원이 본 약관을 위반한 경우, 본 서비스는 사전 통지
+              없이 회원의 계정을 일시 정지하거나 해지할 수 있습니다. <br />
+              &nbsp;5.2. 회원은 언제든지 본 서비스에 요청하여 계정을 해지할 수
+              있습니다. <br /> <br />
+              6. **책임 제한** <br />
+              &nbsp;6.1. 본 서비스는 회원의 귀책사유로 인한 계정 사용 상의
+              문제에 대해 책임을 지지 않습니다. <br />
+              &nbsp;6.2. 본 서비스는 회원 간 또는 회원과 제 3자 간의 분쟁에 대해
+              관여하지 않으며, 이에 대한 책임을 지지 않습니다. <br /> <br />
+              7. **약관의 변경** <br />
+              &nbsp;7.1. 본 서비스는 필요 시 본 약관을 변경할 수 있으며, 변경된
+              약관은 회원에게 공지한 후 효력이 발생합니다. <br />
+              &nbsp;7.2. 회원이 변경된 약관에 동의하지 않을 경우, 회원은 계정
+              해지를 통해 이용 계약을 종료할 수 있습니다.
+            </TermsContent>
+          </TermsScrollableContent>
+          <TermsActions>
+            <div className="termAgree">
+              <TermsCheckbox
+                type="checkbox"
+                checked={isTermAccepted}
+                onChange={handleCheckboxChange}
+              />
+              <TermsLabel>약관에 동의합니다.</TermsLabel>
+            </div>
+            <TermsButton
+              onClick={handleAgreeButtonClick}
+              disabled={!isTermAccepted}
+              isActive={isTermAccepted}
+            >
+              동의
+            </TermsButton>
+          </TermsActions>
         </TermsForm>
       </InputDiv>
       <ButtonDiv>
