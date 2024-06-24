@@ -24,8 +24,9 @@ const BookTheme = styled.div`
 `;
 const CoupleDiv = styled.div`
   width: 25.8vw;
-  height: 23vh;
+  height: 22vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -122,6 +123,12 @@ const PictureDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
+const VisitDiv = styled.div`
+  width: 25.8vw;
+  height: 20vh;
+  border-radius: 10px;
+  background-color: aliceblue;
+`;
 const MainPage = () => {
   return (
     <BookTheme>
@@ -134,6 +141,7 @@ const MainPage = () => {
         </CoupleDiv>
         <CoupleDiv>
           <CoupleDday />
+          <VisitDiv />
         </CoupleDiv>
       </BookSign>
       <BookSign>

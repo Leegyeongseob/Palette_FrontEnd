@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import openbook from "../../img/background/openbook.png";
-import background from "../../img/background/theme/background.jpg";
+import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
 import BookMark from "../bookmark/BookMark";

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import closebook from "../../img/background/closebook.png";
 import theme3 from "../../img/background/theme/3.jpg";
-import background from "../../img/background/theme/background.jpg";
+import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
 
