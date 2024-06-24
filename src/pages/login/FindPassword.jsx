@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { LuKeyRound } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -102,7 +103,30 @@ const RegisterationInput2 = styled.input`
   font-size: 0.833vw;
   font-weight: 600;
 `;
+const Message = styled.div`
+  width: 100%;
+  font-size: 0.6vw;
+  display: flex;
+  justify-content: center;
+  color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+`;
 const FindPassword = () => {
+  const [inputEmail, setInputEmail] = useState("");
+  const [isId, setIsId] = useState("");
+  // 에러 메세지
+  const [idMessage, setIdMessage] = useState("");
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  const onChangeEmail = (e) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setInputEmail(e.target.value);
+    if (!emailRegex.test(e.target.value)) {
+      setIdMessage("이메일 형식이 올바르지 않습니다.");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 형식 입니다.");
+      setIsId(true);
+    }
+  };
   return (
     <Contain>
       <IconDiv>
@@ -112,8 +136,15 @@ const FindPassword = () => {
         <InputDiv>
           <InputDetailDiv>
             <label>이메일</label>
-            <input className="InputClass" />
+            <input
+              className="InputClass"
+              type="text"
+              placeholder="Email ID"
+              value={inputEmail}
+              onChange={onChangeEmail}
+            />
           </InputDetailDiv>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
           <InputDetailDiv>
             <label>이름</label>
             <input className="InputClass" />

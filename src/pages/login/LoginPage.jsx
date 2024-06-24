@@ -276,9 +276,6 @@ const LoginPage = () => {
             onChange={onChangePw}
           />
         </InputContainer>
-        {inputPassword && (
-          <Message isCorrect={isPassword}>{pwdMessage}</Message>
-        )}
       </LoginDiv>
       <FindDiv>
         <div>
@@ -303,11 +300,9 @@ const LoginPage = () => {
           <CircleSide>
             <GoogleIcon />
           </CircleSide>
-
           <CircleSide>
             <NaverIcon />
           </CircleSide>
-
           <CircleSide>
             <KakaoIcon />
           </CircleSide>
