@@ -215,13 +215,11 @@ const Message = styled.div`
 const LoginPage = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
-  const [inputPassword, setInputPassword] = useState("");
   // 유효성 검사
   const [isId, setIsId] = useState("");
-  const [isPassword, setIsPassword] = useState("");
+  const [isPassword] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
-  const [pwdMessage, setPwMessage] = useState("");
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -234,47 +232,31 @@ const LoginPage = () => {
       setIsId(true);
     }
   };
-  // 비밀번호 8자리 이상.
-  const onChangePw = (e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setInputPassword(passwordCurrent);
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
-      setIsPassword(false);
-    } else {
-      setPwMessage("안전한 비밀번호입니다.)");
-      setIsPassword(true);
-    }
-  };
   return (
     <Contain>
       <IconDiv>
         <Icon />
       </IconDiv>
       <LoginDiv>
-        <InputContainer>
-          <IconWrapper>
-            <MdOutlineMailOutlineStyle />
-          </IconWrapper>
-          <InputDiv
-            type="text"
-            placeholder="Email ID"
-            value={inputEmail}
-            onChange={onChangeEmail}
-          />
-        </InputContainer>
-        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        <div>
+          <InputContainer>
+            <IconWrapper>
+              <MdOutlineMailOutlineStyle />
+            </IconWrapper>
+            <InputDiv
+              type="text"
+              placeholder="Email ID"
+              value={inputEmail}
+              onChange={onChangeEmail}
+            />
+          </InputContainer>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </div>
         <InputContainer>
           <IconWrapper>
             <MdLockOutlineStyled />
           </IconWrapper>
-          <InputDiv
-            type="password"
-            placeholder="Password"
-            value={inputPassword}
-            onChange={onChangePw}
-          />
+          <InputDiv type="password" placeholder="Password" />
         </InputContainer>
       </LoginDiv>
       <FindDiv>

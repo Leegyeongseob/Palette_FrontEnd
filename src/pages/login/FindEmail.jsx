@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -108,7 +109,64 @@ const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
   height: 10.493vh;
   color: rgba(0, 0, 0, 0.7);
 `;
+const Message = styled.div`
+  width: 100%;
+  font-size: 0.6vw;
+  display: flex;
+  justify-content: center;
+  color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+`;
 const FindEmail = () => {
+  //주민등록번호 표현 상태 변수
+  const [rrnFirstPart, setRrnFirstPart] = useState("");
+  const [rrnSecondPart, setRrnSecondPart] = useState("");
+  // 유효한 주민등록번호인지 확인
+  const [isRrnValid, setIsRrnValid] = useState(false);
+  //주민등록번호 메세지
+  const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
+  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  //주민등록번호 앞 6자리 숫자 유효성검사
+  const handleRrnFirstPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
+      setRrnFirstPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnSecondPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  //주민등록번호 뒤 1자리 숫자 유효성검사
+  const handleRrnSecondPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+      setRrnSecondPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnFirstPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
   return (
     <Contain>
       <IconDiv>
@@ -119,18 +177,27 @@ const FindEmail = () => {
           <label>이름</label>
           <input className="InputClass" />
         </InputDetailDiv>
-        <InputDetailDiv>
-          <label>주민등록번호</label>
-          <RegisterationInput1 />
-          <Text> - </Text>
-          <RegisterationInput2 />
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-        </InputDetailDiv>
+        <div>
+          <InputDetailDiv>
+            <label>주민등록번호</label>
+            <RegisterationInput1
+              value={rrnFirstPart}
+              onChange={handleRrnFirstPartChange}
+            />
+            <Text> - </Text>
+            <RegisterationInput2
+              value={rrnSecondPart}
+              onChange={handleRrnSecondPartChange}
+            />
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+          </InputDetailDiv>
+          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+        </div>
       </InputDiv>
       <ButtonDiv>
         <Link to="/login-page" style={{ textDecoration: "none" }}>

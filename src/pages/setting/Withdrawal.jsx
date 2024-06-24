@@ -62,68 +62,6 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
   }
 `;
-const Empty = styled.div`
-  width: 0.521vw;
-`;
-const EmailAthouized = styled.div`
-  width: 2.604vw;
-  border-radius: 0.521vw;
-  border: none;
-  background-color: ${({ isActive }) =>
-    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 0.208vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.729vw;
-  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-  font-weight: 700;
-  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
-  &:hover {
-    background-color: ${({ isActive }) =>
-      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  }
-`;
-const RegisterationInput1 = styled.input`
-  width: 6.771vw;
-  border-radius: 0.521vw;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.3);
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 0.521vw;
-  font-size: 0.833vw;
-  font-weight: 600;
-`;
-const Text = styled.div`
-  width: 0.521vw;
-  height: 3.358vh;
-  font-weight: bolder;
-  font-size: 0.833vw;
-  color: #b44a4a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const RegisterationInput2 = styled.input`
-  width: 1.042vw;
-  border-radius: 0.521vw;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.3);
-  outline: none;
-  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 0.208vw;
-  font-size: 0.833vw;
-  font-weight: 600;
-`;
-const CoupleText = styled.div`
-  font-size: 0.729vw;
-  color: #b44a4a;
-  display: flex;
-  align-items: center;
-`;
 const ButtonDiv = styled.div`
   width: 23.438vw;
   height: 11.962vh;
@@ -149,12 +87,6 @@ const SignupButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
-`;
-const InputDetailDiv2 = styled.div`
-  width: 17.708vw;
-  height: 3.358vh;
-  display: flex;
-  justify-content: center;
 `;
 const Message = styled.div`
   width: 100%;

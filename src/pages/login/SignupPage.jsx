@@ -163,6 +163,14 @@ const Message = styled.div`
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
 `;
+const TermsForm = styled.div`
+  width: 40vw;
+  height: 60vh;
+  background-color: lightgreen;
+  border-radius: 10px;
+  position: absolute;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+`;
 
 const SignupPage = () => {
   // 키보드 입력
@@ -178,6 +186,19 @@ const SignupPage = () => {
   const [pwdMessage, setPwMessage] = useState("");
   //비밀번호 확인 메세지
   const [pwdCheckMessage, setPwdCheckMessage] = useState("");
+  //주민등록번호 표현 상태 변수
+  const [rrnFirstPart, setRrnFirstPart] = useState("");
+  const [rrnSecondPart, setRrnSecondPart] = useState("");
+  // 유효한 주민등록번호인지 확인
+  const [isRrnValid, setIsRrnValid] = useState(false);
+  //주민등록번호 메세지
+  const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
+
+  // 약관 보기 버튼 클릭 상태 변수
+  const [isTermClickBtn, setIsTermClickBtn] = useState(false);
+  // 약관 동의 체크 버튼
+  const [isTermAccepted, setIsTermAccepted] = useState(false);
+
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -215,60 +236,133 @@ const SignupPage = () => {
       setIsPwdCheck(true);
     }
   };
+  //주민등록번호 앞 6자리 숫자 유효성검사
+  const handleRrnFirstPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
+      setRrnFirstPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnSecondPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  //주민등록번호 뒤 1자리 숫자 유효성검사
+  const handleRrnSecondPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+      setRrnSecondPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnFirstPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  // 버튼 클릭 상태 업데이트
+  const handleTermLookBtnClick = () => {
+    setIsTermClickBtn(true);
+  };
+
+  // 체크박스 상태 업데이트
+  const handleCheckboxChange = (e) => {
+    setIsTermAccepted(e.target.checked);
+  };
+
+  // 동의 버튼 클릭 핸들러
+  const handleAgreeButtonClick = () => {
+    if (isTermAccepted) {
+      setIsTermClickBtn(false);
+    }
+  };
 
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
       <InputDiv>
-        <InputDetailDiv>
-          <label>이메일</label>
-          <input
-            className="InputEmail"
-            value={inputEmail}
-            onChange={onChangeEmail}
-          />
-          <Empty></Empty>
-          <EmailAthouized isActive={isId}>인증</EmailAthouized>
-        </InputDetailDiv>
-        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwd}
-            onChange={onChangePw}
-          />
-        </InputDetailDiv>
-        {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호 확인</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwdCheck}
-            onChange={onCheckPw}
-          />
-        </InputDetailDiv>
-        {inputPwdCheck && (
-          <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
-        )}
+        <div>
+          <InputDetailDiv>
+            <label>이메일</label>
+            <input
+              className="InputEmail"
+              value={inputEmail}
+              onChange={onChangeEmail}
+            />
+            <Empty></Empty>
+            <EmailAthouized isActive={isId}>인증</EmailAthouized>
+          </InputDetailDiv>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </div>
+        <div>
+          <InputDetailDiv>
+            <label>비밀번호</label>
+            <input
+              type="password"
+              className="InputClass"
+              value={inputPwd}
+              onChange={onChangePw}
+            />
+          </InputDetailDiv>
+          {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
+        </div>
+        <div>
+          <InputDetailDiv>
+            <label>비밀번호 확인</label>
+            <input
+              type="password"
+              className="InputClass"
+              value={inputPwdCheck}
+              onChange={onCheckPw}
+            />
+          </InputDetailDiv>
+          {inputPwdCheck && (
+            <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
+          )}
+        </div>
         <InputDetailDiv>
           <label>이름</label>
           <input className="InputClass" />
         </InputDetailDiv>
-        <InputDetailDiv>
-          <label>주민등록번호</label>
-          <RegisterationInput1 />
-          <Text> - </Text>
-          <RegisterationInput2 />
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-          <Text>*</Text>
-        </InputDetailDiv>
+        <div>
+          <InputDetailDiv>
+            <label>주민등록번호</label>
+            <RegisterationInput1
+              value={rrnFirstPart}
+              onChange={handleRrnFirstPartChange}
+            />
+            <Text> - </Text>
+            <RegisterationInput2
+              value={rrnSecondPart}
+              onChange={handleRrnSecondPartChange}
+            />
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+          </InputDetailDiv>
+          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+        </div>
         <InputDetailDiv>
           <label>닉네임</label>
           <input className="InputClass" />
@@ -287,8 +381,46 @@ const SignupPage = () => {
             약관 보기
           </CoupleText>
           <Empty />
-          <EmailAthouized isActive={true}>보기</EmailAthouized>
+          <EmailAthouized isActive={true} onClick={handleTermLookBtnClick}>
+            보기
+          </EmailAthouized>
         </InputDetailDiv2>
+        <TermsForm isOpen={isTermClickBtn}>
+          ### 계정 사용에 관한 약관 1. **계정 생성 및 관리** 1.1. 회원은 본
+          약관에 동의하고, 본 서비스에서 제공하는 절차에 따라 회원가입을
+          완료해야 합니다. 1.2. 회원은 본인의 이메일 주소를 사용하여 하나의
+          계정만을 생성할 수 있습니다. 1.3. 회원은 본인의 계정 정보를 타인과
+          공유하거나 양도할 수 없습니다. 2. **회원 정보의 정확성** 2.1. 회원은
+          회원가입 시 제공한 정보가 정확하고 최신 정보임을 보장해야 합니다. 2.2.
+          회원 정보가 변경된 경우, 회원은 즉시 본 서비스에 이를 업데이트해야
+          합니다. 3. **계정 보안** 3.1. 회원은 본인의 계정 비밀번호를 안전하게
+          관리해야 하며, 비밀번호 유출로 인한 모든 책임은 회원에게 있습니다.
+          3.2. 회원은 계정의 무단 사용을 인지한 경우 즉시 본 서비스에 이를
+          통보해야 합니다. 4. **서비스 이용** 4.1. 회원은 본 서비스를 법령 및 본
+          약관에 따라 이용해야 합니다. 4.2. 회원은 본 서비스를 이용하여 불법
+          행위, 타인의 권리를 침해하는 행위를 해서는 안 됩니다. 5. **계정 정지
+          및 해지** 5.1. 회원이 본 약관을 위반한 경우, 본 서비스는 사전 통지
+          없이 회원의 계정을 일시 정지하거나 해지할 수 있습니다. 5.2. 회원은
+          언제든지 본 서비스에 요청하여 계정을 해지할 수 있습니다. 6. **책임
+          제한** 6.1. 본 서비스는 회원의 귀책사유로 인한 계정 사용 상의 문제에
+          대해 책임을 지지 않습니다. 6.2. 본 서비스는 회원 간 또는 회원과 제 3자
+          간의 분쟁에 대해 관여하지 않으며, 이에 대한 책임을 지지 않습니다. 7.
+          **약관의 변경** 7.1. 본 서비스는 필요 시 본 약관을 변경할 수 있으며,
+          변경된 약관은 회원에게 공지한 후 효력이 발생합니다. 7.2. 회원이 변경된
+          약관에 동의하지 않을 경우, 회원은 계정 해지를 통해 이용 계약을 종료할
+          수 있습니다.
+          <div>
+            <input
+              type="checkbox"
+              checked={isTermAccepted}
+              onChange={handleCheckboxChange}
+            />
+            <label>약관에 동의합니다.</label>
+          </div>
+          <button onClick={handleAgreeButtonClick} disabled={!isTermAccepted}>
+            동의
+          </button>
+        </TermsForm>
       </InputDiv>
       <ButtonDiv>
         <Link to="/login-page" style={{ textDecoration: "none" }}>

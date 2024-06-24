@@ -115,6 +115,13 @@ const FindPassword = () => {
   const [isId, setIsId] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
+  //주민등록번호 표현 상태 변수
+  const [rrnFirstPart, setRrnFirstPart] = useState("");
+  const [rrnSecondPart, setRrnSecondPart] = useState("");
+  // 유효한 주민등록번호인지 확인
+  const [isRrnValid, setIsRrnValid] = useState(false);
+  //주민등록번호 메세지
+  const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -127,6 +134,48 @@ const FindPassword = () => {
       setIsId(true);
     }
   };
+  //주민등록번호 앞 6자리 숫자 유효성검사
+  const handleRrnFirstPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[0-9]*$/.test(inputValue) && inputValue.length <= 6) {
+      setRrnFirstPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (inputValue.length === 6 && rrnSecondPart.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnSecondPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
+  //주민등록번호 뒤 1자리 숫자 유효성검사
+  const handleRrnSecondPartChange = (e) => {
+    const inputValue = e.target.value;
+
+    if (/^[1-4]{0,1}$/.test(inputValue) && inputValue.length <= 1) {
+      setRrnSecondPart(inputValue);
+    }
+
+    // 유효성 검사 로직 추가
+    if (rrnFirstPart.length === 6 && inputValue.length === 1) {
+      setIsRrnValid(true);
+      setIsRrnValidMessage("유효합니다.");
+    } else {
+      setIsRrnValid(false);
+      setIsRrnValidMessage("값이 유효하지 않습니다.");
+    }
+
+    if (inputValue === "" && rrnFirstPart === "") {
+      setIsRrnValidMessage("");
+    }
+  };
   return (
     <Contain>
       <IconDiv>
@@ -134,33 +183,44 @@ const FindPassword = () => {
       </IconDiv>
       <InputDiv>
         <InputDiv>
-          <InputDetailDiv>
-            <label>이메일</label>
-            <input
-              className="InputClass"
-              type="text"
-              placeholder="Email ID"
-              value={inputEmail}
-              onChange={onChangeEmail}
-            />
-          </InputDetailDiv>
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+          <div>
+            <InputDetailDiv>
+              <label>이메일</label>
+              <input
+                className="InputClass"
+                type="text"
+                placeholder="Email ID"
+                value={inputEmail}
+                onChange={onChangeEmail}
+              />
+            </InputDetailDiv>
+            {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+          </div>
           <InputDetailDiv>
             <label>이름</label>
             <input className="InputClass" />
           </InputDetailDiv>
-          <InputDetailDiv>
-            <label>주민등록번호</label>
-            <RegisterationInput1 />
-            <Text> - </Text>
-            <RegisterationInput2 />
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-            <Text>*</Text>
-          </InputDetailDiv>
+          <div>
+            <InputDetailDiv>
+              <label>주민등록번호</label>
+              <RegisterationInput1
+                value={rrnFirstPart}
+                onChange={handleRrnFirstPartChange}
+              />
+              <Text> - </Text>
+              <RegisterationInput2
+                value={rrnSecondPart}
+                onChange={handleRrnSecondPartChange}
+              />
+              <Text>*</Text>
+              <Text>*</Text>
+              <Text>*</Text>
+              <Text>*</Text>
+              <Text>*</Text>
+              <Text>*</Text>
+            </InputDetailDiv>
+            <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+          </div>
         </InputDiv>
       </InputDiv>
       <ButtonDiv>
