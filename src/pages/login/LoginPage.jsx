@@ -314,7 +314,7 @@ const LoginPage = () => {
         </div>
       </SimpleLogin>
       <ButtonDiv>
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/main-page" style={{ textDecoration: "none" }}>
           <LoginButton isActive={isId && isPassword}>Login</LoginButton>
         </Link>
       </ButtonDiv>

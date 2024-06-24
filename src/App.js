@@ -19,6 +19,8 @@ import DateAlbum3 from "./pages/datealbum/DateAlbum3";
 import BoardGuestbook from "./pages/board/BoardGuestbook";
 import BoardDetails from "./pages/board/BoardDetails";
 import BoardWrite from "./pages/board/BoardWrite";
+import Modify from "./pages/setting/Modify";
+import Withdrawal from "./pages/setting/Withdrawal";
 function App() {
   return (
     <>
@@ -27,7 +29,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<OpenBook />}>
-            <Route path="/" element={<MainPage />} />
+            <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
             <Route path="/date-album" element={<DateAlbum />} />
             <Route path="/date-album2" element={<DateAlbum2 />} />
@@ -40,11 +42,15 @@ function App() {
             <Route path="/board-write" element={<BoardWrite />} />
           </Route>
           <Route element={<CloseBook />}>
-            <Route path="/not-login" element={<NotLogin />} />
+            <Route path="/" element={<NotLogin />} />
             <Route path="/login-page" element={<LoginPage />} />
             <Route path="/signup-page" element={<SignupPage />} />
             <Route path="/find-email" element={<FindEmail />} />
             <Route path="/find-password" element={<FindPassword />} />
+          </Route>
+          <Route element={<CloseBook modify={true} />}>
+            <Route path="/modify" element={<Modify />} />
+            <Route path="/withdrawal" element={<Withdrawal />} />
           </Route>
         </Routes>
       </Router>

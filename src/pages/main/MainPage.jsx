@@ -7,6 +7,11 @@ import couple1 from "../../img/mainImg/커플1.jpg";
 import couple2 from "../../img/mainImg/커플2.jpg";
 import couple3 from "../../img/mainImg/커플3.jpg";
 import couple4 from "../../img/mainImg/커플4.jpg";
+import { useState } from "react";
+import { FcPlus } from "react-icons/fc";
+import { IoSettingsSharp } from "react-icons/io5";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 const BookSign = styled.div`
   width: 25.8vw;
   height: 69vh;
@@ -45,11 +50,11 @@ const DdayDiv = styled.div`
 `;
 const GalleryDiv = styled.div`
   width: 25.8vw;
-  height: 44vh;
+  height: 40vh;
 `;
 const RecentPostDiv = styled.div`
   width: 17vw;
-  height: 25vh;
+  height: 24vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +67,7 @@ const RecentPosts = styled.div`
 `;
 const DdayFormDiv = styled.div`
   width: 8.8vw;
-  height: 25vh;
+  height: 24vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +80,7 @@ const Dday = styled.div`
   border: 1px solid #000;
 `;
 const RecentTitle = styled.div`
-  width: 16vw;
+  width: 15.9vw;
   height: 4vh;
   border-bottom: 1px solid #000;
   display: flex;
@@ -118,18 +123,116 @@ const Picture = styled.div`
 `;
 const PictureDiv = styled.div`
   width: 25.8vw;
-  height: 22vh;
+  height: 20vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 `;
 const VisitDiv = styled.div`
-  width: 25.8vw;
-  height: 20vh;
+  width: 15vw;
+  height: 18vh;
   border-radius: 10px;
-  background-color: aliceblue;
+  border: 1px solid #fff;
+  display: flex;
+  & > input {
+    width: 14vw;
+    height: 3vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    outline: none;
+    color: #fff;
+    font-size: 0.8vw;
+    font-weight: 500;
+  }
+`;
+const VisitPlus = styled(FcPlus)`
+  width: 1.563vw;
+  height: 3.148vh;
+`;
+const SettingDiv = styled.div`
+  width: 25.8vw;
+  height: 4vh;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+`;
+const Setting = styled(IoSettingsSharp)`
+  width: 1.563vw;
+  height: 3.148vh;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
+const SettingForm = styled.div`
+  width: 15vw;
+  height: 13vh;
+  background-color: lightpink;
+  border-radius: 10px;
+  margin-top: 10vh;
+  z-index: 10;
+`;
+const Btn = styled.div`
+  width: 70px;
+  height: 35px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 0.8vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
+`;
+const BtnDiv = styled.div`
+  width: 15vw;
+  height: 9vh;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+const XbtnDiv = styled.div`
+  width: 15vw;
+  height: 4vh;
+
+  display: flex;
+  justify-content: end;
+  align-items: center;
+`;
+const CloseBtn = styled(IoMdCloseCircleOutline)`
+  width: 1.563vw;
+  height: 3.148vh;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
 `;
 const MainPage = () => {
+  const navigate = useNavigate();
+  // 커플 이름 검색 후 추가
+  const [coupleVisit, setCoupleVisit] = useState("");
+  // 설정 폼 변화
+  const [settingForm, setSettingForm] = useState(false);
+  // 커플 이름 검색 함수
+  const searchCoupleName = (e) => {
+    // 커플 이름이 같은게 존재하는지 확인하는 부분.
+  };
+  //설정 폼 변화 함수
+  const settingFromStatus = () => {
+    setSettingForm(true);
+  };
+  const closeFromStatus = () => {
+    setSettingForm(false);
+  };
   return (
     <BookTheme>
       <BookSign>
@@ -141,10 +244,52 @@ const MainPage = () => {
         </CoupleDiv>
         <CoupleDiv>
           <CoupleDday />
-          <VisitDiv />
+          <VisitDiv>
+            <input
+              type="text"
+              value={coupleVisit}
+              onChange={searchCoupleName}
+            />
+            <VisitPlus />
+          </VisitDiv>
         </CoupleDiv>
       </BookSign>
       <BookSign>
+        <SettingDiv>
+          {!settingForm && (
+            <Setting onClick={settingFromStatus} openform={settingForm} />
+          )}
+          {settingForm && (
+            <SettingForm>
+              <XbtnDiv>
+                <CloseBtn onClick={closeFromStatus} />
+              </XbtnDiv>
+              <BtnDiv>
+                <Btn
+                  onClick={() => {
+                    navigate("/modify");
+                  }}
+                >
+                  수정하기
+                </Btn>
+                <Btn
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  로그아웃
+                </Btn>
+                <Btn
+                  onClick={() => {
+                    navigate("/withdrawal");
+                  }}
+                >
+                  회원탈퇴
+                </Btn>
+              </BtnDiv>
+            </SettingForm>
+          )}
+        </SettingDiv>
         <DdayDiv>
           <RecentPostDiv>
             <RecentPosts>

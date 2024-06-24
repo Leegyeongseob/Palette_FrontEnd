@@ -55,15 +55,22 @@ const Book = styled.div`
   justify-content: center;
 `;
 
-const CloseBook = () => {
+const CloseBook = ({ modify }) => {
   return (
     <Background>
       <Book>
         <BookTheme>
           <LogoDiv>
-            <Link to="/not-login">
-              <Logo alt="logo" src={logo} />
-            </Link>
+            {!modify && (
+              <Link to="/">
+                <Logo alt="logo" src={logo} />
+              </Link>
+            )}
+            {modify && (
+              <Link to="/main-page">
+                <Logo alt="logo" src={logo} />
+              </Link>
+            )}
           </LogoDiv>
           <Contents>
             <Outlet />

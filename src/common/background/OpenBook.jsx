@@ -63,7 +63,7 @@ const OpenBook = () => {
       <TopContain>
         <BookMarkDiv />
         <LogoDiv>
-          <Link to="/">
+          <Link to="/main-page">
             <Logo alt="logo" src={logo} />
           </Link>
         </LogoDiv>
