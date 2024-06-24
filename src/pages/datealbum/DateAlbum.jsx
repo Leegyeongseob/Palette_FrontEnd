@@ -3,7 +3,13 @@ import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import {
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "../../firebase/firebaseAlbum";
 
 const turnPageLeft = keyframes`
   0% {
@@ -138,7 +144,7 @@ const ImgBox = styled.div`
   position: relative;
   overflow: hidden;
   &:hover {
-    cursor: ${({ hasImage }) => (hasImage ? "pointer" : "default")}; 
+    cursor: ${({ hasImage }) => (hasImage ? "pointer" : "default")};
     ${({ hasImage }) =>
       hasImage &&
       `
@@ -234,7 +240,7 @@ const CoupleDiv = styled.div`
   margin-left: 100%;
   display: flex;
   align-items: center;
-`;  
+`;
 const PlusButton = styled.button`
   width: 2.5vw;
   height: 5vh;
@@ -282,7 +288,7 @@ const PopTitle = styled.div`
   border-bottom: 1px solid #c8c8c8;
   align-items: center;
   justify-content: flex-start;
-`
+`;
 const PopBoard = styled.div`
   width: 90%;
   height: 60%;
@@ -294,7 +300,7 @@ const PopBoard = styled.div`
   justify-content: center;
   border-radius: 0.5rem;
   background-color: white;
-`
+`;
 const BuyTema = styled.div`
   width: 33%;
   height: 80%;
@@ -307,7 +313,7 @@ const BuyTema = styled.div`
   &:last-child {
     border-right: none;
   }
-`
+`;
 const TemaPrice = styled.div`
   width: 100%;
   height: 50%;
@@ -315,16 +321,16 @@ const TemaPrice = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 const TemaInfo = styled.div`
-width: 100%;
-height: 100%;
+  width: 100%;
+  height: 100%;
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`
+`;
 const TemaOne = styled.div`
   width: 10vw;
   height: 25vh;
@@ -333,22 +339,21 @@ const TemaOne = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 const TemaTwo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 const TemaThr = styled.div`
   display: flex;
   white-space: nowrap;
   align-items: center;
   justify-content: center;
-`
+`;
 const Strikethrough = styled.div`
   text-decoration: line-through;
 `;
-  
 
 const CloseButton = styled.div`
   padding: 0.5rem 1rem;
@@ -361,7 +366,7 @@ const CloseButton = styled.div`
   &:hover {
     background-color: gray;
   }
-`
+`;
 const BuyButton = styled.div`
   padding: 0.5rem 1rem;
   font-size: 0.6rem;
@@ -373,12 +378,15 @@ const BuyButton = styled.div`
   &:hover {
     background-color: gray;
   }
-`
-
+`;
 
 const DateAlbum = () => {
   const [animate, setAnimate] = useState(false);
-  const [imgBoxes, setImgBoxes] = useState(Array(15).fill(null).map((_, index) => (index === 0 ? '+' : null)));
+  const [imgBoxes, setImgBoxes] = useState(
+    Array(15)
+      .fill(null)
+      .map((_, index) => (index === 0 ? "+" : null))
+  );
   const [images, setImages] = useState(Array(15).fill(null));
   const navigate = useNavigate();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -391,18 +399,37 @@ const DateAlbum = () => {
       navigate("/date-album2");
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
-  
-  const handleAddImage = (index) => {
-    const newImgBoxes = [...imgBoxes];
-    const newImages = [...images];
 
-    newImgBoxes[index] = null; 
-    if (index + 1 < newImgBoxes.length) {
-      newImgBoxes[index + 1] = '+';
-    }
-    newImages[index] = require(`../../img/album/${index + 1}.jpeg`);
-    setImgBoxes(newImgBoxes);
-    setImages(newImages);
+  const handleAddImage = (index, file) => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // 업로드 진행 상태를 업데이트할 수 있습니다.
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log("File available at", url);
+
+          const newImgBoxes = [...imgBoxes];
+          const newImages = [...images];
+
+          newImgBoxes[index] = null;
+          if (index + 1 < newImgBoxes.length) {
+            newImgBoxes[index + 1] = "+";
+          }
+          newImages[index] = url;
+
+          setImgBoxes(newImgBoxes);
+          setImages(newImages);
+        });
+      }
+    );
   };
 
   const handleDeleteImage = (index) => {
@@ -413,7 +440,7 @@ const DateAlbum = () => {
     newImages.push(null); // 배열의 마지막에 null 추가
 
     // 기존 + 버튼 위치를 찾아 제거
-    const plusIndex = newImgBoxes.indexOf('+');
+    const plusIndex = newImgBoxes.indexOf("+");
     if (plusIndex !== -1) {
       newImgBoxes[plusIndex] = null;
     }
@@ -421,27 +448,34 @@ const DateAlbum = () => {
     // + 버튼을 마지막 null 위치에 추가
     const nextPlusIndex = newImages.indexOf(null);
     if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
-      newImgBoxes[nextPlusIndex] = '+';
+      newImgBoxes[nextPlusIndex] = "+";
     }
 
     setImgBoxes(newImgBoxes);
     setImages(newImages);
   };
 
+  const handleFileInputChange = (index, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleAddImage(index, file);
+    }
+  };
+
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
   const handleTemaPopup = () => {
-    setIsTemaPopup(true)
+    setIsTemaPopup(true);
   };
   const handlePagePopup = () => {
-    setIsPagePopup(true)
+    setIsPagePopup(true);
   };
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    setIsTemaPopup(false)
-    setIsPagePopup(false)
+    setIsTemaPopup(false);
+    setIsPagePopup(false);
   };
 
   return (
@@ -455,19 +489,35 @@ const DateAlbum = () => {
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
           <AddPic onClick={handleOpenPopup}>사진 업로드</AddPic>
           <ImgWrapper>
-          {imgBoxes.slice(0, 6).map((box, index) => (
-            <ImgBox
-              key={index}
-              onClick={() => images[index] && handleDeleteImage(index)}
-              hasImage={images[index] !== null}
-            >
-              {images[index] && <Img src={images[index]} alt={`album-${index + 1}`} />}
-              {box === '+' && (
-                <PlusButton onClick={() => handleAddImage(index)}>+</PlusButton>
-              )}
-            </ImgBox>
-          ))}
-        </ImgWrapper>
+            {imgBoxes.slice(0, 6).map((box, index) => (
+              <ImgBox
+                key={index}
+                onClick={() => images[index] && handleDeleteImage(index)}
+                hasImage={images[index] !== null}
+              >
+                {images[index] && (
+                  <Img src={images[index]} alt={`album-${index + 1}`} />
+                )}
+                {box === "+" && (
+                  <>
+                    <PlusButton
+                      onClick={() =>
+                        document.getElementById(`fileInput${index}`).click()
+                      }
+                    >
+                      +
+                    </PlusButton>
+                    <input
+                      type="file"
+                      id={`fileInput${index}`}
+                      style={{ display: "none" }}
+                      onChange={(e) => handleFileInputChange(index, e)}
+                    />
+                  </>
+                )}
+              </ImgBox>
+            ))}
+          </ImgWrapper>
         </BookSign>
       </BookTheme>
       <BookTheme2>
@@ -478,20 +528,40 @@ const DateAlbum = () => {
               <AddAlbum onClick={handlePagePopup}>앨범 추가</AddAlbum>
             </AddButton>
             <ImgWrapper2>
-            <Dday>♥ D + 150 ♥</Dday>
-            {imgBoxes.slice(6, 15).map((box, index) => (
-              <ImgBox
-                key={index + 6}
-                onClick={() => images[index + 6] && handleDeleteImage(index + 6)}
-                hasImage={images[index + 6] !== null}
-              >
-                {images[index + 6] && <Img src={images[index + 6]} alt={`album-${index + 7}`} />}
-                {box === '+' && (
-                  <PlusButton onClick={() => handleAddImage(index + 6)}>+</PlusButton>
-                )}  
-              </ImgBox>
-            ))}
-          </ImgWrapper2>
+              <Dday>♥ D + 150 ♥</Dday>
+              {imgBoxes.slice(6, 15).map((box, index) => (
+                <ImgBox
+                  key={index + 6}
+                  onClick={() =>
+                    images[index + 6] && handleDeleteImage(index + 6)
+                  }
+                  hasImage={images[index + 6] !== null}
+                >
+                  {images[index + 6] && (
+                    <Img src={images[index + 6]} alt={`album-${index + 7}`} />
+                  )}
+                  {box === "+" && (
+                    <>
+                      <PlusButton
+                        onClick={() =>
+                          document
+                            .getElementById(`fileInput${index + 6}`)
+                            .click()
+                        }
+                      >
+                        +
+                      </PlusButton>
+                      <input
+                        type="file"
+                        id={`fileInput${index + 6}`}
+                        style={{ display: "none" }}
+                        onChange={(e) => handleFileInputChange(index + 6, e)}
+                      />
+                    </>
+                  )}
+                </ImgBox>
+              ))}
+            </ImgWrapper2>
           </ContentWrapper>
         </BookSign2>
       </BookTheme2>
@@ -506,7 +576,7 @@ const DateAlbum = () => {
             <PopBoard></PopBoard>
             <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
           </Popup>
-          </>
+        </>
       )}
       {isTemaPopup && (
         <>
@@ -515,39 +585,45 @@ const DateAlbum = () => {
             <PopTitle>테마 구매</PopTitle>
             <PopBoard>
               <BuyTema>
-              <TemaPrice>
-                <TemaInfo>
-                  <TemaOne>SkyBlue Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr><Strikethrough>9900원</Strikethrough>={">"}300원</TemaThr>
-                  <BuyButton>구매</BuyButton>
-                </TemaInfo>
-              </TemaPrice>
+                <TemaPrice>
+                  <TemaInfo>
+                    <TemaOne>SkyBlue Tema</TemaOne>
+                    <TemaTwo>파격세일!!</TemaTwo>
+                    <TemaThr>
+                      <Strikethrough>9900원</Strikethrough>={">"}300원
+                    </TemaThr>
+                    <BuyButton>구매</BuyButton>
+                  </TemaInfo>
+                </TemaPrice>
               </BuyTema>
               <BuyTema>
-              <TemaPrice>
-                <TemaInfo>
-                  <TemaOne>Black Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr><Strikethrough>59900원</Strikethrough>={">"}500원</TemaThr>
-                  <BuyButton>구매</BuyButton>
-                </TemaInfo>
-              </TemaPrice>
+                <TemaPrice>
+                  <TemaInfo>
+                    <TemaOne>Black Tema</TemaOne>
+                    <TemaTwo>파격세일!!</TemaTwo>
+                    <TemaThr>
+                      <Strikethrough>59900원</Strikethrough>={">"}500원
+                    </TemaThr>
+                    <BuyButton>구매</BuyButton>
+                  </TemaInfo>
+                </TemaPrice>
               </BuyTema>
               <BuyTema>
-              <TemaPrice>
-                <TemaInfo>
-                  <TemaOne>Pink Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr><Strikethrough>129800원</Strikethrough>={">"}900원</TemaThr>
-                  <BuyButton>구매</BuyButton>
-                </TemaInfo>
-              </TemaPrice>
+                <TemaPrice>
+                  <TemaInfo>
+                    <TemaOne>Pink Tema</TemaOne>
+                    <TemaTwo>파격세일!!</TemaTwo>
+                    <TemaThr>
+                      <Strikethrough>129800원</Strikethrough>={">"}900원
+                    </TemaThr>
+                    <BuyButton>구매</BuyButton>
+                  </TemaInfo>
+                </TemaPrice>
               </BuyTema>
             </PopBoard>
             <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
           </Popup>
-          </>
+        </>
       )}
       {isPagePopup && (
         <>
@@ -557,7 +633,7 @@ const DateAlbum = () => {
             <PopBoard></PopBoard>
             <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
           </Popup>
-          </>
+        </>
       )}
     </>
   );
