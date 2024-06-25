@@ -348,6 +348,19 @@ const ClearButton = styled.button`
     background-color: #d3a78a;
   }
 `;
+const EditButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e7bfa1;
+  cursor: pointer;
+  &:hover {
+    background-color: #d3a78a;
+  }
+`;
 
 const CheckboxWrapper = styled.div`
   width: 90%;
@@ -425,9 +438,10 @@ const DateDiary = () => {
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(today);
-  const [memos, setMemos] = useState({}); // 날짜별 일기를 저장하는 상태
-  const [currentMemo, setCurrentMemo] = useState(""); // 현재 입력 중인 일기 상태
+  const [memos, setMemos] = useState({});
+  const [currentMemo, setCurrentMemo] = useState("");
   const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]);
+  const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
 
   const attendDay = [""];
   const anniversaryDate = moment("2024-01-23");
@@ -435,9 +449,23 @@ const DateDiary = () => {
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
   const memoTextAreaRef = useRef(null);
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-  };
+  useEffect(() => {
+    const savedMemos = localStorage.getItem('memos');
+    if (savedMemos) {
+      setMemos(JSON.parse(savedMemos));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('memos', JSON.stringify(memos));
+  }, [memos]);
+
+  useEffect(() => {
+    const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
+    setCurrentMemo(memoData.memo || "");
+    setEvents(memoData.events || []);
+    setIsEditMode(false); // 날짜가 변경될 때마다 읽기 모드로 전환
+  }, [selectedDate, memos]);
 
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
@@ -458,6 +486,10 @@ const DateDiary = () => {
     }
   }, []);
 
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
+  };
+
   const handleTodayClick = () => {
     setActiveStartDate(today);
     setDate(today);
@@ -474,10 +506,17 @@ const DateDiary = () => {
   const handleMemoChange = (e) => {
     setCurrentMemo(e.target.value);
   };
+
   const handleEventChange = (index) => (e) => {
     const newEvents = [...events];
     newEvents[index].isEvent = e.target.checked;
     setEvents(newEvents);
+    // 바로 저장
+    const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
+    setMemos((prevMemos) => ({
+      ...prevMemos,
+      [formattedSelectedDate]: { memo: currentMemo, events: newEvents },
+    }));
   };
 
   const handleEventTextChange = (index) => (e) => {
@@ -520,7 +559,9 @@ const DateDiary = () => {
     if (!isToday) {
       // 달력에 점을 찍는 로직 추가 (필요 시)
     }
+    setIsEditMode(false); // 저장 후 읽기 모드로 전환
   };
+
   const handleClear = () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
 
@@ -532,6 +573,11 @@ const DateDiary = () => {
 
     setEvents([{ isEvent: false, eventText: "" }]);
     setCurrentMemo("");
+    setIsEditMode(false); // 삭제 후 읽기 모드로 전환
+  };
+
+  const handleEdit = () => {
+    setIsEditMode(true);
   };
 
   return (
@@ -628,13 +674,16 @@ const DateDiary = () => {
                       value={event.eventText}
                       onChange={handleEventTextChange(index)}
                       placeholder="일정을 입력하세요"
+                      readOnly={!isEditMode}
                     />
-                    <RemoveButton onClick={handleRemoveEvent(index)}>
-                      -
-                    </RemoveButton>
+                    {isEditMode && (
+                      <RemoveButton onClick={handleRemoveEvent(index)}>
+                        -
+                      </RemoveButton>
+                    )}
                   </CheckboxWrapper>
                 ))}
-                {events.length < 5 && (
+                {isEditMode && events.length < 5 && (
                   <AddButton onClick={handleAddEvent}>+</AddButton>
                 )}
                 <BoardTitle>[오늘의 일기]</BoardTitle>
@@ -643,10 +692,28 @@ const DateDiary = () => {
                   value={currentMemo}
                   onChange={handleMemoChange}
                   placeholder="오늘의 일기를 작성해주세요 ~ `-`"
+                  readOnly={!isEditMode}
                 />
                 <ButtonWrap>
-                  <SaveButton onClick={handleMemoSave}>저장</SaveButton>
-                  <ClearButton onClick={handleClear}>삭제</ClearButton>
+                  {memos[moment(selectedDate).format("YYYY-MM-DD")] ? (
+                    isEditMode ? (
+                      <>
+                        <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+                        <ClearButton onClick={handleClear}>삭제</ClearButton>
+                      </>
+                    ) : (
+                      <>
+                        <EditButton onClick={handleEdit}>수정</EditButton>
+                        <ClearButton onClick={handleClear}>삭제</ClearButton>
+                      </>
+                    )
+                  ) : isEditMode ? (
+                    <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+                  ) : (
+                    <EditButton onClick={() => setIsEditMode(true)}>
+                      추가
+                    </EditButton>
+                  )}
                 </ButtonWrap>
               </LineDown>
             </DiaryBoard>
