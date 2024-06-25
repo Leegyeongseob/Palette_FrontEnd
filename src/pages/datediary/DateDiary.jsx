@@ -511,12 +511,6 @@ const DateDiary = () => {
     const newEvents = [...events];
     newEvents[index].isEvent = e.target.checked;
     setEvents(newEvents);
-    // 바로 저장
-    const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
-    setMemos((prevMemos) => ({
-      ...prevMemos,
-      [formattedSelectedDate]: { memo: currentMemo, events: newEvents },
-    }));
   };
 
   const handleEventTextChange = (index) => (e) => {
