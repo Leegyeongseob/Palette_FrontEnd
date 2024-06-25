@@ -3,7 +3,7 @@ import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   storage,
   ref,
@@ -400,6 +400,19 @@ const DateAlbum = () => {
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
+  useEffect(() => {
+    const savedImages = JSON.parse(localStorage.getItem('Images')) || Array(15).fill(null);
+    const savedImgBoxes = JSON.parse(localStorage.getItem('ImgBoxes')) ||
+      Array(15).fill(null).map((_, index) => (index === 0 ? "+" : null));
+  
+    setImages(savedImages);
+    setImgBoxes(savedImgBoxes);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('Images', JSON.stringify(images));
+  }, [images]);
+
   const handleAddImage = (index, file) => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -427,6 +440,9 @@ const DateAlbum = () => {
 
           setImgBoxes(newImgBoxes);
           setImages(newImages);
+
+          localStorage.setItem('Images', JSON.stringify(newImages));
+          localStorage.setItem('ImgBoxes', JSON.stringify(newImgBoxes));
         });
       }
     );
@@ -453,6 +469,9 @@ const DateAlbum = () => {
 
     setImgBoxes(newImgBoxes);
     setImages(newImages);
+
+    localStorage.setItem('Images', JSON.stringify(newImages));
+    localStorage.setItem('ImgBoxes', JSON.stringify(newImgBoxes));
   };
 
   const handleFileInputChange = (index, e) => {
