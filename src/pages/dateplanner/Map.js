@@ -1,20 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import DisplayPlaceInfo from "./DisplayInfo"; // DisplayPlaceInfo 컴포넌트를 불러옵니다.
 import ReactDOM from "react-dom";
 import useAddress from "../../hooks/useLocation";
+import DisplaceInfo from "./DisplaceInfo";
 
-// 지도를 감싸는 컨테이너 스타일링
 const MapWrap = styled.div`
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 40vh;
 `;
 
-// 카테고리 목록을 감싸는 스타일링
 const CategoryList = styled.ul`
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   left: 10px;
   border-radius: 5px;
   border: 1px solid #909090;
@@ -22,25 +20,24 @@ const CategoryList = styled.ul`
   background: #fff;
   overflow: hidden;
   z-index: 2;
-  padding:0;
+  padding: 0;
   display: flex;
 `;
 
-// 카테고리 아이템의 스타일링
 const CategoryItem = styled.li`
   float: left;
   list-style: none;
-  width: 60px;
+  width: 3.8vw;
   padding: 6px 0;
   text-align: center;
   cursor: pointer;
   border-right: 1px solid #acacac;
   font-size: 12px;
   &.on {
-    background: #eee; // 선택된 카테고리에 배경색을 적용합니다.
+    background: #eee;
   }
   &:hover {
-    background: #ffe6e6; // 마우스 호버 시 배경색을 변경합니다.
+    background: #ffe6e6;
     border-left: 1px solid #acacac;
     margin-left: -1px;
   }
@@ -50,7 +47,6 @@ const CategoryItem = styled.li`
   }
 `;
 
-// 카테고리 아이콘 스타일링
 const CategoryIcon = styled.span`
   display: block;
   margin: 0 auto 3px;
@@ -63,46 +59,85 @@ const CategoryIcon = styled.span`
   background-size: 30px 30px;
 `;
 
-// KakaoMap0 컴포넌트 정의
+const PlaceCardList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 28vh; /* 지도 영역의 높이를 제외한 남은 공간만큼 높이 설정 */
+`;
+
+const PlaceCard = styled.div`
+  width: calc(33.33% - 20px); /* 3열로 정렬, 여백 포함 */
+  height: 14vh;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0px 1px 2px #888;
+  &:hover {
+    background: #888;
+  }
+`;
+
+const PlaceCardLink = styled.a`
+  color: #000;
+  text-decoration: none;
+  &:hover {
+    color: red;
+  }
+`;
+
+const PlaceCardText = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
+
+const PlaceCardAddress = styled.div`
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+`;
+
+const PlaceCardPhone = styled.div`
+  font-size: 12px;
+  color: #0f7833;
+`;
+
+
+
 const KakaoMap = () => {
-  const mapContainer = useRef(null); // 지도 컨테이너 useRef로 설정
-  const [map, setMap] = useState(null); // 지도 객체 상태 관리
-  const [currCategory, setCurrCategory] = useState(''); // 현재 선택된 카테고리 상태 관리
-  const [markers, setMarkers] = useState([]); // 마커 배열 상태 관리
-  const placeOverlay = useRef(
-    new window.kakao.maps.CustomOverlay({ zIndex: 1 })
-  ); // 커스텀 오버레이 useRef로 설정
-  const contentNode = useRef(document.createElement("div")); // 커스텀 오버레이의 컨텐츠 노드 useRef로 설정
-  const ps = new window.kakao.maps.services.Places(map); // 장소 검색 객체 생성
-  const { addr, location } = useAddress(); // 커스텀 훅 사용
+  const mapContainer = useRef(null);
+  const [map, setMap] = useState(null);
+  const [currCategory, setCurrCategory] = useState("");
+  const [markers, setMarkers] = useState([]);
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
+  const placeOverlay = useRef(new window.kakao.maps.CustomOverlay({ zIndex: 1 }));
+  const contentNode = useRef(document.createElement("div"));
+  const ps = new window.kakao.maps.services.Places(map);
+  const { addr, location } = useAddress();
+  const [places, setPlaces] = useState([]);
 
-  // 컨텐츠 노드의 클래스 설정
   contentNode.current.className = "placeinfo_wrap";
-
-  // 커스텀 오버레이에 컨텐츠 설정
   placeOverlay.current.setContent(contentNode.current);
 
-  // 지도 초기화 useEffect
   useEffect(() => {
-    console.log(addr)
-    const { kakao } = window; // 전역 window 객체에서 kakao를 가져옵니다.
-    const Container = mapContainer.current; // 지도를 담을 영역의 DOM 레퍼런스
+    const { kakao } = window;
+    const Container = mapContainer.current;
 
-    // 지도 컨테이너가 없으면 return
     if (!Container) return;
 
-    // 지도 옵션 설정
     const mapOption = {
-      center: new kakao.maps.LatLng(location.lat , location.long), // 지도의 중심 좌표
-      level: 3, // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(location.lat, location.long),
+      level: 3,
     };
 
-    // 새로운 지도 생성
     const newMap = new kakao.maps.Map(Container, mapOption);
-    setMap(newMap); // 상태 업데이트
-
-     ps.current = new kakao.maps.services.Places(newMap);
-
+    setMap(newMap);
+    ps.current = new kakao.maps.services.Places(newMap);
   }, [location.lat, location.long]);
 
   useEffect(() => {
@@ -112,158 +147,162 @@ const KakaoMap = () => {
           searchPlaces();
         }
       };
-  
-      // 지도 idle 이벤트 등록
-      window.kakao.maps.event.addListener(map, "idle", handleIdle);
-  
-      // clean-up function to remove the event listener
+
+      window.kakao.maps.event.addListener(map, "dragend", handleIdle);
+      window.kakao.maps.event.addListener(map, "zoom_changed", handleIdle);
+
       return () => {
-        window.kakao.maps.event.removeListener(map, "idle", handleIdle);
+        window.kakao.maps.event.removeListener(map, "dragend", handleIdle);
+        window.kakao.maps.event.removeListener(map, "zoom_changed", handleIdle);
       };
     }
   }, [map, currCategory]);
 
-  // //지도가 생성되면 idle 이벤트 리스너 등록 useEffect
-  // useEffect(() => {
-  //   if (map) {
-  //     // 지도 idle 이벤트 등록
-  //     window.kakao.maps.event.addListener(map, "dragend", () =>{
-  //       searchPlaces()
-  //       alert("이벤트 발생")
-  //     } );
-  //   }
-  // }, [map]);
-
-
-  // // currCategory 변경 시 장소 검색 useEffect
-  // useEffect(() => {
-  //   searchPlaces(); // currCategory가 변경될 때마다 장소 검색 함수 실행
-  // }, [currCategory]);
-
-  // 카테고리에 따라 장소 검색 함수
   const searchPlaces = () => {
     if (!currCategory) {
       return;
     }
 
-    placeOverlay.current.setMap(null); // 커스텀 오버레이 숨기기
-    removeMarker(); // 마커 제거 함수 호출
+    placeOverlay.current.setMap(null);
+    removeMarker();
 
-    ps.categorySearch(currCategory, placesSearchCB, { useMapBounds: true }); // 카테고리에 따른 장소 검색 요청
+    ps.categorySearch(currCategory, placesSearchCB, { useMapBounds: true });
     console.log("카테고리 검색을 요청합니다. 현재 카테고리: " + currCategory);
   };
 
- // 장소 검색 콜백 함수
-const placesSearchCB = (data, status) => {
-  if (status === window.kakao.maps.services.Status.OK) {
-    console.log("통과")
-    displayPlaces(data); // 검색 결과가 OK면 장소 표시 함수 호출
-  } else {
-    console.error("장소 검색 에러:", status);
-  }
-};
+  const placesSearchCB = (data, status) => {
+    if (status === window.kakao.maps.services.Status.OK) {
+      setPlaces(data);
+      displayPlaces(data);
+    } else {
+      alert("검색결과가 없습니다.");
+      console.error("장소 검색 에러:", status);
+    }
+  };
 
-  // 검색된 장소 표시 함수
   const displayPlaces = (places) => {
     const newMarkers = places.map((place) => {
-      const marker = addMarker(new window.kakao.maps.LatLng(place.y, place.x)); // 마커 생성 함수 호출
+      const marker = addMarker(new window.kakao.maps.LatLng(place.y, place.x));
 
-      // 마커 클릭 시 장소 정보 표시 이벤트 등록
       window.kakao.maps.event.addListener(marker, "click", () => {
-        displayPlaceInfo(place); // 장소 정보 표시 함수 호출
+        displayPlaceInfo(place);
       });
 
-      return marker; // 생성된 마커 반환
+      return marker;
     });
 
-    setMarkers(newMarkers); // 마커 배열 상태 업데이트
+    setMarkers(newMarkers);
   };
 
-  // 마커 추가 함수
   const addMarker = (position) => {
-    const imagePath = `${process.env.PUBLIC_URL}/mapmarker/category3/${currCategory}.png`; // 이미지 경로 설정
-    const imageSize = new window.kakao.maps.Size(60, 60); // 이미지 크기 설정
-    const markerImage = new window.kakao.maps.MarkerImage(imagePath, imageSize); // 마커 이미지 객체 생성
+    const imagePath = `${process.env.PUBLIC_URL}/mapmarker/category3/${currCategory}.png`;
+    const imageSize = new window.kakao.maps.Size(30, 30);
+    const markerImage = new window.kakao.maps.MarkerImage(imagePath, imageSize);
     const marker = new window.kakao.maps.Marker({
-      position, // 마커 위치
-      image: markerImage, // 마커 이미지 설정
+      position,
+      image: markerImage,
     });
 
-    marker.setMap(map); // 마커 지도에 표시
-    markers.push(marker); // 마커 배열에 추가
-    return marker; // 생성된 마커 반환
+    marker.setMap(map);
+    markers.push(marker);
+    return marker;
   };
 
-  // 마커 모두 제거 함수
   const removeMarker = () => {
-    markers.forEach((marker) => marker.setMap(null)); // 모든 마커 지도에서 제거
-    setMarkers([]); // 마커 배열 초기화
+    markers.forEach((marker) => marker.setMap(null));
+    setMarkers([]);
     console.log("마커를 모두 제거했습니다.");
   };
 
-  // 장소 정보 표시 함수
   const displayPlaceInfo = (place) => {
-    ReactDOM.render(<DisplayPlaceInfo place={place} />, contentNode.current); // 장소 정보 컴포넌트 렌더링
-    placeOverlay.current.setPosition(
-      new window.kakao.maps.LatLng(place.y, place.x)
-    ); // 커스텀 오버레이 위치 설정
-    placeOverlay.current.setMap(map); // 커스텀 오버레이 지도에 표시
+    ReactDOM.render(<DisplaceInfo place={place} />, contentNode.current);
+    placeOverlay.current.setPosition(new window.kakao.maps.LatLng(place.y, place.x));
+    placeOverlay.current.setMap(map);
   };
 
-  
-
-   // 카테고리 클릭 처리 함수
-   const onClickCategory = (id) => {
+  const onClickCategory = (id) => {
     if (id === currCategory) {
-        // 현재 선택된 카테고리가 이미 활성화된 상태라면 해제 처리
-        setCurrCategory('');
-        console.log("테스트",currCategory)
+      setCurrCategory("");
     } else {
-        // 그렇지 않으면 해당 카테고리를 활성화 처리
-        setCurrCategory('');
-        setCurrCategory(id);
-        
+      setCurrCategory(id);
     }
-};
+  };
 
-// useEffect를 이용하여 currCategory 변화 감지
-useEffect(() => {
-    if (currCategory !== '') {
-        // currCategory가 변경될 때만 실행되는 로직
-        console.log("카테고리 필터 적용됨. 선택한 카테고리:", currCategory);
-        searchPlaces(); // 장소 검색 함수 호출
+  const onClickPlaceCard = (place) => {
+    const position = new window.kakao.maps.LatLng(place.y, place.x);
+    map.panTo(position);
+    displayPlaceInfo(place);
+    addPlaceToCourse(place);
+  };
+
+  const addPlaceToCourse = (place) => {
+    setSelectedPlaces((prevSelected) => [...prevSelected, place]);
+  };
+
+  useEffect(() => {
+    if (currCategory !== "") {
+      console.log("카테고리 필터 적용됨. 선택한 카테고리:", currCategory);
+      searchPlaces();
     } else {
-        // currCategory가 빈 문자열일 때 실행되는 로직
-        console.log("카테고리 필터 해제됨", currCategory);
-        removeMarker(); // 마커 제거 함수 호출
+      console.log("카테고리 필터 해제됨");
+      removeMarker();
     }
-}, [currCategory]); // currCategory가 변경될 때만 useEffect 실행
+  }, [currCategory]);
 
-  
+  // 마커 간 화살표 렌더링
+  useEffect(() => {
+    if (selectedPlaces.length > 1) {
+      const linePath = selectedPlaces.map((place) => new window.kakao.maps.LatLng(place.y, place.x));
 
+      const polyline = new window.kakao.maps.Polyline({
+        endArrow:true,
+        path: linePath,
+        strokeWeight: 5
+      });
+
+      polyline.setMap(map);
+
+      return () => {
+        polyline.setMap(null); // 화살표 제거
+      };
+    }
+  }, [selectedPlaces, map]);
 
   return (
     <div>
+
       <MapWrap ref={mapContainer}>
-      <CategoryList id="category">
-        {['CE7', 'FD6', 'AD5', 'AT4', 'CT1', 'CS2'].map((id) => (
-          <CategoryItem
-            key={id}
-            className={currCategory === id ? 'on' : ''}
-            onClick={() => onClickCategory(id)}
-          >
-            <CategoryIcon category={id} selected={currCategory === id} />
-            {id === 'CE7' && '카페'}
-            {id === 'FD6' && '음식점'}
-            {id === 'AD5' && '숙박'}
-            {id === 'AT4' && '관광명소'}
-            {id === 'CT1' && '문화시설'}
-            {id === 'CS2' && '편의점'}
-          </CategoryItem>
-        ))}
-      </CategoryList>
+
+        <CategoryList id="category">
+          {["CE7", "FD6", "AD5", "AT4", "CT1", "CS2"].map((id) => (
+            <CategoryItem
+              key={id}
+              className={currCategory === id ? "on" : ""}
+              onClick={() => onClickCategory(id)}
+            >
+              <CategoryIcon category={id} selected={currCategory === id} />
+              {id === "CE7" && "카페"}
+              {id === "FD6" && "음식점"}
+              {id === "AD5" && "숙박"}
+              {id === "AT4" && "관광명소"}
+              {id === "CT1" && "문화시설"}
+              {id === "CS2" && "편의점"}
+            </CategoryItem>
+          ))}
+        </CategoryList>
       </MapWrap>
-      <div className="placeinfo_wrap" ref={contentNode} />
+      <PlaceCardList>
+        {places.map((place, index) => (
+          <PlaceCard key={index} onClick={() => onClickPlaceCard(place)}>
+            <PlaceCardLink href={place.place_url} target="_blank" title={place.place_name}>
+              <PlaceCardText>{place.place_name}</PlaceCardText>
+            </PlaceCardLink>
+            <PlaceCardAddress>{place.road_address_name}</PlaceCardAddress>
+            <PlaceCardPhone>{place.phone}</PlaceCardPhone>
+          </PlaceCard>
+        ))}
+      </PlaceCardList>
+      
     </div>
   );
 };
