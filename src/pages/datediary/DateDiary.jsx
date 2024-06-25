@@ -320,7 +320,7 @@ const ButtonWrap = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-`
+`;
 
 const SaveButton = styled.button`
   padding: 0.5rem 1rem;
@@ -353,12 +353,12 @@ const CheckboxWrapper = styled.div`
   width: 90%;
   display: flex;
   align-items: center;
-  margin-top:0.5rem;
+  margin-top: 0.5rem;
 `;
 
 const EventInput = styled.input`
   width: 60%;
-  margin-left: 0.5rem;  
+  margin-left: 0.5rem;
   padding: 0.2rem;
   font-size: 1rem;
   border: solid #eccdaf;
@@ -381,8 +381,9 @@ const AddButton = styled.button`
   }
 `;
 
-const CustomCheckbox = styled.input` /* 체크박스 커스텀 */
-  appearance: none; 
+const CustomCheckbox = styled.input`
+  /* 체크박스 커스텀 */
+  appearance: none;
   width: 16px;
   height: 16px;
   border: 2px solid #a1bae7;
@@ -434,11 +435,9 @@ const DateDiary = () => {
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
   const memoTextAreaRef = useRef(null);
 
-
   const handleDateChange = (newDate) => {
     setDate(newDate);
   };
-
 
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
@@ -446,20 +445,18 @@ const DateDiary = () => {
     setEvents(memoData.events || []);
   }, [selectedDate, memos]);
 
-
   useEffect(() => {
     const memoTextArea = memoTextAreaRef.current;
     if (memoTextArea) {
       const handleWheel = (event) => {
         memoTextArea.scrollTop += event.deltaY;
       };
-      memoTextArea.addEventListener('wheel', handleWheel);
+      memoTextArea.addEventListener("wheel", handleWheel);
       return () => {
-        memoTextArea.removeEventListener('wheel', handleWheel);
+        memoTextArea.removeEventListener("wheel", handleWheel);
       };
     }
   }, []);
-  
 
   const handleTodayClick = () => {
     setActiveStartDate(today);
@@ -504,10 +501,13 @@ const DateDiary = () => {
   const handleMemoSave = () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
 
- if (currentMemo.trim() === "" && events.every(event => !event.eventText.trim())) {
-    alert("일기나 일정 중 최소 하나를 입력하세요.");
-    return; // 일기나 일정이 모두 비어 있으면 저장을 중단
-  }
+    if (
+      currentMemo.trim() === "" &&
+      events.every((event) => !event.eventText.trim())
+    ) {
+      alert("일기나 일정 중 최소 하나를 입력하세요.");
+      return; // 일기나 일정이 모두 비어 있으면 저장을 중단
+    }
     // 오늘 날짜와 선택된 날짜가 같은지 확인
     const isToday = moment(selectedDate).isSame(today, "day");
 
@@ -523,18 +523,16 @@ const DateDiary = () => {
   };
   const handleClear = () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
-  
+
     setMemos((prevMemos) => {
       const updatedMemos = { ...prevMemos };
-      delete updatedMemos[formattedSelectedDate]; 
+      delete updatedMemos[formattedSelectedDate];
       return updatedMemos;
     });
-  
-    setEvents([{ isEvent: false, eventText: "" }]);
-    setCurrentMemo(""); 
-  };
-  
 
+    setEvents([{ isEvent: false, eventText: "" }]);
+    setCurrentMemo("");
+  };
 
   return (
     <>
@@ -582,8 +580,15 @@ const DateDiary = () => {
                   );
                 }
                 /// 해당 날짜에 일기가 있는지 확인하고 점 추가
-                if (memos[moment(date).format("YYYY-MM-DD")] && !moment(date).isSame(today, "day")) {
-                  html.push(<StyledDot key={`memo-${moment(date).format("YYYY-MM-DD")}`} />);
+                if (
+                  memos[moment(date).format("YYYY-MM-DD")] &&
+                  !moment(date).isSame(today, "day")
+                ) {
+                  html.push(
+                    <StyledDot
+                      key={`memo-${moment(date).format("YYYY-MM-DD")}`}
+                    />
+                  );
                 }
                 return <>{html}</>;
               }}
@@ -611,36 +616,38 @@ const DateDiary = () => {
                 )}
               </LineUp>
               <LineDown>
-              <BoardTitle>[오늘의 일정]</BoardTitle>
-              {events.map((event, index) => (
-                <CheckboxWrapper key={index}>
-                  <CustomCheckbox
-                    type="checkbox"
-                    checked={event.isEvent}
-                    onChange={handleEventChange(index)}
-                  />
-                  <EventInput
-                    value={event.eventText}
-                    onChange={handleEventTextChange(index)}
-                    placeholder="일정을 입력하세요"
-                  />
-                  <RemoveButton onClick={handleRemoveEvent(index)}>-</RemoveButton>
-                </CheckboxWrapper>
-              ))}
-              {events.length < 5 && (
-                <AddButton onClick={handleAddEvent}>+</AddButton>
-              )}
-              <BoardTitle>[오늘의 일기]</BoardTitle>
-              <MemoInput
-              ref={memoTextAreaRef}
-                value={currentMemo}
-                onChange={handleMemoChange}
-                placeholder="오늘의 일기를 작성해주세요 ~ `-`" 
-                  />
-                  <ButtonWrap>
-              <SaveButton onClick={handleMemoSave}>저장</SaveButton>
-              <ClearButton onClick={handleClear}>삭제</ClearButton>
-              </ButtonWrap>
+                <BoardTitle>[오늘의 일정]</BoardTitle>
+                {events.map((event, index) => (
+                  <CheckboxWrapper key={index}>
+                    <CustomCheckbox
+                      type="checkbox"
+                      checked={event.isEvent}
+                      onChange={handleEventChange(index)}
+                    />
+                    <EventInput
+                      value={event.eventText}
+                      onChange={handleEventTextChange(index)}
+                      placeholder="일정을 입력하세요"
+                    />
+                    <RemoveButton onClick={handleRemoveEvent(index)}>
+                      -
+                    </RemoveButton>
+                  </CheckboxWrapper>
+                ))}
+                {events.length < 5 && (
+                  <AddButton onClick={handleAddEvent}>+</AddButton>
+                )}
+                <BoardTitle>[오늘의 일기]</BoardTitle>
+                <MemoInput
+                  ref={memoTextAreaRef}
+                  value={currentMemo}
+                  onChange={handleMemoChange}
+                  placeholder="오늘의 일기를 작성해주세요 ~ `-`"
+                />
+                <ButtonWrap>
+                  <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+                  <ClearButton onClick={handleClear}>삭제</ClearButton>
+                </ButtonWrap>
               </LineDown>
             </DiaryBoard>
           </BoardWrapper>
