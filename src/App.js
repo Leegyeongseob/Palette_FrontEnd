@@ -21,6 +21,7 @@ import BoardDetails from "./pages/board/BoardDetails";
 import BoardWrite from "./pages/board/BoardWrite";
 import Modify from "./pages/setting/Modify";
 import Withdrawal from "./pages/setting/Withdrawal";
+import PalettePage from "./pages/palette/PalettePage";
 function App() {
   return (
     <>
@@ -28,6 +29,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
+          <Route path="/palette" element={<PalettePage />}/>
           <Route element={<OpenBook />}>
             <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
