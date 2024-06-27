@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import CloseBook from "../../img/background/closebook.png";
 import OpenBook from "../../img/background/openbook.png";
+import Logo from "../../img/background/logo.png";
+import PLogo from "../../img/background/paletteLogo.png";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
@@ -18,13 +20,33 @@ const Header = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Logo = styled.div`
+const LogoBox = styled.div`
   width: 90%;
-  height: 90%;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 3rem;
+`;
+const PaletteLogo = styled(Link)`
+  width: 45%;
+  height: 70%;
+  display: flex;
+  margin-top: 1%;
+  background-image: url(${PLogo});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: start;
+`;
+const CenterLogo = styled(Link)`
+  width: 10%;
+  height: 120%;
+  display: flex;
+  margin-top: 2.5%;
+  background-image: url(${Logo});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1001;
 `;
 const MenuBar = styled.div`
   width: 100%;
@@ -36,7 +58,6 @@ const MenuBar = styled.div`
   position: sticky;
   top: 0;
   z-index: 1000;
-  opacity: 90%;
 `;
 const MenuBox = styled.div`
   width: 90%;
@@ -53,6 +74,7 @@ const Menu = styled(Link)`
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  font-size: 0.85vw;
   color: #000;
   &:hover {
     font-weight: bolder;
@@ -119,62 +141,62 @@ const Footer = styled.div`
 `;
 
 const Dot = ({ num, currentPage, onClick }) => {
-    const handleClick = () => {
-      onClick(num);
-    };
-  
-    return (
+  const handleClick = () => {
+    onClick(num);
+  };
+
+  return (
+    <div
+      style={{
+        width: 10,
+        height: 10,
+        marginTop: 5,
+        marginBottom: 5,
+        border: "1px solid black",
+        borderRadius: 999,
+        backgroundColor: currentPage === num ? "gray" : "transparent",
+        transitionDuration: 1000,
+        transition: "background-color 0.5s",
+        cursor: "pointer",
+      }}
+      onClick={handleClick}
+    ></div>
+  );
+};
+
+const Dots = ({ currentPage, onPageChange }) => {
+  const totalPages = 9;
+
+  const handleDotClick = (page) => {
+    onPageChange(page);
+  };
+
+  return (
+    <div style={{ position: "fixed", top: "40%", right: 30 }}>
       <div
         style={{
-          width: 10,
-          height: 10,
-          marginTop: 5,
-          marginBottom: 5,
-          border: "1px solid black",
-          borderRadius: 999,
-          backgroundColor: currentPage === num ? "gray" : "transparent",
-          transitionDuration: 1000,
-          transition: "background-color 0.5s",
-          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          border: "1px solid gray",
+          borderRadius: 100,
+          width: 20,
+          height: 180,
         }}
-        onClick={handleClick}
-      ></div>
-    );
-  };
-  
-  const Dots = ({ currentPage, onPageChange }) => {
-    const totalPages = 9; 
-  
-    const handleDotClick = (page) => {
-      onPageChange(page);
-    };
-  
-    return (
-      <div style={{ position: "fixed", top: "40%", right: 30 }}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            border: "1px solid gray",
-            borderRadius: 100,
-            width: 20,
-            height: 180,
-          }}
-        >
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Dot
-              key={index + 1}
-              num={index + 1}
-              currentPage={currentPage}
-              onClick={handleDotClick}
-            />
-          ))}
-        </div>
+      >
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Dot
+            key={index + 1}
+            num={index + 1}
+            currentPage={currentPage}
+            onClick={handleDotClick}
+          />
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 const Outer = styled.div`
   height: 100vh;
@@ -208,7 +230,9 @@ const PalettePage = () => {
 
       const nextPageOffset = nextPage === 9 ? 30 : 0; // Footer의 높이 오프셋
       const scrollPosition =
-        pageHeight * (nextPage - 1) + DIVIDER_HEIGHT * (nextPage - 1) + nextPageOffset;
+        pageHeight * (nextPage - 1) +
+        DIVIDER_HEIGHT * (nextPage - 1) +
+        nextPageOffset;
 
       outerDivRef.current.scrollTo({
         top: scrollPosition,
@@ -231,7 +255,8 @@ const PalettePage = () => {
 
     const pageHeight = window.innerHeight;
     const nextPageOffset = page === 9 ? 50 : 0; // Footer의 높이 오프셋
-    const scrollPosition = pageHeight * (page - 1) + DIVIDER_HEIGHT * (page - 1) + nextPageOffset;
+    const scrollPosition =
+      pageHeight * (page - 1) + DIVIDER_HEIGHT * (page - 1) + nextPageOffset;
 
     outerDivRef.current.scrollTo({
       top: scrollPosition,
@@ -242,11 +267,14 @@ const PalettePage = () => {
 
   return (
     <>
-      <Dots currentPage={currentPage}  onPageChange={handlePageChange} />
+      <Dots currentPage={currentPage} onPageChange={handlePageChange} />
       <Outer ref={outerDivRef}>
         <Background>
           <Header>
-            <Logo>Palette</Logo>
+            <LogoBox>
+              <PaletteLogo to="/palette"></PaletteLogo>
+              <CenterLogo to="/palette"></CenterLogo>
+            </LogoBox>
           </Header>
           <MenuBar>
             <MenuBox>
@@ -260,20 +288,26 @@ const PalettePage = () => {
             <CloseBookImg />
           </Intro>
           <Intro1>
-          <OpenBookImg />
+            <OpenBookImg />
           </Intro1>
           <Intro2>
-          <OpenBookImg2 /></Intro2> 
+            <OpenBookImg2 />
+          </Intro2>
           <Intro1>
-          <OpenBookImg /></Intro1>
+            <OpenBookImg />
+          </Intro1>
           <Intro2>
-          <OpenBookImg2 /></Intro2>
+            <OpenBookImg2 />
+          </Intro2>
           <Intro1>
-          <OpenBookImg /></Intro1>
+            <OpenBookImg />
+          </Intro1>
           <Intro2>
-          <OpenBookImg2 /></Intro2>
+            <OpenBookImg2 />
+          </Intro2>
           <Intro1>
-          <OpenBookImg /></Intro1>
+            <OpenBookImg />
+          </Intro1>
           <Footer></Footer>
         </Background>
       </Outer>
