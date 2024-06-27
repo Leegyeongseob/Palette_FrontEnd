@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoginAxios from "../../axiosapi/LoginAxios";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -225,6 +226,7 @@ const TermsScrollableContent = styled.div`
   overflow-y: auto;
 `;
 const SignupPage = () => {
+  const navigate = useNavigate();
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
   const [inputPwd, setInputPwd] = useState("");
@@ -245,12 +247,17 @@ const SignupPage = () => {
   const [isRrnValid, setIsRrnValid] = useState(false);
   //주민등록번호 메세지
   const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
+  // 이름 입력
+  const [inputName, setInputName] = useState("");
+  // 닉네임 입력
+  const [inputNickName, setInputNickName] = useState("");
+  // 커플이름 입력
+  const [inputCoupleName, setInputCoupleName] = useState("");
 
   // 약관 보기 버튼 클릭 상태 변수
   const [isTermClickBtn, setIsTermClickBtn] = useState(false);
   // 약관 동의 체크 버튼
   const [isTermAccepted, setIsTermAccepted] = useState(false);
-
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -259,10 +266,22 @@ const SignupPage = () => {
       setIdMessage("이메일 형식이 올바르지 않습니다.");
       setIsId(false);
     } else {
+      emailIsExist(e.target.value);
+    }
+  };
+  // // 이메일 중복 체크하는 함수
+  const emailIsExist = async (input) => {
+    const response = await LoginAxios.emailIsExist(input);
+    console.log(response.data);
+    if (response.data) {
+      setIdMessage("중복된 이메일입니다.");
+      setIsId(false);
+    } else {
       setIdMessage("올바른 형식 입니다.");
       setIsId(true);
     }
   };
+
   // 비밀번호 8자리 이상.
   const onChangePw = (e) => {
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
@@ -346,6 +365,64 @@ const SignupPage = () => {
       setIsTermClickBtn(false);
     }
   };
+  // 이름 변수에 저장
+  const handleInputName = (e) => {
+    setInputName(e.target.value);
+  };
+  // 닉네임 변수에 저장
+  const handleInputNickName = (e) => {
+    setInputNickName(e.target.value);
+  };
+  const handleInputCoupleName = (e) => {
+    setInputCoupleName(e.target.value);
+  };
+  const combineRRN = (firstPart, secondPart) => {
+    // 문자열을 숫자로 변환
+    const firstNum = parseInt(firstPart, 10);
+    const secondNum = parseInt(secondPart, 10);
+
+    // 계산 수행
+    return firstNum * 10 + secondNum;
+  };
+  const signUpAxios = async (
+    inputEmail,
+    inputPwd,
+    inputName,
+    rrnFirstPart,
+    rrnSecondPart,
+    inputNickName,
+    inputCoupleName
+  ) => {
+    const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
+    try {
+      const response = await LoginAxios.memberSignUp(
+        inputEmail,
+        inputPwd,
+        inputName,
+        combinedRnn,
+        inputNickName,
+        inputCoupleName
+      );
+      console.log(response.data);
+      if (response.data === "Success" && isTermAccepted) {
+        navigate("/login-page");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signupBtnOnclickHandler = () => {
+    signUpAxios(
+      inputEmail,
+      inputPwd,
+      inputName,
+      rrnFirstPart,
+      rrnSecondPart,
+      inputNickName,
+      inputCoupleName
+    );
+  };
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
@@ -391,7 +468,11 @@ const SignupPage = () => {
         </div>
         <InputDetailDiv>
           <label>이름</label>
-          <input className="InputClass" />
+          <input
+            className="InputClass"
+            value={inputName}
+            onChange={handleInputName}
+          />
         </InputDetailDiv>
         <div>
           <InputDetailDiv>
@@ -416,11 +497,19 @@ const SignupPage = () => {
         </div>
         <InputDetailDiv>
           <label>닉네임</label>
-          <input className="InputClass" />
+          <input
+            className="InputClass"
+            value={inputNickName}
+            onChange={handleInputNickName}
+          />
         </InputDetailDiv>
         <InputDetailDiv>
           <label>커플이름</label>
-          <input className="InputClass" />
+          <input
+            className="InputClass"
+            value={inputCoupleName}
+            onChange={handleInputCoupleName}
+          />
         </InputDetailDiv>
         <InputDetailDiv>
           <CoupleText>커플 이름이 있어야 가입이 가능합니다.</CoupleText>
@@ -500,11 +589,22 @@ const SignupPage = () => {
         </TermsForm>
       </InputDiv>
       <ButtonDiv>
-        <Link to="/login-page" style={{ textDecoration: "none" }}>
-          <SignupButton isActive={isId && isPwd && isPwdCheack}>
-            가입하기
-          </SignupButton>
-        </Link>
+        <SignupButton
+          isActive={
+            isId &&
+            isPwd &&
+            isPwdCheack &&
+            rrnFirstPart &&
+            rrnSecondPart &&
+            inputName &&
+            inputNickName &&
+            inputCoupleName &&
+            isTermAccepted
+          }
+          onClick={signupBtnOnclickHandler}
+        >
+          가입하기
+        </SignupButton>
       </ButtonDiv>
     </Contain>
   );
