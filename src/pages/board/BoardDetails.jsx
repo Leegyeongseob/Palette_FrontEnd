@@ -138,10 +138,29 @@ const DetailsSide = styled.div`
   width: 25.8vw;
   height: 68.5vh;
 `;
-const BackToGuestbook = styled.div`
+const EditBackContainer = styled.div`
   margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
+  margin-left: 17vw;
+  width: 16vw;
+  height: 1vh;
+  display: flex;
+`;
+const EditPost = styled.div`
+  width: 4vw;
+  height: 1vh;
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
+const BackToGuestbook = styled.div`
+  width: 4vw;
   height: 1vh;
   font-size: 13px;
   font-weight: 600;
@@ -274,9 +293,12 @@ const BoardDetails = () => {
       </BoardSide>
       <CenterArea></CenterArea>
       <DetailsSide>
-        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
-          <BackToGuestbook>돌아가기</BackToGuestbook>
-        </Link>
+        <EditBackContainer>
+          <EditPost>수정하기</EditPost>
+          <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
+            <BackToGuestbook>돌아가기</BackToGuestbook>
+          </Link>
+        </EditBackContainer>
         <DetailsNumber>No.9</DetailsNumber>
         <DetailsTitle>한강 데이트!!</DetailsTitle>
         <DetailsGrayBar />

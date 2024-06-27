@@ -21,7 +21,6 @@ const BoardSide = styled.div`
   height: 68.5vh;
   position: relative;
 `;
-
 const BoardTitle = styled.div`
   margin-top: 2.5vh;
   width: 25.5vw;
@@ -49,7 +48,6 @@ const BoardGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const BoardTable = styled.table`
   margin-top: 4vh;
   margin-left: 1.5vw;
@@ -142,33 +140,55 @@ const GuestbookGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const GuestbookWrite = styled.div`
-  margin-left: 20vw;
-  margin-top: 0.3vw;
-  width: 5vw;
+const GuestbookWriteArea = styled.div`
+  margin-left: 1vw;
+  margin-top: 2vh;
+  width: 23.5vw;
+  height: 9.6vh;
+  border: 1px solid black;
+`;
+const GuestbookWriteMain = styled.div`
+  margin-left: 1vw;
+  width: 17.8vw;
+  height: 10vh - 1px;
   font-size: 12px;
-  font-weight: 700;
-  color: black;
+  font-weight: 600;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+`;
+const GuestbookInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 13px;
+  resize: none;
+  overflow-y: auto;
+`;
+const GuestbookWriteButton = styled.div`
+  margin-top: 0.5vh;
+  margin-left: 20vw;
+  width: 4vw;
+  height: 2vh;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: right;
+  align-items: center;
   cursor: pointer;
   &:hover {
     color: blue;
-  }
-`;
-const GuestbookContainer = styled.div`
-  margin-top: 1vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 49.5vh;
-  border: 1px solid black;
-  background-color: #e8e8e8;
 `;
 const GuestbookArea = styled.div`
-  width: 22.5vw - 1px;
-  height: 12.375vh;
+  margin-left: 1vw;
+  margin-top: 2vh;
+  width: 23.5vw;
+  height: 12vh;
   border: 1px solid black;
 `;
 const GuestbookHead = styled.div`
-  width: 22.5vw - 1px;
   height: 2.375vh;
   background-color: #cdcfc4;
   border-bottom: 1px solid black;
@@ -191,6 +211,10 @@ const GuestbookNickname = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
 `;
 const GuestbookDate = styled.div`
   width: 7vw;
@@ -201,23 +225,38 @@ const GuestbookDate = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const GuestbookDelete = styled.div`
+  margin-left: 4vw;
+  width: 3vw;
+  height: 2.375vh;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
 const GuestbookBody = styled.div`
-  width: 22.5vw - 1px;
-  height: 10vh;
+  height: 9.6vh;
   background-color: #eccdb0;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   display: flex;
 `;
 const GuestbookImage = styled.div`
-  width: 6vw;
-  height: 10vh - 1px;
+  width: 4.6vw;
+  height: 9.6vh;
   background-image: url(${CandyImg});
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
+
 const GuestbookMain = styled.div`
   margin-left: 1vw;
-  margin-right: 1vw;
-  width: 14.5vw;
+  width: 17vw;
   height: 10vh - 1px;
   font-size: 12px;
   font-weight: 600;
@@ -250,7 +289,7 @@ const GuestBoardGuestbook = () => {
   const navigate = useNavigate();
 
   const handleNameClick = (id) => {
-    navigate(`/board-details`);
+    navigate(`/guest-board-details`);
     //백엔드 작업 완료 후 사용 - id번호로 이동
     // navigate(`/board-details/${id}`);
   };
@@ -312,40 +351,60 @@ const GuestBoardGuestbook = () => {
       <GuestbookSide>
         <GuestbookTitle>방명록</GuestbookTitle>
         <GuestbookGrayBar />
-        <Link
-          to="/guest-board-guestbookwrite"
-          style={{ textDecoration: "none" }}
-        >
-          <GuestbookWrite>방명록 쓰기</GuestbookWrite>
-        </Link>
-        <GuestbookContainer>
-          <GuestbookArea>
-            <GuestbookHead>
-              <GuestbookNo>No.1</GuestbookNo>
-              <GuestbookNickname>캔디</GuestbookNickname>
-              <GuestbookDate>(2024.02.15)</GuestbookDate>
-            </GuestbookHead>
-            <GuestbookBody>
-              <GuestbookImage></GuestbookImage>
-              <GuestbookMain>
-                데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-                세우고 있어요.
-              </GuestbookMain>
-            </GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-        </GuestbookContainer>
+        <GuestbookWriteArea>
+          <GuestbookBody>
+            <GuestbookImage></GuestbookImage>
+            <GuestbookWriteMain>
+              <GuestbookInput placeholder="내용을 입력하세요." />
+            </GuestbookWriteMain>
+          </GuestbookBody>
+        </GuestbookWriteArea>
+        <GuestbookWriteButton>방명록 등록</GuestbookWriteButton>
+        <GuestbookArea>
+          <GuestbookHead>
+            <GuestbookNo>No.1</GuestbookNo>
+            <GuestbookNickname>캔디</GuestbookNickname>
+            <GuestbookDate>(2024.02.15)</GuestbookDate>
+            <GuestbookDelete>삭제</GuestbookDelete>
+          </GuestbookHead>
+          <GuestbookBody>
+            <GuestbookImage></GuestbookImage>
+            <GuestbookMain>
+              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
+              세우고 있어요.
+            </GuestbookMain>
+          </GuestbookBody>
+        </GuestbookArea>
+        <GuestbookArea>
+          <GuestbookHead>
+            <GuestbookNo>No.1</GuestbookNo>
+            <GuestbookNickname>캔디</GuestbookNickname>
+            <GuestbookDate>(2024.02.15)</GuestbookDate>
+            <GuestbookDelete>삭제</GuestbookDelete>
+          </GuestbookHead>
+          <GuestbookBody>
+            <GuestbookImage></GuestbookImage>
+            <GuestbookMain>
+              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
+              세우고 있어요.
+            </GuestbookMain>
+          </GuestbookBody>
+        </GuestbookArea>
+        <GuestbookArea>
+          <GuestbookHead>
+            <GuestbookNo>No.1</GuestbookNo>
+            <GuestbookNickname>캔디</GuestbookNickname>
+            <GuestbookDate>(2024.02.15)</GuestbookDate>
+            <GuestbookDelete>삭제</GuestbookDelete>
+          </GuestbookHead>
+          <GuestbookBody>
+            <GuestbookImage></GuestbookImage>
+            <GuestbookMain>
+              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
+              세우고 있어요.
+            </GuestbookMain>
+          </GuestbookBody>
+        </GuestbookArea>
       </GuestbookSide>
     </BookTheme>
   );

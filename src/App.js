@@ -24,7 +24,6 @@ import Withdrawal from "./pages/setting/Withdrawal";
 import PalettePage from "./pages/palette/PalettePage";
 import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
 import GuestBoardDetails from "./pages/board/GuestBoardDetails";
-import GuestBoardGuestbookWrite from "./pages/board/GuestBoardGuestbookWrite";
 function App() {
   return (
     <>
@@ -52,10 +51,6 @@ function App() {
             <Route
               path="/guest-board-details"
               element={<GuestBoardDetails />}
-            />
-            <Route
-              path="/guest-board-guestbookwrite"
-              element={<GuestBoardGuestbookWrite />}
             />
           </Route>
           <Route element={<CloseBook />}>
