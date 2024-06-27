@@ -273,6 +273,11 @@ const LoginPage = () => {
       setModalContent("계정이 없습니다.");
     }
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && isId && isPwd) {
+      loginBtnHandler();
+    }
+  };
   return (
     <Contain>
       <IconDiv>
@@ -302,6 +307,7 @@ const LoginPage = () => {
             placeholder="Password"
             value={inputpwd}
             onChange={onChangePwd}
+            onClick={loginBtnHandler} //패스워드를 입력하고 엔터를 눌렀을 경우
           />
         </InputContainer>
       </LoginDiv>
@@ -337,9 +343,7 @@ const LoginPage = () => {
         </div>
       </SimpleLogin>
       <ButtonDiv>
-        <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
-          Login
-        </LoginButton>
+        <LoginButton isActive={isId && isPwd}>Login</LoginButton>
       </ButtonDiv>
       <Modal open={modalOpen} close={closeModal} header="오류">
         {modalContent}
