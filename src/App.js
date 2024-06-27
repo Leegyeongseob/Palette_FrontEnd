@@ -22,6 +22,9 @@ import BoardWrite from "./pages/board/BoardWrite";
 import Modify from "./pages/setting/Modify";
 import Withdrawal from "./pages/setting/Withdrawal";
 import PalettePage from "./pages/palette/PalettePage";
+import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
+import GuestBoardDetails from "./pages/board/GuestBoardDetails";
+import GuestBoardGuestbookWrite from "./pages/board/GuestBoardGuestbookWrite";
 function App() {
   return (
     <>
@@ -29,7 +32,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/palette" element={<PalettePage />}/>
+          <Route path="/palette" element={<PalettePage />} />
           <Route element={<OpenBook />}>
             <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
@@ -42,6 +45,18 @@ function App() {
             <Route path="/board-guestbook" element={<BoardGuestbook />} />
             <Route path="/board-details" element={<BoardDetails />} />
             <Route path="/board-write" element={<BoardWrite />} />
+            <Route
+              path="/guest-board-guestbook"
+              element={<GuestBoardGuestbook />}
+            />
+            <Route
+              path="/guest-board-details"
+              element={<GuestBoardDetails />}
+            />
+            <Route
+              path="/guest-board-guestbookwrite"
+              element={<GuestBoardGuestbookWrite />}
+            />
           </Route>
           <Route element={<CloseBook />}>
             <Route path="/" element={<NotLogin />} />

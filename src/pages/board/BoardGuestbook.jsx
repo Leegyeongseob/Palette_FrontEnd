@@ -19,19 +19,10 @@ const BookTheme = styled.div`
 const BoardSide = styled.div`
   width: 25.5vw;
   height: 68.5vh;
-`;
-const ChangeBoardTitle = styled.div`
-  margin-top: 1.5vh;
-  margin-left: 17.5vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 `;
 const BoardTitle = styled.div`
+  margin-top: 2.5vh;
   width: 25.5vw;
   height: 5vh;
   font-size: 20px;
@@ -77,17 +68,26 @@ const BoardTable = styled.table`
   margin-top: 1vh;
   margin-left: 1.5vw;
   width: 22.5vw;
-  height: 20vh;
+  table-layout: fixed;
   border-collapse: collapse;
 `;
 
 const BoardTh = styled.th`
   height: 3vh;
-  min-width: 2vw;
   background-color: gray;
   border: 1px solid black;
   font-size: 12px;
   text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+  // ID
+  &:nth-child(1) {
+    width: 3vw;
+  }
+  // Date
+  &:nth-child(3) {
+    width: 4vw;
+  }
 `;
 
 const BoardTd = styled.td`
@@ -95,6 +95,11 @@ const BoardTd = styled.td`
   border: 1px solid black;
   font-size: 12px;
   text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const NameHover = styled(BoardTd)`
   cursor: pointer;
@@ -103,9 +108,13 @@ const NameHover = styled(BoardTd)`
   }
 `;
 const BoardPaginationContainer = styled.div`
-  margin-top: 2vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 3vh;
   margin-left: 1.5vw;
   width: 22.5vw;
+  height: 3vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,7 +157,7 @@ const GuestbookGrayBar = styled.div`
   align-items: center;
 `;
 const GuestbookContainer = styled.div`
-  margin-top: 3vh;
+  margin-top: 14vh;
   margin-left: 1.5vw;
   width: 22.5vw;
   height: 49.5vh;
@@ -156,12 +165,13 @@ const GuestbookContainer = styled.div`
   background-color: #e8e8e8;
 `;
 const GuestbookArea = styled.div`
-  width: 22.5vw - 1px;
-  height: 12.375vh;
+  margin-top: 3vh;
+  width: 21.5vw
+  height: 12vh;
   border: 1px solid black;
 `;
+const GuestbookWrite = styled;
 const GuestbookHead = styled.div`
-  width: 22.5vw - 1px;
   height: 2.375vh;
   background-color: #cdcfc4;
   border-bottom: 1px solid black;
@@ -205,7 +215,6 @@ const GuestbookDelete = styled.div`
   align-items: center;
 `;
 const GuestbookBody = styled.div`
-  width: 22.5vw - 1px;
   height: 10vh;
   background-color: #eccdb0;
   border-bottom: 2px solid black;
@@ -228,26 +237,12 @@ const GuestbookMain = styled.div`
   justify-content: right;
   align-items: center;
 `;
-const GuestbookPaginationContainer = styled.div`
-  margin-top: 2vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookPaginationButton = styled.button`
-  margin: 0 5px;
-  padding: 5px 10px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  cursor: pointer;
-  &:hover {
-    background-color: #eeeeee;
-  }
-`;
 
 const BoardData = [
+  { id: 14, name: "13알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 13, name: "13알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 12, name: "12알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 11, name: "11알콩이의 생일파티~", date: "2024-06-20" },
   { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
   { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
   { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
@@ -268,7 +263,7 @@ const BoardGuestbook = () => {
 
   const handleNameClick = (id) => {
     navigate(`/board-details`);
-
+    //백엔드 작업 완료 후 사용 - id번호로 이동
     // navigate(`/board-details/${id}`);
   };
 
@@ -276,10 +271,14 @@ const BoardGuestbook = () => {
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  // 현재 페이지에 맞는 데이터 슬라이스
+  const currentData = BoardData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   return (
     <BookTheme>
       <BoardSide>
-        <ChangeBoardTitle>게시판 이름 변경</ChangeBoardTitle>
         <BoardTitle>알콩 달콩 커플게시판</BoardTitle>
         <CoupleDiv>
           <CoupleImg />
@@ -297,7 +296,7 @@ const BoardGuestbook = () => {
             </tr>
           </thead>
           <tbody>
-            {BoardData.map((item) => (
+            {currentData.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
@@ -328,35 +327,29 @@ const BoardGuestbook = () => {
       <GuestbookSide>
         <GuestbookTitle>방명록</GuestbookTitle>
         <GuestbookGrayBar />
-        <GuestbookContainer>
-          <GuestbookArea>
-            <GuestbookHead>
-              <GuestbookNo>No.1</GuestbookNo>
-              <GuestbookNickname>캔디</GuestbookNickname>
-              <GuestbookDate>(2024.02.15)</GuestbookDate>
-              <GuestbookDelete>삭제</GuestbookDelete>
-            </GuestbookHead>
-            <GuestbookBody>
-              <GuestbookImage></GuestbookImage>
-              <GuestbookMain>
-                데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-                세우고 있어요.
-              </GuestbookMain>
-            </GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-          <GuestbookArea>
-            <GuestbookHead></GuestbookHead>
-            <GuestbookBody></GuestbookBody>
-          </GuestbookArea>
-        </GuestbookContainer>
+        <GuestbookArea>
+          <GuestbookHead>
+            <GuestbookNo>No.1</GuestbookNo>
+            <GuestbookNickname>캔디</GuestbookNickname>
+            <GuestbookDate>(2024.02.15)</GuestbookDate>
+            <GuestbookDelete>삭제</GuestbookDelete>
+          </GuestbookHead>
+          <GuestbookBody>
+            <GuestbookImage></GuestbookImage>
+            <GuestbookMain>
+              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
+              세우고 있어요.
+            </GuestbookMain>
+          </GuestbookBody>
+        </GuestbookArea>
+        <GuestbookArea>
+          <GuestbookHead></GuestbookHead>
+          <GuestbookBody></GuestbookBody>
+        </GuestbookArea>
+        <GuestbookArea>
+          <GuestbookHead></GuestbookHead>
+          <GuestbookBody></GuestbookBody>
+        </GuestbookArea>
       </GuestbookSide>
     </BookTheme>
   );

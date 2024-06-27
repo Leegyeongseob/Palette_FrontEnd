@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
-import AddPhoto from "../../img/board/AddPhoto.png";
+import CandyImg from "../../img/mainImg/커플2.jpg";
 import { useState } from "react";
 
 const BookTheme = styled.div`
@@ -21,6 +21,7 @@ const BoardSide = styled.div`
   height: 68.5vh;
   position: relative;
 `;
+
 const BoardTitle = styled.div`
   margin-top: 2.5vh;
   width: 25.5vw;
@@ -48,24 +49,9 @@ const BoardGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const BoardPost = styled.div`
-  margin-top: 2vh;
-  margin-left: 18.5vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 11px;
-  font-weight: 600;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
+
 const BoardTable = styled.table`
-  margin-top: 1vh;
+  margin-top: 4vh;
   margin-left: 1.5vw;
   width: 22.5vw;
   table-layout: fixed;
@@ -129,48 +115,25 @@ const BoardPaginationButton = styled.button`
     background-color: #eeeeee;
   }
 `;
-
 const CenterArea = styled.div`
   width: 1.5vw;
   height: 68.5vh;
 `;
-
-const WriteSide = styled.div`
+const GuestbookSide = styled.div`
   width: 25.8vw;
   height: 68.5vh;
 `;
-const BackToGuestbook = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 13px;
-  font-weight: 600;
-  color: black;
+const GuestbookTitle = styled.div`
+  margin-top: 2.5vh;
+  width: 25.5vw;
+  height: 5vh;
+  font-size: 20px;
+  font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
 `;
-const WriteTitle = styled.div`
-  margin-left: 1.5vw;
-  margin-top: 4vh;
-  width: 22.8vw;
-  height: 7vh;
-  display: flex;
-`;
-const WriteTitleInput = styled.input`
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 30px;
-`;
-const WriteGrayBar = styled.div`
+const GuestbookGrayBar = styled.div`
   margin-left: 1.5vw;
   width: 22.5vw;
   height: 0.4vh;
@@ -179,48 +142,88 @@ const WriteGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const WriteAddPhoto = styled.div`
-  margin-top: 1.2vh;
-  margin-left: 1vw;
-  width: 3.5vw;
-  height: 3.5vh;
-  background-image: url(${AddPhoto});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-const WriteMain = styled.div`
-  margin-left: 1.5vw;
-  margin-top: 1.2vh;
-  width: 22.8vw;
-  height: 40vh;
-  display: flex;
-  align-items: flex-start;
-`;
-const WriteMainInput = styled.textarea`
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 20px;
-  resize: none; /* 크기 조정 불가능하도록 설정 */
-  overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
-`;
-const WritePost = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
-  heigth: 1vh;
-  font-size: 13px;
-  font-weight: 600;
+const GuestbookWrite = styled.div`
+  margin-left: 20vw;
+  margin-top: 0.3vw;
+  width: 5vw;
+  font-size: 12px;
+  font-weight: 700;
   color: black;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
+const GuestbookContainer = styled.div`
+  margin-top: 1vh;
+  margin-left: 1.5vw;
+  width: 22.5vw;
+  height: 49.5vh;
+  border: 1px solid black;
+  background-color: #e8e8e8;
+`;
+const GuestbookArea = styled.div`
+  width: 22.5vw - 1px;
+  height: 12.375vh;
+  border: 1px solid black;
+`;
+const GuestbookHead = styled.div`
+  width: 22.5vw - 1px;
+  height: 2.375vh;
+  background-color: #cdcfc4;
+  border-bottom: 1px solid black;
+  display: flex;
+`;
+const GuestbookNo = styled.div`
+  width: 3vw;
+  height: 2.375vh;
+  font-size: 14px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue
+`;
+const GuestbookNickname = styled.div`
+  width: 6vw;
+  height: 2.375vh;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const GuestbookDate = styled.div`
+  width: 7vw;
+  height: 2.375vh;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const GuestbookBody = styled.div`
+  width: 22.5vw - 1px;
+  height: 10vh;
+  background-color: #eccdb0;
+  border-bottom: 2px solid black;
+  display: flex;
+`;
+const GuestbookImage = styled.div`
+  width: 6vw;
+  height: 10vh - 1px;
+  background-image: url(${CandyImg});
+  background-size: cover;
+`;
+const GuestbookMain = styled.div`
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 14.5vw;
+  height: 10vh - 1px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: right;
+  align-items: center;
 `;
 
 const BoardData = [
@@ -241,7 +244,7 @@ const BoardData = [
 ];
 const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 
-const BoardWrite = () => {
+const GuestBoardGuestbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
@@ -269,9 +272,6 @@ const BoardWrite = () => {
           <CoupleImg />
         </CoupleDiv>
         <BoardGrayBar />
-        <Link to="/board-write" style={{ textDecoration: "none" }}>
-          <BoardPost>새 게시물</BoardPost>
-        </Link>
         <BoardTable>
           <thead>
             <tr>
@@ -309,23 +309,45 @@ const BoardWrite = () => {
         </BoardPaginationContainer>
       </BoardSide>
       <CenterArea></CenterArea>
-      <WriteSide>
-        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
-          <BackToGuestbook>돌아가기</BackToGuestbook>
+      <GuestbookSide>
+        <GuestbookTitle>방명록</GuestbookTitle>
+        <GuestbookGrayBar />
+        <Link
+          to="/guest-board-guestbookwrite"
+          style={{ textDecoration: "none" }}
+        >
+          <GuestbookWrite>방명록 쓰기</GuestbookWrite>
         </Link>
-        <WriteTitle>
-          <WriteTitleInput type="text" placeholder="제목" />
-        </WriteTitle>
-        <WriteGrayBar />
-        <WriteAddPhoto />
-        <WriteMain>
-          <WriteMainInput placeholder="내용을 입력하세요." />
-        </WriteMain>
-        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
-          <WritePost>게시하기</WritePost>
-        </Link>
-      </WriteSide>
+        <GuestbookContainer>
+          <GuestbookArea>
+            <GuestbookHead>
+              <GuestbookNo>No.1</GuestbookNo>
+              <GuestbookNickname>캔디</GuestbookNickname>
+              <GuestbookDate>(2024.02.15)</GuestbookDate>
+            </GuestbookHead>
+            <GuestbookBody>
+              <GuestbookImage></GuestbookImage>
+              <GuestbookMain>
+                데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
+                세우고 있어요.
+              </GuestbookMain>
+            </GuestbookBody>
+          </GuestbookArea>
+          <GuestbookArea>
+            <GuestbookHead></GuestbookHead>
+            <GuestbookBody></GuestbookBody>
+          </GuestbookArea>
+          <GuestbookArea>
+            <GuestbookHead></GuestbookHead>
+            <GuestbookBody></GuestbookBody>
+          </GuestbookArea>
+          <GuestbookArea>
+            <GuestbookHead></GuestbookHead>
+            <GuestbookBody></GuestbookBody>
+          </GuestbookArea>
+        </GuestbookContainer>
+      </GuestbookSide>
     </BookTheme>
   );
 };
-export default BoardWrite;
+export default GuestBoardGuestbook;

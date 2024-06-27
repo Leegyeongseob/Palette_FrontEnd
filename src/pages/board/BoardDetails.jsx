@@ -19,19 +19,10 @@ const BookTheme = styled.div`
 const BoardSide = styled.div`
   width: 25.5vw;
   height: 68.5vh;
-`;
-const ChangeBoardTitle = styled.div`
-  margin-top: 1.5vh;
-  margin-left: 17.5vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 `;
 const BoardTitle = styled.div`
+  margin-top: 2.5vh;
   width: 25.5vw;
   height: 5vh;
   font-size: 20px;
@@ -77,17 +68,26 @@ const BoardTable = styled.table`
   margin-top: 1vh;
   margin-left: 1.5vw;
   width: 22.5vw;
-  height: 20vh;
+  table-layout: fixed;
   border-collapse: collapse;
 `;
 
 const BoardTh = styled.th`
   height: 3vh;
-  min-width: 2vw;
   background-color: gray;
   border: 1px solid black;
   font-size: 12px;
   text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+  // ID
+  &:nth-child(1) {
+    width: 3vw;
+  }
+  // Date
+  &:nth-child(3) {
+    width: 4vw;
+  }
 `;
 
 const BoardTd = styled.td`
@@ -95,6 +95,11 @@ const BoardTd = styled.td`
   border: 1px solid black;
   font-size: 12px;
   text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const NameHover = styled(BoardTd)`
   cursor: pointer;
@@ -103,9 +108,13 @@ const NameHover = styled(BoardTd)`
   }
 `;
 const BoardPaginationContainer = styled.div`
-  margin-top: 2vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 3vh;
   margin-left: 1.5vw;
   width: 22.5vw;
+  height: 3vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,7 +129,6 @@ const BoardPaginationButton = styled.button`
     background-color: #eeeeee;
   }
 `;
-
 const CenterArea = styled.div`
   width: 1.5vw;
   height: 68.5vh;
@@ -180,6 +188,10 @@ const DetailsMain = styled.div`
 `;
 
 const BoardData = [
+  { id: 14, name: "13알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 13, name: "13알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 12, name: "12알콩이의 생일파티~", date: "2024-06-20" },
+  { id: 11, name: "11알콩이의 생일파티~", date: "2024-06-20" },
   { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
   { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
   { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
@@ -200,7 +212,7 @@ const BoardDetails = () => {
 
   const handleNameClick = (id) => {
     navigate(`/board-details`);
-
+    //백엔드 작업 완료 후 사용 - id번호로 이동
     // navigate(`/board-details/${id}`);
   };
 
@@ -208,10 +220,14 @@ const BoardDetails = () => {
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  // 현재 페이지에 맞는 데이터 슬라이스
+  const currentData = BoardData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   return (
     <BookTheme>
       <BoardSide>
-        <ChangeBoardTitle>게시판 이름 변경</ChangeBoardTitle>
         <BoardTitle>알콩 달콩 커플게시판</BoardTitle>
         <CoupleDiv>
           <CoupleImg />
@@ -229,7 +245,7 @@ const BoardDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {BoardData.map((item) => (
+            {currentData.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
