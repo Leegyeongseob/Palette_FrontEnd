@@ -310,7 +310,7 @@ const MemoInput = styled.textarea`
   border-radius: 0.5rem;
   background-color: #eccdaf;
   resize: none;
-  outline-color: #eccdaf; /* 외곽선 색상 설정 (선택 사항) */
+  outline: none; /* 외곽선 색상 설정 (선택 사항) */
   overflow: hidden;
 `;
 const ButtonWrap = styled.div`
@@ -362,6 +362,21 @@ const EditButton = styled.button`
   }
 `;
 
+const NewButton = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: gray;
+  border: 1px solid gray;
+  border-radius: 100rem;
+  background-color: #e7bfa1;
+  cursor: pointer;
+  &:hover {
+    background-color: #eccdaf;
+  }
+`;
+
 const CheckboxWrapper = styled.div`
   width: 90%;
   display: flex;
@@ -377,8 +392,7 @@ const EventInput = styled.input`
   border: solid #eccdaf;
   border-radius: 0.3rem;
   background-color: #eccdaf;
-  /* outline: none; */
-  outline-color: #eccdaf;
+  outline: none;
 `;
 const AddButton = styled.button`
   margin-top: 0.5rem;
@@ -450,14 +464,14 @@ const DateDiary = () => {
   const memoTextAreaRef = useRef(null);
 
   useEffect(() => {
-    const savedMemos = localStorage.getItem('memos');
+    const savedMemos = localStorage.getItem("memos");
     if (savedMemos) {
       setMemos(JSON.parse(savedMemos));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('memos', JSON.stringify(memos));
+    localStorage.setItem("memos", JSON.stringify(memos));
   }, [memos]);
 
   useEffect(() => {
@@ -656,38 +670,45 @@ const DateDiary = () => {
                 )}
               </LineUp>
               <LineDown>
-                <BoardTitle>[오늘의 일정]</BoardTitle>
-                {events.map((event, index) => (
-                  <CheckboxWrapper key={index}>
-                    <CustomCheckbox
-                      type="checkbox"
-                      checked={event.isEvent}
-                      onChange={handleEventChange(index)}
-                    />
-                    <EventInput
-                      value={event.eventText}
-                      onChange={handleEventTextChange(index)}
-                      placeholder="일정을 입력하세요"
+                {memos[moment(selectedDate).format("YYYY-MM-DD")] ||
+                isEditMode ? (
+                  <>
+                    <BoardTitle>[기념일]</BoardTitle>
+
+                    <BoardTitle>[오늘의 일정]</BoardTitle>
+                    {events.map((event, index) => (
+                      <CheckboxWrapper key={index}>
+                        <CustomCheckbox
+                          type="checkbox"
+                          checked={event.isEvent}
+                          onChange={handleEventChange(index)}
+                        />
+                        <EventInput
+                          value={event.eventText}
+                          onChange={handleEventTextChange(index)}
+                          placeholder="일정을 입력하세요"
+                          readOnly={!isEditMode}
+                        />
+                        {isEditMode && (
+                          <RemoveButton onClick={handleRemoveEvent(index)}>
+                            -
+                          </RemoveButton>
+                        )}
+                      </CheckboxWrapper>
+                    ))}
+                    {isEditMode && events.length < 5 && (
+                      <AddButton onClick={handleAddEvent}>+</AddButton>
+                    )}
+                    <BoardTitle>[오늘의 일기]</BoardTitle>
+                    <MemoInput
+                      ref={memoTextAreaRef}
+                      value={currentMemo}
+                      onChange={handleMemoChange}
+                      placeholder="오늘의 일기를 작성해주세요 ~ `-`"
                       readOnly={!isEditMode}
                     />
-                    {isEditMode && (
-                      <RemoveButton onClick={handleRemoveEvent(index)}>
-                        -
-                      </RemoveButton>
-                    )}
-                  </CheckboxWrapper>
-                ))}
-                {isEditMode && events.length < 5 && (
-                  <AddButton onClick={handleAddEvent}>+</AddButton>
-                )}
-                <BoardTitle>[오늘의 일기]</BoardTitle>
-                <MemoInput
-                  ref={memoTextAreaRef}
-                  value={currentMemo}
-                  onChange={handleMemoChange}
-                  placeholder="오늘의 일기를 작성해주세요 ~ `-`"
-                  readOnly={!isEditMode}
-                />
+                  </>
+                ) : null}
                 <ButtonWrap>
                   {memos[moment(selectedDate).format("YYYY-MM-DD")] ? (
                     isEditMode ? (
@@ -702,11 +723,11 @@ const DateDiary = () => {
                       </>
                     )
                   ) : isEditMode ? (
-                    <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+                    <>
+                      <SaveButton onClick={handleMemoSave}>저장</SaveButton>
+                    </>
                   ) : (
-                    <EditButton onClick={() => setIsEditMode(true)}>
-                      추가
-                    </EditButton>
+                    <NewButton onClick={() => setIsEditMode(true)}>+</NewButton>
                   )}
                 </ButtonWrap>
               </LineDown>

@@ -401,16 +401,20 @@ const DateAlbum = () => {
   };
 
   useEffect(() => {
-    const savedImages = JSON.parse(localStorage.getItem('Images')) || Array(15).fill(null);
-    const savedImgBoxes = JSON.parse(localStorage.getItem('ImgBoxes')) ||
-      Array(15).fill(null).map((_, index) => (index === 0 ? "+" : null));
-  
+    const savedImages =
+      JSON.parse(localStorage.getItem("Images")) || Array(15).fill(null);
+    const savedImgBoxes =
+      JSON.parse(localStorage.getItem("ImgBoxes")) ||
+      Array(15)
+        .fill(null)
+        .map((_, index) => (index === 0 ? "+" : null));
+
     setImages(savedImages);
     setImgBoxes(savedImgBoxes);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('Images', JSON.stringify(images));
+    localStorage.setItem("Images", JSON.stringify(images));
   }, [images]);
 
   const handleAddImage = (index, file) => {
@@ -441,8 +445,8 @@ const DateAlbum = () => {
           setImgBoxes(newImgBoxes);
           setImages(newImages);
 
-          localStorage.setItem('Images', JSON.stringify(newImages));
-          localStorage.setItem('ImgBoxes', JSON.stringify(newImgBoxes));
+          localStorage.setItem("Images", JSON.stringify(newImages));
+          localStorage.setItem("ImgBoxes", JSON.stringify(newImgBoxes));
         });
       }
     );
@@ -470,8 +474,8 @@ const DateAlbum = () => {
     setImgBoxes(newImgBoxes);
     setImages(newImages);
 
-    localStorage.setItem('Images', JSON.stringify(newImages));
-    localStorage.setItem('ImgBoxes', JSON.stringify(newImgBoxes));
+    localStorage.setItem("Images", JSON.stringify(newImages));
+    localStorage.setItem("ImgBoxes", JSON.stringify(newImgBoxes));
   };
 
   const handleFileInputChange = (index, e) => {
