@@ -14,7 +14,7 @@ moment.locale("ko");
 // Styled components
 const StyledCalendarWrapper = styled.div`
   width: 90%;
-  height: 70%;
+  height: 100%;
   margin-bottom: 5%;
   margin-top: 2%;
   display: flex;
@@ -25,7 +25,7 @@ const StyledCalendarWrapper = styled.div`
     width: 100%;
     border: none;
     border-radius: 0.5rem;
-    padding: 6% 5%;
+    padding: 2% 2%;
     background-color: #eccdaf;
   }
 
@@ -110,7 +110,8 @@ const StyledCalendarWrapper = styled.div`
 
   /* 일 날짜 간격 */
   .react-calendar__tile {
-    padding: 18px 0px 18px;
+    top: 0.45vw;
+    padding: 0.95vw 0vw 0.9vw;
     position: relative;
   }
 
@@ -141,10 +142,21 @@ const StyledCalendarWrapper = styled.div`
 
 const StyledCalendar = styled(Calendar)``;
 
+const StyledBorder = styled.div`
+  border-radius: 0.3rem;
+  border: 0.2rem solid #e7bfa1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+`;
+
 const StyledDate = styled.div`
   position: absolute;
   right: 7%;
-  top: 8.5%;
+  top: 4%;
   background-color: #eccdaf;
   color: black;
   width: 10%;
@@ -156,9 +168,19 @@ const StyledDate = styled.div`
   font-weight: 800;
 `;
 
-const StyledToday = styled.div`
-  font-size: x-small;
-  color: brown; /* 기타 색상 코드로 변경 */
+// const StyledToday = styled.div`
+//   font-size: 0.55rem;
+//   color: brown; /* 기타 색상 코드로 변경 */
+//   font-weight: 600;
+//   position: absolute;
+//   top: 9%;
+//   left: 24%;
+//   transform: translateX(-50%);
+// `;
+
+const StyledAnniversary = styled.div`
+  font-size: 0.63rem;
+  color: royalblue; /* 기타 색상 코드로 변경 */
   font-weight: 600;
   position: absolute;
   top: 60%;
@@ -167,12 +189,12 @@ const StyledToday = styled.div`
 `;
 
 const StyledDot = styled.div`
-  background-color: #ea40d6; /* 기타 색상 코드로 변경 */
+  background-color: brown; /* 기타 색상 코드로 변경 */
   border-radius: 50%;
   width: 0.3rem;
   height: 0.3rem;
   position: absolute;
-  top: 80%;
+  top: 20%;
   left: 50%;
   transform: translateX(-35%);
 `;
@@ -226,7 +248,7 @@ const CoupleDiv = styled.div`
 `;
 const Dday = styled.div`
   width: 90%;
-  height: 10%;
+  height: 8%;
   margin-top: 2%;
   font-size: 1.3vw;
   font-weight: 600;
@@ -385,7 +407,7 @@ const CheckboxWrapper = styled.div`
 `;
 
 const EventInput = styled.input`
-  width: 60%;
+  width: 90%;
   margin-left: 0.5rem;
   padding: 0.2rem;
   font-size: 1rem;
@@ -394,6 +416,18 @@ const EventInput = styled.input`
   background-color: #eccdaf;
   outline: none;
 `;
+
+const AnniversaryInput = styled.input`
+  width: 90%;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  font-size: 1rem;
+  border: solid #eccdaf;
+  border-radius: 0.3rem;
+  background-color: #eccdaf;
+  outline: none;
+`;
+
 const AddButton = styled.button`
   margin-top: 0.5rem;
   padding: 0.2rem 0.5rem;
@@ -456,6 +490,8 @@ const DateDiary = () => {
   const [currentMemo, setCurrentMemo] = useState("");
   const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]);
   const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
+  const [anniversaryText, setAnniversaryText] = useState(""); // 기념일 텍스트 상태
+  const [anniversaries, setAnniversaries] = useState({}); // 기념일 상태
 
   const attendDay = [""];
   const anniversaryDate = moment("2024-01-23");
@@ -468,6 +504,10 @@ const DateDiary = () => {
     if (savedMemos) {
       setMemos(JSON.parse(savedMemos));
     }
+    const savedAnniversaries = localStorage.getItem("anniversaries");
+    if (savedAnniversaries) {
+      setAnniversaries(JSON.parse(savedAnniversaries));
+    }
   }, []);
 
   useEffect(() => {
@@ -475,17 +515,18 @@ const DateDiary = () => {
   }, [memos]);
 
   useEffect(() => {
-    const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
-    setCurrentMemo(memoData.memo || "");
-    setEvents(memoData.events || []);
-    setIsEditMode(false); // 날짜가 변경될 때마다 읽기 모드로 전환
-  }, [selectedDate, memos]);
+    localStorage.setItem("anniversaries", JSON.stringify(anniversaries));
+  }, [anniversaries]);
 
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
     setCurrentMemo(memoData.memo || "");
     setEvents(memoData.events || []);
-  }, [selectedDate, memos]);
+    setAnniversaryText(
+      anniversaries[moment(selectedDate).format("YYYY-MM-DD")] || ""
+    );
+    setIsEditMode(false); // 날짜가 변경될 때마다 읽기 모드로 전환
+  }, [selectedDate, memos, anniversaries]);
 
   useEffect(() => {
     const memoTextArea = memoTextAreaRef.current;
@@ -512,9 +553,10 @@ const DateDiary = () => {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    setCurrentMemo(memos[moment(date).format("YYYY-MM-DD")] || "");
     const memoData = memos[moment(date).format("YYYY-MM-DD")] || {};
+    setCurrentMemo(memoData.memo || "");
     setEvents(memoData.events || [{ isEvent: false, eventText: "" }]);
+    setAnniversaryText(anniversaries[moment(date).format("YYYY-MM-DD")] || "");
   };
 
   const handleMemoChange = (e) => {
@@ -545,28 +587,32 @@ const DateDiary = () => {
     setEvents(newEvents);
   };
 
+  const handleAnniversaryTextChange = (e) => {
+    setAnniversaryText(e.target.value);
+  };
+
   const handleMemoSave = () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
 
     if (
       currentMemo.trim() === "" &&
-      events.every((event) => !event.eventText.trim())
+      events.every((event) => !event.eventText.trim()) &&
+      anniversaryText.trim() === ""
     ) {
-      alert("일기나 일정 중 최소 하나를 입력하세요.");
-      return; // 일기나 일정이 모두 비어 있으면 저장을 중단
+      alert("기념일, 일정, 일기 중 최소 하나를 입력하세요.");
+      return; //기념일, 일기나 일정이 모두 비어 있으면 저장을 중단
     }
-    // 오늘 날짜와 선택된 날짜가 같은지 확인
-    const isToday = moment(selectedDate).isSame(today, "day");
 
-    // 일기 저장
     setMemos((prevMemos) => ({
       ...prevMemos,
       [formattedSelectedDate]: { memo: currentMemo, events },
     }));
 
-    if (!isToday) {
-      // 달력에 점을 찍는 로직 추가 (필요 시)
-    }
+    setAnniversaries((prevAnniversaries) => ({
+      ...prevAnniversaries,
+      [formattedSelectedDate]: anniversaryText,
+    }));
+
     setIsEditMode(false); // 저장 후 읽기 모드로 전환
   };
 
@@ -579,8 +625,15 @@ const DateDiary = () => {
       return updatedMemos;
     });
 
+    setAnniversaries((prevAnniversaries) => {
+      const updatedAnniversaries = { ...prevAnniversaries };
+      delete updatedAnniversaries[formattedSelectedDate];
+      return updatedAnniversaries;
+    });
+
     setEvents([{ isEvent: false, eventText: "" }]);
     setCurrentMemo("");
+    setAnniversaryText("");
     setIsEditMode(false); // 삭제 후 읽기 모드로 전환
   };
 
@@ -619,32 +672,35 @@ const DateDiary = () => {
               }
               tileContent={({ date, view }) => {
                 let html = [];
-                if (
-                  view === "month" &&
-                  date.getMonth() === today.getMonth() &&
-                  date.getDate() === today.getDate()
-                ) {
-                  html.push(<StyledToday key={"today"}>오늘</StyledToday>);
+                const formattedDate = moment(date).format("YYYY-MM-DD");
+                // if (
+                //   view === "month" &&
+                //   date.getMonth() === today.getMonth() &&
+                //   date.getDate() === today.getDate()
+                // ) {
+                //   html.push(<StyledToday key={"today"}>오늘</StyledToday>);
+                // }
+                if (attendDay.includes(formattedDate)) {
+                  html.push(<StyledDot key={formattedDate} />);
                 }
-                if (
-                  attendDay.find((x) => x === moment(date).format("YYYY-MM-DD"))
-                ) {
+                if (memos[formattedDate]) {
+                  html.push(<StyledDot key={`memo-${formattedDate}`} />);
+                }
+                if (anniversaries[formattedDate]) {
+                  const displayText =
+                    anniversaries[formattedDate].length > 5
+                      ? anniversaries[formattedDate].substring(0, 5) + "..."
+                      : anniversaries[formattedDate];
                   html.push(
-                    <StyledDot key={moment(date).format("YYYY-MM-DD")} />
+                    <StyledAnniversary key={`anniversary-${formattedDate}`}>
+                      {displayText}
+                    </StyledAnniversary>
+                  );
+                  html.push(
+                    <StyledBorder key={`anniversary-${formattedDate}`} />
                   );
                 }
-                /// 해당 날짜에 일기가 있는지 확인하고 점 추가
-                if (
-                  memos[moment(date).format("YYYY-MM-DD")] &&
-                  !moment(date).isSame(today, "day")
-                ) {
-                  html.push(
-                    <StyledDot
-                      key={`memo-${moment(date).format("YYYY-MM-DD")}`}
-                    />
-                  );
-                }
-                return <>{html}</>;
+                return <div>{html.length > 0 ? html : null}</div>;
               }}
             />
             <StyledDate onClick={handleTodayClick}>오늘</StyledDate>
@@ -674,7 +730,12 @@ const DateDiary = () => {
                 isEditMode ? (
                   <>
                     <BoardTitle>[기념일]</BoardTitle>
-
+                    <AnniversaryInput
+                      value={anniversaryText}
+                      onChange={handleAnniversaryTextChange}
+                      placeholder="어떤 기념일인가요 ?"
+                      readOnly={!isEditMode}
+                    />
                     <BoardTitle>[오늘의 일정]</BoardTitle>
                     {events.map((event, index) => (
                       <CheckboxWrapper key={index}>
