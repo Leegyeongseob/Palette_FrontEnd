@@ -272,16 +272,16 @@ const PalettePage = () => {
         <Background>
           <Header>
             <LogoBox>
-              <PaletteLogo to="/palette"></PaletteLogo>
-              <CenterLogo to="/palette"></CenterLogo>
+              <PaletteLogo to="/"></PaletteLogo>
+              <CenterLogo to="/"></CenterLogo>
             </LogoBox>
           </Header>
           <MenuBar>
             <MenuBox>
-              <Menu to="/palette">Palette 소개</Menu>
+              <Menu to="/">Palette 소개</Menu>
               <Menu>고객센터</Menu>
               <Menu>공지사항</Menu>
-              <Menu to="/">시작하기</Menu>
+              <Menu to="/not-login">시작하기</Menu>
             </MenuBox>
           </MenuBar>
           <Intro>

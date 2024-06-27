@@ -31,7 +31,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/palette" element={<PalettePage />} />
+          <Route path="/" element={<PalettePage />} />
           <Route element={<OpenBook />}>
             <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
@@ -54,7 +54,7 @@ function App() {
             />
           </Route>
           <Route element={<CloseBook />}>
-            <Route path="/" element={<NotLogin />} />
+            <Route path="/not-login" element={<NotLogin />} />
             <Route path="/login-page" element={<LoginPage />} />
             <Route path="/signup-page" element={<SignupPage />} />
             <Route path="/find-email" element={<FindEmail />} />
