@@ -2,12 +2,15 @@ import styled from "styled-components";
 import personicon from "../../img/loginImg/person-icon.png";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import naver from "../../img/loginImg/naver.png";
 import kakao from "../../img/loginImg/kakako.png";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { useState } from "react";
+import LoginAxios from "../../axiosapi/LoginAxios";
+import Common from "../../common/Common";
+import Modal from "../../common/utils/Modal";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -216,10 +219,21 @@ const LoginPage = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
   // 유효성 검사
-  const [isId, setIsId] = useState("");
-  const [isPassword] = useState("");
+  const [isId, setIsId] = useState(false);
+  const [isPwd, setIsPwd] = useState(false);
+  // 패스워드 입력
+  const [inputpwd, setInputPwd] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
+  // 모달 내용 변경
+  const [modalContent, setModalContent] = useState("");
+
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const navigate = useNavigate();
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -230,6 +244,33 @@ const LoginPage = () => {
     } else {
       setIdMessage("올바른 형식 입니다.");
       setIsId(true);
+    }
+  };
+  const onChangePwd = (e) => {
+    setInputPwd(e.target.value);
+    setIsPwd(true);
+  };
+  const loginBtnHandler = () => {
+    loginAxios(inputEmail, inputpwd);
+  };
+  const loginAxios = async (email, pwd) => {
+    try {
+      const response = await LoginAxios.login(email, pwd);
+      console.log(response.data);
+      if (response.data.grantType === "bearer") {
+        console.log("accessToken : ", response.data.accessToken);
+        console.log("refreshToken : ", response.data.refreshToken);
+        Common.setAccessToken(response.data.accessToken);
+        Common.setRefreshToken(response.data.refreshToken);
+        navigate("/main-page");
+      } else {
+        setModalOpen(true);
+        setModalContent("암호화에 실패했습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      setModalContent("계정이 없습니다.");
     }
   };
   return (
@@ -256,7 +297,12 @@ const LoginPage = () => {
           <IconWrapper>
             <MdLockOutlineStyled />
           </IconWrapper>
-          <InputDiv type="password" placeholder="Password" />
+          <InputDiv
+            type="password"
+            placeholder="Password"
+            value={inputpwd}
+            onChange={onChangePwd}
+          />
         </InputContainer>
       </LoginDiv>
       <FindDiv>
@@ -291,10 +337,13 @@ const LoginPage = () => {
         </div>
       </SimpleLogin>
       <ButtonDiv>
-        <Link to="/main-page" style={{ textDecoration: "none" }}>
-          <LoginButton isActive={isId && isPassword}>Login</LoginButton>
-        </Link>
+        <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
+          Login
+        </LoginButton>
       </ButtonDiv>
+      <Modal open={modalOpen} close={closeModal} header="오류">
+        {modalContent}
+      </Modal>
     </Contain>
   );
 };
