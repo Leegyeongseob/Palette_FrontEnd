@@ -251,7 +251,6 @@ const GuestbookImage = styled.div`
   background-image: url(${CandyImg});
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
 `;
 
 const GuestbookMain = styled.div`

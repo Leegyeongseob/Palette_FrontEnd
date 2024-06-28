@@ -80,11 +80,9 @@ const BoardTh = styled.th`
   text-align: center;
   padding: 0;
   box-sizing: border-box;
-  // ID
   &:nth-child(1) {
     width: 3vw;
   }
-  // Date
   &:nth-child(3) {
     width: 4vw;
   }
@@ -222,14 +220,12 @@ const GuestbookBody = styled.div`
   display: flex;
 `;
 const GuestbookImage = styled.div`
-  width: 4.6vw;
+  width: 4.8vw;
   height: 9.6vh;
   background-image: url(${CandyImg});
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
 `;
-
 const GuestbookMain = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
@@ -267,15 +263,14 @@ const BoardGuestbook = () => {
 
   const handleNameClick = (id) => {
     navigate(`/board-details`);
-    //백엔드 작업 완료 후 사용 - id번호로 이동
+    //백엔드 작업 완료 후 사용 - id번호로 이동 예정
     // navigate(`/board-details/${id}`);
   };
 
-  // 페이지 번호 클릭 시 이벤트 처리 함수
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  // 현재 페이지에 맞는 데이터 슬라이스
+
   const currentData = BoardData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
