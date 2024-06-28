@@ -1,31 +1,49 @@
-import styled from "styled-components";
-import GlobalStyle from '../../PaletteStyle.js';
+import styled, { keyframes } from "styled-components";
+import GlobalStyle from "../../PaletteStyle.js";
 import CloseBook from "../../img/palettePg/cbook.png";
 import page1 from "../../img/palettePg/1p.png";
 import page2 from "../../img/palettePg/2p.png";
 import page3 from "../../img/palettePg/3p.png";
 import { useEffect, useRef, useState } from "react";
-import Dots from './Dots';
-import Header from './Header';
+import Dots from "./Dots";
+import Header from "./Header";
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const AnimatedDiv = styled.div`
+  opacity: 0;
+  animation: ${fadeInUp} 1s forwards;
+  animation-play-state: paused;
+  animation-delay: ${({ delay }) => delay || "0s"};
+`;
 
 const Background = styled.div`
   width: 100%;
-  height: 830vh;
+  height: 835vh;
   display: flex;
   flex-direction: column;
-  font-size: 1.8rem;  
+  font-size: 1.8rem;
 `;
 
-const Intro = styled.div`
+const Intro = styled(AnimatedDiv)`
   width: 100%;
-  height: 85vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #fff9f2;
 `;
 
-const CloseBookImg = styled.div`
+const CloseBookImg = styled(AnimatedDiv)`
   width: 50%;
   height: 80%;
   background-image: url(${CloseBook});
@@ -34,7 +52,7 @@ const CloseBookImg = styled.div`
   background-position: center;
 `;
 
-const OpenBookImg = styled.div`
+const OpenBookImg = styled(AnimatedDiv)`
   width: 60%;
   height: 55%;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
@@ -43,7 +61,7 @@ const OpenBookImg = styled.div`
   background-position: center;
 `;
 
-const Intro1 = styled.div`
+const Intro1 = styled(AnimatedDiv)`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -53,7 +71,7 @@ const Intro1 = styled.div`
   background-color: #feeee8;
 `;
 
-const Intro2 = styled.div`
+const Intro2 = styled(AnimatedDiv)`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -63,7 +81,7 @@ const Intro2 = styled.div`
   background-color: #fff9f2;
 `;
 
-const PageIntro = styled.div`
+const PageIntro = styled(AnimatedDiv)`
   width: 35%;
   height: 100vh;
   display: flex;
@@ -85,7 +103,7 @@ const Outer = styled.div`
   height: 100vh;
   overflow-y: hidden;
   ::-webkit-scrollbar {
-    display: none; /* 웹킷 브라우저에서 스크롤바를 숨깁니다 */
+    display: none;
   }
 `;
 
@@ -157,57 +175,76 @@ const PalettePage = () => {
     }
   };
 
+  // Intersection Observer로 애니메이션 트리거
+  useEffect(() => {
+    const options = {
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.animationPlayState = "running";
+        }
+      });
+    }, options);
+
+    const elements = document.querySelectorAll("[data-animate]");
+    elements.forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => {
+      elements.forEach((el) => {
+        observer.unobserve(el);
+      });
+    };
+  }, []);
+
   return (
     <>
-    <GlobalStyle/>
+      <GlobalStyle />
       <Dots currentPage={currentPage} onPageChange={handlePageChange} />
       <Outer ref={outerDivRef}>
         <Background>
           <Header />
-          <Intro>
-          <PageIntro>
-            연애의 시작,
-            </PageIntro>
-            <CloseBookImg />
-            <PageIntro>
-              팔레트
-            </PageIntro>
+          <Intro data-animate>
+            <PageIntro data-animate>연애의 시작,</PageIntro>
+            <CloseBookImg data-animate />
+            <PageIntro data-animate>팔레트</PageIntro>
           </Intro>
-          <Intro1>
-            <OpenBookImg imageurl={page1} />
-            <PageIntro>
-            지금 연애하고 계신가요?
+          <Intro1 data-animate>
+            <OpenBookImg imageurl={page1} data-animate />
+            <PageIntro data-animate>지금 연애하고 계신가요?</PageIntro>
+          </Intro1>
+          <Intro2 data-animate>
+            <PageIntro data-animate>팔레트를 시작하세요!</PageIntro>
+            <OpenBookImg imageurl={page2} data-animate />
+          </Intro2>
+          <Intro1 data-animate>
+            <OpenBookImg imageurl={page3} data-animate />
+            <PageIntro data-animate>
+              팔레트는 연인과 더 사랑스럽게 소통하고,
             </PageIntro>
           </Intro1>
-          <Intro2>
-            <PageIntro>
-            팔레트를 시작하세요!
+          <Intro2 data-animate>
+            <PageIntro data-animate>
+              소중한 추억을 손쉽게 저장할 수 있습니다.
             </PageIntro>
-            <OpenBookImg imageurl={page2} />
+            <OpenBookImg imageurl={page2} data-animate />
           </Intro2>
-          <Intro1>
-            <OpenBookImg imageurl={page3} />
-            <PageIntro>
-            팔레트는 연인과 더 사랑스럽게 소통하고,
-            </PageIntro>
+          <Intro1 data-animate>
+            <OpenBookImg imageurl={page3} data-animate />
+            <PageIntro data-animate>둘만의 추억,</PageIntro>
           </Intro1>
-          <Intro2>
-            <PageIntro>
-            소중한 추억을 손쉽게 저장할 수 있습니다.
-            </PageIntro>
-            <OpenBookImg imageurl={page2} />
+          <Intro2 data-animate>
+            <PageIntro data-animate>특별한 기억,</PageIntro>
+            <OpenBookImg imageurl={page2} data-animate />
           </Intro2>
-          <Intro1>
-            <OpenBookImg imageurl={page3} />
-            <PageIntro>둘만의 추억,</PageIntro>
-          </Intro1>
-          <Intro2>
-            <PageIntro>특별한 기억,</PageIntro>
-            <OpenBookImg imageurl={page2} />
-          </Intro2>
-          <Intro1>
-            <OpenBookImg imageurl={page3} />
-            <PageIntro>추억을 만들어보세요!</PageIntro>
+          <Intro1 data-animate>
+            <OpenBookImg imageurl={page3} data-animate />
+            <PageIntro data-animate>추억을 만들어보세요!</PageIntro>
           </Intro1>
           <Footer></Footer>
         </Background>
