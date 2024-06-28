@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.2.1",
     "@use-gesture/react": "^10.3.1",
     "axios": "^1.7.2",
+    "emailjs-com": "^3.2.0",
     "firebase": "^10.12.2",
     "haversine-distance": "^1.2.3",
     "moment": "^2.30.1",

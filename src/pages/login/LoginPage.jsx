@@ -307,7 +307,7 @@ const LoginPage = () => {
             placeholder="Password"
             value={inputpwd}
             onChange={onChangePwd}
-            onClick={loginBtnHandler} //패스워드를 입력하고 엔터를 눌렀을 경우
+            onKeyDown={handleKeyDown} //패스워드를 입력하고 엔터를 눌렀을 경우
           />
         </InputContainer>
       </LoginDiv>
@@ -345,7 +345,7 @@ const LoginPage = () => {
       <ButtonDiv>
         <LoginButton isActive={isId && isPwd}>Login</LoginButton>
       </ButtonDiv>
-      <Modal open={modalOpen} close={closeModal} header="오류">
+      <Modal open={modalOpen} close={closeModal} header="로그인 에러">
         {modalContent}
       </Modal>
     </Contain>

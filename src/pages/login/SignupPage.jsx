@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
+import emailjs from "emailjs-com";
+import Modal from "../../common/utils/Modal";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -52,6 +54,28 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
   }
   & > .InputEmail {
+    width: 8.333vw;
+    border-radius: 0.521vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 0.521vw;
+    font-size: 0.8vw;
+    font-weight: 600;
+  }
+  & > .InputCoupleName {
+    width: 8.333vw;
+    border-radius: 0.521vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 0.521vw;
+    font-size: 0.8vw;
+    font-weight: 600;
+  }
+  & > .InputCode {
     width: 8.333vw;
     border-radius: 0.521vw;
     border: none;
@@ -225,6 +249,16 @@ const TermsScrollableContent = styled.div`
   max-height: calc(100% - 100px);
   overflow-y: auto;
 `;
+const IsMyCoupleEmailForm = styled.div`
+  width: 10vw;
+  height: 10vh;
+  background-color: #fff;
+  border: 5px solid #cefdce;
+  border-radius: 10px;
+  position: absolute;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  overflow-y: auto;
+`;
 const SignupPage = () => {
   const navigate = useNavigate();
   // 키보드 입력
@@ -235,6 +269,12 @@ const SignupPage = () => {
   const [isId, setIsId] = useState("");
   const [isPwd, setIsPwd] = useState("");
   const [isPwdCheack, setIsPwdCheck] = useState("");
+  //이메일 보낸 후 상태 저장.
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  //인증코드 저장
+  const [saveCertificationCode, setSaveCertificationCode] = useState(null);
+  //인증 확인 상태
+  const [isEmail, setIsEmail] = useState(false);
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
   const [pwdMessage, setPwMessage] = useState("");
@@ -253,11 +293,26 @@ const SignupPage = () => {
   const [inputNickName, setInputNickName] = useState("");
   // 커플이름 입력
   const [inputCoupleName, setInputCoupleName] = useState("");
-
+  // 커플 메세지
+  const [coupleMessage, setCoupleMessage] = useState("");
+  // 커플 중복 상태변수
+  const [coupleNameDuplication, setCoupleNameDuplication] = useState(false);
+  // 내 짝인지 확인하는 폼을 여는 상태 변수
+  const [isMyCoupleEmailForm, setIsMyCoupleEmailForm] = useState(false);
+  // 내 짝인지 확인하는 상태변수
+  const [isMyCoupleEmail, setIsMyCoupleEmail] = useState(false);
   // 약관 보기 버튼 클릭 상태 변수
   const [isTermClickBtn, setIsTermClickBtn] = useState(false);
   // 약관 동의 체크 버튼
   const [isTermAccepted, setIsTermAccepted] = useState(false);
+  // 모달 내용 변경
+  const [modalContent, setModalContent] = useState("");
+
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -272,7 +327,6 @@ const SignupPage = () => {
   // // 이메일 중복 체크하는 함수
   const emailIsExist = async (input) => {
     const response = await LoginAxios.emailIsExist(input);
-    console.log(response.data);
     if (response.data) {
       setIdMessage("중복된 이메일입니다.");
       setIsId(false);
@@ -373,9 +427,8 @@ const SignupPage = () => {
   const handleInputNickName = (e) => {
     setInputNickName(e.target.value);
   };
-  const handleInputCoupleName = (e) => {
-    setInputCoupleName(e.target.value);
-  };
+
+  //주민등록번호 따로 받은 자리 합치는 함수
   const combineRRN = (firstPart, secondPart) => {
     // 문자열을 숫자로 변환
     const firstNum = parseInt(firstPart, 10);
@@ -384,6 +437,7 @@ const SignupPage = () => {
     // 계산 수행
     return firstNum * 10 + secondNum;
   };
+  //회원가입 비동기 함수
   const signUpAxios = async (
     inputEmail,
     inputPwd,
@@ -403,7 +457,6 @@ const SignupPage = () => {
         inputNickName,
         inputCoupleName
       );
-      console.log(response.data);
       if (response.data === "Success" && isTermAccepted) {
         navigate("/login-page");
       }
@@ -412,6 +465,7 @@ const SignupPage = () => {
     }
   };
 
+  // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {
     signUpAxios(
       inputEmail,
@@ -422,6 +476,98 @@ const SignupPage = () => {
       inputNickName,
       inputCoupleName
     );
+  };
+  //커플이름 onChange 함수
+  const handleInputCoupleName = (e) => {
+    setInputCoupleName(e.target.value);
+    coupleNameSearchAxios(e.target.value);
+  };
+  // 커플이름 중복확인 비동기 함수
+  const coupleNameSearchAxios = async (coupleName) => {
+    const response = await LoginAxios.coupleNameSearch(coupleName);
+    // 중복된 커플이름이 있는 경우
+    if (response.data) {
+      setCoupleMessage("이미 커플 이름이 존재합니다.");
+      setCoupleNameDuplication(false); // 상태 메세지 빨간색
+      // 신규 커플인 경우
+    } else {
+      setCoupleMessage("등록가능합니다.");
+      setCoupleNameDuplication(true); // 상태 메세지 녹색
+    }
+  };
+  // 커플이름 등록 버튼 함수
+  const coupleNameBtnOnClickHandler = () => {
+    // 짝이 있는지 확인
+    if (coupleNameDuplication === true) {
+      setIsMyCoupleEmailForm(true);
+    }
+    // 신규 커플 등록
+    else {
+      coupleNameInsertAxois(inputEmail, inputCoupleName);
+    }
+  };
+  //커플이름 Insert 비동기 함수
+  const coupleNameInsertAxois = async (email, coupleName) => {
+    const response = await LoginAxios.coupleNameInsert(email, coupleName);
+    console.log(response.data);
+  };
+  // 짝이 맞는 경우
+  const isMyCoupleEmailYesHandler = () => {
+    coupleNameInsertAxois(inputEmail, inputCoupleName);
+    setIsMyCoupleEmailForm(false);
+  };
+  // 짝이 아닌 경우
+  const isMyCoupleEmailNoHandler = () => {
+    setIsMyCoupleEmailForm(false);
+  };
+  // 짝 계정 불러오는 비동기 함수
+  const coupleEmailCheck = async (coupleName) => {
+    const response = await LoginAxios.coupleEmailCheck(coupleName);
+  };
+  // 이메일 인증 버튼 handler
+  const emailCertificationBtnHandler = () => {
+    sendVerificationEmail(inputEmail);
+  };
+  // 이메일 전송시 파라미터 넘기는 함수
+  const sendVerificationEmail = async (toEmail) => {
+    const certificationCode = Math.floor(Math.random() * 900000) + 100000; // 100000부터 999999까지의 난수 발생
+    setSaveCertificationCode(certificationCode);
+    // 이메일 보내기
+    // 여기서 정의해야 하는 것은 위에서 만든 메일 템플릿에 지정한 변수({{ }})에 대한 값을 담아줘야 한다.
+    const templateParams = {
+      toEmail: toEmail, // 수신 이메일
+      toName: "고객님",
+      certificationCode: certificationCode,
+    };
+    try {
+      const response = await emailjs.send(
+        "service_7cipsqb", // 서비스 ID
+        "service_7cipsqb", // 템플릿 ID
+        templateParams,
+        "VKzT47hXDU3sC3R13" // public-key
+      );
+      console.log("이메일이 성공적으로 보내졌습니다:", response);
+      setIdMessage("이메일이 성공적으로 보내졌습니다!");
+      setIsId(true);
+      setIsEmailSent(true);
+      // 이메일 전송 성공 처리 로직 추가
+    } catch (error) {
+      console.error("이메일 보내기 실패:", error);
+      setIdMessage("이메일 보내기 실패했습니다!");
+      setIsId(false);
+      setIsEmailSent(false);
+      // 이메일 전송 실패 처리 로직 추가
+    }
+  };
+  // 코드 확인 버튼 이벤트
+  const emailCertificationCodeOnClick = () => {
+    setModalOpen(true);
+    setModalContent("확인되었습니다.");
+  };
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+    setIsEmail(true);
   };
   return (
     <Contain>
@@ -436,10 +582,42 @@ const SignupPage = () => {
               onChange={onChangeEmail}
             />
             <Empty></Empty>
-            <EmailAthouized isActive={isId}>인증</EmailAthouized>
+            <EmailAthouized
+              isActive={isId}
+              onClick={emailCertificationBtnHandler}
+            >
+              인증
+            </EmailAthouized>
           </InputDetailDiv>
           {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         </div>
+        {isEmailSent && (
+          <InputDetailDiv>
+            <label>인증코드</label>
+            <input
+              className="InputCode"
+              value={saveCertificationCode}
+              onChange={(e) => {
+                setSaveCertificationCode(e.target.value);
+              }}
+            />
+            <Empty></Empty>
+            <EmailAthouized
+              isActive={isEmailSent}
+              onClick={emailCertificationCodeOnClick}
+            >
+              확인
+            </EmailAthouized>
+          </InputDetailDiv>
+        )}
+        <Modal
+          open={modalOpen}
+          header="인증코드 확인"
+          type={true}
+          confirm={codeModalOkBtnHandler}
+        >
+          {modalContent}
+        </Modal>
         <div>
           <InputDetailDiv>
             <label>비밀번호</label>
@@ -503,19 +681,33 @@ const SignupPage = () => {
             onChange={handleInputNickName}
           />
         </InputDetailDiv>
-        <InputDetailDiv>
-          <label>커플이름</label>
-          <input
-            className="InputClass"
-            value={inputCoupleName}
-            onChange={handleInputCoupleName}
-          />
-        </InputDetailDiv>
-        <InputDetailDiv>
-          <CoupleText>커플 이름이 있어야 가입이 가능합니다.</CoupleText>
-          <Empty />
-          <EmailAthouized isActive={true}>만들기</EmailAthouized>
-        </InputDetailDiv>
+        <div>
+          <InputDetailDiv>
+            <label>커플이름</label>
+            <input
+              className="InputCoupleName"
+              value={inputCoupleName}
+              onChange={handleInputCoupleName}
+            />
+            <Empty />
+            <EmailAthouized
+              isActive={true}
+              onClick={coupleNameBtnOnClickHandler}
+            >
+              등록
+            </EmailAthouized>
+          </InputDetailDiv>
+          <IsMyCoupleEmailForm isOpen={isMyCoupleEmailForm}>
+            <div>내 짝의 email이 맞나요?</div>
+            <EmailAthouized isActive={true} onClick={isMyCoupleEmailYesHandler}>
+              Yes
+            </EmailAthouized>
+            <EmailAthouized isActive={true} onClick={isMyCoupleEmailNoHandler}>
+              No
+            </EmailAthouized>
+          </IsMyCoupleEmailForm>
+          {/* <Message isCorrect={isCoupleNameDuplication}>{CoupleMessage}</Message> */}
+        </div>
         <InputDetailDiv2>
           <CoupleText style={{ fontSize: "0.833vw", fontWeight: "600" }}>
             약관 보기
@@ -591,7 +783,7 @@ const SignupPage = () => {
       <ButtonDiv>
         <SignupButton
           isActive={
-            isId &&
+            isEmail &&
             isPwd &&
             isPwdCheack &&
             rrnFirstPart &&

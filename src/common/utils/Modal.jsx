@@ -93,6 +93,7 @@ const Button = styled.button`
 `;
 
 const Modal = (props) => {
+  //모달 상태, 확인, 닫기, 타입, 헤더, 내용
   const { open, confirm, close, type, header, children } = props;
 
   return (
@@ -107,7 +108,7 @@ const Modal = (props) => {
             <main>{children}</main>
             <footer>
               {type && <Button onClick={confirm}>확인</Button>}
-              <Button onClick={close}>취소</Button>
+              {!type && <Button onClick={close}>취소</Button>}
             </footer>
           </section>
         )}
