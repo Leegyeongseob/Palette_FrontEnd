@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Logo from "../../img/background/logo.png";
 import PLogo from "../../img/background/paletteLogo.png";
 
@@ -22,7 +22,7 @@ const LogoBox = styled.div`
 `;
 
 const PaletteLogo = styled(Link)`
-  width: 45%;
+  width: 47%;
   height: 70%;
   display: flex;
   margin-top: 1%;
@@ -33,15 +33,19 @@ const PaletteLogo = styled(Link)`
 `;
 
 const CenterLogo = styled(Link)`
-  width: 10%;
-  height: 120%;
+  width: 7.292vw;
+  height: 14.69vh;
   display: flex;
-  margin-top: 2.5%;
+  margin-top: 2.8%;
+  border-radius: 50%;
   background-image: url(${Logo});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   z-index: 1001;
+  &:hover {
+    transform: scale(0.95);
+  }
 `;
 
 const MenuBar = styled.div`
