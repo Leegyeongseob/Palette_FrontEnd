@@ -165,7 +165,7 @@ const GuestbookInput = styled.textarea`
   background-color: transparent;
   font-size: 13px;
   resize: none;
-  overflow-y: auto;
+  overflow-y: aute;
 `;
 const GuestbookWriteButton = styled.div`
   margin-top: 0.5vh;
@@ -246,8 +246,8 @@ const GuestbookBody = styled.div`
   display: flex;
 `;
 const GuestbookImage = styled.div`
-  width: 4.6vw;
-  height: 9.6vh;
+  width: 4.8vw;
+  height: 9.7vh;
   background-image: url(${CandyImg});
   background-size: contain;
   background-repeat: no-repeat;
