@@ -28,6 +28,20 @@ const PaletteStyle = createGlobalStyle`
     font-weight: lighter;
     src: url('./font/HancomSans-Light_0.ttf') format('truetype');
   }
+
+  /* 웹킷 기반 브라우저의 스크롤바 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darkgray;
+  border-radius: 5px;
+}
 `;
 
 export default PaletteStyle;

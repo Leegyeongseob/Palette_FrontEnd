@@ -24,6 +24,10 @@ import Withdrawal from "./pages/setting/Withdrawal";
 import PalettePage from "./pages/palette/PalettePage";
 import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
 import GuestBoardDetails from "./pages/board/GuestBoardDetails";
+import HelpPage from "./pages/palette/HelpPage";
+import NoticePage from "./pages/palette/NoticePage";
+import InquiryPage from "./pages/palette/InquiryPage";
+import AdPage from "./pages/palette/AdPage";
 function App() {
   return (
     <>
@@ -32,6 +36,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PalettePage />} />
+          <Route path="/help" element={<HelpPage />} />
+          <Route path="/help/inquiry" element={<InquiryPage />} />
+          <Route path="/help/ad" element={<AdPage />} />
+          <Route path="/notice" element={<NoticePage />} />
           <Route element={<OpenBook />}>
             <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />

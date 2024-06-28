@@ -7,6 +7,7 @@ import page3 from "../../img/palettePg/3p.png";
 import { useEffect, useRef, useState } from "react";
 import Dots from "./Dots";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const fadeInUp = keyframes`
   from {
@@ -86,15 +87,6 @@ const PageIntro = styled(AnimatedDiv)`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Footer = styled.div`
-  width: 100%;
-  height: 30vh;
-  background-color: #f1f1f1;
-  display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -246,7 +238,7 @@ const PalettePage = () => {
             <OpenBookImg imageurl={page3} data-animate />
             <PageIntro data-animate>추억을 만들어보세요!</PageIntro>
           </Intro1>
-          <Footer></Footer>
+          <Footer />
         </Background>
       </Outer>
     </>
