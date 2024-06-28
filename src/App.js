@@ -24,10 +24,11 @@ import Withdrawal from "./pages/setting/Withdrawal";
 import PalettePage from "./pages/palette/PalettePage";
 import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
 import GuestBoardDetails from "./pages/board/GuestBoardDetails";
-import HelpPage from "./pages/palette/HelpPage";
-import NoticePage from "./pages/palette/NoticePage";
-import InquiryPage from "./pages/palette/InquiryPage";
-import AdPage from "./pages/palette/AdPage";
+import PaletteHelp from "./pages/palette/PaletteHelp";
+import PaletteNotice from "./pages/palette/PaletteNotice";
+import PaletteInquiry from "./pages/palette/PaletteInquiry";
+import PaletteAd from "./pages/palette/PaletteAd";
+import PaletteCustomer from "./pages/palette/PaletteCustomer"
 function App() {
   return (
     <>
@@ -36,10 +37,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PalettePage />} />
-          <Route path="/help" element={<HelpPage />} />
-          <Route path="/help/inquiry" element={<InquiryPage />} />
-          <Route path="/help/ad" element={<AdPage />} />
-          <Route path="/notice" element={<NoticePage />} />
+          <Route path="/customer" element={<PaletteCustomer />} />
+          <Route path="/customer/help" element={<PaletteHelp />} />
+          <Route path="/customer/inquiry" element={<PaletteInquiry />} />
+          <Route path="/customer/ad" element={<PaletteAd />} />
+          <Route path="/customer/notice" element={<PaletteNotice />} />
           <Route element={<OpenBook />}>
             <Route path="/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />

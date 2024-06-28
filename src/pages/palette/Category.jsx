@@ -40,9 +40,10 @@ const Cate = () => (
   <>
     <Category>
       <CateTitle>고객센터</CateTitle>
-      <CateContent to="/help">자주 묻는 질문</CateContent>
-      <CateContent to="/help/inquiry">1:1 문의 등록</CateContent>
-      <CateContent to="/help/ad">광고 문의</CateContent>
+      <CateContent to="/customer/notice">공지사항</CateContent>
+      <CateContent to="/customer/help">자주 묻는 질문</CateContent>
+      <CateContent to="/customer/inquiry">1:1 문의 등록</CateContent>
+      <CateContent to="/customer/ad">광고 문의</CateContent>
     </Category>
   </>
 );

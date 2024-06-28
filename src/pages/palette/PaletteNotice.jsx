@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import Globalstyle from "../../PaletteStyle";
 import Header from "./Header";
-import Category from "./Category";
 import Footer from "./Footer";
+import Category from "./Category";
 import { Link } from "react-router-dom";
 
 const Background = styled.div`
@@ -11,7 +11,8 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 1.8rem;
-`;
+`;  
+
 const Container = styled.div`
   width: 100%;
   height: 40%;
@@ -85,7 +86,7 @@ const HelpBoard = styled.div`
   flex-direction: column;
 `;
 
-const AdPage = () => {
+const NoticePage = () => {
   return (
     <>
       <Globalstyle />
@@ -98,9 +99,9 @@ const AdPage = () => {
               <HelpRoot>
                 <Root to="/">Palette</Root>
                 <Root2>{">"}</Root2>
-                <Root3 to="/help">고객센터</Root3>
+                <Root3 to="/customer">고객센터</Root3>
                 <Root2>{">"}</Root2>
-                <Root4 to="/help/ad">광고 문의</Root4>
+                <Root4 to="/customer/notice">공지사항</Root4>
               </HelpRoot>
               <SearchBox></SearchBox>
               <HelpBoard></HelpBoard>
@@ -114,4 +115,4 @@ const AdPage = () => {
   );
 };
 
-export default AdPage;
+export default NoticePage;

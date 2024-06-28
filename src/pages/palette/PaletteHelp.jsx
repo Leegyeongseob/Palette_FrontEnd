@@ -98,9 +98,9 @@ const HelpPage = () => {
               <HelpRoot>
                 <Root to="/">Palette</Root>
                 <Root2>{">"}</Root2>
-                <Root3 to="/help">고객센터</Root3>
+                <Root3 to="/customer">고객센터</Root3>
                 <Root2>{">"}</Root2>
-                <Root4 to="/help">자주 묻는 질문</Root4>
+                <Root4 to="/customer/help">자주 묻는 질문</Root4>
               </HelpRoot>
               <SearchBox></SearchBox>
               <HelpBoard></HelpBoard>
