@@ -66,7 +66,7 @@ const CategoryIcon = styled.span`
   background-size: 30px 30px;
 `;
 
-const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, map, setMap, currCategory, setCurrCategory, setPlaces, selectedPlaces, }) => {
+const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, map, setMap, currCategory, setCurrCategory, setPlaces,}) => {
   const [markers, setMarkers] = useState([]);
   const ps = new window.kakao.maps.services.Places(map);
   const { location } = useAddress();

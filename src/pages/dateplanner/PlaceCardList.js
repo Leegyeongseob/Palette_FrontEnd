@@ -14,13 +14,16 @@ const PlaceCardContainer = styled.div`
 
 const PlaceCard = styled.div`
   width: calc(33.33% - 20px); //3열로 정렬, 여백 포함
-  height: 14vh;
+  
   margin: 10px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 6px;
   background: #fff;
   box-shadow: 0px 1px 2px #888;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   &:hover {
     background: #888;
   }
@@ -49,6 +52,7 @@ const PlaceCardAddress = styled.div`
 const PlaceCardPhone = styled.div`
   font-size: 12px;
   color: #0f7833;
+  margin-bottom: 5px;
 `;
 
 const AddButton = styled.button`
@@ -60,6 +64,7 @@ const AddButton = styled.button`
   font-size: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  float: right;
 
   &:hover {
     background-color: #444;
