@@ -78,7 +78,7 @@ const CustomerBox = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #d3d3d3;
+  background-color: #dddddd;
   color: #303030;
 `;
 
@@ -89,12 +89,12 @@ const BoxLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px 20px;
+  padding: 18px 18px;
 `
 
 const BoxLeftUp = styled.div`
   width: 90%;
-  height: 55%;
+  height: 60%;
   font-size: 1.6vw;
   font-weight: 600;
   display: flex;
@@ -104,7 +104,7 @@ const BoxLeftUp = styled.div`
 `
 const BoxLeftDown = styled.div`
   width: 90%;
-  height: 35%;
+  height: 30%;
   font-size: 0.9vw;
   display: flex;
   justify-content: flex-start;
@@ -120,7 +120,7 @@ const BoxRight = styled.div`
   align-items: center;
   padding: 20px 20px;
 `
-const BoxRightWrap = styled(Link)`
+const BoxRightWrap = styled.div`
   width: 45%;
   height: 100%;
   text-decoration: none;
@@ -165,6 +165,7 @@ const HelpBoard = styled.div`
 `;
 
 const CustomerPage = () => {
+  
   return (
     <>
       <Globalstyle />
@@ -195,7 +196,8 @@ const CustomerPage = () => {
                     </BoxRightWrap>
                 </BoxRight>
               </CustomerBox>
-              <HelpBoard></HelpBoard>
+              <HelpBoard>
+              </HelpBoard>
             </Board>
           </BoardWrapper>
         </Container>
