@@ -67,7 +67,7 @@ const DatePlanner = () => {
   const handleEditCourse = (index) => {
     const course = savedCourses[index];
     setSelectedPlaces(course.places);
-    console.log("🤗",selectedPlaces)
+    console.log("🤗",course)
     setTitle(course.title);
     setIsEditing(true);
     setCurrentCourseIndex(index);
@@ -113,7 +113,9 @@ const DatePlanner = () => {
     placeOverlay.current.setMap(map);
   };
 
-  const openModal = () => {
+  const openModal = (index) => {
+    setSelectedPlaces(savedCourses[index].places);
+    console.log("모달확인",savedCourses[index].places )
     setIsModalOpen(true);
   };
 
@@ -174,18 +176,9 @@ useEffect(() => {
 
   return (
     <BookWrapper>
+  
       <BookContainer>
-      
-        <SavedCoursesList
-        
-          savedCourses={savedCourses}
-          setSelectedCourse={(course) => setSelectedPlaces(course.places)}
-          handleEditCourse={handleEditCourse}
-          handleDeleteCourse={handleDeleteCourse}
-          openModal={openModal}
-        />
-
-        <PlannerForm
+      <PlannerForm
           title={title}
           selectedPlaces={selectedPlaces}
           handleSaveCourse={handleSaveCourse}
@@ -194,6 +187,17 @@ useEffect(() => {
           handleDeletePlace={handleDeletePlace}
           handleClearPlaces={handleClearPlaces}
         />
+      
+        <SavedCoursesList
+        
+          savedCourses={savedCourses}
+          setSelectedCourse={(course) => setSelectedPlaces(course.places)}
+          handleEditCourse={handleEditCourse}
+          handleDeleteCourse={handleDeleteCourse}
+          openModal={(index) => openModal(index)}
+        />
+
+       
       </BookContainer>
       <BookContainer>
         <MapContainer
@@ -221,8 +225,10 @@ useEffect(() => {
       <MapModal 
       isOpen={isModalOpen} 
       onClose={closeModal} 
-      mapContainerRef={modalMapContainerRef} 
+      mapContainerRef={mapContainer}
+      map={map}
       selectedPlaces={selectedPlaces}
+      setNumMarker={setNumMarker}
       />
     </BookWrapper>
   );

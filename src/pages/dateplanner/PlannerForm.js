@@ -21,7 +21,13 @@ const CourseTitleInput = styled.input`
   border-radius: 4px;
 `;
 
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const SaveButton = styled.button`
+  margin-left: 10px;
   padding: 10px;
   background-color: black;
   color: white;
@@ -31,6 +37,19 @@ const SaveButton = styled.button`
   transition: background-color 0.3s;
   &:hover {
     background-color: #444;
+  }
+`;
+
+const ClearButton = styled.button`
+  padding: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #ff3333;
   }
 `;
 
@@ -49,21 +68,11 @@ const RemoveButton = styled.button`
   }
 `;
 
-const ClearButton = styled.button`
-  margin-top: 10px;
-  padding: 10px;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  &:hover {
-    background-color: #ff3333;
-  }
-`;
 
 const PlaceList = styled.ul`
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 24vh;
   list-style-type: none;
   padding: 0;
 `;
@@ -79,17 +88,20 @@ const PlaceItem = styled.li`
   h3 {
     margin: 0;
     color: #333;
+    font-size: 16px;
   }
 
   p {
     margin: 5px 0;
     color: #666;
+    font-size: 12px;
   }
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
+
 
 const PlannerForm = ({
   title,
@@ -150,10 +162,12 @@ const PlannerForm = ({
         placeholder={isEditing ? (title) : "코스 제목을 입력하세요"}
         
       />
+      <BtnContainer>
+      <ClearButton onClick={handleClearClick}>리스트 초기화</ClearButton>
       <SaveButton onClick={handleSaveClick}>
         {isEditing ? "코스 수정" : "코스 저장"}
       </SaveButton>
-      <ClearButton onClick={handleClearClick}>리스트 초기화</ClearButton>
+      </BtnContainer>
       <PlaceList>
         {storedPlaces.map((place) => (
           <PlaceItem key={place.id}>

@@ -6,7 +6,12 @@ const SavedCoursesContainer = styled.div`
   background-color: rgba(236, 242, 248, 0.8);
   border-radius: 10px;
   padding: 10px;
-  margin-top: 20px;
+  margin-top: 4px;
+  text-align: center;
+  font-size: 18px;
+  h3{
+    margin: auto;
+  }
 `;
 
 const CourseList = styled.ul`
@@ -17,6 +22,7 @@ const CourseList = styled.ul`
 
 const CourseItem = styled.li`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
@@ -24,9 +30,11 @@ const CourseItem = styled.li`
   background-color: #f9f9f9;
   border-radius: 4px;
   border: 1px solid #ddd;
+  gap: 6px;
 `;
 
-const CourseTitle = styled.span`
+const CourseTitle = styled.div`
+width: auto;
   cursor: pointer;
 `;
 
@@ -54,7 +62,7 @@ const SavedCoursesList = ({openModal, savedCourses, setSelectedCourse, handleEdi
   
   return (
     <SavedCoursesContainer>
-      <h2>저장된 코스</h2>
+      <h3>저장된 코스</h3>
       <CourseList>
         {savedCourses.map((course, index) => (
           <CourseItem key={index}>
@@ -62,7 +70,7 @@ const SavedCoursesList = ({openModal, savedCourses, setSelectedCourse, handleEdi
             <ActionButtons>
               <Button onClick={() => handleEditCourse(index)}>수정</Button>
               <Button onClick={() => handleDeleteCourse(index)}>삭제</Button>
-              <button onClick={openModal}>지도 보기</button>
+              <button onClick={() => openModal(index)}>지도 보기</button>
             </ActionButtons>
           </CourseItem>
         ))}

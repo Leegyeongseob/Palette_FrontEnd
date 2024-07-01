@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import useAddress from "../../hooks/useLocation"
+import useAddress from "../../hooks/useLocation";
 // import ReactDOM from "react-dom";
 // import DisplaceInfo from "../PinView/DisplaceInfo";
 
@@ -66,7 +66,17 @@ const CategoryIcon = styled.span`
   background-size: 30px 30px;
 `;
 
-const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, map, setMap, currCategory, setCurrCategory, setPlaces,}) => {
+const MapContainer = ({
+  mapContainer,
+  displayPlaceInfo,
+  contentNode,
+  placeOverlay,
+  map,
+  setMap,
+  currCategory,
+  setCurrCategory,
+  setPlaces,
+}) => {
   const [markers, setMarkers] = useState([]);
   const ps = new window.kakao.maps.services.Places(map);
   const { location } = useAddress();
@@ -81,7 +91,7 @@ const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, 
 
     const mapOption = {
       center: new kakao.maps.LatLng(location.lat, location.long),
-      level: 3,
+      level: 6,
     };
 
     const newMap = new kakao.maps.Map(Container, mapOption);
@@ -174,9 +184,6 @@ const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, 
     }
   };
 
-
-
-
   useEffect(() => {
     if (currCategory !== "") {
       console.log("카테고리 필터 적용됨. 선택한 카테고리:", currCategory);
@@ -184,39 +191,88 @@ const MapContainer = ({mapContainer,displayPlaceInfo,contentNode, placeOverlay, 
     } else {
       console.log("카테고리 필터 해제됨");
       removeMarker();
-      
     }
   }, [currCategory]);
 
-  
+  const handleSubmit = (e) => {
+    console.log("테스트", handleSubmit);
 
-  
+    e.preventDefault();
+    const keyword = e.target.elements.keyword.value.trim();
+    if (!keyword) {
+      alert("키워드를 입력하세요.");
+      return;
+    }
+
+    placeOverlay.current.setMap(null);
+    ps.keywordSearch(keyword, keywordSearchCB);
+  };
+
+  const keywordSearchCB = (data, status) => {
+    if (status === window.kakao.maps.services.Status.OK) {
+      searchPlace(data);
+    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+      alert("검색 결과가 없습니다.");
+    } else if (status === window.kakao.maps.services.Status.ERROR) {
+      alert("검색 중 오류가 발생했습니다.");
+    }
+  };
+
+  const searchPlace = (places) => {
+    markers.forEach((marker) => marker.setMap(null));
+    const bounds = new window.kakao.maps.LatLngBounds();
+
+    const newMarkers = places.map((place, index) => {
+      const markerPosition = new window.kakao.maps.LatLng(place.y, place.x);
+      const marker = new window.kakao.maps.Marker({
+        position: markerPosition,
+      });
+
+      window.kakao.maps.event.addListener(marker, "click", () => {
+        displayPlaceInfo(place);
+      });
+
+      bounds.extend(markerPosition);
+      return marker;
+    });
+
+    newMarkers.forEach((marker) => marker.setMap(map));
+    setMarkers(newMarkers);
+    map.setBounds(bounds);
+  };
 
   return (
-    <MapSection>
-      <MapWrap ref={mapContainer}>
-        <CategoryList id="category">
-          {["CE7", "FD6", "AD5", "AT4", "CT1", "CS2"].map((id) => (
-            <CategoryItem
-              key={id}
-              className={currCategory === id ? "on" : ""}
-              onClick={() => onClickCategory(id)}
-            >
-              <CategoryIcon
-                category={id}
-                selected={currCategory === id}
-              />
-              {id === "CE7" && "카페"}
-              {id === "FD6" && "음식점"}
-              {id === "AD5" && "숙박"}
-              {id === "AT4" && "관광명소"}
-              {id === "CT1" && "문화시설"}
-              {id === "CS2" && "편의점"}
-            </CategoryItem>
-          ))}
-        </CategoryList>
-      </MapWrap>
-    </MapSection>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="keyword" />
+        <button type="submit">검색하기</button>
+      </form>
+      <MapSection
+        placeOverlay={placeOverlay}
+        map={map}
+        placesSearchCB={placesSearchCB}
+      >
+        <MapWrap ref={mapContainer}>
+          <CategoryList id="category">
+            {["CE7", "FD6", "AD5", "AT4", "CT1", "CS2"].map((id) => (
+              <CategoryItem
+                key={id}
+                className={currCategory === id ? "on" : ""}
+                onClick={() => onClickCategory(id)}
+              >
+                <CategoryIcon category={id} selected={currCategory === id} />
+                {id === "CE7" && "카페"}
+                {id === "FD6" && "음식점"}
+                {id === "AD5" && "숙박"}
+                {id === "AT4" && "관광명소"}
+                {id === "CT1" && "문화시설"}
+                {id === "CS2" && "편의점"}
+              </CategoryItem>
+            ))}
+          </CategoryList>
+        </MapWrap>
+      </MapSection>
+    </div>
   );
 };
 

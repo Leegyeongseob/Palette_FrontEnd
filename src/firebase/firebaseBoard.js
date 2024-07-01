@@ -5,7 +5,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-const firebaseConfig = {
+const boardConfig = {
   apiKey: "AIzaSyDzABt3WNAvvx3VVWHg4mQgxWrTmB8vL-Q",
   authDomain: "boardimage-ff5d3.firebaseapp.com",
   projectId: "boardimage-ff5d3",
@@ -15,7 +15,7 @@ const firebaseConfig = {
   measurementId: "G-53CQX7MD0L",
 };
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+const boardApp = initializeApp(boardConfig, "boardImage");
+const storage = getStorage(boardApp);
 
-export { app, storage, ref, uploadBytesResumable, getDownloadURL };
+export { boardApp, storage, ref, uploadBytesResumable, getDownloadURL };
