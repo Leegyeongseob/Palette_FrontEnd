@@ -14,7 +14,7 @@ const Category = styled.div`
 
 const CateTitle = styled.div`
   width: 50%;
-  height: 15%;
+  height: 5%;
   margin-top: 5%;
   display: flex;
   justify-content: flex-start;
@@ -24,7 +24,7 @@ const CateTitle = styled.div`
 
 const CateContent = styled(Link)`
   width: 50%;
-  height: 8%;
+  height: 3%;
   display: flex;
   justify-content: flex-start;
   align-items: center;

@@ -18,7 +18,7 @@ const Background = styled.div`
 `;
 const Container = styled.div`
   width: 100%;
-  height: 40%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,7 @@ const Container = styled.div`
 
 const BoardWrapper = styled.div`
   width: 70%;
-  height: 75%;
+  height: 90%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -47,7 +47,7 @@ const Board = styled.div`
 
 const HelpRoot = styled.div`
   width: 90%;
-  height: 5%;
+  height: 3%;
   display: flex;
   flex-direction: row;
   font-size: 0.8vw;
@@ -74,8 +74,7 @@ const Root3 = styled(Root)`
 
 const CustomerBox = styled.div`
   width: 90%;
-  height: 21%;
-  margin-top: 2%;
+  height: 8%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -124,7 +123,7 @@ const BoxRight = styled.div`
 
 const BoxRightWrap = styled(Link)`
   width: 45%;
-  height: 100%;
+  height: 90%;
   text-decoration: none;
   color: #000;
   border: none;
@@ -136,7 +135,7 @@ const BoxRightWrap = styled(Link)`
 
 const BoxRightWrap2 = styled.div`
   width: 45%;
-  height: 100%;
+  height: 90%;
   text-decoration: none;
   color: #000;
   border: none;
@@ -166,7 +165,7 @@ const BoxRightUp2 = styled.div`
 
 const BoxRightDown = styled.div`
   width: 90%;
-  height: 35%;
+  height: 50%;
   font-size: 0.8vw;
   display: flex;
   justify-content: center;
@@ -175,10 +174,51 @@ const BoxRightDown = styled.div`
 
 const HelpBoard = styled.div`
   width: 90%;
-  height: 70%;
+  height: 23%;
   display: flex;
   flex-direction: column;
 `;
+
+const HelpWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 6%;
+`;
+
+const HelpTitle = styled.div`
+  width: 100%;
+  height: 15%;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+`;
+
+const HelpTitleLeft = styled.div`
+  width: 50%;
+  height: 90%;
+  font-size: 1.1vw;
+  font-weight: bolder;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+const HelpTitleRight = styled(Link)`
+  width: 50%;
+  height: 90%;
+  font-size: 0.8vw;
+  text-decoration: none;
+  color: #000;
+  border: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  &:hover {
+    font-weight: bolder;
+  }
+`;
+
 const CustomerPage = () => {
   useKakao("8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
 
@@ -193,8 +233,8 @@ const CustomerPage = () => {
   return (
     <>
       <Globalstyle />
+      <Header />
       <Background>
-        <Header />
         <Container>
           <BoardWrapper>
             <Category />
@@ -223,11 +263,35 @@ const CustomerPage = () => {
                   </BoxRightWrap2>
                 </BoxRight>
               </CustomerBox>
-              <HelpBoard></HelpBoard>
+              <HelpBoard>
+                <HelpWrap>
+                  <HelpTitle>
+                    <HelpTitleLeft>공지사항</HelpTitleLeft>
+                    <HelpTitleRight to="/customer/notice">
+                      더보기+
+                    </HelpTitleRight>
+                  </HelpTitle>
+                </HelpWrap>
+              </HelpBoard>
+              <HelpBoard>
+                <HelpWrap>
+                  <HelpTitle>
+                    <HelpTitleLeft>자주 묻는 질문</HelpTitleLeft>
+                    <HelpTitleRight to="/customer/help">더보기+</HelpTitleRight>
+                  </HelpTitle>
+                </HelpWrap>
+              </HelpBoard>
+              <HelpBoard>
+                <HelpWrap>
+                  <HelpTitle>
+                    <HelpTitleLeft>광고 문의</HelpTitleLeft>
+                    <HelpTitleRight to="/customer/ad">더보기+</HelpTitleRight>
+                  </HelpTitle>
+                </HelpWrap>
+              </HelpBoard>
             </Board>
           </BoardWrapper>
         </Container>
-        <Container></Container>
         <Footer />
       </Background>
     </>

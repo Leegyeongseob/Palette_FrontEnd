@@ -14,7 +14,7 @@ const Background = styled.div`
 `;
 const Container = styled.div`
   width: 100%;
-  height: 40%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const BoardWrapper = styled.div`
   width: 70%;
-  height: 75%;
+  height: 90%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -89,8 +89,8 @@ const InquiryPage = () => {
   return (
     <>
       <Globalstyle />
+      <Header />
       <Background>
-        <Header />
         <Container>
           <BoardWrapper>
             <Category />
@@ -107,7 +107,6 @@ const InquiryPage = () => {
             </Board>
           </BoardWrapper>
         </Container>
-        <Container></Container>
         <Footer />
       </Background>
     </>

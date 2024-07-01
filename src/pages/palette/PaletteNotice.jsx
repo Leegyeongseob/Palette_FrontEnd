@@ -11,11 +11,11 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 1.8rem;
-`;  
+`;
 
 const Container = styled.div`
   width: 100%;
-  height: 40%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@ const Container = styled.div`
 
 const BoardWrapper = styled.div`
   width: 70%;
-  height: 75%;
+  height: 90%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -90,8 +90,8 @@ const NoticePage = () => {
   return (
     <>
       <Globalstyle />
+      <Header />
       <Background>
-        <Header />
         <Container>
           <BoardWrapper>
             <Category />
@@ -108,7 +108,6 @@ const NoticePage = () => {
             </Board>
           </BoardWrapper>
         </Container>
-        <Container></Container>
         <Footer />
       </Background>
     </>
