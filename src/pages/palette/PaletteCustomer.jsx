@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import one from "../../img/loginImg/person-icon2.png";
 import two from "../../img/loginImg/kakako.png";
 import { Link } from "react-router-dom";
-import useKakao from "./KakaoChat"; // 파일 경로를 맞추세요
+import useKakao from "./KakaoChat";
 
 const Background = styled.div`
   width: 100%;
@@ -121,7 +121,20 @@ const BoxRight = styled.div`
   align-items: center;
   padding: 20px 20px;
 `;
-const BoxRightWrap = styled.div`
+
+const BoxRightWrap = styled(Link)`
+  width: 45%;
+  height: 100%;
+  text-decoration: none;
+  color: #000;
+  border: none;
+  background-color: #dddddd;
+  &:hover {
+    font-weight: bolder;
+  }
+`;
+
+const BoxRightWrap2 = styled.div`
   width: 45%;
   height: 100%;
   text-decoration: none;
@@ -166,9 +179,8 @@ const HelpBoard = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const CustomerPage = () => {
-  useKakao("Y8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
+  useKakao("8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
 
   const handleChat = () => {
     if (window.Kakao) {
@@ -177,6 +189,7 @@ const CustomerPage = () => {
       });
     }
   };
+
   return (
     <>
       <Globalstyle />
@@ -204,10 +217,10 @@ const CustomerPage = () => {
                     <BoxRightUp />
                     <BoxRightDown>1:1 문의하기</BoxRightDown>
                   </BoxRightWrap>
-                  <BoxRightWrap as="button" onClick={handleChat}>
+                  <BoxRightWrap2 as="button" onClick={handleChat}>
                     <BoxRightUp2 />
                     <BoxRightDown>카카오톡 문의</BoxRightDown>
-                  </BoxRightWrap>
+                  </BoxRightWrap2>
                 </BoxRight>
               </CustomerBox>
               <HelpBoard></HelpBoard>

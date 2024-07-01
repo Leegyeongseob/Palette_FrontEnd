@@ -7,8 +7,8 @@ const useKakao = (appKey) => {
     script.async = true;
     script.onload = () => {
       if (window.Kakao) {
-        window.Kakao.init(appKey); // 여기에 본인의 카카오 앱 키를 입력하세요
-        console.log(window.Kakao.isInitialized()); // true
+        window.Kakao.init(appKey);
+        console.log(window.Kakao.isInitialized());
       }
     };
     document.body.appendChild(script);
