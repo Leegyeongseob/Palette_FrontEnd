@@ -1,11 +1,13 @@
+import React from "react";
 import { styled } from "styled-components";
 import Globalstyle from "../../PaletteStyle";
 import Header from "./Header";
 import Category from "./Category";
 import Footer from "./Footer";
-import one from "../../img/loginImg/person-icon2.png"
-import two from "../../img/loginImg/kakako.png"
+import one from "../../img/loginImg/person-icon2.png";
+import two from "../../img/loginImg/kakako.png";
 import { Link } from "react-router-dom";
+import useKakao from "./KakaoChat"; // 파일 경로를 맞추세요
 
 const Background = styled.div`
   width: 100%;
@@ -73,7 +75,7 @@ const Root3 = styled(Root)`
 const CustomerBox = styled.div`
   width: 90%;
   height: 21%;
-  margin-top: 2%;   
+  margin-top: 2%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -90,7 +92,7 @@ const BoxLeft = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 18px 18px;
-`
+`;
 
 const BoxLeftUp = styled.div`
   width: 90%;
@@ -100,8 +102,7 @@ const BoxLeftUp = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-    
-`
+`;
 const BoxLeftDown = styled.div`
   width: 90%;
   height: 30%;
@@ -109,7 +110,7 @@ const BoxLeftDown = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-`
+`;
 
 const BoxRight = styled.div`
   width: 30%;
@@ -119,16 +120,18 @@ const BoxRight = styled.div`
   justify-content: flex-end;
   align-items: center;
   padding: 20px 20px;
-`
+`;
 const BoxRightWrap = styled.div`
   width: 45%;
   height: 100%;
   text-decoration: none;
   color: #000;
+  border: none;
+  background-color: #dddddd;
   &:hover {
     font-weight: bolder;
   }
-`
+`;
 
 const BoxRightUp = styled.div`
   width: 90%;
@@ -137,7 +140,7 @@ const BoxRightUp = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-`
+`;
 
 const BoxRightUp2 = styled.div`
   width: 90%;
@@ -155,7 +158,7 @@ const BoxRightDown = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const HelpBoard = styled.div`
   width: 90%;
@@ -165,7 +168,15 @@ const HelpBoard = styled.div`
 `;
 
 const CustomerPage = () => {
-  
+  useKakao("Y8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
+
+  const handleChat = () => {
+    if (window.Kakao) {
+      window.Kakao.Channel.chat({
+        channelPublicId: "_raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요
+      });
+    }
+  };
   return (
     <>
       <Globalstyle />
@@ -182,22 +193,24 @@ const CustomerPage = () => {
               </HelpRoot>
               <CustomerBox>
                 <BoxLeft>
-                    <BoxLeftUp>무엇을 도와드릴까요 ?</BoxLeftUp>
-                    <BoxLeftDown>고객센터 01025546626  |  평일 09:00 ~ 18:00  |  주말 및 공휴일 휴무</BoxLeftDown>
+                  <BoxLeftUp>무엇을 도와드릴까요 ?</BoxLeftUp>
+                  <BoxLeftDown>
+                    고객센터 01025546626 | 평일 09:00 ~ 18:00 | 주말 및 공휴일
+                    휴무
+                  </BoxLeftDown>
                 </BoxLeft>
                 <BoxRight>
-                    <BoxRightWrap to="/customer/inquiry">
-                        <BoxRightUp/>
-                        <BoxRightDown>1:1 문의하기</BoxRightDown>
-                    </BoxRightWrap>
-                    <BoxRightWrap>
-                        <BoxRightUp2/>
-                        <BoxRightDown>카카오톡 문의</BoxRightDown>
-                    </BoxRightWrap>
+                  <BoxRightWrap to="/customer/inquiry">
+                    <BoxRightUp />
+                    <BoxRightDown>1:1 문의하기</BoxRightDown>
+                  </BoxRightWrap>
+                  <BoxRightWrap as="button" onClick={handleChat}>
+                    <BoxRightUp2 />
+                    <BoxRightDown>카카오톡 문의</BoxRightDown>
+                  </BoxRightWrap>
                 </BoxRight>
               </CustomerBox>
-              <HelpBoard>
-              </HelpBoard>
+              <HelpBoard></HelpBoard>
             </Board>
           </BoardWrapper>
         </Container>
