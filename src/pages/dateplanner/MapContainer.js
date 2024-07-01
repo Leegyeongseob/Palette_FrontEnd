@@ -4,6 +4,14 @@ import useAddress from "../../hooks/useLocation";
 // import ReactDOM from "react-dom";
 // import DisplaceInfo from "../PinView/DisplaceInfo";
 
+
+const Search = styled.form`
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+
 const MapSection = styled.div`
   width: 25.8vw;
   min-width: 228px;
@@ -14,7 +22,7 @@ const MapSection = styled.div`
 const MapWrap = styled.div`
   position: relative;
   width: 100%;
-  height: 40vh;
+  height: 36vh;
 `;
 
 const CategoryList = styled.ul`
@@ -166,7 +174,7 @@ const MapContainer = ({
     });
 
     marker.setMap(map);
-    markers.push(marker); // 이 부분을 수정해야 합니다.
+    markers.push(marker);
     return marker;
   };
 
@@ -243,10 +251,6 @@ const MapContainer = ({
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="keyword" />
-        <button type="submit">검색하기</button>
-      </form>
       <MapSection
         placeOverlay={placeOverlay}
         map={map}
@@ -271,6 +275,10 @@ const MapContainer = ({
             ))}
           </CategoryList>
         </MapWrap>
+      <Search onSubmit={handleSubmit}>
+        <input type="text" name="keyword" />
+        <button type="submit">검색하기</button>
+      </Search>
       </MapSection>
     </div>
   );
