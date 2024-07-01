@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import AddPhoto from "../../img/board/AddPhoto.png";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import {
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "../../firebase/firebaseBoard";
 
 const BookTheme = styled.div`
   width: 53vw;
@@ -179,15 +185,21 @@ const WriteGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const WriteAddPhoto = styled.div`
+const WriteAddPhoto = styled.button`
   margin-top: 1.2vh;
-  margin-left: 1vw;
-  width: 3.5vw;
+  margin-left: 1.5vw;
+  width: 2vw;
   height: 3.5vh;
   background-image: url(${AddPhoto});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #aaa;
+  }
 `;
 const WriteMain = styled.div`
   margin-left: 1.5vw;
@@ -211,7 +223,7 @@ const WritePost = styled.div`
   margin-top: 2vh;
   margin-left: 19vw;
   width: 8vw;
-  heigth: 1vh;
+  height: 1vh;
   font-size: 13px;
   font-weight: 600;
   color: black;
@@ -220,7 +232,8 @@ const WritePost = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
-    color: blue
+    color: blue;
+  }
 `;
 
 const BoardData = [
@@ -261,6 +274,58 @@ const BoardWrite = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const BoardImgUploader = () => {
+    const [file, setFile] = useState(null);
+    const [url, setUrl] = useState("");
+    const fileInputRef = useRef(null);
+
+    const handleFileInputChange = (e) => {
+      setFile(e.target.files[0]);
+    };
+
+    const handleUploadClick = () => {
+      if (!file) return;
+
+      const fileRef = ref(storage, file.name);
+      const uploadTask = uploadBytesResumable(fileRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Progress handling can be added here if needed
+        },
+        (error) => {
+          console.error("Upload failed:", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setUrl(downloadURL);
+          });
+        }
+      );
+    };
+
+    const handleAddPhotoClick = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+
+    return (
+      <>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileInputChange}
+          style={{ display: "none" }}
+        />
+        <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
+        {url && <img src={url} alt="uploaded" />}
+      </>
+    );
+  };
+
   return (
     <BookTheme>
       <BoardSide>
@@ -317,7 +382,7 @@ const BoardWrite = () => {
           <WriteTitleInput type="text" placeholder="제목" />
         </WriteTitle>
         <WriteGrayBar />
-        <WriteAddPhoto />
+        <BoardImgUploader />
         <WriteMain>
           <WriteMainInput placeholder="내용을 입력하세요." />
         </WriteMain>
@@ -328,4 +393,5 @@ const BoardWrite = () => {
     </BookTheme>
   );
 };
+
 export default BoardWrite;

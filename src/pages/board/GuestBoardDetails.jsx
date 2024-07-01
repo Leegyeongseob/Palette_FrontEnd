@@ -238,7 +238,6 @@ const GuestBoardDetails = () => {
   return (
     <BookTheme>
       <BoardSide>
-        <ChangeBoardTitle>게시판 이름 변경</ChangeBoardTitle>
         <BoardTitle>알콩 달콩 커플게시판</BoardTitle>
         <CoupleDiv>
           <CoupleImg />
