@@ -3,6 +3,7 @@ import Globalstyle from "../../PaletteStyle";
 import Header from "./Header";
 import Category from "./Category";
 import Footer from "./Footer";
+import logosearch from "../../img/loginImg/findglass.png";
 import { Link } from "react-router-dom";
 
 const Background = styled.div`
@@ -73,11 +74,31 @@ const Root4 = styled(Root)`
 
 const SearchBox = styled.div`
   width: 90%;
-  height: 15%;
+  height: 8%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
+
+const SearchInput = styled.input.attrs({ type: "text" })`
+  display: flex;
+  width: 38%;
+  height: 50%;
+  padding: 2%;
+  border: 3px solid gray;
+  font-size: 0.9vw;
+  border-radius: 5px;
+`;
+
+const Searchlogo = styled.img`
+  width: 2%;
+  height: 16%;
+  cursor: pointer;
+  position: absolute;
+  margin-left: 32%;
+`;
+
 const HelpBoard = styled.div`
   width: 90%;
   height: 70%;
@@ -102,7 +123,14 @@ const HelpPage = () => {
                 <Root2>{">"}</Root2>
                 <Root4 to="/customer/help">자주 묻는 질문</Root4>
               </HelpRoot>
-              <SearchBox></SearchBox>
+              <SearchBox>
+              <SearchInput
+              placeholder="무엇을 도와드릴까요 ?"
+            />
+            <Searchlogo
+              src={logosearch}
+            />
+              </SearchBox>
               <HelpBoard></HelpBoard>
             </Board>
           </BoardWrapper>

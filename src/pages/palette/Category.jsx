@@ -12,7 +12,7 @@ const Category = styled.div`
   border-right: 1px solid darkgray;
 `;
 
-const CateTitle = styled.div`
+const CateTitle = styled(Link)`
   width: 50%;
   height: 5%;
   margin-top: 5%;
@@ -20,6 +20,11 @@ const CateTitle = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   font-size: 32px;
+  text-decoration: none;
+  color: #000;
+  &:hover {
+    font-weight: bolder;
+  }
 `;
 
 const CateContent = styled(Link)`
@@ -39,7 +44,7 @@ const CateContent = styled(Link)`
 const Cate = () => (
   <>
     <Category>
-      <CateTitle>고객센터</CateTitle>
+      <CateTitle to="/customer">고객센터</CateTitle>
       <CateContent to="/customer/notice">공지사항</CateContent>
       <CateContent to="/customer/help">자주 묻는 질문</CateContent>
       <CateContent to="/customer/inquiry">1:1 문의 등록</CateContent>

@@ -268,7 +268,7 @@ const CustomerPage = () => {
                   <HelpTitle>
                     <HelpTitleLeft>공지사항</HelpTitleLeft>
                     <HelpTitleRight to="/customer/notice">
-                      더보기+
+                      더보기 {">"}
                     </HelpTitleRight>
                   </HelpTitle>
                 </HelpWrap>
@@ -277,7 +277,7 @@ const CustomerPage = () => {
                 <HelpWrap>
                   <HelpTitle>
                     <HelpTitleLeft>자주 묻는 질문</HelpTitleLeft>
-                    <HelpTitleRight to="/customer/help">더보기+</HelpTitleRight>
+                    <HelpTitleRight to="/customer/help">더보기 {">"}</HelpTitleRight>
                   </HelpTitle>
                 </HelpWrap>
               </HelpBoard>
@@ -285,7 +285,7 @@ const CustomerPage = () => {
                 <HelpWrap>
                   <HelpTitle>
                     <HelpTitleLeft>광고 문의</HelpTitleLeft>
-                    <HelpTitleRight to="/customer/ad">더보기+</HelpTitleRight>
+                    <HelpTitleRight to="/customer/ad">더보기 {">"}</HelpTitleRight>
                   </HelpTitle>
                 </HelpWrap>
               </HelpBoard>
