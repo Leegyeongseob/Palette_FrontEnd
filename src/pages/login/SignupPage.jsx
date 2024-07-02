@@ -251,14 +251,25 @@ const TermsScrollableContent = styled.div`
   overflow-y: auto;
 `;
 const IsMyCoupleEmailForm = styled.div`
-  width: 10vw;
-  height: 10vh;
+  width: 13vw;
+  height: 12vh;
   background-color: #fff;
   border: 5px solid #cefdce;
   border-radius: 10px;
   position: absolute;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   overflow-y: auto;
+  & > div > p {
+    font-size: 15px;
+    text-align: center;
+  }
+  & > .YesOrNo {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 `;
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -301,14 +312,15 @@ const SignupPage = () => {
   // 내 짝인지 확인하는 폼을 여는 상태 변수
   const [isMyCoupleEmailForm, setIsMyCoupleEmailForm] = useState(false);
   // 내 짝인지 확인하는 상태변수
-  const [isMyCoupleEmail, setIsMyCoupleEmail] = useState(false);
+  const [myCoupleEmail, setMyCoupleEmail] = useState(false);
   // 약관 보기 버튼 클릭 상태 변수
   const [isTermClickBtn, setIsTermClickBtn] = useState(false);
   // 약관 동의 체크 버튼
   const [isTermAccepted, setIsTermAccepted] = useState(false);
   // 모달 내용 변경
   const [modalContent, setModalContent] = useState("");
-
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
@@ -478,9 +490,11 @@ const SignupPage = () => {
       inputCoupleName
     );
   };
-  //커플이름 onChange 함수
+  //커플이름 onChange 함수 (중복확인)
   const handleInputCoupleName = (e) => {
+    //커플 이름 저장
     setInputCoupleName(e.target.value);
+    //커플이름 중복확인 Axios
     coupleNameSearchAxios(e.target.value);
   };
   // 커플이름 중복확인 비동기 함수
@@ -488,23 +502,28 @@ const SignupPage = () => {
     const response = await LoginAxios.coupleNameSearch(coupleName);
     // 중복된 커플이름이 있는 경우
     if (response.data) {
-      setCoupleMessage("이미 커플 이름이 존재합니다.");
+      setCoupleMessage("커플 이름이 존재합니다.");
       setCoupleNameDuplication(false); // 상태 메세지 빨간색
       // 신규 커플인 경우
     } else {
-      setCoupleMessage("등록가능합니다.");
+      setCoupleMessage("신규 등록가능합니다.");
       setCoupleNameDuplication(true); // 상태 메세지 녹색
     }
   };
   // 커플이름 등록 버튼 함수
   const coupleNameBtnOnClickHandler = () => {
-    // 짝이 있는지 확인
-    if (coupleNameDuplication === true) {
-      setIsMyCoupleEmailForm(true);
-    }
     // 신규 커플 등록
-    else {
+    if (coupleNameDuplication === true) {
       coupleNameInsertAxois(inputEmail, inputCoupleName);
+      //등록 모달창
+      setModalOpen(true);
+      SetHeaderContents("커플등록");
+      setModalContent("등록되었습니다.");
+    }
+    // 짝이 있는지 확인
+    else {
+      coupleEmailCheck(inputCoupleName);
+      setIsMyCoupleEmailForm(true);
     }
   };
   //커플이름 Insert 비동기 함수
@@ -512,10 +531,18 @@ const SignupPage = () => {
     const response = await LoginAxios.coupleNameInsert(email, coupleName);
     console.log(response.data);
   };
+  //커플이름 존재시 두번째계정 Insert 비동기 함수
+  const secondCoupleNameInsertAxois = async (email, coupleName) => {
+    const response = await LoginAxios.secondCoupleNameInsert(email, coupleName);
+    console.log(response.data);
+  };
   // 짝이 맞는 경우
   const isMyCoupleEmailYesHandler = () => {
-    coupleNameInsertAxois(inputEmail, inputCoupleName);
+    // 기존 짝이 있는 데이터에 계정 추가
+    secondCoupleNameInsertAxois(inputEmail, inputCoupleName);
     setIsMyCoupleEmailForm(false);
+    setCoupleNameDuplication(true);
+    setCoupleMessage("연결되었습니다.");
   };
   // 짝이 아닌 경우
   const isMyCoupleEmailNoHandler = () => {
@@ -524,6 +551,8 @@ const SignupPage = () => {
   // 짝 계정 불러오는 비동기 함수
   const coupleEmailCheck = async (coupleName) => {
     const response = await LoginAxios.coupleEmailCheck(coupleName);
+    console.log(response.data);
+    setMyCoupleEmail(response.data);
   };
   // 이메일 인증 버튼 handler
   const emailCertificationBtnHandler = () => {
@@ -564,6 +593,7 @@ const SignupPage = () => {
   };
   // 코드 확인 버튼 이벤트
   const emailCertificationCodeOnClick = () => {
+    SetHeaderContents("인증코드확인");
     setModalOpen(true);
     setModalContent("확인되었습니다.");
   };
@@ -575,15 +605,15 @@ const SignupPage = () => {
   return (
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
+      <Modal
+        open={modalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeModalOkBtnHandler}
+      >
+        {modalContent}
+      </Modal>
       <InputDiv>
-        <Modal
-          open={modalOpen}
-          header="인증코드 확인"
-          type={true}
-          confirm={codeModalOkBtnHandler}
-        >
-          {modalContent}
-        </Modal>
         <div>
           <InputDetailDiv>
             <label>이메일</label>
@@ -659,11 +689,13 @@ const SignupPage = () => {
           <InputDetailDiv>
             <label>주민등록번호</label>
             <RegisterationInput1
+              pattern="[0~9]+"
               value={rrnFirstPart}
               onChange={handleRrnFirstPartChange}
             />
             <Text> - </Text>
             <RegisterationInput2
+              pattern="[0~9]+"
               value={rrnSecondPart}
               onChange={handleRrnSecondPartChange}
             />
@@ -693,23 +725,42 @@ const SignupPage = () => {
               onChange={handleInputCoupleName}
             />
             <Empty />
-            <EmailAthouized
-              isActive={true}
-              onClick={coupleNameBtnOnClickHandler}
-            >
-              등록
-            </EmailAthouized>
+            {coupleNameDuplication ? (
+              <EmailAthouized
+                isActive={true}
+                onClick={coupleNameBtnOnClickHandler}
+              >
+                등록
+              </EmailAthouized>
+            ) : (
+              <EmailAthouized
+                isActive={true}
+                onClick={coupleNameBtnOnClickHandler}
+              >
+                연결
+              </EmailAthouized>
+            )}
           </InputDetailDiv>
           <IsMyCoupleEmailForm isOpen={isMyCoupleEmailForm}>
-            <div>내 짝의 email이 맞나요?</div>
-            <EmailAthouized isActive={true} onClick={isMyCoupleEmailYesHandler}>
-              Yes
-            </EmailAthouized>
-            <EmailAthouized isActive={true} onClick={isMyCoupleEmailNoHandler}>
-              No
-            </EmailAthouized>
+            <div>
+              <p>"{myCoupleEmail}"님이 내 짝의 계정이 맞나요?</p>
+            </div>
+            <div className="YesOrNo">
+              <EmailAthouized
+                isActive={true}
+                onClick={isMyCoupleEmailYesHandler}
+              >
+                Yes
+              </EmailAthouized>
+              <EmailAthouized
+                isActive={true}
+                onClick={isMyCoupleEmailNoHandler}
+              >
+                No
+              </EmailAthouized>
+            </div>
           </IsMyCoupleEmailForm>
-          {/* <Message isCorrect={isCoupleNameDuplication}>{CoupleMessage}</Message> */}
+          <Message isCorrect={coupleNameDuplication}>{coupleMessage}</Message>
         </div>
         <InputDetailDiv2>
           <CoupleText style={{ fontSize: "0.833vw", fontWeight: "600" }}>

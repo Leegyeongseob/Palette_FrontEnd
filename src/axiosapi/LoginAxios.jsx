@@ -49,13 +49,24 @@ const LoginAxios = {
       couple
     );
   },
+  // 커플에 계정 추가 등록
+  secondCoupleNameInsert: async (email, coupleName) => {
+    const couple = {
+      email: email,
+      coupleName: coupleName,
+    };
+    return await axios.post(
+      Common.PALLETE_DOMAIN + "/auth/secondCoupleNameInsert",
+      couple
+    );
+  },
   // 커플이름 중복일 경우 짝 이메일 확인
   coupleEmailCheck: async (coupleName) => {
     const couple = {
       coupleName: coupleName,
     };
     return await axios.post(
-      Common.PALLETE_DOMAIN + "auth/coupleEmailCheck",
+      Common.PALLETE_DOMAIN + "/auth/coupleEmailCheck",
       couple
     );
   },
