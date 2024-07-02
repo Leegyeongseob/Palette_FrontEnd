@@ -227,7 +227,8 @@ const LoginPage = () => {
   const [idMessage, setIdMessage] = useState("");
   // 모달 내용 변경
   const [modalContent, setModalContent] = useState("");
-
+  // sole인지 확인
+  const [solo, setSolo] = useState();
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
@@ -261,23 +262,33 @@ const LoginPage = () => {
     if (isId && isPwd) {
       //커플이름 search후 세션에 저장.
       coupleNameSearchAxios(inputEmail);
+      const coupleName = sessionStorage.getItem("coupleName");
+      //두번째 계정이 존재하는지 확인.
+      secondEmailExist(coupleName);
       // 로그인, main-page를 커플이름으로 구별해서 이동.
-      loginAxios(inputEmail, inputpwd);
+      loginAxios(solo, inputEmail, inputpwd);
     }
   };
-  const loginAxios = async (email, pwd) => {
+  const secondEmailExist = async (couple) => {
+    const response = await LoginAxios.secondEmailExist(couple);
+    setSolo(response.data);
+  };
+  const loginAxios = async (res, email, pwd) => {
     try {
       const response = await LoginAxios.login(email, pwd);
-      console.log(response.data);
       if (response.data.grantType === "bearer") {
         console.log("accessToken : ", response.data.accessToken);
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
+        if (res) {
+          navigate(
+            `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
+          );
+        } else {
+          navigate("/main-page");
+        }
         // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
-        navigate(
-          `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
-        );
       } else {
         setModalOpen(true);
         setModalContent("암호화에 실패했습니다.");

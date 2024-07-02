@@ -1,6 +1,5 @@
 import axios from "axios";
 import Common from "../common/Common";
-import AxiosInstance from "./AxiosInstance";
 const LoginAxios = {
   // 회원가입
   memberSignUp: async (
@@ -85,6 +84,16 @@ const LoginAxios = {
     };
     return await axios.post(
       Common.PALLETE_DOMAIN + "/auth/emailToCoupleNameSearch",
+      member
+    );
+  },
+  //두번째 커플 계정 존재 확인
+  secondEmailExist: async (couple) => {
+    const member = {
+      couple: couple,
+    };
+    return await axios.post(
+      Common.PALLETE_DOMAIN + "/auth/secondEmailExist",
       member
     );
   },
