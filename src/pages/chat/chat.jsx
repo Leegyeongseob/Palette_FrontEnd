@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaRegImage, FaGear, FaHeart } from "react-icons/fa6";
 import { TbWallpaper } from "react-icons/tb";
 import { useParams, useNavigate } from "react-router-dom";
-import ChatAxiosApi from "../../axiosapi/ChatAxios";
+import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
 import {
   BsEmojiAngry,
   BsEmojiAstonished,
@@ -18,7 +18,7 @@ import chatBack1 from "../../img/chat/pcchatimg/9.jpg";
 import chatBack2 from "../../img/chat/pcchatimg/6.jpg";
 import chatBack3 from "../../img/chat/pcchatimg/8.jpg";
 import Common from "../../common/Common";
-import { chatstorage } from "../../firebase/ChatFirebase";
+import { chatstorage } from "../../firebase/Chatfirebase";
 
 const GlobalStyle = styled.div`
   /* 스크롤바 스타일 */
