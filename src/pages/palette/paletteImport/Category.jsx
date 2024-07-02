@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { styled, css } from "styled-components";
 
@@ -51,9 +52,15 @@ const CateContent = styled(Link)`
   }
   ${(props) => props.isActive && activeStyle}
 `;
+
 const Cate = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <Category>

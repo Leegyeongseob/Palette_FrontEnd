@@ -8,6 +8,44 @@ import one from "../../img/loginImg/person-icon2.png";
 import two from "../../img/loginImg/kakako.png";
 import { Link } from "react-router-dom";
 import useKakao from "./paletteImport/KakaoChat";
+import { exText as notices } from "./PaletteNotice";
+import { questions } from "./PaletteHelp";
+import QnAItem from "./paletteImport/CustomerQnA";
+
+const Tdfont = styled(Link)`
+  display: flex;
+  text-decoration: none;
+  color: #000;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  tbody tr:hover {
+    background-color: #dadada;
+    cursor: pointer;
+  }
+
+  td {
+    padding: 15px;
+    border-bottom: 1px solid gray;
+    font-size: 0.9vw;
+    min-width: 220px;
+  }
+
+  td.number {
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  td.date {
+    width: 200px;
+    min-width: 200px;
+    text-align: center;
+  }
+`;
 
 const Background = styled.div`
   width: 100%;
@@ -18,7 +56,7 @@ const Background = styled.div`
 `;
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -218,9 +256,25 @@ const HelpTitleRight = styled(Link)`
     font-weight: bolder;
   }
 `;
+const HelpShow = styled.div`
+  width: 90%;
+  height: 75%;
+  display: flex;
+  align-items: center;
+  margin-top: 5%;
+`;
+
+const QuestionBox = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 const CustomerPage = () => {
   useKakao("8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
+  const recentNotices = notices.slice(0, 5);
 
   const handleChat = () => {
     if (window.Kakao) {
@@ -271,6 +325,19 @@ const CustomerPage = () => {
                       더보기 {">"}
                     </HelpTitleRight>
                   </HelpTitle>
+                  <Tdfont to="/customer/notice">
+                    <table>
+                      <tbody>
+                        {recentNotices.map((notice) => (
+                          <tr key={notice.classNo}>
+                            <td className="number">{notice.classNo}</td>
+                            <td>{notice.title}</td>
+                            <td className="date">{notice.join}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </Tdfont>
                 </HelpWrap>
               </HelpBoard>
               <HelpBoard>
@@ -281,6 +348,16 @@ const CustomerPage = () => {
                       더보기 {">"}
                     </HelpTitleRight>
                   </HelpTitle>
+                  <QuestionBox>
+                    {questions.map((item, index) => (
+                      <QnAItem
+                        key={index}
+                        q={item.q}
+                        a={item.a}
+                        style={{ width: "100px" }}
+                      />
+                    ))}
+                  </QuestionBox>
                 </HelpWrap>
               </HelpBoard>
               <HelpBoard>
@@ -291,6 +368,7 @@ const CustomerPage = () => {
                       더보기 {">"}
                     </HelpTitleRight>
                   </HelpTitle>
+                  <HelpShow></HelpShow>
                 </HelpWrap>
               </HelpBoard>
             </Board>

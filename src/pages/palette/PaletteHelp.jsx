@@ -6,7 +6,7 @@ import Category from "./paletteImport/Category";
 import Footer from "./paletteImport/Footer";
 import logosearch from "../../img/loginImg/findglass.png";
 import { Link } from "react-router-dom";
-import QnAItem from "./paletteImport/QnAItem"; // QnAItem 컴포넌트 임포트
+import QnAItem from "./paletteImport/QnAItem";
 
 const Background = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ const Background = styled.div`
 `;
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,4 +242,5 @@ const HelpPage = () => {
   );
 };
 
+export { questions };
 export default HelpPage;

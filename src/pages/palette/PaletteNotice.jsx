@@ -19,7 +19,7 @@ const Background = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -209,6 +209,45 @@ const PageStyle = styled.div`
   }
 `;
 
+const exText = [
+  {
+    classNo: 12,
+    title: "비가 너무 많이 와서 오기가 싫어",
+    join: "2024-07-02",
+  },
+  {
+    classNo: 11,
+    title: "개인정보 처리방침 개정 안내 (24년 7월 1일 시행)",
+    join: "2024-07-01",
+  },
+  { classNo: 10, title: "치킨 먹고싶다", join: "2024-06-29" },
+  {
+    classNo: 9,
+    title: "개인정보 처리방침 개정 안내 (24년 6월 26일 시행)",
+    join: "2024-06-26",
+  },
+  { classNo: 8, title: "제목이 너무 많잖소", join: "2024-06-25" },
+  { classNo: 7, title: "Front-end, Back-end 개발", join: "2024-06-24" },
+  {
+    classNo: 6,
+    title: "백엔드 너무 어렵고 눈물이 나..",
+    join: "2024-06-22",
+  },
+  {
+    classNo: 5,
+    title: "개인정보 처리방침 개정 안내 (24년 6월 20일 시행)",
+    join: "2024-06-20",
+  },
+  {
+    classNo: 4,
+    title: "플로우 차트, 스토리 보드 작성",
+    join: "2024-06-16",
+  },
+  { classNo: 3, title: "사이트 점검 안내", join: "2024-06-10" },
+  { classNo: 2, title: "DB Table 구성", join: "2024-06-06" },
+  { classNo: 1, title: "Palette 조 편성", join: "2024-06-01" },
+];
+
 const NoticePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -220,44 +259,6 @@ const NoticePage = () => {
 
   const NoticeList = async () => {
     try {
-      const exText = [
-        {
-          classNo: 12,
-          title: "비가 너무 많이 와서 오기가 싫어",
-          join: "2024-07-02",
-        },
-        {
-          classNo: 11,
-          title: "개인정보 처리방침 개정 안내 (24년 7월 1일 시행)",
-          join: "2024-07-01",
-        },
-        { classNo: 10, title: "치킨 먹고싶다", join: "2024-06-29" },
-        {
-          classNo: 9,
-          title: "개인정보 처리방침 개정 안내 (24년 6월 26일 시행)",
-          join: "2024-06-26",
-        },
-        { classNo: 8, title: "제목이 너무 많잖소", join: "2024-06-25" },
-        { classNo: 7, title: "Front-end, Back-end 개발", join: "2024-06-24" },
-        {
-          classNo: 6,
-          title: "백엔드 너무 어렵고 눈물이 나..",
-          join: "2024-06-22",
-        },
-        {
-          classNo: 5,
-          title: "개인정보 처리방침 개정 안내 (24년 6월 20일 시행)",
-          join: "2024-06-20",
-        },
-        {
-          classNo: 4,
-          title: "플로우 차트, 스토리 보드 작성",
-          join: "2024-06-16",
-        },
-        { classNo: 3, title: "사이트 점검 안내", join: "2024-06-10" },
-        { classNo: 2, title: "DB Table 구성", join: "2024-06-06" },
-        { classNo: 1, title: "Palette 조 편성", join: "2024-06-01" },
-      ];
       // const rsp = await AxiosApi.boardMain();
       // setOriginalNotice(rsp.data);
       // setTotalItemsCount(rsp.data.length);
@@ -384,4 +385,5 @@ const NoticePage = () => {
   );
 };
 
+export { exText };
 export default NoticePage;
