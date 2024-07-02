@@ -258,10 +258,12 @@ const LoginPage = () => {
     sessionStorage.setItem("coupleName", resCoupleName.data);
   };
   const loginBtnHandler = () => {
-    //커플이름 search후 세션에 저장.
-    coupleNameSearchAxios(inputEmail);
-    // 로그인, main-page를 커플이름으로 구별해서 이동.
-    loginAxios(inputEmail, inputpwd);
+    if (isId && isPwd) {
+      //커플이름 search후 세션에 저장.
+      coupleNameSearchAxios(inputEmail);
+      // 로그인, main-page를 커플이름으로 구별해서 이동.
+      loginAxios(inputEmail, inputpwd);
+    }
   };
   const loginAxios = async (email, pwd) => {
     try {
