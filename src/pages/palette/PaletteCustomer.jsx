@@ -68,9 +68,6 @@ const BoardWrapper = styled.div`
   width: 70%;
   height: 90%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Board = styled.div`
@@ -216,6 +213,19 @@ const HelpBoard = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const HelpBoardDown = styled.div`
+  width: 90%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+`;
+const HelpTitleDown = styled.div`
+  width: 100%;
+  height: 50%;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+`;
 
 const HelpWrap = styled.div`
   width: 100%;
@@ -256,13 +266,6 @@ const HelpTitleRight = styled(Link)`
     font-weight: bolder;
   }
 `;
-const HelpShow = styled.div`
-  width: 90%;
-  height: 75%;
-  display: flex;
-  align-items: center;
-  margin-top: 5%;
-`;
 
 const QuestionBox = styled.div`
   width: 100%;
@@ -274,7 +277,8 @@ const QuestionBox = styled.div`
 
 const CustomerPage = () => {
   useKakao("8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
-  const recentNotices = notices.slice(0, 5);
+  const recentNotices = notices.slice(0, 4);
+  const recentQuestions = questions.slice(0, 5);
 
   const handleChat = () => {
     if (window.Kakao) {
@@ -349,28 +353,32 @@ const CustomerPage = () => {
                     </HelpTitleRight>
                   </HelpTitle>
                   <QuestionBox>
-                    {questions.map((item, index) => (
-                      <QnAItem
-                        key={index}
-                        q={item.q}
-                        a={item.a}
-                        style={{ width: "100px" }}
-                      />
+                    {recentQuestions.map((item, index) => (
+                      <QnAItem key={index} q={item.q} a={item.a} />
                     ))}
                   </QuestionBox>
                 </HelpWrap>
               </HelpBoard>
-              <HelpBoard>
+              <HelpBoardDown>
                 <HelpWrap>
-                  <HelpTitle>
+                  <HelpTitleDown>
+                    <HelpTitleLeft>1:1 문의하기</HelpTitleLeft>
+                    <HelpTitleRight to="/customer/inquiry">
+                      바로가기 {">"}
+                    </HelpTitleRight>
+                  </HelpTitleDown>
+                </HelpWrap>
+              </HelpBoardDown>
+              <HelpBoardDown>
+                <HelpWrap>
+                  <HelpTitleDown>
                     <HelpTitleLeft>광고 문의</HelpTitleLeft>
                     <HelpTitleRight to="/customer/ad">
-                      더보기 {">"}
+                      바로가기 {">"}
                     </HelpTitleRight>
-                  </HelpTitle>
-                  <HelpShow></HelpShow>
+                  </HelpTitleDown>
                 </HelpWrap>
-              </HelpBoard>
+              </HelpBoardDown>
             </Board>
           </BoardWrapper>
         </Container>

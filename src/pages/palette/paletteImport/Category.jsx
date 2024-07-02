@@ -83,7 +83,7 @@ const Cate = () => {
         to="/customer/inquiry"
         isActive={currentPath === "/customer/inquiry"}
       >
-        1:1 문의 등록
+        1:1 문의하기
       </CateContent>
       <CateContent to="/customer/ad" isActive={currentPath === "/customer/ad"}>
         광고 문의

@@ -122,6 +122,7 @@ const Btn = styled.div`
   background-color: darkgray;
   border-radius: 10px;
   color: black;
+  opacity: 0; //관리자만 작성되게 생각중..
 
   &:hover,
   &:focus {
@@ -164,8 +165,8 @@ const Tdfont = styled.div`
 
   th.date,
   td.date {
-    width: 200px;
-    min-width: 200px;
+    width: 150px;
+    min-width: 150px;
     text-align: center;
   }
 
