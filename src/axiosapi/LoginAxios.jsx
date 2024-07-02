@@ -76,7 +76,17 @@ const LoginAxios = {
       email: email,
       pwd: pwd,
     };
-    return await AxiosInstance.post("/auth/login", member);
+    return await axios.post(Common.PALLETE_DOMAIN + "/auth/login", member);
+  },
+  //계정으로 커플이름 search
+  emailToCoupleNameSearch: async (email) => {
+    const member = {
+      email: email,
+    };
+    return await axios.post(
+      Common.PALLETE_DOMAIN + "/auth/emailToCoupleNameSearch",
+      member
+    );
   },
 };
 export default LoginAxios;

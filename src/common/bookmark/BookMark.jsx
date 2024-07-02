@@ -35,24 +35,25 @@ const StyledLink = styled(Link)`
   color: #000; // 링크의 폰트 색상 지정
 `;
 const BookMark = () => {
+  const coupleName = sessionStorage.getItem("coupleName");
   return (
     <BookMarkDiv>
-      <StyledLink to="/date-diary">
+      <StyledLink to={`/date-diary?coupleName=${coupleName}`}>
         <BookMarks imageurl={theme3}>다이어리</BookMarks>
       </StyledLink>
-      <StyledLink to="/date-album">
+      <StyledLink to={`/date-album?coupleName=${coupleName}`}>
         <BookMarks imageurl={theme8}>갤러리</BookMarks>
       </StyledLink>
-      <StyledLink to="/date-clothes">
+      <StyledLink to={`/date-clothes?coupleName=${coupleName}`}>
         <BookMarks imageurl={clothesBg}>데이트룩</BookMarks>
       </StyledLink>
-      <StyledLink to="/dateplanner">
+      <StyledLink to={`/dateplanner?coupleName=${coupleName}`}>
         <BookMarks imageurl={theme6}>데이트코스</BookMarks>
       </StyledLink>
-      <StyledLink to="/board-guestbook">
+      <StyledLink to={`/board-guestbook?coupleName=${coupleName}`}>
         <BookMarks imageurl={boardBg}>게시판</BookMarks>
       </StyledLink>
-      <StyledLink to="/chat">
+      <StyledLink to={`/chat?coupleName=${coupleName}`}>
         <BookMarks imageurl={theme12}>채팅</BookMarks>
       </StyledLink>
     </BookMarkDiv>

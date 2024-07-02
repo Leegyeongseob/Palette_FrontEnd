@@ -281,6 +281,7 @@ const SignupPage = () => {
   const [isId, setIsId] = useState("");
   const [isPwd, setIsPwd] = useState("");
   const [isPwdCheack, setIsPwdCheck] = useState("");
+  const [isCode, setIsCode] = useState(false);
   //이메일 보낸 후 상태 저장.
   const [isEmailSent, setIsEmailSent] = useState(false);
   //인증코드 저장
@@ -470,7 +471,19 @@ const SignupPage = () => {
         inputNickName,
         inputCoupleName
       );
-      if (response.data === "Success" && isTermAccepted) {
+      if (
+        response.data === "Success" &&
+        isEmail &&
+        isCode &&
+        isPwd &&
+        isPwdCheack &&
+        rrnFirstPart &&
+        rrnSecondPart &&
+        inputName &&
+        inputNickName &&
+        inputCoupleName &&
+        isTermAccepted
+      ) {
         navigate("/login-page");
       }
     } catch (error) {
@@ -596,6 +609,7 @@ const SignupPage = () => {
     SetHeaderContents("인증코드확인");
     setModalOpen(true);
     setModalContent("확인되었습니다.");
+    setIsCode(true);
   };
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
@@ -838,6 +852,7 @@ const SignupPage = () => {
         <SignupButton
           isActive={
             isEmail &&
+            isCode &&
             isPwd &&
             isPwdCheack &&
             rrnFirstPart &&

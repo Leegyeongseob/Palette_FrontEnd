@@ -28,7 +28,7 @@ import PaletteHelp from "./pages/palette/PaletteHelp";
 import PaletteNotice from "./pages/palette/PaletteNotice";
 import PaletteInquiry from "./pages/palette/PaletteInquiry";
 import PaletteAd from "./pages/palette/PaletteAd";
-import PaletteCustomer from "./pages/palette/PaletteCustomer"
+import PaletteCustomer from "./pages/palette/PaletteCustomer";
 function App() {
   return (
     <>

@@ -250,7 +250,17 @@ const LoginPage = () => {
     setInputPwd(e.target.value);
     setIsPwd(true);
   };
+  //이메일로 커플이름 찾는 비동기 함수
+  const coupleNameSearchAxios = async (email) => {
+    const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
+    console.log(resCoupleName.data);
+    // `coupleName`을 `sessionStorage`에 저장합니다.
+    sessionStorage.setItem("coupleName", resCoupleName.data);
+  };
   const loginBtnHandler = () => {
+    //커플이름 search후 세션에 저장.
+    coupleNameSearchAxios(inputEmail);
+    // 로그인, main-page를 커플이름으로 구별해서 이동.
     loginAxios(inputEmail, inputpwd);
   };
   const loginAxios = async (email, pwd) => {
@@ -262,7 +272,10 @@ const LoginPage = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
-        navigate("/main-page");
+        // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
+        navigate(
+          `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
+        );
       } else {
         setModalOpen(true);
         setModalContent("암호화에 실패했습니다.");
@@ -278,6 +291,7 @@ const LoginPage = () => {
       loginBtnHandler();
     }
   };
+
   return (
     <Contain>
       <IconDiv>
@@ -343,7 +357,9 @@ const LoginPage = () => {
         </div>
       </SimpleLogin>
       <ButtonDiv>
-        <LoginButton isActive={isId && isPwd}>Login</LoginButton>
+        <LoginButton isActive={isId && isPwd} onClick={loginBtnHandler}>
+          Login
+        </LoginButton>
       </ButtonDiv>
       <Modal open={modalOpen} close={closeModal} header="로그인 에러">
         {modalContent}

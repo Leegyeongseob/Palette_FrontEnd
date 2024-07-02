@@ -224,7 +224,7 @@ const MainPage = () => {
   // 설정 폼 변화
   const [settingForm, setSettingForm] = useState(false);
   // 커플 이름 검색 함수
-  const searchCoupleName = (e) => {
+  const searchCoupleName = () => {
     // 커플 이름이 같은게 존재하는지 확인하는 부분.
   };
   //설정 폼 변화 함수
@@ -234,6 +234,7 @@ const MainPage = () => {
   const closeFromStatus = () => {
     setSettingForm(false);
   };
+
   return (
     <BookTheme>
       <BookSign>
@@ -268,7 +269,11 @@ const MainPage = () => {
               <BtnDiv>
                 <Btn
                   onClick={() => {
-                    navigate("/modify");
+                    navigate(
+                      `/modify?coupleName=${sessionStorage.getItem(
+                        "coupleName"
+                      )}`
+                    );
                   }}
                 >
                   수정하기
@@ -282,7 +287,11 @@ const MainPage = () => {
                 </Btn>
                 <Btn
                   onClick={() => {
-                    navigate("/withdrawal");
+                    navigate(
+                      `/withdrawal?coupleName=${sessionStorage.getItem(
+                        "coupleName"
+                      )}`
+                    );
                   }}
                 >
                   회원탈퇴
