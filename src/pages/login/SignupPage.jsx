@@ -4,6 +4,7 @@ import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
+
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -526,7 +527,9 @@ const SignupPage = () => {
   };
   // 이메일 인증 버튼 handler
   const emailCertificationBtnHandler = () => {
-    sendVerificationEmail(inputEmail);
+    if (isId) {
+      sendVerificationEmail(inputEmail);
+    }
   };
   // 이메일 전송시 파라미터 넘기는 함수
   const sendVerificationEmail = async (toEmail) => {
@@ -573,6 +576,14 @@ const SignupPage = () => {
     <Contain>
       <TitleDiv>회원가입</TitleDiv>
       <InputDiv>
+        <Modal
+          open={modalOpen}
+          header="인증코드 확인"
+          type={true}
+          confirm={codeModalOkBtnHandler}
+        >
+          {modalContent}
+        </Modal>
         <div>
           <InputDetailDiv>
             <label>이메일</label>
@@ -610,14 +621,6 @@ const SignupPage = () => {
             </EmailAthouized>
           </InputDetailDiv>
         )}
-        <Modal
-          open={modalOpen}
-          header="인증코드 확인"
-          type={true}
-          confirm={codeModalOkBtnHandler}
-        >
-          {modalContent}
-        </Modal>
         <div>
           <InputDetailDiv>
             <label>비밀번호</label>
