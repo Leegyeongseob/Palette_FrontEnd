@@ -1,13 +1,13 @@
 import React from "react";
 import { styled } from "styled-components";
 import Globalstyle from "../../PaletteStyle";
-import Header from "./Header";
-import Category from "./Category";
-import Footer from "./Footer";
+import Header from "./paletteImport/Header";
+import Category from "./paletteImport/Category";
+import Footer from "./paletteImport/Footer";
 import one from "../../img/loginImg/person-icon2.png";
 import two from "../../img/loginImg/kakako.png";
 import { Link } from "react-router-dom";
-import useKakao from "./KakaoChat";
+import useKakao from "./paletteImport/KakaoChat";
 
 const Background = styled.div`
   width: 100%;
@@ -277,7 +277,9 @@ const CustomerPage = () => {
                 <HelpWrap>
                   <HelpTitle>
                     <HelpTitleLeft>자주 묻는 질문</HelpTitleLeft>
-                    <HelpTitleRight to="/customer/help">더보기 {">"}</HelpTitleRight>
+                    <HelpTitleRight to="/customer/help">
+                      더보기 {">"}
+                    </HelpTitleRight>
                   </HelpTitle>
                 </HelpWrap>
               </HelpBoard>
@@ -285,7 +287,9 @@ const CustomerPage = () => {
                 <HelpWrap>
                   <HelpTitle>
                     <HelpTitleLeft>광고 문의</HelpTitleLeft>
-                    <HelpTitleRight to="/customer/ad">더보기 {">"}</HelpTitleRight>
+                    <HelpTitleRight to="/customer/ad">
+                      더보기 {">"}
+                    </HelpTitleRight>
                   </HelpTitle>
                 </HelpWrap>
               </HelpBoard>

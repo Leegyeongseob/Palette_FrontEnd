@@ -5,9 +5,9 @@ import page1 from "../../img/palettePg/1p.png";
 import page2 from "../../img/palettePg/2p.png";
 import page3 from "../../img/palettePg/3p.png";
 import { useEffect, useRef, useState } from "react";
-import Dots from "./Dots";
-import Header from "./Header";
-import Footer from "./Footer";
+import Dots from "./paletteImport/Dots.jsx";
+import Header from "./paletteImport/Header.jsx";
+import Footer from "./paletteImport/Footer.jsx";
 
 const fadeInUp = keyframes`
   from {

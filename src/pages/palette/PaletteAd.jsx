@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import Globalstyle from "../../PaletteStyle";
-import Header from "./Header";
-import Category from "./Category";
-import Footer from "./Footer";
+import Header from "./paletteImport/Header";
+import Category from "./paletteImport/Category";
+import Footer from "./paletteImport/Footer";
 import { Link } from "react-router-dom";
 
 const Background = styled.div`
