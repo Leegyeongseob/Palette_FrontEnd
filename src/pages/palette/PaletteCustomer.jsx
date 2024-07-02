@@ -105,7 +105,7 @@ const BoxLeftUp = styled.div`
 const BoxLeftDown = styled.div`
   width: 90%;
   height: 30%;
-  font-size: 0.9vw;
+  font-size: 0.8vw;
   display: flex;
   justify-content: flex-start;
   align-items: center;
