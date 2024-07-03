@@ -260,6 +260,7 @@ const LoginPage = () => {
   };
   const loginBtnHandler = () => {
     if (isId && isPwd) {
+      sessionStorage.setItem("email", inputEmail);
       //커플이름 search후 세션에 저장.
       coupleNameSearchAxios(inputEmail);
       const coupleName = sessionStorage.getItem("coupleName");
