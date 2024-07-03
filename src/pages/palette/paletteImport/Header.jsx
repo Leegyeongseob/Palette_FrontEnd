@@ -96,7 +96,7 @@ const Header = () => (
       <MenuBox>
         <Menu to="/">Palette 소개</Menu>
         <Menu to="/customer">고객센터</Menu>
-        <Menu to="/customer/notice">공지사항</Menu>
+        <Menu to="/customer/ad">광고문의</Menu>
         <Menu to="/not-login">시작하기</Menu>
       </MenuBox>
     </MenuBar>

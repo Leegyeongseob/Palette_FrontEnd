@@ -1,37 +1,26 @@
-import { styled } from "styled-components";
-import Globalstyle from "../../PaletteStyle";
-import Header from "./paletteImport/Header";
-import Category from "./paletteImport/Category";
-import Footer from "./paletteImport/Footer";
-import { Link } from "react-router-dom";
+// src/pages/AdPage.js
+import React from 'react';
+import { styled } from 'styled-components';
+import Globalstyle from '../../PaletteStyle';
+import Header from './paletteImport/Header';
+import Footer from './paletteImport/Footer';
 
 const Background = styled.div`
   width: 100%;
-  height: 200vh;
+  height: auto;
+  background-color: #feeee8;
   display: flex;
   flex-direction: column;
-  font-size: 1.8rem;
+  align-items: center;
 `;
 
 const AdWrapper = styled.div`
-  width: 100%;
-  height: 90%;
+  width: 90%;
+  height: 85vh;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
-
-const Board = styled.div`
-  width: 80%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #fff9f0;
-`;
-
 
 const AdPage = () => {
   return (
@@ -39,10 +28,10 @@ const AdPage = () => {
       <Globalstyle />
       <Header />
       <Background>
-          <AdWrapper>
-          </AdWrapper>
-        <Footer />
+        <AdWrapper>
+        </AdWrapper>
       </Background>
+      <Footer />
     </>
   );
 };
