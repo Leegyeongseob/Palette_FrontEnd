@@ -1,6 +1,11 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoginAxios from "../../axiosapi/LoginAxios";
+import emailjs from "emailjs-com";
+import Modal from "../../common/utils/Modal";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -51,7 +56,29 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
   }
   & > .InputEmail {
-    width: 11.458vw;
+    width: 8.333vw;
+    border-radius: 0.521vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 0.521vw;
+    font-size: 0.8vw;
+    font-weight: 600;
+  }
+  & > .InputCoupleName {
+    width: 8.333vw;
+    border-radius: 0.521vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 0.521vw;
+    font-size: 0.8vw;
+    font-weight: 600;
+  }
+  & > .InputCode {
+    width: 8.333vw;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -62,6 +89,31 @@ const InputDetailDiv = styled.div`
     font-weight: 600;
   }
 `;
+const Empty = styled.div`
+  width: 0.521vw;
+`;
+const EmailAthouized = styled.div`
+  width: 2.604vw;
+  border-radius: 0.521vw;
+  border: none;
+  background-color: ${({ isActive }) =>
+    isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
+  outline: none;
+  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+  padding-left: 0.208vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.729vw;
+  color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
+  font-weight: 700;
+  cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
+  &:hover {
+    background-color: ${({ isActive }) =>
+      isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
+  }
+`;
+
 const ButtonDiv = styled.div`
   width: 23.438vw;
   height: 11.962vh;
@@ -88,6 +140,7 @@ const SignupButton = styled.div`
       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
 `;
+
 const Message = styled.div`
   width: 100%;
   font-size: 0.6vw;
@@ -95,21 +148,40 @@ const Message = styled.div`
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
 `;
-
+const Contexts = styled.div`
+  width: 20vw;
+  height: 15vh;
+  font-size: 2.5vw;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Withdrawal = () => {
+  const navigate = useNavigate();
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
-  const [inputPwd, setInputPwd] = useState("");
-  const [inputPwdCheck, setInputPwdCheck] = useState("");
   // 유효성 확인
   const [isId, setIsId] = useState("");
-  const [isPwd, setIsPwd] = useState("");
-  const [isPwdCheack, setIsPwdCheck] = useState("");
+  const [isCode, setIsCode] = useState(false);
+  //이메일 보낸 후 상태 저장.
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  //인증코드 저장
+  const [saveCertificationCode, setSaveCertificationCode] = useState(null);
+  //인증 확인 상태
+  const [isEmail, setIsEmail] = useState(false);
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
-  const [pwdMessage, setPwMessage] = useState("");
-  //비밀번호 확인 메세지
-  const [pwdCheckMessage, setPwdCheckMessage] = useState("");
+
+  // 모달 내용 변경
+  const [modalContent, setModalContent] = useState("");
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -118,93 +190,135 @@ const Withdrawal = () => {
       setIdMessage("이메일 형식이 올바르지 않습니다.");
       setIsId(false);
     } else {
+      emailIsExist(e.target.value);
+    }
+  };
+  // // 이메일 중복 체크하는 함수
+  const emailIsExist = async (input) => {
+    const response = await LoginAxios.emailIsExist(input);
+    if (response.data) {
+      setIdMessage("중복된 이메일입니다.");
+      setIsId(false);
+    } else {
       setIdMessage("올바른 형식 입니다.");
       setIsId(true);
     }
   };
-  // 비밀번호 8자리 이상.
-  const onChangePw = (e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setInputPwd(passwordCurrent);
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
-      setIsPwd(false);
-    } else {
-      setPwMessage("안전한 비밀번호입니다.)");
-      setIsPwd(true);
+  // 이메일 전송시 파라미터 넘기는 함수
+  const sendVerificationEmail = async (toEmail) => {
+    const certificationCode = Math.floor(Math.random() * 900000) + 100000; // 100000부터 999999까지의 난수 발생
+    setSaveCertificationCode(certificationCode);
+    // 이메일 보내기
+    // 여기서 정의해야 하는 것은 위에서 만든 메일 템플릿에 지정한 변수({{ }})에 대한 값을 담아줘야 한다.
+    const templateParams = {
+      toEmail: toEmail, // 수신 이메일
+      toName: "고객님",
+      certificationCode: certificationCode,
+    };
+    try {
+      const response = await emailjs.send(
+        "service_7cipsqb", // 서비스 ID
+        "service_7cipsqb", // 템플릿 ID
+        templateParams,
+        "VKzT47hXDU3sC3R13" // public-key
+      );
+      console.log("이메일이 성공적으로 보내졌습니다:", response);
+      setIdMessage("이메일이 성공적으로 보내졌습니다!");
+      setIsId(true);
+      setIsEmailSent(true);
+      // 이메일 전송 성공 처리 로직 추가
+    } catch (error) {
+      console.error("이메일 보내기 실패:", error);
+      setIdMessage("이메일 보내기 실패했습니다!");
+      setIsId(false);
+      setIsEmailSent(false);
+      // 이메일 전송 실패 처리 로직 추가
     }
   };
-  // 비밀번호 일치 확인
-  const onCheckPw = (e) => {
-    const passwordInput = e.target.value;
-    setInputPwdCheck(passwordInput);
-    if (passwordInput !== inputPwd) {
-      setPwdCheckMessage("일치하지 않습니다.");
-      setIsPwdCheck(false);
-    } else {
-      setPwdCheckMessage("일치합니다.");
-      setIsPwdCheck(true);
+  // 이메일 인증 버튼 handler
+  const emailCertificationBtnHandler = () => {
+    if (isId) {
+      sendVerificationEmail(inputEmail);
     }
   };
-
+  // 코드 확인 버튼 이벤트
+  const emailCertificationCodeOnClick = () => {
+    SetHeaderContents("인증코드확인");
+    setModalOpen(true);
+    setModalContent("확인되었습니다.");
+    setIsCode(true);
+  };
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+    setIsEmail(true);
+  };
+  //회원 탈퇴하는 로직 함수
+  const signuOutBtnOnclickHandler = () => {
+    const memberDeleteAxios = async () => {
+      const rsp = await MemberAxiosApi.memberDelete(inputEmail);
+      console.log(rsp.data);
+    };
+    memberDeleteAxios();
+  };
   return (
     <Contain>
-      <TitleDiv>회원탈퇴</TitleDiv>
+      <TitleDiv>회원가입</TitleDiv>
+      <Modal
+        open={modalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeModalOkBtnHandler}
+      >
+        {modalContent}
+      </Modal>
       <InputDiv>
-        <InputDetailDiv>
-          <label>이메일</label>
-          <input
-            className="InputEmail"
-            value={inputEmail}
-            onChange={onChangeEmail}
-            placeholder="can3487@naver.com"
-          />
-        </InputDetailDiv>
-        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwd}
-            onChange={onChangePw}
-            placeholder="1q2w3e4r!@"
-          />
-        </InputDetailDiv>
-        {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호 확인</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwdCheck}
-            onChange={onCheckPw}
-            placeholder="1q2w3e4r!@"
-          />
-        </InputDetailDiv>
-        {inputPwdCheck && (
-          <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
+        <div>
+          <InputDetailDiv>
+            <label>이메일</label>
+            <input
+              className="InputEmail"
+              value={inputEmail}
+              onChange={onChangeEmail}
+            />
+            <Empty></Empty>
+            <EmailAthouized
+              isActive={isId}
+              onClick={emailCertificationBtnHandler}
+            >
+              인증
+            </EmailAthouized>
+          </InputDetailDiv>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </div>
+        {isEmailSent && (
+          <InputDetailDiv>
+            <label>인증코드</label>
+            <input
+              className="InputCode"
+              value={saveCertificationCode}
+              onChange={(e) => {
+                setSaveCertificationCode(e.target.value);
+              }}
+            />
+            <Empty></Empty>
+            <EmailAthouized
+              isActive={isEmailSent}
+              onClick={emailCertificationCodeOnClick}
+            >
+              확인
+            </EmailAthouized>
+          </InputDetailDiv>
         )}
-        <InputDetailDiv>
-          <label>이름</label>
-          <input className="InputClass" placeholder="이경섭" />
-        </InputDetailDiv>
-        <InputDetailDiv>
-          <label>닉네임</label>
-          <input className="InputClass" placeholder="스누피누피" />
-        </InputDetailDiv>
-        <InputDetailDiv>
-          <label>커플이름</label>
-          <input className="InputClass" placeholder="백년가약" />
-        </InputDetailDiv>
+        <Contexts>정말 탈퇴하실 건가요? ㅠㅠ</Contexts>
       </InputDiv>
       <ButtonDiv>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <SignupButton isActive={isId && isPwd && isPwdCheack}>
-            탈퇴하기
-          </SignupButton>
-        </Link>
+        <SignupButton
+          isActive={isEmail && isCode}
+          onClick={signuOutBtnOnclickHandler}
+        >
+          탈퇴하기
+        </SignupButton>
       </ButtonDiv>
     </Contain>
   );

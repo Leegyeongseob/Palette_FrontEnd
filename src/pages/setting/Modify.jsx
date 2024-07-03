@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -99,17 +100,35 @@ const Message = styled.div`
 const Modify = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
-  const [inputPwd, setInputPwd] = useState("");
-  const [inputPwdCheck, setInputPwdCheck] = useState("");
+  const [inputName, setInputName] = useState("");
+  const [inputNickName, setInputNickName] = useState("");
+  const [inputcoupleName, setInputCoupleName] = useState("");
   // 유효성 확인
   const [isId, setIsId] = useState("");
-  const [isPwd, setIsPwd] = useState("");
-  const [isPwdCheack, setIsPwdCheck] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
-  const [pwdMessage, setPwMessage] = useState("");
-  //비밀번호 확인 메세지
-  const [pwdCheckMessage, setPwdCheckMessage] = useState("");
+  //정보 저장(placeholder)
+  const [memberInfo, setMemberInfo] = useState([]);
+  //회원정보를 가져오기 위한 Axois통신
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = sessionStorage.getItem("email"); // 세션 스토리지에서 이메일 가져오기
+        const response = await MemberAxiosApi.memberAxios(email); // Axios로 회원 정보 요청
+        setMemberInfo(response.data); // 객체를 저장
+        setInputEmail(response.data.email);
+        setInputName(response.data.name);
+        setInputNickName(response.data.nickName);
+        setInputCoupleName(response.data.coupleName);
+        console.log("Response from Axios:", response.data);
+      } catch (error) {
+        console.error("Error fetching member info:", error);
+      }
+    };
+
+    fetchData(); // 데이터 가져오기
+  }, []);
+
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -122,86 +141,77 @@ const Modify = () => {
       setIsId(true);
     }
   };
-  // 비밀번호 8자리 이상.
-  const onChangePw = (e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setInputPwd(passwordCurrent);
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
-      setIsPwd(false);
-    } else {
-      setPwMessage("안전한 비밀번호입니다.)");
-      setIsPwd(true);
-    }
-  };
-  // 비밀번호 일치 확인
-  const onCheckPw = (e) => {
-    const passwordInput = e.target.value;
-    setInputPwdCheck(passwordInput);
-    if (passwordInput !== inputPwd) {
-      setPwdCheckMessage("일치하지 않습니다.");
-      setIsPwdCheck(false);
-    } else {
-      setPwdCheckMessage("일치합니다.");
-      setIsPwdCheck(true);
-    }
-  };
 
+  const modifyOnClickHandler = () => {
+    const modifyHandler = async (email, name, nickName, coupleName) => {
+      const rsp = await MemberAxiosApi.memberModify(
+        email,
+        name,
+        nickName,
+        coupleName
+      );
+      if (rsp.data === "Success") {
+        console.log("수정되었습니다.");
+      } else {
+        console.log("수정에러", rsp.data);
+      }
+    };
+    modifyHandler(inputEmail, inputName, inputNickName, inputcoupleName);
+  };
   return (
     <Contain>
       <TitleDiv>회원수정</TitleDiv>
       <InputDiv>
-        <InputDetailDiv>
-          <label>이메일</label>
-          <input
-            className="InputEmail"
-            value={inputEmail}
-            onChange={onChangeEmail}
-            placeholder="can3487@naver.com"
-          />
-        </InputDetailDiv>
-        {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwd}
-            onChange={onChangePw}
-            placeholder="1q2w3e4r!@"
-          />
-        </InputDetailDiv>
-        {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-        <InputDetailDiv>
-          <label>비밀번호 확인</label>
-          <input
-            type="password"
-            className="InputClass"
-            value={inputPwdCheck}
-            onChange={onCheckPw}
-            placeholder="1q2w3e4r!@"
-          />
-        </InputDetailDiv>
-        {inputPwdCheck && (
-          <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
-        )}
+        <div>
+          <InputDetailDiv>
+            <label>이메일</label>
+            <input
+              className="InputEmail"
+              onChange={onChangeEmail}
+              placeholder={memberInfo.email}
+            />
+          </InputDetailDiv>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </div>
         <InputDetailDiv>
           <label>이름</label>
-          <input className="InputClass" placeholder="이경섭" />
+          <input
+            className="InputClass"
+            placeholder={memberInfo.name}
+            onChange={(e) => {
+              setInputName(e.target.value);
+            }}
+          />
         </InputDetailDiv>
         <InputDetailDiv>
           <label>닉네임</label>
-          <input className="InputClass" placeholder="스누피누피" />
+          <input
+            className="InputClass"
+            placeholder={memberInfo.nickName}
+            onChange={(e) => {
+              setInputNickName(e.target.value);
+            }}
+          />
         </InputDetailDiv>
         <InputDetailDiv>
           <label>커플이름</label>
-          <input className="InputClass" placeholder="백년가약" />
+          <input
+            className="InputClass"
+            placeholder={memberInfo.coupleName}
+            onChange={(e) => {
+              setInputCoupleName(e.target.value);
+            }}
+          />
         </InputDetailDiv>
       </InputDiv>
       <ButtonDiv>
         <Link to="/main-page" style={{ textDecoration: "none" }}>
-          <SignupButton isActive={isId && isPwd && isPwdCheack}>
+          <SignupButton
+            isActive={
+              inputEmail || inputName || inputNickName || inputcoupleName
+            }
+            onClick={modifyOnClickHandler}
+          >
             수정하기
           </SignupButton>
         </Link>

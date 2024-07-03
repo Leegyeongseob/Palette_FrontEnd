@@ -246,14 +246,14 @@ const MainPage = () => {
         </CoupleDiv>
         <CoupleDiv>
           <CoupleDday />
-          <VisitDiv>
+          {/* <VisitDiv>
             <input
               type="text"
               value={coupleVisit}
               onChange={searchCoupleName}
             />
             <VisitPlus />
-          </VisitDiv>
+          </VisitDiv> */}
         </CoupleDiv>
       </BookSign>
       <BookSign>

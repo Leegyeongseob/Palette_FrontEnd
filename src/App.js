@@ -29,6 +29,7 @@ import PaletteNotice from "./pages/palette/PaletteNotice";
 import PaletteInquiry from "./pages/palette/PaletteInquiry";
 import PaletteAd from "./pages/palette/PaletteAd";
 import PaletteCustomer from "./pages/palette/PaletteCustomer";
+import ErrorPage from "./error/ErrorPage";
 function App() {
   return (
     <>
@@ -37,6 +38,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PalettePage />} />
+          <Route path="/error" element={<ErrorPage />} />
           <Route path="/customer" element={<PaletteCustomer />} />
           <Route path="/customer/help" element={<PaletteHelp />} />
           <Route path="/customer/inquiry" element={<PaletteInquiry />} />
