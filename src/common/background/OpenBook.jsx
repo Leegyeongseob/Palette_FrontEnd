@@ -63,9 +63,7 @@ const OpenBook = () => {
       <TopContain>
         <BookMarkDiv />
         <LogoDiv>
-          <Link
-            to={`/main-page?coupleName=${sessionStorage.getItem("coupleName")}`}
-          >
+          <Link to={`/main-page`}>
             <Logo alt="logo" src={logo} />
           </Link>
         </LogoDiv>

@@ -282,14 +282,17 @@ const LoginPage = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
-        if (res) {
-          navigate(
-            `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
-          );
-        } else {
-          navigate("/main-page");
-        }
-        // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
+        navigate("/main-page");
+        // 커플일 경우
+        // if (res) {
+        //   navigate(
+        //     `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
+        //   );
+        //솔로일 경우
+        // } else {
+        //   navigate("/main-page");
+        // }
+        // // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
       } else {
         setModalOpen(true);
         setModalContent("암호화에 실패했습니다.");

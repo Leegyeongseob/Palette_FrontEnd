@@ -269,11 +269,7 @@ const MainPage = () => {
               <BtnDiv>
                 <Btn
                   onClick={() => {
-                    navigate(
-                      `/modify?coupleName=${sessionStorage.getItem(
-                        "coupleName"
-                      )}`
-                    );
+                    navigate("/modify");
                   }}
                 >
                   수정하기
@@ -287,11 +283,7 @@ const MainPage = () => {
                 </Btn>
                 <Btn
                   onClick={() => {
-                    navigate(
-                      `/withdrawal?coupleName=${sessionStorage.getItem(
-                        "coupleName"
-                      )}`
-                    );
+                    navigate("/withdrawal");
                   }}
                 >
                   회원탈퇴
