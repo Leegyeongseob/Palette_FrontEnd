@@ -45,12 +45,21 @@ const MapModal = ({ isOpen, onClose, mapContainerRef, map, selectedPlaces, setNu
       });
 
       // 선택된 장소들에 대한 새 마커를 생성합니다.
-      const newMarkers = selectedPlaces.map(place => {
+      const newMarkers = selectedPlaces.map((place,index) => {
         const infowindow = new kakao.maps.InfoWindow({
           content: `<div style="padding:10px;">${place.place_name}</div>`
         });
+        const imageIndex = index + 1; // 인덱스 + 1을 이미지 이름으로 사용
+      const markerSrc = `${process.env.PUBLIC_URL}/mapmarker/nummarkers/0${imageIndex}.png`;
+      console.log(imageIndex);
+      const markerSize = new window.kakao.maps.Size(40, 40);
+      const markerImg = new window.kakao.maps.MarkerImage(
+        markerSrc,
+        markerSize
+      );
         const marker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(place.y, place.x)
+          position: new kakao.maps.LatLng(place.y, place.x),
+          image:markerImg,
         });
         marker.setMap(kakaoMap); // 생성된 마커를 지도에 추가합니다.
 

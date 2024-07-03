@@ -8,6 +8,7 @@ import theme6 from "../../img/background/theme/6.jpg";
 import ReactDOM from "react-dom";
 import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
+import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
 
 const BookContainer = styled.div`
   width: 25.8vw;
@@ -44,68 +45,106 @@ const DatePlanner = () => {
   const [numMarker, setNumMarker] = useState([]);
   const [title, setTitle] = useState("");
 
+  // 모든 코스 조회 및 저장된 코스 목록 업데이트
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const courses = await DatePlannerAxios.getAllCourses();
+        setSavedCourses(courses);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+   
   const addNumMark = () => {
     // 선택된 장소를 numMarker에 추가
     setNumMarker([...numMarker, ...selectedPlaces]);
   };
 
-  const handleSaveCourse = (newCourse) => {
-    if (isEditing) {
-      setSavedCourses((prevCourses) =>
-        prevCourses.map((course, index) =>
-          index === currentCourseIndex ? newCourse : course
-        )
-      );
-      setIsEditing(false);
-      setCurrentCourseIndex(null);
-    } else {
-      setSavedCourses((prevCourses) => [...prevCourses, newCourse]);
+  // 코스 저장 또는 수정
+  const handleSaveCourse = async (newCourse) => {
+    try {
+      let savedCourse;
+      if (isEditing) {
+        savedCourse = await DatePlannerAxios.updateCourse(savedCourses[currentCourseIndex].id, newCourse);
+        console.log("테스트 확인용",savedCourses[currentCourseIndex])
+        setSavedCourses(prevCourses =>
+          prevCourses.map((course, index) =>
+            index === currentCourseIndex ? savedCourse : course
+          )
+        );
+        setIsEditing(false);
+        setCurrentCourseIndex(null);
+      } else {
+        savedCourse = await DatePlannerAxios.createCourse(newCourse);
+        setSavedCourses(prevCourses => [...prevCourses, savedCourse]);
+      }
+      setSelectedPlaces([]);
+      console.log("Course saved successfully:", savedCourse);
+      console.log(newCourse);
+    } catch (error) {
+      console.log('Error saving course:', error);
     }
-    setSelectedPlaces([]);
   };
 
-  const handleEditCourse = (index) => {
+   // 코스 수정 모드로 전환
+   const handleEditCourse = (index) => {
     const course = savedCourses[index];
     setSelectedPlaces(course.places);
-    console.log("🤗", course);
     setTitle(course.title);
     setIsEditing(true);
     setCurrentCourseIndex(index);
   };
 
-  const handleDeleteCourse = (index) => {
-    setSavedCourses((prevCourses) => prevCourses.filter((_, i) => i !== index));
-
-    // 폼 초기화
-    setSelectedPlaces([]);
-    setTitle("");
-    setIsEditing(false); // 폼 상태가 편집 모드일 경우 초기화
-    setCurrentCourseIndex(null);
+  // 코스 삭제
+  const handleDeleteCourse = async (index) => {
+    try {
+      await DatePlannerAxios.deleteCourse(savedCourses[index].id);
+      setSavedCourses(prevCourses => prevCourses.filter((_, i) => i !== index));
+      setSelectedPlaces([]);
+      setTitle("");
+      setIsEditing(false);
+      setCurrentCourseIndex(null);
+    } catch (error) {
+      console.error('Error deleting course:', error);
+    }
   };
 
+  // 장소 삭제
   const handleDeletePlace = (placeId) => {
-    setSelectedPlaces((prevSelected) =>
+    setSelectedPlaces(prevSelected =>
       prevSelected.filter((place) => place.id !== placeId)
     );
   };
 
+  // 장소 카드 클릭 시 처리
   const handlePlaceCardClick = (place) => {
+    if (selectedPlaces.length >= 10) {
+      alert("장소는 최대 10개까지 선택할 수 있습니다.");
+      return;
+    }
+  
     const position = new window.kakao.maps.LatLng(place.y, place.x);
     map.panTo(position);
     setSelectedPlaces((prevSelected) => [...prevSelected, place]);
     addNumMark(); // 장소를 클릭할 때마다 numMarker에 추가
   };
 
+   // 선택된 장소 초기화
   const handleClearPlaces = () => {
     setSelectedPlaces([]);
   };
-
+  // 장소 카드 클릭 시 지도 이동 및 장소 정보 표시
   const onClickPlaceCard = (place) => {
     const position = new window.kakao.maps.LatLng(place.y, place.x);
     map.panTo(position);
     displayPlaceInfo(place);
   };
-
+  // 장소 정보 표시
   const displayPlaceInfo = (place) => {
     ReactDOM.render(<DisplaceInfo place={place} />, contentNode.current);
     placeOverlay.current.setPosition(
@@ -113,7 +152,7 @@ const DatePlanner = () => {
     );
     placeOverlay.current.setMap(map);
   };
-
+   // 모달 열기
   const openModal = (index) => {
     setSelectedPlaces(savedCourses[index].places);
     console.log("모달확인", savedCourses[index].places);
