@@ -7,6 +7,8 @@ import "react-calendar/dist/Calendar.css";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment/locale/ko"; // moment에서 한국어 설정을 불러옵니다.
+// import AxiosApi from "../../axiosapi/DiaryAxiosApi";
+import Modal from "./Modal";
 
 // 한국어 locale 설정
 moment.locale("ko");
@@ -499,24 +501,17 @@ const DateDiary = () => {
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
   const memoTextAreaRef = useRef(null);
 
-  useEffect(() => {
-    const savedMemos = localStorage.getItem("memos");
-    if (savedMemos) {
-      setMemos(JSON.parse(savedMemos));
-    }
-    const savedAnniversaries = localStorage.getItem("anniversaries");
-    if (savedAnniversaries) {
-      setAnniversaries(JSON.parse(savedAnniversaries));
-    }
-  }, []);
+  // 팝업
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModelText] = useState("잘못된 요청입니다.");
+  // 키보드 입력
+  // const [inputDate, setInputDate] = useState("");
+  // const [inputMemo, setInputMemo] = useState("");
+  // const [inputCheck, setInputCheck] = useState("");
 
-  useEffect(() => {
-    localStorage.setItem("memos", JSON.stringify(memos));
-  }, [memos]);
-
-  useEffect(() => {
-    localStorage.setItem("anniversaries", JSON.stringify(anniversaries));
-  }, [anniversaries]);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
@@ -613,6 +608,8 @@ const DateDiary = () => {
       [formattedSelectedDate]: anniversaryText,
     }));
 
+    setModalOpen(true);
+    setModelText("저장되었습니다!");
     setIsEditMode(false); // 저장 후 읽기 모드로 전환
   };
 
@@ -640,6 +637,18 @@ const DateDiary = () => {
   const handleEdit = () => {
     setIsEditMode(true);
   };
+
+  // const onClickSave = async () => {
+  //   const diaryReg = await AxiosApi.diaryReg(
+  //     selectedDate,
+  //     inputDate,
+  //     inputMemo,
+  //     inputCheck
+  //   );
+  //   console.log(diaryReg.data);
+  //   setModalOpen(true);
+  //   setModelText("저장되었습니다!");
+  // };
 
   return (
     <>
@@ -791,6 +800,9 @@ const DateDiary = () => {
                     <NewButton onClick={() => setIsEditMode(true)}>+</NewButton>
                   )}
                 </ButtonWrap>
+                <Modal open={modalOpen} close={closeModal} header="성공">
+                  {modalText}
+                </Modal>
               </LineDown>
             </DiaryBoard>
           </BoardWrapper>
