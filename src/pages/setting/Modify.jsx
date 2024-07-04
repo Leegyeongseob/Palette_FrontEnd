@@ -109,11 +109,11 @@ const Modify = () => {
   const [idMessage, setIdMessage] = useState("");
   //정보 저장(placeholder)
   const [memberInfo, setMemberInfo] = useState([]);
+  const email = sessionStorage.getItem("email"); // 세션 스토리지에서 이메일 가져오기
   //회원정보를 가져오기 위한 Axois통신
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const email = sessionStorage.getItem("email"); // 세션 스토리지에서 이메일 가져오기
         const response = await MemberAxiosApi.memberAxios(email); // Axios로 회원 정보 요청
         setMemberInfo(response.data); // 객체를 저장
         setInputEmail(response.data.email);
@@ -143,9 +143,16 @@ const Modify = () => {
   };
 
   const modifyOnClickHandler = () => {
-    const modifyHandler = async (email, name, nickName, coupleName) => {
+    const modifyHandler = async (
+      email,
+      updateEmail,
+      name,
+      nickName,
+      coupleName
+    ) => {
       const rsp = await MemberAxiosApi.memberModify(
         email,
+        updateEmail,
         name,
         nickName,
         coupleName
@@ -156,7 +163,7 @@ const Modify = () => {
         console.log("수정에러", rsp.data);
       }
     };
-    modifyHandler(inputEmail, inputName, inputNickName, inputcoupleName);
+    modifyHandler(email, inputEmail, inputName, inputNickName, inputcoupleName);
   };
   return (
     <Contain>

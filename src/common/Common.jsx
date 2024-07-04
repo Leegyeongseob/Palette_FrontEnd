@@ -45,7 +45,7 @@ const Common = {
     };
     try {
       const res = await axios.post(
-        `${Common.PALETTE_DOMAIN}/auth/refresh`,
+        `${Common.PALLETE_DOMAIN}/auth/refresh`,
         refreshToken,
         config
       );

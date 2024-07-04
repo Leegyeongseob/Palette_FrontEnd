@@ -276,6 +276,7 @@ const MainPage = () => {
                 </Btn>
                 <Btn
                   onClick={() => {
+                    sessionStorage.setItem("email", "");
                     navigate("/");
                   }}
                 >

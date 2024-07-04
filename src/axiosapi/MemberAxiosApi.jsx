@@ -7,9 +7,10 @@ const MemberAxiosApi = {
     return await AxiosInstance.post("/member/info", member);
   },
   //회원 수정 Axios
-  memberModify: async (email, name, nickName, coupleName) => {
+  memberModify: async (email, updateEmail, name, nickName, coupleName) => {
     const member = {
       email: email,
+      updateEmail: updateEmail,
       name: name,
       nickName: nickName,
       coupleName: coupleName,

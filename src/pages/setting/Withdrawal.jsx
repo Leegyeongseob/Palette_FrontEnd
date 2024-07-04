@@ -190,20 +190,11 @@ const Withdrawal = () => {
       setIdMessage("이메일 형식이 올바르지 않습니다.");
       setIsId(false);
     } else {
-      emailIsExist(e.target.value);
-    }
-  };
-  // // 이메일 중복 체크하는 함수
-  const emailIsExist = async (input) => {
-    const response = await LoginAxios.emailIsExist(input);
-    if (response.data) {
-      setIdMessage("중복된 이메일입니다.");
-      setIsId(false);
-    } else {
-      setIdMessage("올바른 형식 입니다.");
+      setIdMessage("올바른 형식입니다.");
       setIsId(true);
     }
   };
+
   // 이메일 전송시 파라미터 넘기는 함수
   const sendVerificationEmail = async (toEmail) => {
     const certificationCode = Math.floor(Math.random() * 900000) + 100000; // 100000부터 999999까지의 난수 발생
@@ -260,6 +251,10 @@ const Withdrawal = () => {
       console.log(rsp.data);
     };
     memberDeleteAxios();
+    if (isEmail && isCode) {
+      sessionStorage.setItem("email", "");
+      navigate("/");
+    }
   };
   return (
     <Contain>
