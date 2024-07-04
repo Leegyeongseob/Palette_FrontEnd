@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import AxiosInstance from "../axiosapi/AxiosInstance";
 const useAddress = () => {
   const [location, setLocation] = useState({ lat: 0, long: 0 }); // 위도, 경도
   const [addr, setAddr] = useState(""); // 주소
@@ -30,7 +29,7 @@ const useAddress = () => {
   // 주소 가져 오기
   const getGeocodeKakao = async (lat, lng) => {
     try {
-      const response = await axios.get(
+      const response = await AxiosInstance.get(
         `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`,
         {
           headers: {

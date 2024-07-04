@@ -66,7 +66,7 @@ const SavedCoursesList = ({openModal, savedCourses, setSelectedCourse, handleEdi
       <CourseList>
         {savedCourses.map((course, index) => (
           <CourseItem key={index}>
-            <CourseTitle onClick={openModal}>{course.title}</CourseTitle>
+            <CourseTitle onClick={() =>openModal(index)}>{course.title}</CourseTitle>
             <ActionButtons>
               <Button onClick={() => handleEditCourse(index)}>수정</Button>
               <Button onClick={() => handleDeleteCourse(index)}>삭제</Button>

@@ -9,6 +9,7 @@ import ReactDOM from "react-dom";
 import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
+import { Await } from "react-router-dom";
 
 const BookContainer = styled.div`
   width: 25.8vw;
@@ -41,6 +42,7 @@ const DatePlanner = () => {
   const contentNode = useRef(document.createElement("div"));
   const mapContainer = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSelectedPlaces, setModalSelectedPlaces] = useState([]);
   const modalMapContainerRef = useRef(null);
   const [numMarker, setNumMarker] = useState([]);
   const [title, setTitle] = useState("");
@@ -52,7 +54,7 @@ const DatePlanner = () => {
         const courses = await DatePlannerAxios.getAllCourses();
         setSavedCourses(courses);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('❌ Error fetching courses:', error);
       }
     };
 
@@ -70,8 +72,9 @@ const DatePlanner = () => {
     try {
       let savedCourse;
       if (isEditing) {
+        console.log(`🔄 Updating course with ID ${savedCourses[currentCourseIndex].id}`);
         savedCourse = await DatePlannerAxios.updateCourse(savedCourses[currentCourseIndex].id, newCourse);
-        console.log("테스트 확인용",savedCourses[currentCourseIndex])
+        console.log("✔️테스트 확인용",savedCourses[currentCourseIndex])
         setSavedCourses(prevCourses =>
           prevCourses.map((course, index) =>
             index === currentCourseIndex ? savedCourse : course
@@ -80,37 +83,48 @@ const DatePlanner = () => {
         setIsEditing(false);
         setCurrentCourseIndex(null);
       } else {
+        console.log("🔄 Creating new course:", newCourse);
         savedCourse = await DatePlannerAxios.createCourse(newCourse);
+        console.log("✔️ Course created:", savedCourse);
         setSavedCourses(prevCourses => [...prevCourses, savedCourse]);
       }
       setSelectedPlaces([]);
       console.log("Course saved successfully:", savedCourse);
       console.log(newCourse);
     } catch (error) {
-      console.log('Error saving course:', error);
+      console.error('❌ Error saving course:', error);
     }
   };
 
-   // 코스 수정 모드로 전환
-   const handleEditCourse = (index) => {
-    const course = savedCourses[index];
-    setSelectedPlaces(course.places);
-    setTitle(course.title);
-    setIsEditing(true);
-    setCurrentCourseIndex(index);
+    // 선택한 코스 수정 모드로 전환
+  const handleEditCourse = async (index) => {
+    try {
+      const courseId = savedCourses[index].id;
+      console.log(`🔄 Fetching course with ID ${courseId}`);
+      const course = await DatePlannerAxios.getCourseById(courseId);
+      console.log(`✔️ Fetched course with ID ${courseId}:`, course);
+      setSelectedPlaces(course.places);
+      setTitle(course.title);
+      setIsEditing(true);
+      setCurrentCourseIndex(index);
+    } catch (error) {
+      console.error(`❌ Error fetching course with ID ${savedCourses[index].id}:`, error);
+    }
   };
 
   // 코스 삭제
   const handleDeleteCourse = async (index) => {
     try {
+      console.log(`🔄 Deleting course with ID ${savedCourses[index].id}`);
       await DatePlannerAxios.deleteCourse(savedCourses[index].id);
+      console.log(`✔️ Course with ID ${savedCourses[index].id} deleted`);
       setSavedCourses(prevCourses => prevCourses.filter((_, i) => i !== index));
       setSelectedPlaces([]);
       setTitle("");
       setIsEditing(false);
       setCurrentCourseIndex(null);
     } catch (error) {
-      console.error('Error deleting course:', error);
+      console.error('❌ Error deleting course:', error);
     }
   };
 
@@ -153,10 +167,16 @@ const DatePlanner = () => {
     placeOverlay.current.setMap(map);
   };
    // 모달 열기
-  const openModal = (index) => {
-    setSelectedPlaces(savedCourses[index].places);
-    console.log("모달확인", savedCourses[index].places);
+  const openModal = async (index) => {
+    try{
+      const courseId = savedCourses[index].id;
+      const course = await DatePlannerAxios.getCourseById(courseId);
+    setModalSelectedPlaces(course.places);
+    console.log("모달확인", course.places);
     setIsModalOpen(true);
+  } catch (error){
+    console.error('❌', error);
+  }
   };
 
   const closeModal = () => {
@@ -270,7 +290,7 @@ const DatePlanner = () => {
         onClose={closeModal}
         mapContainerRef={mapContainer}
         map={map}
-        selectedPlaces={selectedPlaces}
+        selectedPlaces={modalSelectedPlaces}
         setNumMarker={setNumMarker}
       />
     </BookWrapper>
