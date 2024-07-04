@@ -9,9 +9,12 @@ import ReactDOM from "react-dom";
 import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
-import { Await } from "react-router-dom";
 
-const BookContainer = styled.div`
+const LBookContainer = styled.div`
+  width: 25.8vw;
+  height: 69vh;
+`;
+const RBookContainer = styled.div`
   width: 25.8vw;
   height: 69vh;
 `;
@@ -244,7 +247,7 @@ const DatePlanner = () => {
 
   return (
     <BookWrapper>
-      <BookContainer>
+      <LBookContainer>
         <PlannerForm
           title={title}
           selectedPlaces={selectedPlaces}
@@ -262,8 +265,8 @@ const DatePlanner = () => {
           handleDeleteCourse={handleDeleteCourse}
           openModal={(index) => openModal(index)}
         />
-      </BookContainer>
-      <BookContainer>
+      </LBookContainer>
+      <RBookContainer>
         <MapContainer
           mapContainer={mapContainer}
           displayPlaceInfo={displayPlaceInfo}
@@ -283,7 +286,7 @@ const DatePlanner = () => {
           selectedPlaces={selectedPlaces}
           currCategory={currCategory}
         />
-      </BookContainer>
+      </RBookContainer>
 
       <MapModal
         isOpen={isModalOpen}

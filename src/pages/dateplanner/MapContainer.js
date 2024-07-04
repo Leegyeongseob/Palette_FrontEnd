@@ -123,7 +123,7 @@ const MapContainer = ({
         window.kakao.maps.event.removeListener(map, "zoom_changed", handleIdle);
       };
     }
-  }, [map, currCategory]);
+  }, [map, currCategory ]);
 
   const searchPlaces = () => {
     if (!currCategory) {
@@ -247,6 +247,8 @@ const MapContainer = ({
     newMarkers.forEach((marker) => marker.setMap(map));
     setMarkers(newMarkers);
     map.setBounds(bounds);
+
+
   };
 
   return (

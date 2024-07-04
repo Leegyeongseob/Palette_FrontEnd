@@ -84,6 +84,8 @@ const PlaceInfoAfter = styled.div`
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 `;
 const DisplaceInfo = ({ place }) => {
+
+  
   return (
     <PlaceInfoWrap>
       <PlaceInfo>

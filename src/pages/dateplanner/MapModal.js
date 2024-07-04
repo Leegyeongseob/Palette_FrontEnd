@@ -41,7 +41,7 @@ const MapModal = ({ isOpen, onClose, mapContainerRef, map, selectedPlaces, setNu
       const { kakao } = window;
       const kakaoMap = new kakao.maps.Map(mapContainerRef.current, {
         center: new kakao.maps.LatLng(37.498085, 127.027978), // 초기 위치 설정
-        level: 3, // 확대 레벨 설정
+        level: 6, // 확대 레벨 설정
       });
 
       // 선택된 장소들에 대한 새 마커를 생성합니다.

@@ -2,15 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const SavedCoursesContainer = styled.div`
-  max-width: 600px;
-  background-color: rgba(236, 242, 248, 0.8);
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 4px;
-  text-align: center;
-  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 24vh;
   h3{
-    margin: auto;
+    margin: 10px;
+    text-align: center;
   }
 `;
 
