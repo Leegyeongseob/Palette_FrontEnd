@@ -7,7 +7,7 @@ import "react-calendar/dist/Calendar.css";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment/locale/ko"; // moment에서 한국어 설정을 불러옵니다.
-// import AxiosApi from "../../axiosapi/DiaryAxiosApi";
+import AxiosApi from "../../axiosapi/DiaryAxiosApi";
 import Modal from "./Modal";
 
 // 한국어 locale 설정
@@ -487,12 +487,12 @@ const DateDiary = () => {
   const today = new Date();
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(today); // 1. 선택한 날짜 데이터
   const [memos, setMemos] = useState({});
-  const [currentMemo, setCurrentMemo] = useState("");
-  const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]);
+  const [currentMemo, setCurrentMemo] = useState(""); // 5. 일기 작성 데이터
+  const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]); // 3. 일정 체크 여부 4. 일정 내용
   const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
-  const [anniversaryText, setAnniversaryText] = useState(""); // 기념일 텍스트 상태
+  const [anniversaryText, setAnniversaryText] = useState(""); //2. 기념일 텍스트 상태
   const [anniversaries, setAnniversaries] = useState({}); // 기념일 상태
 
   const attendDay = [""];
@@ -504,11 +504,8 @@ const DateDiary = () => {
   // 팝업
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModelText] = useState("잘못된 요청입니다.");
-  // 키보드 입력
-  // const [inputDate, setInputDate] = useState("");
-  // const [inputMemo, setInputMemo] = useState("");
-  // const [inputCheck, setInputCheck] = useState("");
 
+  const userEmail = sessionStorage.getItem("email");
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -586,7 +583,30 @@ const DateDiary = () => {
     setAnniversaryText(e.target.value);
   };
 
-  const handleMemoSave = () => {
+  const onSaveButton = async () => {
+    console.log(userEmail);
+    const saveData = {
+      email: userEmail,
+      anniversary: selectedDate,
+      dateContents: anniversaryText,
+      contents: currentMemo,
+      events: events,
+    };
+    try {
+      const response = await AxiosApi.diaryReg(saveData);
+
+      if (response.data) {
+        alert("저장 성공!");
+      } else {
+        alert("저장 실패!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("저장 중 오류가 발생했습니다");
+    }
+  };
+
+  const handleMemoSave = async () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
 
     if (
@@ -597,7 +617,6 @@ const DateDiary = () => {
       alert("기념일, 일정, 일기 중 최소 하나를 입력하세요.");
       return; //기념일, 일기나 일정이 모두 비어 있으면 저장을 중단
     }
-
     setMemos((prevMemos) => ({
       ...prevMemos,
       [formattedSelectedDate]: { memo: currentMemo, events },
@@ -608,6 +627,7 @@ const DateDiary = () => {
       [formattedSelectedDate]: anniversaryText,
     }));
 
+    onSaveButton();
     setModalOpen(true);
     setModelText("저장되었습니다!");
     setIsEditMode(false); // 저장 후 읽기 모드로 전환

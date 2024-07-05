@@ -1,16 +1,9 @@
-import axios from "axios";
-import Common from "../common/Common";
+import AxiosInstance from "./AxiosInstance";
 
 const AxiosApi = {
-  // 회원 가입
-  diaryReg: async (selsectDate, email, pwd, name) => {
-    const member = {
-      selsectDate: selsectDate,
-      email: email,
-      password: pwd,
-      name: name,
-    };
-    return await axios.post(Common.PALLETE_DOMAIN + "/auth/signup", member);
+  // 다이어리 저장
+  diaryReg: async (saveData) => {
+    return await AxiosInstance.post("/diary/save", saveData);
   },
 };
 export default AxiosApi;
