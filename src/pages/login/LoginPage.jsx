@@ -228,7 +228,7 @@ const LoginPage = () => {
   // 모달 내용 변경
   const [modalContent, setModalContent] = useState("");
   // sole인지 확인
-  const [solo, setSolo] = useState();
+  const [isCouple, setIsCouple] = useState();
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
@@ -266,15 +266,17 @@ const LoginPage = () => {
       const coupleName = sessionStorage.getItem("coupleName");
       //두번째 계정이 존재하는지 확인.
       secondEmailExist(coupleName);
+
       // 로그인, main-page를 커플이름으로 구별해서 이동.
-      loginAxios(solo, inputEmail, inputpwd);
+      loginAxios(isCouple, inputEmail, inputpwd);
     }
   };
   const secondEmailExist = async (couple) => {
     const response = await LoginAxios.secondEmailExist(couple);
-    setSolo(response.data);
+    sessionStorage.setItem("isCouple", response.data);
+    setIsCouple(response.data);
   };
-  const loginAxios = async (res, email, pwd) => {
+  const loginAxios = async (isCouple, email, pwd) => {
     try {
       const response = await LoginAxios.login(email, pwd);
       if (response.data.grantType === "bearer") {
@@ -284,7 +286,7 @@ const LoginPage = () => {
         Common.setRefreshToken(response.data.refreshToken);
         navigate("/main-page");
         // 커플일 경우
-        // if (res) {
+        // if (isCouple) {
         //   navigate(
         //     `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
         //   );
