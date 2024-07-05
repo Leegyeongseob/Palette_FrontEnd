@@ -9,6 +9,7 @@ import ReactDOM from "react-dom";
 import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
+import useAddress from "../../hooks/useLocation";
 
 const LBookContainer = styled.div`
   width: 25.8vw;
@@ -32,6 +33,7 @@ const BookWrapper = styled.div`
 `;
 
 const DatePlanner = () => {
+  const { location } = useAddress();
   const [currCategory, setCurrCategory] = useState("");
   const [places, setPlaces] = useState([]);
   const [selectedPlaces, setSelectedPlaces] = useState([]);
@@ -278,6 +280,7 @@ const DatePlanner = () => {
           setCurrCategory={setCurrCategory}
           places={places}
           setPlaces={setPlaces}
+          location={location}
         />
         <PlaceCardList
           places={places}

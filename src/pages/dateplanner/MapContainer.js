@@ -4,13 +4,11 @@ import useAddress from "../../hooks/useLocation";
 // import ReactDOM from "react-dom";
 // import DisplaceInfo from "../PinView/DisplaceInfo";
 
-
 const Search = styled.form`
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 `;
-
 
 const MapSection = styled.div`
   width: 25.8vw;
@@ -84,10 +82,11 @@ const MapContainer = ({
   currCategory,
   setCurrCategory,
   setPlaces,
+  location,
 }) => {
   const [markers, setMarkers] = useState([]);
   const ps = new window.kakao.maps.services.Places(map);
-  const { location } = useAddress();
+
   contentNode.current.className = "placeinfo_wrap";
   placeOverlay.current.setContent(contentNode.current);
 
@@ -123,7 +122,7 @@ const MapContainer = ({
         window.kakao.maps.event.removeListener(map, "zoom_changed", handleIdle);
       };
     }
-  }, [map, currCategory ]);
+  }, [map, currCategory]);
 
   const searchPlaces = () => {
     if (!currCategory) {
@@ -247,8 +246,6 @@ const MapContainer = ({
     newMarkers.forEach((marker) => marker.setMap(map));
     setMarkers(newMarkers);
     map.setBounds(bounds);
-
-
   };
 
   return (
@@ -277,10 +274,10 @@ const MapContainer = ({
             ))}
           </CategoryList>
         </MapWrap>
-      <Search onSubmit={handleSubmit}>
-        <input type="text" name="keyword" />
-        <button type="submit">검색하기</button>
-      </Search>
+        <Search onSubmit={handleSubmit}>
+          <input type="text" name="keyword" />
+          <button type="submit">검색하기</button>
+        </Search>
       </MapSection>
     </div>
   );
