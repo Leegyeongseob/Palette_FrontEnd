@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { LuKeyRound } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoginAxios from "../../axiosapi/LoginAxios";
+import Modal from "../datediary/Modal";
+import findpwdImg from "../../img/loginImg/패스워드찾기.gif";
+
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -113,6 +117,7 @@ const Message = styled.div`
 const FindPassword = () => {
   const [inputEmail, setInputEmail] = useState("");
   const [isId, setIsId] = useState("");
+  const [name, setName] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
   //주민등록번호 표현 상태 변수
@@ -122,7 +127,94 @@ const FindPassword = () => {
   const [isRrnValid, setIsRrnValid] = useState(false);
   //주민등록번호 메세지
   const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
+  // 찾은 결과 ID값 저장
+  const [pwd, setPwd] = useState("");
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
+  // 모달 내용
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+    if (pwd !== "") {
+      navigate("/login-page");
+    }
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const findPwdOnclickHandler = () => {
+    findIdAxios();
+  };
+  //주민등록번호 따로 받은 자리 합치는 함수
+  const combineRRN = (firstPart, secondPart) => {
+    // 문자열을 숫자로 변환
+    const firstNum = parseInt(firstPart, 10);
+    const secondNum = parseInt(secondPart, 10);
+
+    // 계산 수행
+    return firstNum * 10 + secondNum;
+  };
+  // 아이디찾기 버튼 이벤트 및 결과 출력
+  const findIdAxios = async () => {
+    const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
+    try {
+      const showUserPwd = await LoginAxios.findPwdResult(
+        inputEmail,
+        name,
+        combinedRnn
+      );
+      SetHeaderContents("비밀번호 확인");
+      setModalOpen(true);
+      if (showUserPwd.data === "") {
+        setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
+      } else {
+        setModalContent(`임시 비밀번호: ${showUserPwd.data} 입니다.`);
+        setPwd(showUserPwd.data);
+      }
+      // console.log(showEmail);
+    } catch (error) {
+      if (error.response) {
+        // 서버가 응답했지만 상태 코드가 2xx 범위를 벗어나는 경우
+        switch (error.response.status) {
+          case 400:
+            setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
+            break;
+          case 401:
+            setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
+            console.log();
+            break;
+          case 403:
+            setModalContent("접근 권한이 없습니다.");
+            break;
+          case 404:
+            setModalContent("서버를 찾을 수 없습니다.");
+            break;
+          case 500:
+            setModalContent(
+              "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+            );
+            break;
+          default:
+            setModalContent(
+              `오류가 발생했습니다: ${error.response.statusText}`
+            );
+        }
+      } else if (error.request) {
+        // 요청이 서버에 도달하지 못한 경우 (네트워크 오류 등)
+        setModalContent("서버가 응답하지 않습니다.");
+      } else {
+        // 요청을 설정하는 중에 오류가 발생한 경우
+        setModalContent(`오류가 발생했습니다: ${error.message}`);
+      }
+    }
+  };
+
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     setInputEmail(e.target.value);
@@ -176,8 +268,20 @@ const FindPassword = () => {
       setIsRrnValidMessage("");
     }
   };
+  const onChangeName = (e) => {
+    setName(e.target.value);
+  };
   return (
     <Contain>
+      <Modal
+        open={modalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeModalOkBtnHandler}
+        img={findpwdImg}
+      >
+        {modalContent}
+      </Modal>
       <IconDiv>
         <LuKeyRound size={100} color="rgba(0,0,0,0.7)" />
       </IconDiv>
@@ -189,8 +293,6 @@ const FindPassword = () => {
               <input
                 className="InputClass"
                 type="text"
-                placeholder="Email ID"
-                value={inputEmail}
                 onChange={onChangeEmail}
               />
             </InputDetailDiv>
@@ -198,7 +300,7 @@ const FindPassword = () => {
           </div>
           <InputDetailDiv>
             <label>이름</label>
-            <input className="InputClass" />
+            <input className="InputClass" onChange={onChangeName} />
           </InputDetailDiv>
           <div>
             <InputDetailDiv>
@@ -224,9 +326,7 @@ const FindPassword = () => {
         </InputDiv>
       </InputDiv>
       <ButtonDiv>
-        <Link to="/login-page" style={{ textDecoration: "none" }}>
-          <FindButton>찾기</FindButton>
-        </Link>
+        <FindButton onClick={findPwdOnclickHandler}>찾기</FindButton>
       </ButtonDiv>
     </Contain>
   );

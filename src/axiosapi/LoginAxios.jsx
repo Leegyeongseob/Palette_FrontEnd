@@ -97,5 +97,28 @@ const LoginAxios = {
       member
     );
   },
+  //아이디 찾기
+  findIdResult: async (name, registrationNumber) => {
+    const member = {
+      name: name,
+      registrationNumber: registrationNumber,
+    };
+    return await axios.post(
+      Common.PALLETE_DOMAIN + "/auth/findIdResult",
+      member
+    );
+  },
+  //패스워드 찾기
+  findPwdResult: async (email, name, registrationNumber) => {
+    const member = {
+      email: email,
+      name: name,
+      registrationNumber: registrationNumber,
+    };
+    return await axios.post(
+      Common.PALLETE_DOMAIN + "/auth/findPwdResult",
+      member
+    );
+  },
 };
 export default LoginAxios;

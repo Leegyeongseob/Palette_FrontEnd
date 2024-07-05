@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginAxios from "../../axiosapi/LoginAxios";
-
+import Modal from "../datediary/Modal";
+import findIdImg from "../../img/loginImg/아이디찾기.gif";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -129,32 +129,41 @@ const FindEmail = () => {
   const [isRrnValidMessage, setIsRrnValidMessage] = useState("");
   // 이름값 저장
   const [Name, setName] = useState("");
-  // 모달 내용
-  const [SuccessModalOpen, setSuccessModalOpen] = useState(false);
-  const [FailModalOpen, setFailModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
+
   // 찾은 결과 ID값 저장
   const [email, setEmail] = useState("");
+  // 모달 해더
+  const [headerContents, SetHeaderContents] = useState("");
+  // 모달 내용
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  const handleSuccessCloseModal = () => {
-    //모달 닫은 이후 핸들링
-    setSuccessModalOpen(false);
-    navigate("/login-page");
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+    if (email !== "") {
+      navigate("/login-page");
+    }
   };
-  const handleFailCloseModal = () => {
-    setFailModalOpen(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const findIdOnclickHandler = () => {
+    findIdAxios();
   };
   // 아이디찾기 버튼 이벤트 및 결과 출력
-  const findIdButton = async () => {
+  const findIdAxios = async () => {
     const combinedRnn = combineRRN(rrnFirstPart, rrnSecondPart);
     try {
       const showUserId = await LoginAxios.findIdResult(Name, combinedRnn);
-      setEmail(showUserId);
-      if (showUserId === "") {
-        setFailModalOpen(true);
+      SetHeaderContents("아이디 확인");
+      setModalOpen(true);
+      if (showUserId.data === "") {
         setModalContent("잘못된 요청입니다. 입력 값을 확인해주세요.");
       } else {
-        setSuccessModalOpen(true);
+        setModalContent(`아이디: ${showUserId.data} 입니다.`);
+        setEmail(showUserId.data);
       }
       // console.log(showEmail);
     } catch (error) {
@@ -191,7 +200,6 @@ const FindEmail = () => {
         // 요청을 설정하는 중에 오류가 발생한 경우
         setModalContent(`오류가 발생했습니다: ${error.message}`);
       }
-      setFailModalOpen(true);
     }
   };
 
@@ -255,6 +263,15 @@ const FindEmail = () => {
 
   return (
     <Contain>
+      <Modal
+        open={modalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeModalOkBtnHandler}
+        img={findIdImg}
+      >
+        {modalContent}
+      </Modal>
       <IconDiv>
         <FaMagnifyingGlassStyle />
       </IconDiv>
@@ -286,9 +303,7 @@ const FindEmail = () => {
         </div>
       </InputDiv>
       <ButtonDiv>
-        <Link to="/login-page" style={{ textDecoration: "none" }}>
-          <FindButton onClick={findIdButton}>찾기</FindButton>
-        </Link>
+        <FindButton onClick={findIdOnclickHandler}>찾기</FindButton>
       </ButtonDiv>
     </Contain>
   );

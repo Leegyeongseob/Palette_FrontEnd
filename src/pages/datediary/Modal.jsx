@@ -49,9 +49,16 @@ const CloseButton = styled.button`
 `;
 
 const ModalMain = styled.main`
-  padding: auto;
+  padding: 30px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bolder;
+  color: blue;
 `;
 
 const ModalFooter = styled.footer`
@@ -69,14 +76,12 @@ const ModalButton = styled.button`
   cursor: pointer;
   margin-right: 10px;
 `;
-const ImgDiv = styled.div`
-  width: 3vw;
+const Img = styled.img`
+  width: 10vw;
   height: 20vh;
-  border: none;
-  background-color: purple;
 `;
 const Modal = (props) => {
-  const { open, confirm, close, type, header, children } = props;
+  const { open, confirm, close, type, header, children, img } = props;
   return (
     <ModalOverlay className={open ? "openModal" : ""}>
       {open && (
@@ -86,7 +91,7 @@ const Modal = (props) => {
             <CloseButton onClick={close}>&times;</CloseButton>
           </ModalHeader>
           <ModalMain>
-            <ImgDiv />
+            <Img src={img} />
             {children}
           </ModalMain>
           <ModalFooter>

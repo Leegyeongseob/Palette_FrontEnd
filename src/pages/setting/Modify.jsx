@@ -101,12 +101,15 @@ const Modify = () => {
   // 키보드 입력
   const [inputEmail, setInputEmail] = useState("");
   const [inputName, setInputName] = useState("");
+  const [inputPwd, setInputPwd] = useState("");
   const [inputNickName, setInputNickName] = useState("");
   const [inputcoupleName, setInputCoupleName] = useState("");
   // 유효성 확인
   const [isId, setIsId] = useState("");
+  const [isPwd, setIsPwd] = useState("");
   // 에러 메세지
   const [idMessage, setIdMessage] = useState("");
+  const [pwdMessage, setPwMessage] = useState("");
   //정보 저장(placeholder)
   const [memberInfo, setMemberInfo] = useState([]);
   const email = sessionStorage.getItem("email"); // 세션 스토리지에서 이메일 가져오기
@@ -128,7 +131,19 @@ const Modify = () => {
 
     fetchData(); // 데이터 가져오기
   }, []);
-
+  // 비밀번호 8자리 이상.
+  const onChangePw = (e) => {
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const passwordCurrent = e.target.value;
+    setInputPwd(passwordCurrent);
+    if (!passwordRegex.test(passwordCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPwd(false);
+    } else {
+      setPwMessage("안전한 비밀번호입니다.)");
+      setIsPwd(true);
+    }
+  };
   // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
   const onChangeEmail = (e) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -146,6 +161,7 @@ const Modify = () => {
     const modifyHandler = async (
       email,
       updateEmail,
+      pwd,
       name,
       nickName,
       coupleName
@@ -153,6 +169,7 @@ const Modify = () => {
       const rsp = await MemberAxiosApi.memberModify(
         email,
         updateEmail,
+        pwd,
         name,
         nickName,
         coupleName
@@ -163,7 +180,14 @@ const Modify = () => {
         console.log("수정에러", rsp.data);
       }
     };
-    modifyHandler(email, inputEmail, inputName, inputNickName, inputcoupleName);
+    modifyHandler(
+      email,
+      inputEmail,
+      inputPwd,
+      inputName,
+      inputNickName,
+      inputcoupleName
+    );
   };
   return (
     <Contain>
@@ -179,6 +203,18 @@ const Modify = () => {
             />
           </InputDetailDiv>
           {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </div>
+        <div>
+          <InputDetailDiv>
+            <label>비밀번호</label>
+            <input
+              type="password"
+              className="InputClass"
+              value={inputPwd}
+              onChange={onChangePw}
+            />
+          </InputDetailDiv>
+          {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
         </div>
         <InputDetailDiv>
           <label>이름</label>
