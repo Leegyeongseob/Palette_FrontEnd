@@ -74,7 +74,6 @@ const CoupleImg = ({ clothes = false }) => {
         <ProfileImgDiv>
           <Profile imageurl={manprofile} />
         </ProfileImgDiv>
-        {}
         <Text clothes={clothes}>{coupleNickName[0] || "알콩"}</Text>
       </ProfileDiv>
       <HeartDiv>
