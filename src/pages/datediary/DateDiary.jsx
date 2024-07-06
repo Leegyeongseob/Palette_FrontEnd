@@ -503,12 +503,46 @@ const DateDiary = () => {
 
   // 팝업
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalText, setModelText] = useState("잘못된 요청입니다.");
+  const [modalText, setModalText] = useState("잘못된 요청입니다.");
 
   const userEmail = sessionStorage.getItem("email");
+  console.log("User Email:", userEmail);
+
+
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    const fetchCoupleDiaries = async () => {
+      if (!userEmail) {
+        setModalOpen(true);
+        setModalText("커플 등록 후 이용해주시기 바랍니다.");
+        return;
+      }
+
+      try {
+        const response = await AxiosApi.getCoupleDiaries(userEmail);
+        const diaries = response.data;
+
+        const memosData = {};
+        const anniversariesData = {};
+
+        diaries.forEach(diary => {
+          const formattedDate = moment(diary.anniversary).format("YYYY-MM-DD");
+          memosData[formattedDate] = { memo: diary.contents, events: diary.events };
+          anniversariesData[formattedDate] = diary.dateContents;
+        });
+
+        setMemos(memosData);
+        setAnniversaries(anniversariesData);
+      } catch (error) {
+        console.error("Failed to fetch couple diaries:", error);
+      }
+    };
+
+    fetchCoupleDiaries();
+  }, [userEmail]);
 
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
@@ -584,10 +618,9 @@ const DateDiary = () => {
   };
 
   const onSaveButton = async () => {
-    console.log(userEmail);
     const saveData = {
       email: userEmail,
-      anniversary: selectedDate,
+      anniversary: moment(selectedDate).utc().format("YYYY-MM-DD"),
       dateContents: anniversaryText,
       contents: currentMemo,
       events: events,
@@ -596,7 +629,8 @@ const DateDiary = () => {
       const response = await AxiosApi.diaryReg(saveData);
 
       if (response.data) {
-        alert("저장 성공!");
+        setModalOpen(true);
+        setModalText("저장되었습니다!");
       } else {
         alert("저장 실패!");
       }
@@ -628,8 +662,6 @@ const DateDiary = () => {
     }));
 
     onSaveButton();
-    setModalOpen(true);
-    setModelText("저장되었습니다!");
     setIsEditMode(false); // 저장 후 읽기 모드로 전환
   };
 
@@ -657,18 +689,6 @@ const DateDiary = () => {
   const handleEdit = () => {
     setIsEditMode(true);
   };
-
-  // const onClickSave = async () => {
-  //   const diaryReg = await AxiosApi.diaryReg(
-  //     selectedDate,
-  //     inputDate,
-  //     inputMemo,
-  //     inputCheck
-  //   );
-  //   console.log(diaryReg.data);
-  //   setModalOpen(true);
-  //   setModelText("저장되었습니다!");
-  // };
 
   return (
     <>

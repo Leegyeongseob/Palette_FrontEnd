@@ -96,7 +96,7 @@ const Modal = (props) => {
           </ModalMain>
           <ModalFooter>
             {type && <ModalButton onClick={confirm}>확인</ModalButton>}
-            <ModalButton onClick={close}>취소</ModalButton>
+            <ModalButton onClick={close}>확인</ModalButton>
           </ModalFooter>
         </ModalSection>
       )}
