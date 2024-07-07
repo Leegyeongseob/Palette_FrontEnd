@@ -6,7 +6,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
-import "moment/locale/ko"; // moment에서 한국어 설정을 불러옵니다.
+import "moment/locale/ko";
+import soleModalImg from "../../img/commonImg/전구 아이콘.gif";
 import AxiosApi from "../../axiosapi/DiaryAxiosApi";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
@@ -183,7 +184,7 @@ const StyledDate = styled.div`
 
 const StyledAnniversary = styled.div`
   font-size: 0.63rem;
-  color: royalblue; /* 기타 색상 코드로 변경 */
+  color: royalblue;
   font-weight: 600;
   position: absolute;
   top: 60%;
@@ -192,7 +193,7 @@ const StyledAnniversary = styled.div`
 `;
 
 const StyledDot = styled.div`
-  background-color: brown; /* 기타 색상 코드로 변경 */
+  background-color: brown;
   border-radius: 50%;
   width: 0.3rem;
   height: 0.3rem;
@@ -490,20 +491,19 @@ const DateDiary = () => {
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(today); // 1. 선택한 날짜 데이터
-  const [memos, setMemos] = useState({});
-  const [currentMemo, setCurrentMemo] = useState(""); // 5. 일기 작성 데이터
-  const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]); // 3. 일정 체크 여부 4. 일정 내용
-  const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
   const [anniversaryText, setAnniversaryText] = useState(""); //2. 기념일 텍스트 상태
+  const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]); // 3. 일정 체크 여부 4. 일정 내용
+  const [currentMemo, setCurrentMemo] = useState(""); // 5. 일기 작성 데이터
+  const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
   const [anniversaries, setAnniversaries] = useState({}); // 기념일 상태
+  const [memos, setMemos] = useState({});
 
   const attendDay = [""];
-  const anniversaryDate = moment("2024-01-23");
+  const anniversaryDate = moment("2024-05-11");
   const daysTogether = moment(today).diff(anniversaryDate, "days") + 1;
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
   const memoTextAreaRef = useRef(null);
 
-  // 팝업
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState("잘못된 요청입니다.");
   const [modalType, setModalType] = useState(false);
@@ -520,6 +520,7 @@ const DateDiary = () => {
     setModalOpen(false);
   };
 
+  // 다이어리 불러오기
   useEffect(() => {
     const fetchCoupleDiaries = async () => {
       if (!userEmail) {
@@ -545,7 +546,8 @@ const DateDiary = () => {
         setMemos(memosData);
         setAnniversaries(anniversariesData);
       } catch (error) {
-        console.error("저장에 실패하였습니다.", error);
+        setModalOpen(true);
+        setModalText("불러오기 오류가 발생하였습니다!");
       }
     };
 
@@ -625,77 +627,95 @@ const DateDiary = () => {
     setAnniversaryText(e.target.value);
   };
 
-  const onSaveButton = async () => {
-    const saveData = {
-      email: userEmail,
-      anniversary: moment(selectedDate).format("YYYY-MM-DD"),
-      dateContents: anniversaryText,
-      contents: currentMemo,
-      events: events,
-    };
-    try {
-      const response = await AxiosApi.diaryReg(saveData);
-
-      if (response.data) {
-        setModalOpen(true);
-        setModalText("저장되었습니다!");
-      } else {
-        alert("저장 실패!");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("저장 중 오류가 발생했습니다");
-    }
+  const handleEdit = () => {
+    setIsEditMode(true);
   };
 
+  // 다이어리 저장
   const handleMemoSave = async () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
-
+  
     if (
       currentMemo.trim() === "" &&
       events.every((event) => !event.eventText.trim()) &&
       anniversaryText.trim() === ""
     ) {
-      alert("기념일, 일정, 일기 중 최소 하나를 입력하세요.");
-      return; //기념일, 일기나 일정이 모두 비어 있으면 저장을 중단
+      setModalOpen(true);
+      setModalText("내용을 입력 해주세요 :)");
+      return;
     }
-    setMemos((prevMemos) => ({
-      ...prevMemos,
-      [formattedSelectedDate]: { memo: currentMemo, events },
-    }));
-
-    setAnniversaries((prevAnniversaries) => ({
-      ...prevAnniversaries,
-      [formattedSelectedDate]: anniversaryText,
-    }));
-
-    onSaveButton();
-    setIsEditMode(false); // 저장 후 읽기 모드로 전환
+  
+    const saveData = {
+      email: userEmail,
+      anniversary: formattedSelectedDate,
+      dateContents: anniversaryText,
+      contents: currentMemo,
+      events: events,
+    };
+  
+    try {
+      const response = await AxiosApi.diaryReg(saveData);
+  
+      if (response.data) {
+        setModalOpen(true);
+        setModalText("저장이 완료되었습니다 :)");
+        
+        // 저장이 성공적으로 완료되었을 때 상태를 업데이트
+        setMemos((prevMemos) => ({
+          ...prevMemos,
+          [formattedSelectedDate]: { memo: currentMemo, events },
+        }));
+  
+        setAnniversaries((prevAnniversaries) => ({
+          ...prevAnniversaries,
+          [formattedSelectedDate]: anniversaryText,
+        }));
+  
+        setIsEditMode(false); // 저장 후 읽기 모드로 전환
+      } else {
+        setModalOpen(true);
+        setModalText("저장 실패 ㅠㅠ");
+      }
+    } catch (error) {
+      console.error(error);
+      setModalOpen(true);
+      setModalText("저장 중 오류가 발생하였습니다!");
+    }
   };
+  
 
-  const handleClear = () => {
+  // 다이어리 삭제
+  const handleClear = async () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
 
-    setMemos((prevMemos) => {
-      const updatedMemos = { ...prevMemos };
-      delete updatedMemos[formattedSelectedDate];
-      return updatedMemos;
-    });
+    // 백엔드에 이메일과 날짜를 보내서 삭제
+    try {
+      const response = await AxiosApi.deleteDiary(userEmail, formattedSelectedDate);
+      if (response.status === 200) {
+        setMemos((prevMemos) => {
+          const updatedMemos = { ...prevMemos };
+          delete updatedMemos[formattedSelectedDate];
+          return updatedMemos;
+        });
 
-    setAnniversaries((prevAnniversaries) => {
-      const updatedAnniversaries = { ...prevAnniversaries };
-      delete updatedAnniversaries[formattedSelectedDate];
-      return updatedAnniversaries;
-    });
+        setAnniversaries((prevAnniversaries) => {
+          const updatedAnniversaries = { ...prevAnniversaries };
+          delete updatedAnniversaries[formattedSelectedDate];
+          return updatedAnniversaries;
+        });
 
-    setEvents([{ isEvent: false, eventText: "" }]);
-    setCurrentMemo("");
-    setAnniversaryText("");
-    setIsEditMode(false); // 삭제 후 읽기 모드로 전환
-  };
-
-  const handleEdit = () => {
-    setIsEditMode(true);
+        setModalOpen(true);
+        setModalText("삭제가 완료 되었습니다 :)");
+        setIsEditMode(false); // 삭제 후 읽기 모드로 전환
+      } else {
+        setModalOpen(true);
+        setModalText("삭제 실패 ㅠㅠ");
+      }
+    } catch (error) {
+      console.error("삭제 오류", error);
+      setModalOpen(true);
+      setModalText("저장 중 오류가 발생하였습니다!");
+    }
   };
 
   return (
@@ -853,7 +873,8 @@ const DateDiary = () => {
                   header="안내"
                   close={closeModal}
                   type={modalType} 
-                  confirm={modalOkBtnHandler}>
+                  confirm={modalOkBtnHandler}
+                  img={soleModalImg}>
                   {modalText}
                 </Modal>
               </LineDown>

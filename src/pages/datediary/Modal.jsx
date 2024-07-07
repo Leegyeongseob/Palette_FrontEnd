@@ -30,7 +30,7 @@ const ModalSection = styled.section`
 const ModalHeader = styled.header`
   position: relative;
   padding: 16px 64px 16px 16px;
-  background-color: #f1f1f1;
+  background-color: #feeee8;
   font-weight: 700;
 `;
 
@@ -58,24 +58,33 @@ const ModalMain = styled.main`
   align-items: center;
   font-size: 18px;
   font-weight: bolder;
-  color: blue;
+  color: royalblue;
 `;
 
 const ModalFooter = styled.footer`
   padding: 12px 16px;
   text-align: right;
+  background-color: #fff9f2;
 `;
 
 const ModalButton = styled.button`
   padding: 6px 12px;
   color: #fff;
-  background-color: #6c757d;
+  background-color: #919497;
   border-radius: 5px;
   font-size: 13px;
   border: none;
   cursor: pointer;
   margin-right: 10px;
+  &:hover,
+  &:focus {
+    color: black;
+    background-color: #828486;
+    font-weight: bolder;
+  }
 `;
+
+
 const Img = styled.img`
   width: 10vw;
   height: 20vh;
