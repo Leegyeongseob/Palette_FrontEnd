@@ -9,6 +9,7 @@ import moment from "moment";
 import "moment/locale/ko"; // moment에서 한국어 설정을 불러옵니다.
 import AxiosApi from "../../axiosapi/DiaryAxiosApi";
 import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
 
 // 한국어 locale 설정
 moment.locale("ko");
@@ -485,6 +486,7 @@ const RemoveButton = styled.button`
 
 const DateDiary = () => {
   const today = new Date();
+  const navigator = useNavigate();
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(today); // 1. 선택한 날짜 데이터
@@ -504,10 +506,15 @@ const DateDiary = () => {
   // 팝업
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState("잘못된 요청입니다.");
+  const [modalType, setModalType] = useState(false);
 
   const userEmail = sessionStorage.getItem("email");
   console.log("User Email:", userEmail);
 
+  const modalOkBtnHandler = () => {
+    closeModal();
+    navigator("/login-page");
+  };
 
   const closeModal = () => {
     setModalOpen(false);
@@ -516,6 +523,7 @@ const DateDiary = () => {
   useEffect(() => {
     const fetchCoupleDiaries = async () => {
       if (!userEmail) {
+        setModalType(true);
         setModalOpen(true);
         setModalText("커플 등록 후 이용해주시기 바랍니다.");
         return;
@@ -537,7 +545,7 @@ const DateDiary = () => {
         setMemos(memosData);
         setAnniversaries(anniversariesData);
       } catch (error) {
-        console.error("Failed to fetch couple diaries:", error);
+        console.error("저장에 실패하였습니다.", error);
       }
     };
 
@@ -620,7 +628,7 @@ const DateDiary = () => {
   const onSaveButton = async () => {
     const saveData = {
       email: userEmail,
-      anniversary: moment(selectedDate).utc().format("YYYY-MM-DD"),
+      anniversary: moment(selectedDate).format("YYYY-MM-DD"),
       dateContents: anniversaryText,
       contents: currentMemo,
       events: events,
@@ -840,7 +848,12 @@ const DateDiary = () => {
                     <NewButton onClick={() => setIsEditMode(true)}>+</NewButton>
                   )}
                 </ButtonWrap>
-                <Modal open={modalOpen} close={closeModal} header="성공">
+                <Modal 
+                  open={modalOpen}
+                  header="안내"
+                  close={closeModal}
+                  type={modalType} 
+                  confirm={modalOkBtnHandler}>
                   {modalText}
                 </Modal>
               </LineDown>

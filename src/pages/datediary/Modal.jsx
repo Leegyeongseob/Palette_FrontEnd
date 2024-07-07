@@ -95,8 +95,8 @@ const Modal = (props) => {
             {children}
           </ModalMain>
           <ModalFooter>
-            {type && <ModalButton onClick={confirm}>확인</ModalButton>}
-            <ModalButton onClick={close}>확인</ModalButton>
+           {type ? (<ModalButton onClick={confirm}>확인</ModalButton>) :
+            (<ModalButton onClick={close}>확인</ModalButton>)} 
           </ModalFooter>
         </ModalSection>
       )}
