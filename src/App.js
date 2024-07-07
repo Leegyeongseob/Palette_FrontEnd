@@ -1,4 +1,5 @@
 import "./App.css";
+import PaletteStyle from "./PaletteStyle";
 import OpenBook from "./common/background/OpenBook";
 import CloseBook from "./common/background/CloseBook";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -35,6 +36,7 @@ function App() {
     <>
       {/* 전역스타일적용 */}
       <GlobalStyle />
+      <PaletteStyle />
       <Router>
         <Routes>
           <Route path="/" element={<PalettePage />} />

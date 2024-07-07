@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../../../img/background/logo.png";
 import PLogo from "../../../img/background/paletteLogo.png";
 
 const HeaderContainer = styled.div`
   width: 100%;
   height: 10vh;
-  background-color: #feeee8;
+  background-color: ${({ bgColor }) => bgColor || '#feeee8'};
+  transition: background-color 1.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,14 +52,17 @@ const CenterLogo = styled(Link)`
 const MenuBar = styled.div`
   width: 100%;
   height: 5vh;
-  background-color: #feeee8;
+  background-color: ${({ bgColor }) => bgColor || '#feeee8'};
+  transition: background-color 1.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-  opacity: 95%;
+  &:hover {
+  opacity: 90%;
+  }
 `;
 
 const MenuBox = styled.div`
@@ -84,23 +88,33 @@ const Menu = styled(Link)`
   }
 `;
 
-const Header = () => (
+const Header = ({ bgColor }) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return (
   <>
-    <HeaderContainer>
+    <HeaderContainer bgColor={bgColor}>
       <LogoBox>
         <PaletteLogo to="/"></PaletteLogo>
         <CenterLogo to="/"></CenterLogo>
       </LogoBox>
     </HeaderContainer>
-    <MenuBar>
+    <MenuBar bgColor={bgColor}>
       <MenuBox>
         <Menu to="/">Palette 소개</Menu>
         <Menu to="/customer">고객센터</Menu>
-        <Menu to="/customer/ad">광고문의</Menu>
+        <Menu to="/customer/ad" isActive={currentPath === "/customer/ad"}>광고문의</Menu>
         <Menu to="/not-login">시작하기</Menu>
       </MenuBox>
     </MenuBar>
   </>
-);
+  );
+};
 
 export default Header;

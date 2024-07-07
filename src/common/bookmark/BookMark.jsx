@@ -6,7 +6,6 @@ import theme3 from "../../img/background/theme/3.jpg";
 import clothesBg from "../../img/background/theme/clothes_background.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
-import LoginAxios from "../../axiosapi/LoginAxios";
 import { useState } from "react";
 import Modal from "../../pages/datediary/Modal";
 import soleModalImg from "../../img/mainImg/솔로잠금.gif";
@@ -22,7 +21,7 @@ const BookMarks = styled.div`
   height: 10.493vh;
   border: 1px solid #000;
   border-radius: 10px 10px 0 0;
-  font-size: 0.729vw;
+  font-size: 0.665vw;
   font-weight: 600;
   writing-mode: vertical-lr;
   display: flex;
@@ -53,7 +52,7 @@ const BookMark = () => {
   //솔로 함수
   const soloModal = () => {
     setModalOpen(true);
-    setModalContent("커플이 둘다 가입해야 합니다. 로그인 페이지로 이동합니다.");
+    setModalContent("커플 연결을 위해 로그인 페이지로 이동합니다.");
   };
   const OpenDiaryOnClickHandler = async () => {
     if (isCouple === "true") {

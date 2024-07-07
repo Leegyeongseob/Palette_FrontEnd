@@ -14,12 +14,12 @@ const Category = styled.div`
 `;
 
 const activeTitleStyle = css`
-  font-size: 34px; /* CateTitle의 글씨체가 커지는 효과 */
+  font-size: 38px; /* CateTitle의 글씨체가 커지는 효과 */
   font-weight: bold;
 `;
 
 const activeStyle = css`
-  font-size: 18px; /* 글씨체가 커지는 효과 */
+  font-size: 19px; /* 글씨체가 커지는 효과 */
   font-weight: bold;
 `;
 
@@ -29,9 +29,10 @@ const CateTitle = styled(Link)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 32px;
+  font-size: 36px;
   text-decoration: none;
   color: #000;
+  margin-bottom: 15%;
   &:hover {
     font-weight: bolder;
   }
@@ -39,12 +40,13 @@ const CateTitle = styled(Link)`
 `;
 
 const CateContent = styled(Link)`
-  width: 50%;
+  width: 50%; 
   height: 3%;
+  margin-bottom: 3%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 16px;
+  font-size: 17px;
   text-decoration: none;
   color: #000;
   &:hover {
@@ -84,9 +86,6 @@ const Cate = () => {
         isActive={currentPath === "/customer/inquiry"}
       >
         1:1 문의하기
-      </CateContent>
-      <CateContent to="/customer/ad" isActive={currentPath === "/customer/ad"}>
-        광고 문의
       </CateContent>
     </Category>
   );
