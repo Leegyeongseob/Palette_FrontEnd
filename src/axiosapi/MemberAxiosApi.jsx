@@ -18,11 +18,26 @@ const MemberAxiosApi = {
     };
     return await AxiosInstance.post("/member/modify", member);
   },
+  //회원 삭제 Axois
   memberDelete: async (email) => {
     const member = {
       email: email,
     };
     return await AxiosInstance.post("/member/delete", member);
+  },
+  //커플 이름 확인 Axios
+  coupleNameSearch: async (email) => {
+    const member = {
+      email: email,
+    };
+    return await AxiosInstance.post("/member/coupleNameSearch", member);
+  },
+  //솔로인지 커플인지 Axios
+  isCoupleTrue: async (coupleName) => {
+    const member = {
+      coupleName: coupleName,
+    };
+    return await AxiosInstance.post("/member/isCoupleTrue", member);
   },
 };
 

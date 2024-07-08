@@ -10,9 +10,9 @@ const MainAxios = {
   //     `/main/isExistDday?coupleName=${coupleName}`
   //   );
   // },
-  searchNickName: async (coupleName) => {
+  searchNickName: async (email, coupleName) => {
     return await AxiosInstance.get(
-      `/main/searchNickName?coupleName=${coupleName}`
+      `/main/searchNickName?email=${email}&coupleName=${coupleName}`
     );
   },
   isExistDday: async (coupleName) => {

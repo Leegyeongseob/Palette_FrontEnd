@@ -6,9 +6,10 @@ import theme3 from "../../img/background/theme/3.jpg";
 import clothesBg from "../../img/background/theme/clothes_background.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../pages/datediary/Modal";
 import soleModalImg from "../../img/mainImg/솔로잠금.gif";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 const BookMarkDiv = styled.div`
   width: 18.75vw;
   height: 10.493vh;
@@ -40,7 +41,7 @@ const BookMark = () => {
   const [modalContent, setModalContent] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
-  const isCouple = sessionStorage.getItem("isCouple");
+  const email = sessionStorage.getItem("email");
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeModal();
@@ -54,8 +55,13 @@ const BookMark = () => {
     setModalOpen(true);
     setModalContent("커플 연결을 위해 로그인 페이지로 이동합니다.");
   };
+  const isCoupleAxios = async () => {
+    const coupleName = await MemberAxiosApi.coupleNameSearch(email);
+    const resCouple = await MemberAxiosApi.isCoupleTrue(coupleName.data);
+    return resCouple.data;
+  };
   const OpenDiaryOnClickHandler = async () => {
-    if (isCouple === "true") {
+    if ((await isCoupleAxios()) === true) {
       navigator("/date-diary");
     } else {
       // 모달
@@ -63,8 +69,8 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
-  const OpenAlbumOnClickHandler = () => {
-    if (isCouple === "true") {
+  const OpenAlbumOnClickHandler = async () => {
+    if ((await isCoupleAxios()) === true) {
       navigator("/date-album");
     } else {
       // 모달
@@ -72,8 +78,8 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
-  const OpenClothesOnClickHandler = () => {
-    if (isCouple === "true") {
+  const OpenClothesOnClickHandler = async () => {
+    if ((await isCoupleAxios()) === true) {
       navigator("/date-clothes");
     } else {
       // 모달
@@ -81,8 +87,8 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
-  const OpenDateplannerOnClickHandler = () => {
-    if (isCouple === "true") {
+  const OpenDateplannerOnClickHandler = async () => {
+    if ((await isCoupleAxios()) === true) {
       navigator("/dateplanner");
     } else {
       // 모달
@@ -90,8 +96,8 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
-  const OpenBoardOnClickHandler = () => {
-    if (isCouple === "true") {
+  const OpenBoardOnClickHandler = async () => {
+    if ((await isCoupleAxios()) === true) {
       navigator("/board-guestbook");
     } else {
       // 모달
@@ -99,8 +105,8 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
-  const OpenChatOnClickHandler = () => {
-    if (isCouple === "true") {
+  const OpenChatOnClickHandler = async () => {
+    if ((await isCoupleAxios()) === true) {
       navigator("/chat");
     } else {
       //모달

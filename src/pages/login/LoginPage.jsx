@@ -273,7 +273,6 @@ const LoginPage = () => {
   };
   const secondEmailExist = async (couple) => {
     const response = await LoginAxios.secondEmailExist(couple);
-    sessionStorage.setItem("isCouple", response.data);
     setIsCouple(response.data);
   };
   const loginAxios = async (isCouple, email, pwd) => {

@@ -58,10 +58,10 @@ const Text = styled.div`
 const CoupleImg = ({ clothes = false }) => {
   // 커플 닉네임 저장
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
+  const email = sessionStorage.getItem("email");
   //커플 개인 닉네임 불러오기
   const coupleNickNameAxois = async (couple) => {
-    const resNickName = await MainAxios.searchNickName(couple);
-    console.log(resNickName.data);
+    const resNickName = await MainAxios.searchNickName(email, couple);
     setCoupleNickName(resNickName.data);
   };
   useEffect(() => {
