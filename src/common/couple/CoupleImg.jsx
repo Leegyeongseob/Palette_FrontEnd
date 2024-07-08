@@ -4,6 +4,7 @@ import womanprofile from "../../img/commonImg/여자프사.jpg";
 import heart from "../../img/commonImg/heart.png";
 import MainAxios from "../../axiosapi/MainAxios";
 import { useEffect, useState } from "react";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -60,13 +61,16 @@ const CoupleImg = ({ clothes = false }) => {
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
   const email = sessionStorage.getItem("email");
   //커플 개인 닉네임 불러오기
-  const coupleNickNameAxois = async (couple) => {
-    const resNickName = await MainAxios.searchNickName(email, couple);
+  const coupleNickNameAxois = async () => {
+    //커플 이름 search
+    const resCouple = await MemberAxiosApi.coupleNameSearch(email);
+    //커플 이름으로 닉네임 가져오기
+    const resNickName = await MainAxios.searchNickName(email, resCouple.data);
+    console.log(resNickName.data);
     setCoupleNickName(resNickName.data);
   };
   useEffect(() => {
-    const coupleName = sessionStorage.getItem("coupleName");
-    coupleNickNameAxois(coupleName);
+    coupleNickNameAxois();
   }, []);
   return (
     <Contain clothes={clothes}>

@@ -7,11 +7,13 @@ import couple1 from "../../img/mainImg/커플1.jpg";
 import couple2 from "../../img/mainImg/커플2.jpg";
 import couple3 from "../../img/mainImg/커플3.jpg";
 import couple4 from "../../img/mainImg/커플4.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import MainAxios from "../../axiosapi/MainAxios";
 const BookSign = styled.div`
   width: 25.8vw;
   height: 69vh;
@@ -227,6 +229,11 @@ const MainPage = () => {
   const searchCoupleName = () => {
     // 커플 이름이 같은게 존재하는지 확인하는 부분.
   };
+  //디데이 값 저장
+  const [saveDday, setSaveDday] = useState("");
+  //디데이 존재하는지
+  const [isDday, setIsDday] = useState(false);
+
   //설정 폼 변화 함수
   const settingFromStatus = () => {
     setSettingForm(true);
@@ -234,7 +241,34 @@ const MainPage = () => {
   const closeFromStatus = () => {
     setSettingForm(false);
   };
+  const email = sessionStorage.getItem("email");
+  useEffect(() => {
+    dDayAxois();
+    console.log(isDday);
+  }, [isDday]);
 
+  //디데이 값을 가져오는 비동기함수
+  const dDayAxois = async () => {
+    //이메일로 커플이름 search
+    const coupleName = await MemberAxiosApi.coupleNameSearch(email);
+    // Dday값 가져오기
+    const resDday = await MainAxios.searchDday(coupleName.data);
+    console.log(resDday.data);
+    if (resDday.data !== "") {
+      setIsDday(true);
+      setSaveDday(resDday.data);
+    } else {
+      setIsDday(false);
+    }
+  };
+  // 100일 계산 함수
+  const hundredCalculate = () => {
+    return saveDday - 100;
+  };
+  //500일 계산 함수
+  const fiveHundredCalculate = () => {
+    return saveDday - 500;
+  };
   return (
     <BookTheme>
       <BookSign>
@@ -306,9 +340,20 @@ const MainPage = () => {
           <DdayFormDiv>
             <Dday>
               <Ddays>&nbsp;TODAY : 8 </Ddays>
-              <Ddays>&nbsp;TOTAL : 520 </Ddays>
-              <Ddays>&nbsp;100일 : D + 50 </Ddays>
-              <Ddays>&nbsp;500일 : D - 350 </Ddays>
+              {isDday ? (
+                <>
+                  <Ddays>&nbsp;TOTAL : {saveDday} day</Ddays>
+                  <Ddays>&nbsp;100일 : {hundredCalculate()} day</Ddays>
+                  <Ddays>&nbsp;500일 : {fiveHundredCalculate()} day</Ddays>
+                </>
+              ) : (
+                <>
+                  <Ddays>&nbsp;TOTAL : 입력해주세요. </Ddays>
+                  <Ddays>&nbsp;100일 : 입력해주세요. </Ddays>
+                  <Ddays>&nbsp;500일 : 입력해주세요.</Ddays>
+                </>
+              )}
+
               <Ddays>&nbsp;알콩이 생일 : D - 70 </Ddays>
             </Dday>
           </DdayFormDiv>
