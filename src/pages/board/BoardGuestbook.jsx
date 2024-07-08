@@ -77,9 +77,11 @@ const BoardTh = styled.th`
   background-color: gray;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
+  vertical-align: middle;
   &:nth-child(1) {
     width: 3vw;
   }
@@ -92,12 +94,14 @@ const BoardTd = styled.td`
   height: 3.2vh;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: middle;
 `;
 const NameHover = styled(BoardTd)`
   cursor: pointer;

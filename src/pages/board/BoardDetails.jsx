@@ -77,14 +77,14 @@ const BoardTh = styled.th`
   background-color: gray;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
-  // ID
+  vertical-align: middle;
   &:nth-child(1) {
     width: 3vw;
   }
-  // Date
   &:nth-child(3) {
     width: 4vw;
   }
@@ -94,13 +94,16 @@ const BoardTd = styled.td`
   height: 3.2vh;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: middle;
 `;
+
 const NameHover = styled(BoardTd)`
   cursor: pointer;
   &:hover {
@@ -179,12 +182,14 @@ const DetailsNumber = styled.div`
   width: 10vw;
   height: 3vh;
   font-size: 24px;
+  font-weight: 600;
 `;
 const DetailsTitle = styled.div`
   margin-left: 1.5vw;
   width: 22.8vw;
   height: 3vh;
   font-size: 24px;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,6 +209,7 @@ const DetailsMain = styled.div`
   margin-top: 1.2vh;
   width: 22.8vw;
   height: 45vh;
+  font-weight: 600;
 `;
 
 const BoardData = [
