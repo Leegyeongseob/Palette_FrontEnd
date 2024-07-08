@@ -231,6 +231,8 @@ const LoginPage = () => {
   const [isCouple, setIsCouple] = useState();
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const coupleName = sessionStorage.getItem("coupleName");
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -283,7 +285,18 @@ const LoginPage = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
-        navigate("/main-page");
+
+        // 커플 이름을 세션에 저장합니다.
+        const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
+        sessionStorage.setItem("coupleName", resCoupleName.data);
+
+        // 다시 로그인한 커플의 정보를 확인합니다.
+        const coupleName = sessionStorage.getItem("coupleName");
+        secondEmailExist(coupleName);
+
+        console.log()
+        navigate(`/${coupleName}/main-page`);
+
         // 커플일 경우
         // if (isCouple) {
         //   navigate(

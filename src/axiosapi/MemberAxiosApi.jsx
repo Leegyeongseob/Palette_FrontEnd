@@ -32,6 +32,7 @@ const MemberAxiosApi = {
     };
     return await AxiosInstance.post("/member/coupleNameSearch", member);
   },
+
   //솔로인지 커플인지 Axios
   isCoupleTrue: async (coupleName) => {
     const member = {

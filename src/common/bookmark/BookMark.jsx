@@ -89,7 +89,7 @@ const BookMark = () => {
   };
   const OpenDateplannerOnClickHandler = async () => {
     if ((await isCoupleAxios()) === true) {
-      navigator("/dateplanner");
+      navigator (`/dateplanner`);
     } else {
       // 모달
       soloModal();

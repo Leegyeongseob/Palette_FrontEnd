@@ -10,6 +10,8 @@ import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
 import useAddress from "../../hooks/useLocation";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import { useParams } from "react-router-dom";
 
 const LBookContainer = styled.div`
   width: 25.8vw;
@@ -51,22 +53,28 @@ const DatePlanner = () => {
   const modalMapContainerRef = useRef(null);
   const [numMarker, setNumMarker] = useState([]);
   const [title, setTitle] = useState("");
+  const email = sessionStorage.getItem("email");
+  const { coupleName } = useParams(); // useParams를 통해 coupleName 파라미터 추출
 
   // 모든 코스 조회 및 저장된 코스 목록 업데이트
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const courses = await DatePlannerAxios.getAllCourses();
+        // const resCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+        const courses = await DatePlannerAxios.getCoursesByCoupleName(
+          // resCoupleName.data
+          coupleName
+        );
+        console.log("도메인커플들어오나??", coupleName);
         setSavedCourses(courses);
       } catch (error) {
-        console.error('❌ Error fetching courses:', error);
+        console.error("❌ Error fetching courses:", error);
       }
     };
 
     fetchCourses();
-  }, []);
+  }, [coupleName]);
 
-   
   const addNumMark = () => {
     // 선택된 장소를 numMarker에 추가
     setNumMarker([...numMarker, ...selectedPlaces]);
@@ -76,11 +84,19 @@ const DatePlanner = () => {
   const handleSaveCourse = async (newCourse) => {
     try {
       let savedCourse;
+      //이메일로 커플이름 불러오는 부분
+      const resCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+      newCourse.coupleName = resCoupleName.data;
       if (isEditing) {
-        console.log(`🔄 Updating course with ID ${savedCourses[currentCourseIndex].id}`);
-        savedCourse = await DatePlannerAxios.updateCourse(savedCourses[currentCourseIndex].id, newCourse);
-        console.log("✔️테스트 확인용",savedCourses[currentCourseIndex])
-        setSavedCourses(prevCourses =>
+        console.log(
+          `🔄 Updating course with ID ${savedCourses[currentCourseIndex].id}`
+        );
+        savedCourse = await DatePlannerAxios.updateCourse(
+          savedCourses[currentCourseIndex].id,
+          newCourse
+        );
+        console.log("✔️테스트 확인용", savedCourses[currentCourseIndex]);
+        setSavedCourses((prevCourses) =>
           prevCourses.map((course, index) =>
             index === currentCourseIndex ? savedCourse : course
           )
@@ -91,17 +107,17 @@ const DatePlanner = () => {
         console.log("🔄 Creating new course:", newCourse);
         savedCourse = await DatePlannerAxios.createCourse(newCourse);
         console.log("✔️ Course created:", savedCourse);
-        setSavedCourses(prevCourses => [...prevCourses, savedCourse]);
+        setSavedCourses((prevCourses) => [...prevCourses, savedCourse]);
       }
       setSelectedPlaces([]);
       console.log("Course saved successfully:", savedCourse);
       console.log(newCourse);
     } catch (error) {
-      console.error('❌ Error saving course:', error);
+      console.error("❌ Error saving course:", error);
     }
   };
 
-    // 선택한 코스 수정 모드로 전환
+  // 선택한 코스 수정 모드로 전환
   const handleEditCourse = async (index) => {
     try {
       const courseId = savedCourses[index].id;
@@ -113,7 +129,10 @@ const DatePlanner = () => {
       setIsEditing(true);
       setCurrentCourseIndex(index);
     } catch (error) {
-      console.error(`❌ Error fetching course with ID ${savedCourses[index].id}:`, error);
+      console.error(
+        `❌ Error fetching course with ID ${savedCourses[index].id}:`,
+        error
+      );
     }
   };
 
@@ -123,19 +142,21 @@ const DatePlanner = () => {
       console.log(`🔄 Deleting course with ID ${savedCourses[index].id}`);
       await DatePlannerAxios.deleteCourse(savedCourses[index].id);
       console.log(`✔️ Course with ID ${savedCourses[index].id} deleted`);
-      setSavedCourses(prevCourses => prevCourses.filter((_, i) => i !== index));
+      setSavedCourses((prevCourses) =>
+        prevCourses.filter((_, i) => i !== index)
+      );
       setSelectedPlaces([]);
       setTitle("");
       setIsEditing(false);
       setCurrentCourseIndex(null);
     } catch (error) {
-      console.error('❌ Error deleting course:', error);
+      console.error("❌ Error deleting course:", error);
     }
   };
 
   // 장소 삭제
   const handleDeletePlace = (placeId) => {
-    setSelectedPlaces(prevSelected =>
+    setSelectedPlaces((prevSelected) =>
       prevSelected.filter((place) => place.id !== placeId)
     );
   };
@@ -146,14 +167,14 @@ const DatePlanner = () => {
       alert("장소는 최대 10개까지 선택할 수 있습니다.");
       return;
     }
-  
+
     const position = new window.kakao.maps.LatLng(place.y, place.x);
     map.panTo(position);
     setSelectedPlaces((prevSelected) => [...prevSelected, place]);
     addNumMark(); // 장소를 클릭할 때마다 numMarker에 추가
   };
 
-   // 선택된 장소 초기화
+  // 선택된 장소 초기화
   const handleClearPlaces = () => {
     setSelectedPlaces([]);
   };
@@ -171,17 +192,17 @@ const DatePlanner = () => {
     );
     placeOverlay.current.setMap(map);
   };
-   // 모달 열기
+  // 모달 열기
   const openModal = async (index) => {
-    try{
+    try {
       const courseId = savedCourses[index].id;
       const course = await DatePlannerAxios.getCourseById(courseId);
-    setModalSelectedPlaces(course.places);
-    console.log("모달확인", course.places);
-    setIsModalOpen(true);
-  } catch (error){
-    console.error('❌', error);
-  }
+      setModalSelectedPlaces(course.places);
+      console.log("모달확인", course.places);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("❌", error);
+    }
   };
 
   const closeModal = () => {

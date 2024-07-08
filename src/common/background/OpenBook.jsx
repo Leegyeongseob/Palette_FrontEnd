@@ -58,12 +58,13 @@ const TopContain = styled.div`
   align-items: center;
 `;
 const OpenBook = () => {
+  const coupleName = sessionStorage.getItem("coupleName");
   return (
     <Background>
       <TopContain>
         <BookMarkDiv />
         <LogoDiv>
-          <Link to={`/main-page`}>
+          <Link to={`/${coupleName}/main-page`}>
             <Logo alt="logo" src={logo} />
           </Link>
         </LogoDiv>

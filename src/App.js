@@ -47,14 +47,14 @@ function App() {
           <Route path="/customer/ad" element={<PaletteAd />} />
           <Route path="/customer/notice" element={<PaletteNotice />} />
           <Route element={<OpenBook />}>
-            <Route path="/main-page" element={<MainPage />} />
+            <Route path="/:coupleName/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
             <Route path="/date-album" element={<DateAlbum />} />
             <Route path="/date-album2" element={<DateAlbum2 />} />
             <Route path="/date-album3" element={<DateAlbum3 />} />
             <Route path="/date-diary" element={<DateDiary />} />
             <Route path="/chat" element={<ChatMain />} />
-            <Route path="/dateplanner" element={<DatePlanner />} />
+            <Route path="/:coupleName/dateplanner" element={<DatePlanner />} />
             <Route path="/board-guestbook" element={<BoardGuestbook />} />
             <Route path="/board-details" element={<BoardDetails />} />
             <Route path="/board-write" element={<BoardWrite />} />

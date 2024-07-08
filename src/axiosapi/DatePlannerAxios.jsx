@@ -1,15 +1,15 @@
-import AxiosInstance from './AxiosInstance';
+import AxiosInstance from "./AxiosInstance";
 
 const DatePlannerAxios = {
   // 모든 코스 조회
   getAllCourses: async () => {
     try {
-      console.log('📡 Fetching all courses...');
-      const response = await AxiosInstance.get('/course');
-      console.log('✅ Fetched all courses:', response.data);
+      console.log("📡 Fetching all courses...");
+      const response = await AxiosInstance.get("/course");
+      console.log("✅ Fetched all courses:", response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error fetching courses:', error);
+      console.error("❌ Error fetching courses:", error);
       throw error;
     }
   },
@@ -30,12 +30,12 @@ const DatePlannerAxios = {
   // 새로운 코스 생성
   createCourse: async (courseData) => {
     try {
-      console.log('📡 Creating new course:', courseData);
-      const response = await AxiosInstance.post('/course', courseData);
-      console.log('✅ Created new course:', response.data);
+      console.log("1 Creating new course:", courseData);
+      const response = await AxiosInstance.post("/course", courseData);
+      console.log("2 Created new course:", response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error creating course:', error);
+      console.error("❌ Error creating course:", error);
       throw error;
     }
   },
@@ -64,7 +64,17 @@ const DatePlannerAxios = {
       console.error(`❌ Error deleting course with ID ${id}:`, error);
       throw error;
     }
-  }
+  },
+
+  //커플아이디로 코스 검색
+  getCoursesByCoupleName: async (coupleName) => {
+    try {
+      const response = await AxiosInstance.get(`/course/search/${coupleName}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default DatePlannerAxios;
