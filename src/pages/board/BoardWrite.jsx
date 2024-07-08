@@ -1,10 +1,10 @@
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import BoardAxios from "../../axiosapi/BoardAxios";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import AddPhoto from "../../img/board/AddPhoto.png";
-import { useState, useRef } from "react";
 import {
   storage,
   ref,
@@ -19,7 +19,7 @@ const BookTheme = styled.div`
   margin-left: 0.8vw;
   background-image: url(${boardBg});
   background-size: cover;
-  opadate: 0.8;
+  opacity: 0.8;
   display: flex;
 `;
 const BoardSide = styled.div`
@@ -227,7 +227,7 @@ const WritePost = styled.div`
   margin-left: 19vw;
   width: 8vw;
   height: 1vh;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: black;
   display: flex;
@@ -239,57 +239,86 @@ const WritePost = styled.div`
   }
 `;
 
-const BoardData = [
-  { id: 14, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 13, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 12, name: "12알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 11, name: "11알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
-  { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
-  { id: 7, name: "달콩이의 친구들과의 모임~", date: "2024-06-01" },
-  { id: 6, name: "100일 기념일 데이트 기록", date: "2024-05-25" },
-  { id: 5, name: "어버이날 기념으로 서로의 부모님 챙기기", date: "2024-05-08" },
-  { id: 4, name: "벚꽃이 흩날리는 석촌호수~~", date: "2024-04-03" },
-  { id: 3, name: "알콩이와 달콩이의 호캉스", date: "2024-03-25" },
-  { id: 2, name: "달콩이와 홍대 데이트", date: "2024-03-02" },
-  { id: 1, name: "첫 데이트 기념~", date: "2024-02-05" },
-];
 const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 
 const BoardWrite = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [file, setFile] = useState(null);
+  const [url, setUrl] = useState("");
+  const [boardData, setBoardData] = useState([]); // 백엔드에서 가져올 데이터 상태
+  const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
 
-  const handleNameClick = (id) => {
-    navigate(`/board-details`);
-    //백엔드 작업 완료 후 사용 - id번호로 이동
-    // navigate(`/board-details/${id}`);
+  // 페이지 마운트 시 백엔드에서 데이터 가져오기
+  useEffect(() => {
+    fetchBoardData();
+  }, []);
+
+  const fetchBoardData = async () => {
+    try {
+      const data = await BoardAxios.fetchBoardData();
+      setBoardData(data);
+    } catch (error) {
+      console.error("Failed to fetch board data", error);
+    }
   };
 
-  // 페이지 번호 클릭 시 이벤트 처리 함수
+  const handleNameClick = (id) => {
+    navigate(`/board-details/${id}`);
+  };
+
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  // 현재 페이지에 맞는 데이터 슬라이스
-  const currentData = BoardData.slice(
+
+  const currentData = boardData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const BoardImgUploader = () => {
-    const [file, setFile] = useState(null);
-    const [url, setUrl] = useState("");
-    const fileInputRef = useRef(null);
+  const handleFileInputChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-    const handleFileInputChange = (e) => {
-      setFile(e.target.files[0]);
-    };
+  const handleUploadClick = () => {
+    if (!file) return;
 
-    const handleUploadClick = () => {
-      if (!file) return;
+    const fileRef = ref(storage, file.name);
+    const uploadTask = uploadBytesResumable(fileRef, file);
 
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Progress handling can be added here if needed
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUrl(downloadURL);
+        });
+      }
+    );
+  };
+
+  const handleAddPhotoClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!title || !content) {
+      alert("모든 필드를 채워주세요.");
+      return;
+    }
+
+    // 파일이 있는 경우 업로드를 진행하고 URL을 설정합니다.
+    if (file) {
       const fileRef = ref(storage, file.name);
       const uploadTask = uploadBytesResumable(fileRef, file);
 
@@ -300,35 +329,35 @@ const BoardWrite = () => {
         },
         (error) => {
           console.error("Upload failed:", error);
+          alert("파일 업로드 실패");
         },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setUrl(downloadURL);
-          });
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setUrl(downloadURL);
+          submitBoard(downloadURL); // URL을 설정한 후 게시글을 제출합니다.
         }
       );
-    };
-
-    const handleAddPhotoClick = () => {
-      if (fileInputRef.current) {
-        fileInputRef.current.click();
-      }
-    };
-
-    return (
-      <>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileInputChange}
-          style={{ display: "none" }}
-        />
-        <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
-        {url && <img src={url} alt="uploaded" />}
-      </>
-    );
+    } else {
+      submitBoard(""); // 파일이 없는 경우 빈 URL로 게시글을 제출합니다.
+    }
   };
 
+  const submitBoard = async (imgUrl) => {
+    const boardReqDto = {
+      title,
+      imgUrl,
+      contents: content,
+    };
+
+    try {
+      await BoardAxios.createBoard(boardReqDto);
+      fetchBoardData(); // 게시글 생성 후 데이터 갱신
+      navigate("/board-guestbook");
+    } catch (error) {
+      console.error("Failed to create board", error);
+      alert("게시글 생성 실패");
+    }
+  };
   return (
     <BookTheme>
       <BoardSide>
@@ -353,15 +382,15 @@ const BoardWrite = () => {
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
-                  {item.name}
+                  {item.title}
                 </NameHover>
-                <BoardTd>{item.date}</BoardTd>
+                <BoardTd>{item.regDate}</BoardTd>
               </tr>
             ))}
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(BoardData.length / itemsPerPage))].map(
+          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
             (_, index) => (
               <BoardPaginationButton
                 key={index + 1}
@@ -376,22 +405,35 @@ const BoardWrite = () => {
           )}
         </BoardPaginationContainer>
       </BoardSide>
-      <CenterArea></CenterArea>
+      <CenterArea />
       <WriteSide>
         <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
           <BackToGuestbook>돌아가기</BackToGuestbook>
         </Link>
         <WriteTitle>
-          <WriteTitleInput type="text" placeholder="제목" />
+          <WriteTitleInput
+            type="text"
+            placeholder="제목"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </WriteTitle>
         <WriteGrayBar />
-        <BoardImgUploader />
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileInputChange}
+          style={{ display: "none" }}
+        />
+        <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
         <WriteMain>
-          <WriteMainInput placeholder="내용을 입력하세요." />
+          <WriteMainInput
+            placeholder="내용을 입력하세요."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         </WriteMain>
-        <Link to="/board-guestbook" style={{ textDecoration: "none" }}>
-          <WritePost>게시하기</WritePost>
-        </Link>
+        <WritePost onClick={handleSubmit}>게시하기</WritePost>
       </WriteSide>
     </BookTheme>
   );

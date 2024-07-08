@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import BoardAxios from "../../axiosapi/BoardAxios";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
-import { useState } from "react";
 
 const BookTheme = styled.div`
   width: 53vw;
@@ -13,14 +13,16 @@ const BookTheme = styled.div`
   margin-left: 0.8vw;
   background-image: url(${boardBg});
   background-size: cover;
-  opadate: 0.8;
+  opacity: 0.8;
   display: flex;
 `;
+
 const BoardSide = styled.div`
   width: 25.5vw;
   height: 68.5vh;
   position: relative;
 `;
+
 const BoardTitle = styled.div`
   margin-top: 2.5vh;
   width: 25.5vw;
@@ -31,6 +33,7 @@ const BoardTitle = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const CoupleDiv = styled.div`
   width: 25.5vw;
   height: 12vh;
@@ -38,6 +41,7 @@ const CoupleDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const BoardGrayBar = styled.div`
   margin-top: 1.5vh;
   margin-left: 1.5vw;
@@ -48,6 +52,7 @@ const BoardGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const BoardPost = styled.div`
   margin-top: 2vh;
   margin-left: 18.5vw;
@@ -64,6 +69,7 @@ const BoardPost = styled.div`
     color: blue;
   }
 `;
+
 const BoardTable = styled.table`
   margin-top: 1vh;
   margin-left: 1.5vw;
@@ -103,12 +109,14 @@ const BoardTd = styled.td`
   white-space: nowrap;
   vertical-align: middle;
 `;
+
 const NameHover = styled(BoardTd)`
   cursor: pointer;
   &:hover {
     color: blue;
   }
 `;
+
 const BoardPaginationContainer = styled.div`
   position: absolute;
   bottom: 0;
@@ -121,6 +129,7 @@ const BoardPaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const BoardPaginationButton = styled.button`
   margin: 0 5px;
   padding: 5px 10px;
@@ -131,14 +140,17 @@ const BoardPaginationButton = styled.button`
     background-color: #eeeeee;
   }
 `;
+
 const CenterArea = styled.div`
   width: 1.5vw;
   height: 68.5vh;
 `;
+
 const GuestbookSide = styled.div`
   width: 25.8vw;
   height: 68.5vh;
 `;
+
 const GuestbookTitle = styled.div`
   margin-top: 2.5vh;
   width: 25.5vw;
@@ -149,6 +161,7 @@ const GuestbookTitle = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const GuestbookGrayBar = styled.div`
   margin-left: 1.5vw;
   width: 22.5vw;
@@ -166,12 +179,14 @@ const GuestbookArea = styled.div`
   height: 12vh;
   border: 1px solid black;
 `;
+
 const GuestbookHead = styled.div`
   height: 2.375vh;
   background-color: #cdcfc4;
   border-bottom: 1px solid black;
   display: flex;
 `;
+
 const GuestbookNo = styled.div`
   width: 3vw;
   height: 2.375vh;
@@ -181,6 +196,7 @@ const GuestbookNo = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const GuestbookNickname = styled.div`
   width: 6vw;
   height: 2.375vh;
@@ -194,6 +210,7 @@ const GuestbookNickname = styled.div`
     color: blue;
   }
 `;
+
 const GuestbookDate = styled.div`
   width: 7vw;
   height: 2.375vh;
@@ -203,6 +220,7 @@ const GuestbookDate = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const GuestbookDelete = styled.div`
   margin-left: 4vw;
   width: 3vw;
@@ -217,12 +235,14 @@ const GuestbookDelete = styled.div`
     color: blue;
   }
 `;
+
 const GuestbookBody = styled.div`
   height: 9.6vh;
   background-color: #eccdb0;
   border-bottom: 1px solid black;
   display: flex;
 `;
+
 const GuestbookImage = styled.div`
   width: 4.8vw;
   height: 9.6vh;
@@ -230,6 +250,7 @@ const GuestbookImage = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
 `;
+
 const GuestbookMain = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
@@ -242,43 +263,39 @@ const GuestbookMain = styled.div`
   align-items: center;
 `;
 
-const BoardData = [
-  { id: 14, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 13, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 12, name: "12알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 11, name: "11알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
-  { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
-  { id: 7, name: "달콩이의 친구들과의 모임~", date: "2024-06-01" },
-  { id: 6, name: "100일 기념일 데이트 기록", date: "2024-05-25" },
-  { id: 5, name: "어버이날 기념으로 서로의 부모님 챙기기", date: "2024-05-08" },
-  { id: 4, name: "벚꽃이 흩날리는 석촌호수~~", date: "2024-04-03" },
-  { id: 3, name: "알콩이와 달콩이의 호캉스", date: "2024-03-25" },
-  { id: 2, name: "달콩이와 홍대 데이트", date: "2024-03-02" },
-  { id: 1, name: "첫 데이트 기념~", date: "2024-02-05" },
-];
 const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
 
 const BoardGuestbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [boardData, setBoardData] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchBoardData();
+  }, [currentPage]);
+
+  const fetchBoardData = async () => {
+    try {
+      const data = await BoardAxios.fetchBoardData();
+      setBoardData(data);
+    } catch (error) {
+      console.error("Failed to fetch board data", error);
+    }
+  };
+
   const handleNameClick = (id) => {
-    navigate(`/board-details`);
-    //백엔드 작업 완료 후 사용 - id번호로 이동 예정
-    // navigate(`/board-details/${id}`);
+    navigate(`/board-details/${id}`);
   };
 
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const currentData = BoardData.slice(
+  const currentData = boardData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
   return (
     <BookTheme>
       <BoardSide>
@@ -303,15 +320,15 @@ const BoardGuestbook = () => {
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
-                  {item.name}
+                  {item.title}
                 </NameHover>
-                <BoardTd>{item.date}</BoardTd>
+                <BoardTd>{item.regDate}</BoardTd>
               </tr>
             ))}
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(BoardData.length / itemsPerPage))].map(
+          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
             (_, index) => (
               <BoardPaginationButton
                 key={index + 1}
@@ -326,7 +343,7 @@ const BoardGuestbook = () => {
           )}
         </BoardPaginationContainer>
       </BoardSide>
-      <CenterArea></CenterArea>
+      <CenterArea />
       <GuestbookSide>
         <GuestbookTitle>방명록</GuestbookTitle>
         <GuestbookGrayBar />
@@ -338,7 +355,7 @@ const BoardGuestbook = () => {
             <GuestbookDelete>삭제</GuestbookDelete>
           </GuestbookHead>
           <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
+            <GuestbookImage />
             <GuestbookMain>
               데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
               세우고 있어요.
@@ -353,7 +370,7 @@ const BoardGuestbook = () => {
             <GuestbookDelete>삭제</GuestbookDelete>
           </GuestbookHead>
           <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
+            <GuestbookImage />
             <GuestbookMain>
               데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
               세우고 있어요.
@@ -368,7 +385,7 @@ const BoardGuestbook = () => {
             <GuestbookDelete>삭제</GuestbookDelete>
           </GuestbookHead>
           <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
+            <GuestbookImage />
             <GuestbookMain>
               데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
               세우고 있어요.
@@ -383,7 +400,7 @@ const BoardGuestbook = () => {
             <GuestbookDelete>삭제</GuestbookDelete>
           </GuestbookHead>
           <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
+            <GuestbookImage />
             <GuestbookMain>
               데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
               세우고 있어요.
@@ -394,4 +411,5 @@ const BoardGuestbook = () => {
     </BookTheme>
   );
 };
+
 export default BoardGuestbook;
