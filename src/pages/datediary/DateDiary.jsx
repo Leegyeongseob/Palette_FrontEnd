@@ -655,7 +655,7 @@ const DateDiary = () => {
       events: events.map((event) => ({
         isEvent: event.isEvent,
         eventText: event.eventText,
-      })), // event 필드 제거
+      })),
     };
 
     console.log("Save Data:", saveData);

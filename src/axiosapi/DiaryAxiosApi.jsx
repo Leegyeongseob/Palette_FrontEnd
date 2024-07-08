@@ -17,7 +17,9 @@ const AxiosApi = {
 
   // 다이어리 삭제
   deleteDiary: async (email, date) => {
-    return await AxiosInstance.delete("/diary/delete", { params: { email, date } });
-  }
+    return await AxiosInstance.delete("/diary/delete", {
+      params: { email, date },
+    });
+  },
 };
 export default AxiosApi;

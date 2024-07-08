@@ -2,6 +2,7 @@ import styled, { keyframes, css } from "styled-components";
 import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
+import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
@@ -216,15 +217,15 @@ const AddAlbum = styled.div`
   }
 `;
 
-const AddPic = styled.div`
+const TitleLine = styled.div`
   width: 90%;
-  height: 3%;
+  height: 5%;
+  padding-right: 1%;
   border: none;
-  outline: none;
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
-  font-size: 0.73vw;
+  font-size: 0.8vw;
   color: black;
   border-bottom: 1px solid #c8c8c8;
   font-weight: bolder;
@@ -389,9 +390,10 @@ const DateAlbum = () => {
   );
   const [images, setImages] = useState(Array(15).fill(null));
   const navigate = useNavigate();
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isTemaPopup, setIsTemaPopup] = useState(false);
   const [isPagePopup, setIsPagePopup] = useState(false);
+
+  const userEmail = sessionStorage.getItem("email");
 
   const handleNext = () => {
     setAnimate(true);
@@ -400,26 +402,56 @@ const DateAlbum = () => {
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
-  useEffect(() => {
-    const savedImages =
-      JSON.parse(localStorage.getItem("Images")) || Array(15).fill(null);
-    const savedImgBoxes =
-      JSON.parse(localStorage.getItem("ImgBoxes")) ||
-      Array(15)
-        .fill(null)
-        .map((_, index) => (index === 0 ? "+" : null));
+  // useEffect(() => {
+  //   const fetchAlbum = async () => {
+  //     try {
+  //       const response = await AlbumAxiosApi.getImages(userEmail);
+  //       const galleries = response.data;
+  //       setImages(galleries);
+  //     } catch (error) {}
+  //   };
 
-    setImages(savedImages);
-    setImgBoxes(savedImgBoxes);
+  //   fetchAlbum();
+  // }, [userEmail]);
+
+  useEffect(() => {
+    const fetchAlbum = async () => {
+      try {
+        const response = await AlbumAxiosApi.getImages(userEmail);
+        const galleries = response.data;
+        const updatedImages = Array(15).fill(null);
+        galleries.slice(0, 15).forEach((image, index) => {
+          updatedImages[index] = image.urls;
+        });
+        setImages(updatedImages);
+
+        // 이미지를 기반으로 imgBoxes 배열 업데이트
+        const newImgBoxes = Array(15).fill(null);
+        const imageCount = galleries.length;
+        if (imageCount < 15) {
+          newImgBoxes[imageCount] = "+";
+        }
+        setImgBoxes(newImgBoxes);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchAlbum();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("Images", JSON.stringify(images));
-  }, [images]);
-
+  // 이미지 저장
   const handleAddImage = (index, file) => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // 이미지 URL을 먼저 화면에 표시
+    const previewUrl = URL.createObjectURL(file);
+    console.log(images);
+    console.log(previewUrl);
+    const newImages = [...images];
+    newImages[index] = previewUrl;
+    setImages(newImages);
 
     uploadTask.on(
       "state_changed",
@@ -429,27 +461,42 @@ const DateAlbum = () => {
       (error) => {
         console.error("Upload failed:", error);
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      async () => {
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("File available at", url);
 
           const newImgBoxes = [...imgBoxes];
-          const newImages = [...images];
+          const updatedImages = [...images];
 
           newImgBoxes[index] = null;
           if (index + 1 < newImgBoxes.length) {
             newImgBoxes[index + 1] = "+";
           }
-          newImages[index] = url;
+          updatedImages[index] = url;
 
           setImgBoxes(newImgBoxes);
-          setImages(newImages);
+          setImages(updatedImages);
 
-          localStorage.setItem("Images", JSON.stringify(newImages));
-          localStorage.setItem("ImgBoxes", JSON.stringify(newImgBoxes));
-        });
+          // 이미지를 저장하기 위한 URL 업데이트
+          await saveImageUrls(updatedImages);
+        } catch (error) {
+          console.error("Error getting download URL:", error);
+        }
       }
     );
+  };
+  const saveImageUrls = async (urls) => {
+    const filteredUrls = urls.filter((url) => url !== null);
+
+    console.log("Filtered URLs:", filteredUrls);
+    console.log("Save Data:", filteredUrls);
+    try {
+      const response = await AlbumAxiosApi.albumReg(filteredUrls);
+      console.log("URLs saved successfully:", response.data);
+    } catch (error) {
+      console.error("Axios 에러!!!!!!!!!Error saving URLs:", error);
+    }
   };
 
   const handleDeleteImage = (index) => {
@@ -473,9 +520,6 @@ const DateAlbum = () => {
 
     setImgBoxes(newImgBoxes);
     setImages(newImages);
-
-    localStorage.setItem("Images", JSON.stringify(newImages));
-    localStorage.setItem("ImgBoxes", JSON.stringify(newImgBoxes));
   };
 
   const handleFileInputChange = (index, e) => {
@@ -485,9 +529,6 @@ const DateAlbum = () => {
     }
   };
 
-  const handleOpenPopup = () => {
-    setIsPopupOpen(true);
-  };
   const handleTemaPopup = () => {
     setIsTemaPopup(true);
   };
@@ -496,9 +537,48 @@ const DateAlbum = () => {
   };
 
   const handleClosePopup = () => {
-    setIsPopupOpen(false);
     setIsTemaPopup(false);
     setIsPagePopup(false);
+  };
+  // URL.createObjectURL(galleries)
+
+  // 이미지 박스 렌더링 함수
+  const renderImageBoxes = (startIndex, endIndex) => {
+    return imgBoxes.slice(startIndex, endIndex).map((box, index) => (
+      <ImgBox
+        key={startIndex + index}
+        onClick={() =>
+          images[startIndex + index] && handleDeleteImage(startIndex + index)
+        }
+        hasImage={images[startIndex + index] !== null}
+      >
+        {images[startIndex + index] && (
+          <Img
+            src={images[startIndex + index]}
+            alt={`album-${startIndex + index + 1}`}
+          />
+        )}
+        {box === "+" && (
+          <>
+            <PlusButton
+              onClick={() =>
+                document
+                  .getElementById(`fileInput${startIndex + index}`)
+                  .click()
+              }
+            >
+              +
+            </PlusButton>
+            <input
+              type="file"
+              id={`fileInput${startIndex + index}`}
+              style={{ display: "none" }}
+              onChange={(e) => handleFileInputChange(startIndex + index, e)}
+            />
+          </>
+        )}
+      </ImgBox>
+    ));
   };
 
   return (
@@ -510,37 +590,8 @@ const DateAlbum = () => {
             <CoupleImg />
           </CoupleDiv>
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
-          <AddPic onClick={handleOpenPopup}>사진 업로드</AddPic>
-          <ImgWrapper>
-            {imgBoxes.slice(0, 6).map((box, index) => (
-              <ImgBox
-                key={index}
-                onClick={() => images[index] && handleDeleteImage(index)}
-                hasImage={images[index] !== null}
-              >
-                {images[index] && (
-                  <Img src={images[index]} alt={`album-${index + 1}`} />
-                )}
-                {box === "+" && (
-                  <>
-                    <PlusButton
-                      onClick={() =>
-                        document.getElementById(`fileInput${index}`).click()
-                      }
-                    >
-                      +
-                    </PlusButton>
-                    <input
-                      type="file"
-                      id={`fileInput${index}`}
-                      style={{ display: "none" }}
-                      onChange={(e) => handleFileInputChange(index, e)}
-                    />
-                  </>
-                )}
-              </ImgBox>
-            ))}
-          </ImgWrapper>
+          <TitleLine>앨범 저장</TitleLine>
+          <ImgWrapper>{renderImageBoxes(0, 6)}</ImgWrapper>
         </BookSign>
       </BookTheme>
       <BookTheme2>
@@ -552,38 +603,7 @@ const DateAlbum = () => {
             </AddButton>
             <ImgWrapper2>
               <Dday>♥ D + 150 ♥</Dday>
-              {imgBoxes.slice(6, 15).map((box, index) => (
-                <ImgBox
-                  key={index + 6}
-                  onClick={() =>
-                    images[index + 6] && handleDeleteImage(index + 6)
-                  }
-                  hasImage={images[index + 6] !== null}
-                >
-                  {images[index + 6] && (
-                    <Img src={images[index + 6]} alt={`album-${index + 7}`} />
-                  )}
-                  {box === "+" && (
-                    <>
-                      <PlusButton
-                        onClick={() =>
-                          document
-                            .getElementById(`fileInput${index + 6}`)
-                            .click()
-                        }
-                      >
-                        +
-                      </PlusButton>
-                      <input
-                        type="file"
-                        id={`fileInput${index + 6}`}
-                        style={{ display: "none" }}
-                        onChange={(e) => handleFileInputChange(index + 6, e)}
-                      />
-                    </>
-                  )}
-                </ImgBox>
-              ))}
+              {renderImageBoxes(6, 15)}
             </ImgWrapper2>
           </ContentWrapper>
         </BookSign2>
@@ -591,16 +611,6 @@ const DateAlbum = () => {
       <InputDetailDiv>
         <NextButton onClick={handleNext}>▶▶</NextButton>
       </InputDetailDiv>
-      {isPopupOpen && (
-        <>
-          <PopupOverlay onClick={handleClosePopup} />
-          <Popup>
-            <PopTitle>사진 업로드</PopTitle>
-            <PopBoard></PopBoard>
-            <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
-          </Popup>
-        </>
-      )}
       {isTemaPopup && (
         <>
           <PopupOverlay onClick={handleClosePopup} />
