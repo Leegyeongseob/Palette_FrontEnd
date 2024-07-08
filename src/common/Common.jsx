@@ -36,8 +36,8 @@ const Common = {
   // 401 에러 처리 함수
   handleUnauthorized: async () => {
     console.log("handleUnauthorized");
-    const refreshToken = Common.getAccessToken();
-    const accessToken = Common.getRefreshToken();
+    const accessToken = Common.getAccessToken();
+    const refreshToken = Common.getRefreshToken();
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,

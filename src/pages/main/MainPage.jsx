@@ -244,7 +244,6 @@ const MainPage = () => {
   const email = sessionStorage.getItem("email");
   useEffect(() => {
     dDayAxois();
-    console.log(isDday);
   }, [isDday]);
 
   //디데이 값을 가져오는 비동기함수

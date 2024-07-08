@@ -45,6 +45,7 @@ const Profile = styled.div`
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   border-radius: 50%;
+  position: absolute;
 `;
 const Text = styled.div`
   width: ${({ clothes }) => (clothes ? "7vw" : "8vw")};
@@ -56,9 +57,61 @@ const Text = styled.div`
   font-weight: 600;
   color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
 `;
+const ProfileCover = styled.div`
+  width: 6.771vw;
+  height: 13.641vh;
+  background-color: transparent;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover > .AddLabel {
+    width: 5vw;
+    height: 3vh;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  &:hover > .AddImgBtn {
+    display: flex;
+  }
+  &:hover > .UploadBtn {
+    display: flex;
+  }
+`;
+const AddFileLabel = styled.label`
+  display: none;
+`;
+const AddImgFileInput = styled.div`
+  display: none;
+`;
+const UploadFileBtn = styled.div`
+  width: 4vw;
+  height: 3vh;
+  border-radius: 10px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
 const CoupleImg = ({ clothes = false }) => {
   // 커플 닉네임 저장
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
+  // 이미지 url저장
+  const [imgUrl, setImgUrl] = useState("");
+  const [saveFile, setSaveFile] = useState(null);
   const email = sessionStorage.getItem("email");
   //커플 개인 닉네임 불러오기
   const coupleNickNameAxois = async () => {
@@ -72,11 +125,43 @@ const CoupleImg = ({ clothes = false }) => {
   useEffect(() => {
     coupleNickNameAxois();
   }, []);
+  const AddImgBtnOnChangeHandler = (e) => {
+    // 파일 받는 부분
+    setSaveFile(e.target.files[0]);
+  };
+  // 파일 업로드 부분
+  const handleFileUpload = () => {
+    uploadFile(saveFile);
+  };
+  // 파일 업로드 하는 비동기 함수
+  const uploadFile = async () => {
+    //파이어베이스에 이미지 업로드 하는 부분
+  };
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
-          <Profile imageurl={manprofile} />
+          <Profile imageurl={manprofile}>
+            <ProfileCover>
+              {saveFile ? (
+                <UploadFileBtn className="UploadBtn" onClick={handleFileUpload}>
+                  Upload
+                </UploadFileBtn>
+              ) : (
+                <>
+                  <AddFileLabel htmlFor="fileInput" className="AddLabel">
+                    Choose File
+                  </AddFileLabel>
+                  <AddImgFileInput
+                    id="fileInput"
+                    className="AddImgBtn"
+                    type="file"
+                    onChange={AddImgBtnOnChangeHandler}
+                  ></AddImgFileInput>
+                </>
+              )}
+            </ProfileCover>
+          </Profile>
         </ProfileImgDiv>
         <Text clothes={clothes}>{coupleNickName[0] || "알콩"}</Text>
       </ProfileDiv>

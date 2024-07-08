@@ -61,7 +61,6 @@ const CoupleDday = () => {
     setSaveCoupleName(coupleName.data);
     // Dday값 가져오기
     const resDday = await MainAxios.searchDday(coupleName.data);
-    console.log(resDday.data);
     if (resDday.data !== "") {
       setIsDday(true);
       setSaveDday(resDday.data);
