@@ -509,7 +509,6 @@ const DateDiary = () => {
   const [modalType, setModalType] = useState(false);
 
   const userEmail = sessionStorage.getItem("email");
-  console.log("User Email:", userEmail);
 
   const modalOkBtnHandler = () => {
     closeModal();
@@ -537,9 +536,12 @@ const DateDiary = () => {
         const memosData = {};
         const anniversariesData = {};
 
-        diaries.forEach(diary => {
+        diaries.forEach((diary) => {
           const formattedDate = moment(diary.anniversary).format("YYYY-MM-DD");
-          memosData[formattedDate] = { memo: diary.contents, events: diary.events };
+          memosData[formattedDate] = {
+            memo: diary.contents,
+            events: diary.events,
+          };
           anniversariesData[formattedDate] = diary.dateContents;
         });
 
@@ -634,7 +636,7 @@ const DateDiary = () => {
   // 다이어리 저장
   const handleMemoSave = async () => {
     const formattedSelectedDate = moment(selectedDate).format("YYYY-MM-DD");
-  
+
     if (
       currentMemo.trim() === "" &&
       events.every((event) => !event.eventText.trim()) &&
@@ -644,33 +646,38 @@ const DateDiary = () => {
       setModalText("내용을 입력 해주세요 :)");
       return;
     }
-  
+
     const saveData = {
       email: userEmail,
       anniversary: formattedSelectedDate,
       dateContents: anniversaryText,
       contents: currentMemo,
-      events: events,
+      events: events.map((event) => ({
+        isEvent: event.isEvent,
+        eventText: event.eventText,
+      })), // event 필드 제거
     };
-  
+
+    console.log("Save Data:", saveData);
+
     try {
       const response = await AxiosApi.diaryReg(saveData);
-  
+
       if (response.data) {
         setModalOpen(true);
         setModalText("저장이 완료되었습니다 :)");
-        
+
         // 저장이 성공적으로 완료되었을 때 상태를 업데이트
         setMemos((prevMemos) => ({
           ...prevMemos,
           [formattedSelectedDate]: { memo: currentMemo, events },
         }));
-  
+
         setAnniversaries((prevAnniversaries) => ({
           ...prevAnniversaries,
           [formattedSelectedDate]: anniversaryText,
         }));
-  
+
         setIsEditMode(false); // 저장 후 읽기 모드로 전환
       } else {
         setModalOpen(true);
@@ -682,7 +689,6 @@ const DateDiary = () => {
       setModalText("저장 중 오류가 발생하였습니다!");
     }
   };
-  
 
   // 다이어리 삭제
   const handleClear = async () => {
@@ -690,7 +696,10 @@ const DateDiary = () => {
 
     // 백엔드에 이메일과 날짜를 보내서 삭제
     try {
-      const response = await AxiosApi.deleteDiary(userEmail, formattedSelectedDate);
+      const response = await AxiosApi.deleteDiary(
+        userEmail,
+        formattedSelectedDate
+      );
       if (response.status === 200) {
         setMemos((prevMemos) => {
           const updatedMemos = { ...prevMemos };
@@ -868,13 +877,14 @@ const DateDiary = () => {
                     <NewButton onClick={() => setIsEditMode(true)}>+</NewButton>
                   )}
                 </ButtonWrap>
-                <Modal 
+                <Modal
                   open={modalOpen}
                   header="안내"
                   close={closeModal}
-                  type={modalType} 
+                  type={modalType}
                   confirm={modalOkBtnHandler}
-                  img={soleModalImg}>
+                  img={soleModalImg}
+                >
                   {modalText}
                 </Modal>
               </LineDown>
