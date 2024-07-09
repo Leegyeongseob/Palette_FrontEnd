@@ -3,6 +3,7 @@ import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
+import PaymentComponent from "./portone/PaymentComponent";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
@@ -292,7 +293,7 @@ const PopBoard = styled.div`
   background-color: white;
 `;
 const BuyTema = styled.div`
-  width: 33%;
+  width: 50%;
   height: 80%;
   font-size: 1rem;
   display: flex;
@@ -381,8 +382,13 @@ const DateAlbum = () => {
   const navigate = useNavigate();
   const [isTemaPopup, setIsTemaPopup] = useState(false);
   const [isPagePopup, setIsPagePopup] = useState(false);
-
   const userEmail = sessionStorage.getItem("email");
+
+  // 결제
+  const handlePaymentSuccess = () => {
+    console.log("Payment was successful!");
+    // 결제 성공 후 추가적인 처리를 여기에 작성
+  };
 
   const handleNext = () => {
     setAnimate(true);
@@ -653,7 +659,38 @@ const DateAlbum = () => {
           <PopupOverlay onClick={handleClosePopup} />
           <Popup>
             <PopTitle>페이지 구매</PopTitle>
-            <PopBoard></PopBoard>
+            <PopBoard>
+              <BuyTema>
+                <TemaPrice>
+                  <TemaInfo>
+                    <TemaOne>페이지 1장 구매</TemaOne>
+                    <TemaTwo>파격세일!!</TemaTwo>
+                    <TemaThr>
+                      <Strikethrough>5000원</Strikethrough>={">"}1000원
+                    </TemaThr>
+                    <PaymentComponent
+                      onPaymentSuccess={handlePaymentSuccess}
+                      amount={1000}
+                    />
+                  </TemaInfo>
+                </TemaPrice>
+              </BuyTema>
+              <BuyTema>
+                <TemaPrice>
+                  <TemaInfo>
+                    <TemaOne>페이지 2장 구매</TemaOne>
+                    <TemaTwo>파격세일!!</TemaTwo>
+                    <TemaThr>
+                      <Strikethrough>10000원</Strikethrough>={">"}1500원
+                    </TemaThr>
+                    <PaymentComponent
+                      onPaymentSuccess={handlePaymentSuccess}
+                      amount={1500}
+                    />
+                  </TemaInfo>
+                </TemaPrice>
+              </BuyTema>
+            </PopBoard>
             <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
           </Popup>
         </>
