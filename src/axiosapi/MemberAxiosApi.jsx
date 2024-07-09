@@ -40,6 +40,16 @@ const MemberAxiosApi = {
     };
     return await AxiosInstance.post("/member/isCoupleTrue", member);
   },
+  //프로필url 저장 Axios
+  profileUrlSave: async (email, url) => {
+    return await AxiosInstance.get(
+      `/member/profileUrlSave?email=${email}&url=${url}`
+    );
+  },
+  //커플 프로필 url을 가져오는 Axios
+  coupleProfileUrl: async (email) => {
+    return await AxiosInstance.get(`member/coupleProfileUrl?email=${email}`);
+  },
 };
 
 export default MemberAxiosApi;

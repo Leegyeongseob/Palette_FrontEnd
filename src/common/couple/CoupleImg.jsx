@@ -5,6 +5,13 @@ import heart from "../../img/commonImg/heart.png";
 import MainAxios from "../../axiosapi/MainAxios";
 import { useEffect, useState } from "react";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import { profileStorage } from "../../firebase/ProfileImgUpload";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -67,50 +74,35 @@ const ProfileCover = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  &:hover > .AddLabel {
-    width: 5vw;
-    height: 3vh;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border: none;
-    display: flex;
+  & > label {
     cursor: pointer;
-    flex-direction: column;
-    justify-content: center;
+    width: 5vw;
+    height: 40px;
+    display: none;
     align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+  }
+  & > input[type="file"] {
+    display: none;
   }
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
   }
-  &:hover > .AddImgBtn {
+  &:hover > label {
     display: flex;
   }
-  &:hover > .UploadBtn {
-    display: flex;
-  }
-`;
-const AddFileLabel = styled.label`
-  display: none;
-`;
-const AddImgFileInput = styled.div`
-  display: none;
-`;
-const UploadFileBtn = styled.div`
-  width: 4vw;
-  height: 3vh;
-  border-radius: 10px;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.6);
 `;
 const CoupleImg = ({ clothes = false }) => {
   // 커플 닉네임 저장
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
-  // 이미지 url저장
+  //나의 이미지 url저장
   const [imgUrl, setImgUrl] = useState("");
+  //내 짝의 이미지 url저장
+  const [myDarling, setMyDarling] = useState("");
+  //파일 저장 변수
   const [saveFile, setSaveFile] = useState(null);
   const email = sessionStorage.getItem("email");
   //커플 개인 닉네임 불러오기
@@ -124,42 +116,68 @@ const CoupleImg = ({ clothes = false }) => {
   };
   useEffect(() => {
     coupleNickNameAxois();
+    coupleProfileAxois();
   }, []);
   const AddImgBtnOnChangeHandler = (e) => {
     // 파일 받는 부분
     setSaveFile(e.target.files[0]);
   };
-  // 파일 업로드 부분
-  const handleFileUpload = () => {
-    uploadFile(saveFile);
+  useEffect(() => {
+    handleFileUpload();
+  }, [saveFile]);
+  // 파일 업로드 하고 이전파일 삭제
+  const handleFileUpload = async () => {
+    if (saveFile) {
+      const storageRef = ref(profileStorage, saveFile.name);
+      try {
+        // 파일 업로드
+        await uploadBytesResumable(storageRef, saveFile);
+        console.log("File uploaded successfully!");
+        // 이전 파일 삭제
+        if (imgUrl) {
+          const oldFileRef = ref(profileStorage, imgUrl); // imgUrl은 이전 파일의 다운로드 URL입니다.
+          await deleteObject(oldFileRef);
+          console.log("Previous file deleted successfully!");
+        }
+        const url = await getDownloadURL(storageRef);
+        // DB에 url 저장
+        const res = await MemberAxiosApi.profileUrlSave(email, url);
+        console.log(res.data);
+        if (url && res.data) {
+          setImgUrl(url);
+        }
+        //파이어베이스 이전 파일 삭제
+
+        setSaveFile(null);
+      } catch (error) {
+        console.error("File upload failed:", error);
+      }
+    }
   };
-  // 파일 업로드 하는 비동기 함수
-  const uploadFile = async () => {
-    //파이어베이스에 이미지 업로드 하는 부분
+  // 처음 들어왔을 때 화면에 띄워주는 비동기 함수
+  const coupleProfileAxois = async () => {
+    const res = await MemberAxiosApi.coupleProfileUrl(email);
+    setImgUrl(res.data[0]);
+    sessionStorage.setItem("imgUrl", res.data[0]);
+    setMyDarling(res.data[1]);
+    sessionStorage.setItem("myDarling", res.data[1]);
+    console.log(res.data);
   };
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
-          <Profile imageurl={manprofile}>
+          <Profile imageurl={imgUrl ? imgUrl : manprofile}>
             <ProfileCover>
-              {saveFile ? (
-                <UploadFileBtn className="UploadBtn" onClick={handleFileUpload}>
-                  Upload
-                </UploadFileBtn>
-              ) : (
-                <>
-                  <AddFileLabel htmlFor="fileInput" className="AddLabel">
-                    Choose File
-                  </AddFileLabel>
-                  <AddImgFileInput
-                    id="fileInput"
-                    className="AddImgBtn"
-                    type="file"
-                    onChange={AddImgBtnOnChangeHandler}
-                  ></AddImgFileInput>
-                </>
-              )}
+              <label htmlFor="fileInput" className="AddLabel">
+                Choose File
+              </label>
+              <input
+                id="fileInput"
+                className="AddImgBtn"
+                type="file"
+                onChange={AddImgBtnOnChangeHandler}
+              ></input>
             </ProfileCover>
           </Profile>
         </ProfileImgDiv>
@@ -170,7 +188,7 @@ const CoupleImg = ({ clothes = false }) => {
       </HeartDiv>
       <ProfileDiv clothes={clothes} direction={true}>
         <ProfileImgDiv>
-          <Profile imageurl={womanprofile} />
+          <Profile imageurl={myDarling ? myDarling : womanprofile} />
         </ProfileImgDiv>
         <Text clothes={clothes}>{coupleNickName[1] || "달콩"}</Text>
       </ProfileDiv>

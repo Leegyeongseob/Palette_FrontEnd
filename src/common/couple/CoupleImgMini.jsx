@@ -65,6 +65,8 @@ const CoupleImg = () => {
   // 커플 닉네임 저장
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
   const email = sessionStorage.getItem("email");
+  const imgUrl = sessionStorage.getItem("imgUrl");
+  const myDarling = sessionStorage.getItem("myDarling");
   //커플 개인 닉네임 불러오기
   const coupleNickNameAxois = async () => {
     //커플 이름 search
@@ -80,7 +82,7 @@ const CoupleImg = () => {
     <Contain>
       <ProfileDiv>
         <ProfileImgDiv>
-          <Profile imageurl={manprofile} />
+          <Profile imageurl={imgUrl ? imgUrl : manprofile} />
         </ProfileImgDiv>
         <Text>{coupleNickName[0] || "알콩"}</Text>
       </ProfileDiv>
@@ -89,7 +91,7 @@ const CoupleImg = () => {
       </HeartDiv>
       <ProfileDiv>
         <ProfileImgDiv>
-          <Profile imageurl={womanprofile} />
+          <Profile imageurl={myDarling ? myDarling : womanprofile} />
         </ProfileImgDiv>
         <Text>{coupleNickName[1] || "달콩"}</Text>
       </ProfileDiv>
