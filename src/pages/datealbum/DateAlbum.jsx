@@ -220,19 +220,7 @@ const AddAlbum = styled.div`
 const TitleLine = styled.div`
   width: 90%;
   height: 5%;
-  padding-right: 1%;
-  border: none;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-size: 0.8vw;
-  color: black;
   border-bottom: 1px solid #c8c8c8;
-  font-weight: bolder;
-  cursor: pointer;
-  &:hover {
-    color: #444444;
-  }
 `;
 
 const CoupleDiv = styled.div`
@@ -402,18 +390,7 @@ const DateAlbum = () => {
     }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
-  // useEffect(() => {
-  //   const fetchAlbum = async () => {
-  //     try {
-  //       const response = await AlbumAxiosApi.getImages(userEmail);
-  //       const galleries = response.data;
-  //       setImages(galleries);
-  //     } catch (error) {}
-  //   };
-
-  //   fetchAlbum();
-  // }, [userEmail]);
-
+  // 이미지 불러오기
   useEffect(() => {
     const fetchAlbum = async () => {
       try {
@@ -438,7 +415,7 @@ const DateAlbum = () => {
     };
 
     fetchAlbum();
-  }, []);
+  }, [userEmail]);
 
   // 이미지 저장
   const handleAddImage = (index, file) => {
@@ -447,11 +424,19 @@ const DateAlbum = () => {
 
     // 이미지 URL을 먼저 화면에 표시
     const previewUrl = URL.createObjectURL(file);
-    console.log(images);
-    console.log(previewUrl);
+
+    // 이미지와 imgBoxes 배열 업데이트
     const newImages = [...images];
+    const newImgBoxes = [...imgBoxes];
+
     newImages[index] = previewUrl;
+    newImgBoxes[index] = null;
+    if (index + 1 < newImgBoxes.length) {
+      newImgBoxes[index + 1] = "+";
+    }
+
     setImages(newImages);
+    setImgBoxes(newImgBoxes);
 
     uploadTask.on(
       "state_changed",
@@ -466,60 +451,63 @@ const DateAlbum = () => {
           const url = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("File available at", url);
 
-          const newImgBoxes = [...imgBoxes];
           const updatedImages = [...images];
-
-          newImgBoxes[index] = null;
-          if (index + 1 < newImgBoxes.length) {
-            newImgBoxes[index + 1] = "+";
-          }
           updatedImages[index] = url;
 
-          setImgBoxes(newImgBoxes);
           setImages(updatedImages);
 
           // 이미지를 저장하기 위한 URL 업데이트
-          await saveImageUrls(updatedImages);
+          await saveImageUrls(url);
         } catch (error) {
           console.error("Error getting download URL:", error);
         }
       }
     );
   };
-  const saveImageUrls = async (urls) => {
-    const filteredUrls = urls.filter((url) => url !== null);
 
-    console.log("Filtered URLs:", filteredUrls);
-    console.log("Save Data:", filteredUrls);
+  const saveImageUrls = async (previewUrl) => {
+    const saveDate = {
+      email: userEmail,
+      urls: previewUrl,
+    };
     try {
-      const response = await AlbumAxiosApi.albumReg(filteredUrls);
+      const response = await AlbumAxiosApi.albumReg(saveDate);
       console.log("URLs saved successfully:", response.data);
     } catch (error) {
       console.error("Axios 에러!!!!!!!!!Error saving URLs:", error);
     }
   };
 
-  const handleDeleteImage = (index) => {
-    const newImgBoxes = [...imgBoxes];
-    const newImages = [...images];
+  const handleDeleteImage = async (index) => {
+    const imageUrlToDelete = Array.isArray(images[index])
+      ? images[index][0]
+      : images[index];
+    try {
+      await AlbumAxiosApi.deleteImage(userEmail, imageUrlToDelete);
 
-    newImages.splice(index, 1); // 클릭된 이미지를 배열에서 제거
-    newImages.push(null); // 배열의 마지막에 null 추가
+      const newImgBoxes = [...imgBoxes];
+      const newImages = [...images];
 
-    // 기존 + 버튼 위치를 찾아 제거
-    const plusIndex = newImgBoxes.indexOf("+");
-    if (plusIndex !== -1) {
-      newImgBoxes[plusIndex] = null;
+      newImages.splice(index, 1); // 클릭된 이미지를 배열에서 제거
+      newImages.push(null); // 배열의 마지막에 null 추가
+
+      // 기존 + 버튼 위치를 찾아 제거
+      const plusIndex = newImgBoxes.indexOf("+");
+      if (plusIndex !== -1) {
+        newImgBoxes[plusIndex] = null;
+      }
+
+      // + 버튼을 마지막 null 위치에 추가
+      const nextPlusIndex = newImages.indexOf(null);
+      if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
+        newImgBoxes[nextPlusIndex] = "+";
+      }
+
+      setImgBoxes(newImgBoxes);
+      setImages(newImages);
+    } catch (error) {
+      console.error("Error deleting image:", error);
     }
-
-    // + 버튼을 마지막 null 위치에 추가
-    const nextPlusIndex = newImages.indexOf(null);
-    if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
-      newImgBoxes[nextPlusIndex] = "+";
-    }
-
-    setImgBoxes(newImgBoxes);
-    setImages(newImages);
   };
 
   const handleFileInputChange = (index, e) => {
@@ -540,7 +528,6 @@ const DateAlbum = () => {
     setIsTemaPopup(false);
     setIsPagePopup(false);
   };
-  // URL.createObjectURL(galleries)
 
   // 이미지 박스 렌더링 함수
   const renderImageBoxes = (startIndex, endIndex) => {
@@ -590,7 +577,7 @@ const DateAlbum = () => {
             <CoupleImg />
           </CoupleDiv>
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
-          <TitleLine>앨범 저장</TitleLine>
+          <TitleLine />
           <ImgWrapper>{renderImageBoxes(0, 6)}</ImgWrapper>
         </BookSign>
       </BookTheme>
