@@ -293,6 +293,19 @@ const PopBoard = styled.div`
   background-color: white;
 `;
 const BuyTema = styled.div`
+  width: 33%;
+  height: 80%;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid darkgray;
+  &:last-child {
+    border-right: none;
+  }
+`;
+const BuyPage = styled.div`
   width: 50%;
   height: 80%;
   font-size: 1rem;
@@ -350,18 +363,6 @@ const CloseButton = styled.div`
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
   margin-top: 2px;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: darkgray;
-  cursor: pointer;
-  &:hover {
-    background-color: gray;
-  }
-`;
-const BuyButton = styled.div`
-  padding: 0.5rem 1rem;
-  font-size: 0.6rem;
-  margin-top: 1rem;
   border: none;
   border-radius: 0.5rem;
   background-color: darkgray;
@@ -619,9 +620,13 @@ const DateAlbum = () => {
                     <TemaOne>SkyBlue Tema</TemaOne>
                     <TemaTwo>파격세일!!</TemaTwo>
                     <TemaThr>
-                      <Strikethrough>9900원</Strikethrough>={">"}300원
+                      <Strikethrough>9900원</Strikethrough>={">"}1000원
                     </TemaThr>
-                    <BuyButton>구매</BuyButton>
+                    <PaymentComponent
+                      onPaymentSuccess={handlePaymentSuccess}
+                      amount={1000}
+                      order={"Palette SkyBlue Pink Tema 구매"}
+                    />
                   </TemaInfo>
                 </TemaPrice>
               </BuyTema>
@@ -631,9 +636,13 @@ const DateAlbum = () => {
                     <TemaOne>Black Tema</TemaOne>
                     <TemaTwo>파격세일!!</TemaTwo>
                     <TemaThr>
-                      <Strikethrough>59900원</Strikethrough>={">"}500원
+                      <Strikethrough>59900원</Strikethrough>={">"}1500원
                     </TemaThr>
-                    <BuyButton>구매</BuyButton>
+                    <PaymentComponent
+                      onPaymentSuccess={handlePaymentSuccess}
+                      amount={1500}
+                      order={"Palette Black Pink Tema 구매"}
+                    />
                   </TemaInfo>
                 </TemaPrice>
               </BuyTema>
@@ -643,9 +652,13 @@ const DateAlbum = () => {
                     <TemaOne>Pink Tema</TemaOne>
                     <TemaTwo>파격세일!!</TemaTwo>
                     <TemaThr>
-                      <Strikethrough>129800원</Strikethrough>={">"}900원
+                      <Strikethrough>129800원</Strikethrough>={">"}2000원
                     </TemaThr>
-                    <BuyButton>구매</BuyButton>
+                    <PaymentComponent
+                      onPaymentSuccess={handlePaymentSuccess}
+                      amount={2000}
+                      order={"Palette Album Pink Tema 구매"}
+                    />
                   </TemaInfo>
                 </TemaPrice>
               </BuyTema>
@@ -660,7 +673,7 @@ const DateAlbum = () => {
           <Popup>
             <PopTitle>페이지 구매</PopTitle>
             <PopBoard>
-              <BuyTema>
+              <BuyPage>
                 <TemaPrice>
                   <TemaInfo>
                     <TemaOne>페이지 1장 구매</TemaOne>
@@ -671,11 +684,12 @@ const DateAlbum = () => {
                     <PaymentComponent
                       onPaymentSuccess={handlePaymentSuccess}
                       amount={1000}
+                      order={"Palette Album 페이지 구매"}
                     />
                   </TemaInfo>
                 </TemaPrice>
-              </BuyTema>
-              <BuyTema>
+              </BuyPage>
+              <BuyPage>
                 <TemaPrice>
                   <TemaInfo>
                     <TemaOne>페이지 2장 구매</TemaOne>
@@ -686,10 +700,11 @@ const DateAlbum = () => {
                     <PaymentComponent
                       onPaymentSuccess={handlePaymentSuccess}
                       amount={1500}
+                      order={"Palette Album 페이지 2장 구매"}
                     />
                   </TemaInfo>
                 </TemaPrice>
-              </BuyTema>
+              </BuyPage>
             </PopBoard>
             <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
           </Popup>

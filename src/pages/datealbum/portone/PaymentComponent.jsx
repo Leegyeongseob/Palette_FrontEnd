@@ -18,7 +18,7 @@ const BuyButton = styled.div`
   }
 `;
 
-const PaymentComponent = ({ onPaymentSuccess, amount }) => {
+const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState("잘못된 요청입니다.");
   const [modalType, setModalType] = useState(false);
@@ -37,6 +37,7 @@ const PaymentComponent = ({ onPaymentSuccess, amount }) => {
     const channelKey = "channel-key-720b1a91-7a32-4fc4-ac44-40fa627f18b9"; // 포트원 관리자 콘솔에서 가져온 채널 키
     const paymentId = `pay-${crypto.randomUUID()}`;
     const totalAmount = amount; // 결제 금액
+    const orderName = order;
     const currency = "CURRENCY_KRW";
     const payMethod = "CARD";
     const customer = {
@@ -50,7 +51,7 @@ const PaymentComponent = ({ onPaymentSuccess, amount }) => {
         storeId: storeId,
         channelKey: channelKey,
         paymentId: paymentId,
-        orderName: "Palette Album 페이지 구매",
+        orderName: orderName,
         totalAmount: totalAmount,
         currency: currency,
         payMethod: payMethod,
