@@ -420,7 +420,8 @@ const DateAlbum = () => {
 
   // 이미지 저장
   const handleAddImage = (index, file) => {
-    const storageRef = ref(storage, `images/${file.name}`);
+    const timestamp = new Date().getTime(); // 현재 타임스탬프 생성
+    const storageRef = ref(storage, `images/${timestamp}_${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     // 이미지 URL을 먼저 화면에 표시
