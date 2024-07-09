@@ -5,6 +5,7 @@ import CoupleImg from "../../common/couple/CoupleImgMini";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
 import {
   storage,
   ref,
@@ -150,7 +151,7 @@ const ImgBox = styled.div`
       hasImage &&
       `
       & > ${Img} {
-        transform: scale(1.1); /* 이미지 확대 효과 */
+        transform: scale(1.18); /* 이미지 확대 효과 */
       }
       &::after {
         content: "삭제하기";
@@ -158,11 +159,11 @@ const ImgBox = styled.div`
         bottom: 5px;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.6);
         color: white;
         padding: 2px 5px;
         border-radius: 3px;
-        font-size: 0.6vw;
+        font-size: 0.78vw;
       }
     `}
   }
@@ -505,6 +506,7 @@ const DateAlbum = () => {
 
       setImgBoxes(newImgBoxes);
       setImages(newImages);
+      await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
     } catch (error) {
       console.error("Error deleting image:", error);
     }
