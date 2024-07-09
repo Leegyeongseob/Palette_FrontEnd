@@ -12,6 +12,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -21,7 +22,7 @@ const Contain = styled.div`
 `;
 const ProfileDiv = styled.div`
   width: ${({ clothes }) => (clothes ? "23vw" : "8vw")};
-  height: ${({ clothes }) => (clothes ? "15vh" : "23vh")};
+  height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: flex-end;
@@ -47,8 +48,8 @@ const Heart = styled.div`
   background-size: cover;
 `;
 const Profile = styled.div`
-  width: 6.771vw;
-  height: 13.641vh;
+  width: ${({ clothes }) => (clothes ? "5vw" : "6.771vw;")};
+  height: ${({ clothes }) => (clothes ? "10vh" : "13.641vh;")};
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   border-radius: 50%;
@@ -70,83 +71,81 @@ const ProfileCover = styled.div`
   background-color: transparent;
   border-radius: 50%;
   position: relative;
-  display: flex;
+  display: ${({ clothes }) => (clothes ? "none" : "flex")};
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  & > label {
-    cursor: pointer;
-    width: 5vw;
-    height: 40px;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-  }
-  & > input[type="file"] {
-    display: none;
-  }
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
   }
-  &:hover > label {
+`;
+
+const Label = styled.label`
+  cursor: pointer;
+  width: 5vw;
+  height: 40px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+
+  ${ProfileCover}:hover & {
     display: flex;
   }
 `;
+
+const Input = styled.input`
+  display: none;
+`;
+
 const CoupleImg = ({ clothes = false }) => {
-  // 커플 닉네임 저장
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
-  //나의 이미지 url저장
   const [imgUrl, setImgUrl] = useState("");
-  //내 짝의 이미지 url저장
   const [myDarling, setMyDarling] = useState("");
-  //파일 저장 변수
   const [saveFile, setSaveFile] = useState(null);
   const email = sessionStorage.getItem("email");
-  //커플 개인 닉네임 불러오기
-  const coupleNickNameAxois = async () => {
-    //커플 이름 search
+
+  const coupleNickNameAxios = async () => {
     const resCouple = await MemberAxiosApi.coupleNameSearch(email);
-    //커플 이름으로 닉네임 가져오기
     const resNickName = await MainAxios.searchNickName(email, resCouple.data);
-    console.log(resNickName.data);
     setCoupleNickName(resNickName.data);
   };
+
   useEffect(() => {
-    coupleNickNameAxois();
-    coupleProfileAxois();
+    coupleNickNameAxios();
+    coupleProfileAxios();
   }, []);
+
   const AddImgBtnOnChangeHandler = (e) => {
-    // 파일 받는 부분
     setSaveFile(e.target.files[0]);
   };
+
   useEffect(() => {
     handleFileUpload();
   }, [saveFile]);
-  // 파일 업로드 하고 이전파일 삭제
+
   const handleFileUpload = async () => {
     if (saveFile) {
       const storageRef = ref(profileStorage, saveFile.name);
       try {
-        // 파일 업로드
         await uploadBytesResumable(storageRef, saveFile);
         console.log("File uploaded successfully!");
-        // 이전 파일 삭제
+
         if (imgUrl) {
-          const oldFileRef = ref(profileStorage, imgUrl); // imgUrl은 이전 파일의 다운로드 URL입니다.
+          const oldFileRef = ref(profileStorage, imgUrl);
           await deleteObject(oldFileRef);
           console.log("Previous file deleted successfully!");
         }
+
         const url = await getDownloadURL(storageRef);
-        // DB에 url 저장
         const res = await MemberAxiosApi.profileUrlSave(email, url);
         console.log(res.data);
+
         if (url && res.data) {
           setImgUrl(url);
         }
-        //파이어베이스 이전 파일 삭제
 
         setSaveFile(null);
       } catch (error) {
@@ -154,8 +153,8 @@ const CoupleImg = ({ clothes = false }) => {
       }
     }
   };
-  // 처음 들어왔을 때 화면에 띄워주는 비동기 함수
-  const coupleProfileAxois = async () => {
+
+  const coupleProfileAxios = async () => {
     const res = await MemberAxiosApi.coupleProfileUrl(email);
     setImgUrl(res.data[0]);
     sessionStorage.setItem("imgUrl", res.data[0]);
@@ -163,21 +162,20 @@ const CoupleImg = ({ clothes = false }) => {
     sessionStorage.setItem("myDarling", res.data[1]);
     console.log(res.data);
   };
+
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
-          <Profile imageurl={imgUrl ? imgUrl : manprofile}>
-            <ProfileCover>
-              <label htmlFor="fileInput" className="AddLabel">
-                Choose File
-              </label>
-              <input
+          <Profile imageurl={imgUrl ? imgUrl : manprofile} clothes={clothes}>
+            <ProfileCover clothes={clothes}>
+              <Label htmlFor="fileInput">Choose File</Label>
+              <Input
                 id="fileInput"
-                className="AddImgBtn"
                 type="file"
+                clothes={clothes}
                 onChange={AddImgBtnOnChangeHandler}
-              ></input>
+              />
             </ProfileCover>
           </Profile>
         </ProfileImgDiv>
@@ -188,7 +186,10 @@ const CoupleImg = ({ clothes = false }) => {
       </HeartDiv>
       <ProfileDiv clothes={clothes} direction={true}>
         <ProfileImgDiv>
-          <Profile imageurl={myDarling ? myDarling : womanprofile} />
+          <Profile
+            imageurl={myDarling ? myDarling : womanprofile}
+            clothes={clothes}
+          />
         </ProfileImgDiv>
         <Text clothes={clothes}>{coupleNickName[1] || "달콩"}</Text>
       </ProfileDiv>

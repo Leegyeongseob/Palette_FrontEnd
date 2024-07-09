@@ -9,6 +9,12 @@ const BookSign = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  & > .save1 {
+    justify-content: first baseline;
+  }
+  & > .save2 {
+    justify-content: end;
+  }
 `;
 const BookTheme = styled.div`
   width: 53vw;
@@ -67,15 +73,14 @@ const ButtonDiv = styled.div`
   width: 23.438vw;
   height: 11.962vh;
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 const StroeButton = styled.div`
-  width: 6.771vw;
-  height: 4.197vh;
+  width: 5vw;
+  height: 4vh;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 1.042vw;
-  font-size: 1.198vw;
+  border-radius: 1vw;
+  font-size: 1vw;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -127,8 +132,7 @@ const DateClothes = () => {
             <Swiper clothNum={2} />
             <Swiper shoes={true} clothNum={3} />
           </ClothesForm>
-
-          <ButtonDiv>
+          <ButtonDiv className="save1">
             <StroeButton>저장</StroeButton>
           </ButtonDiv>
         </BookSign>
@@ -139,7 +143,7 @@ const DateClothes = () => {
             <Swiper clothNum={7} OnePiece={isOnePiece} />
             <Swiper shoes={true} clothNum={6} />
           </ClothesForm>
-          <ButtonDiv>
+          <ButtonDiv className="save2">
             <StroeButton>저장</StroeButton>
           </ButtonDiv>
         </BookSign>
