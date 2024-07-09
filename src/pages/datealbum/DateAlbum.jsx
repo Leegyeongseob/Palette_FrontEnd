@@ -3,7 +3,8 @@ import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
-import PaymentComponent from "./portone/PaymentComponent";
+import PagePop from "./import/PagePop";
+import TemaPop from "./import/TemaPop";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
@@ -13,6 +14,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "../../firebase/firebaseAlbum";
+import TemaChange from "./import/TemaChange";
 
 const turnPageLeft = keyframes`
   0% {
@@ -114,9 +116,10 @@ const InputDetailDiv = styled.div`
 const ImgWrapper = styled.div`
   width: 90%;
   height: 33vh;
-  background-color: #eccdaf;
+  background-color: ${(props) => props.bgColor};
   align-items: center;
   justify-content: center;
+  padding-right: 1%;
   margin-top: 20%;
   display: flex;
   flex-wrap: wrap;
@@ -125,7 +128,8 @@ const ImgWrapper = styled.div`
 const ImgWrapper2 = styled.div`
   width: 90%;
   height: 81%;
-  background-color: #eccdaf;
+  background-color: ${(props) => props.bgColor};
+  padding-left: 0.4%;
   margin-top: 6%;
   display: flex;
   flex-wrap: wrap;
@@ -212,7 +216,7 @@ const AddAlbum = styled.div`
   font-size: 0.78vw;
   color: black;
   font-weight: bolder;
-  margin-left: 10px;
+  margin-left: 3%;
   cursor: pointer;
   &:hover {
     font-size: 0.81vw;
@@ -221,8 +225,18 @@ const AddAlbum = styled.div`
 
 const TitleLine = styled.div`
   width: 90%;
-  height: 5%;
+  height: 4%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1%;
   border-bottom: 1px solid #c8c8c8;
+  font-size: 0.78vw;
+  color: black;
+  font-weight: bolder;
+  cursor: pointer;
+  &:hover {
+    font-size: 0.81vw;
+  }
 `;
 
 const CoupleDiv = styled.div`
@@ -245,133 +259,6 @@ const PlusButton = styled.button`
   }
 `;
 
-const Popup = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 300px;
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-`;
-
-const PopupOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.1); /* 투명도를 낮춤 */
-  backdrop-filter: blur(3px); /* 블러 효과 추가 */
-`;
-const PopTitle = styled.div`
-  width: 90%;
-  height: 20%;
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #c8c8c8;
-  align-items: center;
-  justify-content: flex-start;
-`;
-const PopBoard = styled.div`
-  width: 90%;
-  height: 60%;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  background-color: white;
-`;
-const BuyTema = styled.div`
-  width: 33%;
-  height: 80%;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid darkgray;
-  &:last-child {
-    border-right: none;
-  }
-`;
-const BuyPage = styled.div`
-  width: 50%;
-  height: 80%;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid darkgray;
-  &:last-child {
-    border-right: none;
-  }
-`;
-const TemaPrice = styled.div`
-  width: 100%;
-  height: 50%;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const TemaInfo = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-const TemaOne = styled.div`
-  width: 10vw;
-  height: 25vh;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const TemaTwo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const TemaThr = styled.div`
-  display: flex;
-  white-space: nowrap;
-  align-items: center;
-  justify-content: center;
-`;
-const Strikethrough = styled.div`
-  text-decoration: line-through;
-`;
-
-const CloseButton = styled.div`
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  margin-top: 2px;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: darkgray;
-  cursor: pointer;
-  &:hover {
-    background-color: gray;
-  }
-`;
-
 const DateAlbum = () => {
   const [animate, setAnimate] = useState(false);
   const [imgBoxes, setImgBoxes] = useState(
@@ -381,15 +268,28 @@ const DateAlbum = () => {
   );
   const [images, setImages] = useState(Array(15).fill(null));
   const navigate = useNavigate();
-  const [isTemaPopup, setIsTemaPopup] = useState(false);
-  const [isPagePopup, setIsPagePopup] = useState(false);
   const userEmail = sessionStorage.getItem("email");
+  const [pageOpen, setPageOpen] = useState(false);
+  const [temaOpen, setTemaOpen] = useState(false);
+  const [temaChange, setTemaChange] = useState(false);
+  const [bgColor, setBgColor] = useState('#eccdaf');
 
-  // 결제
-  const handlePaymentSuccess = () => {
-    console.log("Payment was successful!");
-    // 결제 성공 후 추가적인 처리를 여기에 작성
+  const closeModal = () => {
+    setPageOpen(false);
+    setTemaOpen(false);
+    setTemaChange(false);
   };
+
+  const handlePagePopup = () => {
+    setPageOpen(true);
+  };
+  const handleTemaPopup = () => {
+    setTemaOpen(true);
+  };  
+  const handleTemaChange = () => {
+    setTemaChange(true);
+  };
+
 
   const handleNext = () => {
     setAnimate(true);
@@ -527,18 +427,6 @@ const DateAlbum = () => {
     }
   };
 
-  const handleTemaPopup = () => {
-    setIsTemaPopup(true);
-  };
-  const handlePagePopup = () => {
-    setIsPagePopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsTemaPopup(false);
-    setIsPagePopup(false);
-  };
-
   // 이미지 박스 렌더링 함수
   const renderImageBoxes = (startIndex, endIndex) => {
     return imgBoxes.slice(startIndex, endIndex).map((box, index) => (
@@ -587,8 +475,8 @@ const DateAlbum = () => {
             <CoupleImg />
           </CoupleDiv>
           <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
-          <TitleLine />
-          <ImgWrapper>{renderImageBoxes(0, 6)}</ImgWrapper>
+          <TitleLine onClick={handleTemaChange}>테마 변경</TitleLine>
+          <ImgWrapper bgColor={bgColor}>{renderImageBoxes(0, 6)}</ImgWrapper>
         </BookSign>
       </BookTheme>
       <BookTheme2>
@@ -598,7 +486,7 @@ const DateAlbum = () => {
               <AddTema onClick={handleTemaPopup}>테마 추가</AddTema>
               <AddAlbum onClick={handlePagePopup}>앨범 추가</AddAlbum>
             </AddButton>
-            <ImgWrapper2>
+            <ImgWrapper2 bgColor={bgColor}>
               <Dday>♥ D + 150 ♥</Dday>
               {renderImageBoxes(6, 15)}
             </ImgWrapper2>
@@ -608,108 +496,19 @@ const DateAlbum = () => {
       <InputDetailDiv>
         <NextButton onClick={handleNext}>▶▶</NextButton>
       </InputDetailDiv>
-      {isTemaPopup && (
-        <>
-          <PopupOverlay onClick={handleClosePopup} />
-          <Popup>
-            <PopTitle>테마 구매</PopTitle>
-            <PopBoard>
-              <BuyTema>
-                <TemaPrice>
-                  <TemaInfo>
-                    <TemaOne>SkyBlue Tema</TemaOne>
-                    <TemaTwo>파격세일!!</TemaTwo>
-                    <TemaThr>
-                      <Strikethrough>9900원</Strikethrough>={">"}1000원
-                    </TemaThr>
-                    <PaymentComponent
-                      onPaymentSuccess={handlePaymentSuccess}
-                      amount={1000}
-                      order={"Palette SkyBlue Pink Tema 구매"}
-                    />
-                  </TemaInfo>
-                </TemaPrice>
-              </BuyTema>
-              <BuyTema>
-                <TemaPrice>
-                  <TemaInfo>
-                    <TemaOne>Black Tema</TemaOne>
-                    <TemaTwo>파격세일!!</TemaTwo>
-                    <TemaThr>
-                      <Strikethrough>59900원</Strikethrough>={">"}1500원
-                    </TemaThr>
-                    <PaymentComponent
-                      onPaymentSuccess={handlePaymentSuccess}
-                      amount={1500}
-                      order={"Palette Black Pink Tema 구매"}
-                    />
-                  </TemaInfo>
-                </TemaPrice>
-              </BuyTema>
-              <BuyTema>
-                <TemaPrice>
-                  <TemaInfo>
-                    <TemaOne>Pink Tema</TemaOne>
-                    <TemaTwo>파격세일!!</TemaTwo>
-                    <TemaThr>
-                      <Strikethrough>129800원</Strikethrough>={">"}2000원
-                    </TemaThr>
-                    <PaymentComponent
-                      onPaymentSuccess={handlePaymentSuccess}
-                      amount={2000}
-                      order={"Palette Album Pink Tema 구매"}
-                    />
-                  </TemaInfo>
-                </TemaPrice>
-              </BuyTema>
-            </PopBoard>
-            <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
-          </Popup>
-        </>
-      )}
-      {isPagePopup && (
-        <>
-          <PopupOverlay onClick={handleClosePopup} />
-          <Popup>
-            <PopTitle>페이지 구매</PopTitle>
-            <PopBoard>
-              <BuyPage>
-                <TemaPrice>
-                  <TemaInfo>
-                    <TemaOne>페이지 1장 구매</TemaOne>
-                    <TemaTwo>파격세일!!</TemaTwo>
-                    <TemaThr>
-                      <Strikethrough>5000원</Strikethrough>={">"}1000원
-                    </TemaThr>
-                    <PaymentComponent
-                      onPaymentSuccess={handlePaymentSuccess}
-                      amount={1000}
-                      order={"Palette Album 페이지 구매"}
-                    />
-                  </TemaInfo>
-                </TemaPrice>
-              </BuyPage>
-              <BuyPage>
-                <TemaPrice>
-                  <TemaInfo>
-                    <TemaOne>페이지 2장 구매</TemaOne>
-                    <TemaTwo>파격세일!!</TemaTwo>
-                    <TemaThr>
-                      <Strikethrough>10000원</Strikethrough>={">"}1500원
-                    </TemaThr>
-                    <PaymentComponent
-                      onPaymentSuccess={handlePaymentSuccess}
-                      amount={1500}
-                      order={"Palette Album 페이지 2장 구매"}
-                    />
-                  </TemaInfo>
-                </TemaPrice>
-              </BuyPage>
-            </PopBoard>
-            <CloseButton onClick={handleClosePopup}>닫기</CloseButton>
-          </Popup>
-        </>
-      )}
+      <TemaChange
+        open={temaChange}
+        close={closeModal}
+        setBgColor={setBgColor}
+      />
+      <TemaPop
+        open={temaOpen}
+        close={closeModal}
+      />
+      <PagePop
+        open={pageOpen}
+        close={closeModal}
+      />
     </>
   );
 };

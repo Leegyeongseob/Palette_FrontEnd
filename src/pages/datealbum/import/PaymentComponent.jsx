@@ -3,18 +3,21 @@ import React, { useState } from "react";
 import * as PortOne from "@portone/browser-sdk/v2";
 import styled from "styled-components";
 import soleModalImg from "../../../img/commonImg/전구 아이콘.gif";
-import Modal from "../../../pages/datediary/Modal";
+import Modal from "../../datediary/Modal";
 
 const BuyButton = styled.div`
-  padding: 0.5rem 1rem;
-  font-size: 0.6rem;
-  margin-top: 1rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  margin-bottom: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 0.5rem;
   background-color: darkgray;
   cursor: pointer;
   &:hover {
-    background-color: gray;
+    background-color: #8e8e8e;
   }
 `;
 
