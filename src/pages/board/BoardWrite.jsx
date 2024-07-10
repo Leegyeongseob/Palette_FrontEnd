@@ -239,7 +239,7 @@ const WritePost = styled.div`
   }
 `;
 
-const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
+const itemsPerPage = 10;
 
 const BoardWrite = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -247,12 +247,11 @@ const BoardWrite = () => {
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
-  const [boardData, setBoardData] = useState([]); // 백엔드에서 가져올 데이터 상태
+  const [boardData, setBoardData] = useState([]);
   const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
 
-  // 페이지 마운트 시 백엔드에서 데이터 가져오기
   useEffect(() => {
     fetchBoardData();
   }, []);
@@ -296,6 +295,7 @@ const BoardWrite = () => {
       },
       (error) => {
         console.error("Upload failed:", error);
+        alert("파일 업로드 실패");
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -313,51 +313,70 @@ const BoardWrite = () => {
 
   const handleSubmit = async () => {
     if (!title || !content) {
-      alert("모든 필드를 채워주세요.");
+      alert("제목과 내용을 입력해주세요.");
       return;
     }
 
-    // 파일이 있는 경우 업로드를 진행하고 URL을 설정합니다.
-    if (file) {
-      const fileRef = ref(storage, file.name);
-      const uploadTask = uploadBytesResumable(fileRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Progress handling can be added here if needed
-        },
-        (error) => {
-          console.error("Upload failed:", error);
-          alert("파일 업로드 실패");
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setUrl(downloadURL);
-          submitBoard(downloadURL); // URL을 설정한 후 게시글을 제출합니다.
-        }
-      );
-    } else {
-      submitBoard(""); // 파일이 없는 경우 빈 URL로 게시글을 제출합니다.
-    }
-  };
-
-  const submitBoard = async (imgUrl) => {
-    const boardReqDto = {
-      title,
-      imgUrl,
-      contents: content,
-    };
-
     try {
-      await BoardAxios.createBoard(boardReqDto);
-      fetchBoardData(); // 게시글 생성 후 데이터 갱신
-      navigate("/board-guestbook");
+      let downloadURL = "";
+
+      if (file) {
+        const fileRef = ref(storage, file.name);
+        const uploadTask = uploadBytesResumable(fileRef, file);
+
+        downloadURL = await new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // 업로드 진행 상태 처리 (optional)
+            },
+            (error) => {
+              console.error("파일 업로드 실패:", error);
+              alert("파일 업로드에 실패했습니다.");
+              reject(error);
+            },
+            async () => {
+              try {
+                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(url);
+              } catch (error) {
+                console.error("URL 가져오기 실패:", error);
+                reject(error);
+              }
+            }
+          );
+        });
+      }
+
+      const boardData = { title, content, imgUrl: downloadURL || "" };
+      console.log("제출할 데이터:", boardData);
+      await submitBoard(boardData);
     } catch (error) {
-      console.error("Failed to create board", error);
-      alert("게시글 생성 실패");
+      console.error("게시글 생성 실패:", error);
+      alert("게시글 생성에 실패했습니다.");
     }
   };
+
+  const submitBoard = async (boardReqDto) => {
+    try {
+      console.log("서버로 전송할 데이터:", boardReqDto);
+      const response = await BoardAxios.createBoard(boardReqDto);
+      console.log("서버 응답 데이터:", response);
+      fetchBoardData(); // 게시판 데이터 다시 불러오기
+      navigate("/board-guestbook"); // 리다이렉트
+    } catch (error) {
+      console.error(
+        "게시글 생성 실패:",
+        error.response ? error.response.data : error
+      );
+      alert(
+        `게시글 생성에 실패했습니다: ${
+          error.response ? error.response.data.message : error.message
+        }`
+      );
+    }
+  };
+
   return (
     <BookTheme>
       <BoardSide>

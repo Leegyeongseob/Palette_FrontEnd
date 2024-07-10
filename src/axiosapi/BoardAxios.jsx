@@ -1,9 +1,14 @@
 import axiosInstance from "./AxiosInstance";
 
 const BoardAxios = {
-  fetchBoardData: async () => {
+  fetchBoardData: async (page, size) => {
     try {
-      const response = await axiosInstance.get("/boards");
+      const response = await axiosInstance.get("/boards", {
+        params: {
+          page: page,
+          size: size,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Failed to fetch board data", error);
@@ -26,7 +31,7 @@ const BoardAxios = {
       const response = await axiosInstance.post("/boards", boardReqDto);
       return response.data;
     } catch (error) {
-      console.error("Failed to create board", error);
+      console.error("게시글 생성 실패:", error);
       throw error;
     }
   },

@@ -263,21 +263,23 @@ const GuestbookMain = styled.div`
   align-items: center;
 `;
 
-const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
+const itemsPerPage = 10;
 
 const BoardGuestbook = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [boardData, setBoardData] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBoardData();
+    fetchBoardData(currentPage);
   }, [currentPage]);
 
-  const fetchBoardData = async () => {
+  const fetchBoardData = async (page) => {
     try {
-      const data = await BoardAxios.fetchBoardData();
-      setBoardData(data);
+      const { data } = await BoardAxios.fetchBoardData(page, itemsPerPage);
+      setBoardData(data.content);
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.error("Failed to fetch board data", error);
     }
@@ -290,11 +292,6 @@ const BoardGuestbook = () => {
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const currentData = boardData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   return (
     <BookTheme>
@@ -316,7 +313,7 @@ const BoardGuestbook = () => {
             </tr>
           </thead>
           <tbody>
-            {currentData.map((item) => (
+            {boardData.map((item) => (
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
@@ -328,19 +325,17 @@ const BoardGuestbook = () => {
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
-            (_, index) => (
-              <BoardPaginationButton
-                key={index + 1}
-                onClick={() => handleClick(index + 1)}
-                style={{
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}
-              >
-                {index + 1}
-              </BoardPaginationButton>
-            )
-          )}
+          {[...Array(totalPages)].map((_, index) => (
+            <BoardPaginationButton
+              key={index}
+              onClick={() => handleClick(index)}
+              style={{
+                fontWeight: currentPage === index ? "bold" : "normal",
+              }}
+            >
+              {index + 1}
+            </BoardPaginationButton>
+          ))}
         </BoardPaginationContainer>
       </BoardSide>
       <CenterArea />
