@@ -6,12 +6,13 @@ import SavedCoursesList from "./SavedCourseList";
 import PlaceCardList from "./PlaceCardList";
 import theme6 from "../../img/background/theme/6.jpg";
 import ReactDOM from "react-dom";
-import DisplaceInfo from "./DisplaceInfo";
+// import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
 import useAddress from "../../hooks/useLocation";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useParams } from "react-router-dom";
+// import ReactDOMServer from "react-dom/server";
 
 const LBookContainer = styled.div`
   width: 25.8vw;
@@ -34,6 +35,10 @@ const BookWrapper = styled.div`
   justify-content: space-between;
 `;
 
+// const EmptyDiv = () => {
+//   return <div></div>;
+// };
+
 const DatePlanner = () => {
   const { location } = useAddress();
   const [currCategory, setCurrCategory] = useState("");
@@ -46,7 +51,7 @@ const DatePlanner = () => {
   const placeOverlay = useRef(
     new window.kakao.maps.CustomOverlay({ zIndex: 1 })
   );
-  const contentNode = useRef(document.createElement("div"));
+  // const contentNode = useRef(<EmptyDiv />);
   const mapContainer = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSelectedPlaces, setModalSelectedPlaces] = useState([]);
@@ -55,12 +60,15 @@ const DatePlanner = () => {
   const [title, setTitle] = useState("");
   const email = sessionStorage.getItem("email");
   const { coupleName } = useParams(); // useParams를 통해 coupleName 파라미터 추출
+  
+  console.log("coupleName : ", coupleName);
 
   // 모든 코스 조회 및 저장된 코스 목록 업데이트
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         // const resCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+        console.log("데이트 플레너의 coupleName", coupleName);
         const courses = await DatePlannerAxios.getCoursesByCoupleName(
           // resCoupleName.data
           coupleName
@@ -85,8 +93,9 @@ const DatePlanner = () => {
     try {
       let savedCourse;
       //이메일로 커플이름 불러오는 부분
-      const resCoupleName = await MemberAxiosApi.coupleNameSearch(email);
-      newCourse.coupleName = resCoupleName.data;
+      // const resCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+      // newCourse.coupleName = resCoupleName.data;
+      newCourse.coupleName = coupleName;
       if (isEditing) {
         console.log(
           `🔄 Updating course with ID ${savedCourses[currentCourseIndex].id}`
@@ -181,17 +190,15 @@ const DatePlanner = () => {
   // 장소 카드 클릭 시 지도 이동 및 장소 정보 표시
   const onClickPlaceCard = (place) => {
     const position = new window.kakao.maps.LatLng(place.y, place.x);
+    console.log("장소", position);
     map.panTo(position);
-    displayPlaceInfo(place);
+    // displayPlaceInfo(place);
   };
-  // 장소 정보 표시
-  const displayPlaceInfo = (place) => {
-    ReactDOM.render(<DisplaceInfo place={place} />, contentNode.current);
-    placeOverlay.current.setPosition(
-      new window.kakao.maps.LatLng(place.y, place.x)
-    );
-    placeOverlay.current.setMap(map);
-  };
+
+  
+
+ 
+
   // 모달 열기
   const openModal = async (index) => {
     try {
@@ -291,10 +298,12 @@ const DatePlanner = () => {
       </LBookContainer>
       <RBookContainer>
         <MapContainer
+          // clearOverlay={clearOverlay}
           mapContainer={mapContainer}
-          displayPlaceInfo={displayPlaceInfo}
+          // displayPlaceInfo={displayPlaceInfo}
           placeOverlay={placeOverlay}
-          contentNode={contentNode}
+          // setCurrentOverlay={setCurrentOverlay}
+          // currentOverlay={currentOverlay}
           map={map}
           setMap={setMap}
           currCategory={currCategory}

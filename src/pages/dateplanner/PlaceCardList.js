@@ -71,7 +71,7 @@ const AddButton = styled.button`
   }
 `;
 
-const PlaceCardList = ({ currCategory, places, onClickPlaceBtn, selectedPlaces }) => {
+const PlaceCardList = ({onClickPlaceCard, currCategory, places, onClickPlaceBtn, selectedPlaces }) => {
   const isSelected = (place) => selectedPlaces.some((selected) => selected.id === place.id);
   if (!currCategory) {
     
@@ -83,7 +83,7 @@ const PlaceCardList = ({ currCategory, places, onClickPlaceBtn, selectedPlaces }
       {places
         .filter((place) => !isSelected(place))
         .map((place, index) => (
-          <PlaceCard key={index}>
+          <PlaceCard onClick={() => onClickPlaceCard(place)} key={index}>
             <PlaceCardLink href={place.place_url} target="_blank" title={place.place_name}>
               <PlaceCardText>{place.place_name}</PlaceCardText>
             </PlaceCardLink>

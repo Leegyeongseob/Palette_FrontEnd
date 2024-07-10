@@ -46,41 +46,53 @@ const DDayInputBtn = styled.div`
   }
 `;
 const CoupleDday = () => {
+  const coupleName = sessionStorage.getItem("coupleName")
   const [isDday, setIsDday] = useState(false);
   const [saveCoupleName, setSaveCoupleName] = useState("");
   const [saveDday, setSaveDday] = useState("");
   const email = sessionStorage.getItem("email");
+
   useEffect(() => {
     dDayAxois();
-  }, [saveDday]);
+  }, [saveDday, coupleName]);
 
   //디데이 값을 가져오는 비동기함수
   const dDayAxois = async () => {
     //이메일로 커플이름 search
-    const coupleName = await MemberAxiosApi.coupleNameSearch(email);
-    setSaveCoupleName(coupleName.data);
+    const loginCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+    console.log("5.이메일로 커플이름 서치", loginCoupleName)
+    setSaveCoupleName(loginCoupleName.data);
+    console.log("6. 커플이름 저장",loginCoupleName.data)
     // Dday값 가져오기
-    const resDday = await MainAxios.searchDday(coupleName.data);
+    // const resDday = await MainAxios.searchDday(coupleName.data);
+    const resDday = await MainAxios.searchDday(coupleName);
+    console.log("7. 디데이 가져오기",resDday.data)
     if (resDday.data !== "") {
       setIsDday(true);
       setSaveDday(resDday.data);
+      console.log("if실행")
     } else {
       setIsDday(false);
+      console.log("else 실행")
     }
   };
   // 디데이 입력
   const dDayInputOnchangeHandler = (e) => {
     setSaveDday(e.target.value);
+    console.log("1 디데이 입력",saveDday)
   };
   //디데이 값을 저장하는 함수
   const dDaySaveOnclickHandler = () => {
     dDaySaveAxios();
+    console.log("2. 디데이 저장",dDaySaveAxios)
   };
   //디데이 값을 저장하는 Axios 함수
   const dDaySaveAxios = async () => {
     const res = await MainAxios.saveDday(saveCoupleName, saveDday);
     setIsDday(!res.data);
+    console.log("3.디데이 테스트", !res.data)
     dDayAxois();
+    console.log("4.디데이엑시오스 확인",dDayAxois)
   };
   return (
     <DdayInputDiv>

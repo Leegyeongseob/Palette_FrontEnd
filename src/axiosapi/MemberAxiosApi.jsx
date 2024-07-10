@@ -47,8 +47,8 @@ const MemberAxiosApi = {
     );
   },
   //커플 프로필 url을 가져오는 Axios
-  coupleProfileUrl: async (email) => {
-    return await AxiosInstance.get(`member/coupleProfileUrl?email=${email}`);
+  coupleProfileUrl: async (coupleName,email) => {
+    return await AxiosInstance.get(`member/coupleProfileUrl?coupleName=${coupleName}&email=${email}`);
   },
 };
 

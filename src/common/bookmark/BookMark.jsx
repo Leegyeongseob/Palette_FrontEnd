@@ -36,6 +36,7 @@ const BookMarks = styled.div`
 `;
 
 const BookMark = () => {
+  const coupleName = sessionStorage.getItem("coupleName")
   const navigator = useNavigate();
   // 모달 내용
   const [modalContent, setModalContent] = useState("");
@@ -89,7 +90,7 @@ const BookMark = () => {
   };
   const OpenDateplannerOnClickHandler = async () => {
     if ((await isCoupleAxios()) === true) {
-      navigator (`/dateplanner`);
+      navigator (`/${coupleName}/dateplanner`);
     } else {
       // 모달
       soloModal();

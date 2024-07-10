@@ -84,8 +84,6 @@ const PlaceInfoAfter = styled.div`
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 `;
 const DisplaceInfo = ({ place }) => {
-
-  
   return (
     <PlaceInfoWrap>
       <PlaceInfo>
@@ -97,11 +95,11 @@ const DisplaceInfo = ({ place }) => {
           <PlaceInfoTitle>{place.place_name}</PlaceInfoTitle>
         </PlaceInfoLink>
         <TextArea>
-        <PlaceInfoText title={place.road_address_name}>
-          {place.road_address_name}
-        </PlaceInfoText>
-        <PlaceInfoJibun>(지번 : {place.address_name})</PlaceInfoJibun>
-        <PlaceInfoTel>{place.phone}</PlaceInfoTel>
+          <PlaceInfoText title={place.road_address_name}>
+            {place.road_address_name}
+          </PlaceInfoText>
+          <PlaceInfoJibun>(지번 : {place.address_name})</PlaceInfoJibun>
+          <PlaceInfoTel>{place.phone}</PlaceInfoTel>
         </TextArea>
       </PlaceInfo>
       <PlaceInfoAfter />

@@ -293,8 +293,6 @@ const LoginPage = () => {
         // 다시 로그인한 커플의 정보를 확인합니다.
         const coupleName = sessionStorage.getItem("coupleName");
         secondEmailExist(coupleName);
-
-        console.log()
         navigate(`/${coupleName}/main-page`);
 
         // 커플일 경우

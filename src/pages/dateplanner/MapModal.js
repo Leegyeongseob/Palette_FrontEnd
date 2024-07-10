@@ -104,10 +104,12 @@ const MapModal = ({ isOpen, onClose, mapContainerRef, map, selectedPlaces, setNu
 
   return (
     <ModalWrapper>
+        
       <ModalContent>
         <CloseButton onClick={onClose}>&times;</CloseButton>
         <div ref={mapContainerRef} style={{ width: '100%', height: '400px' }}></div>
       </ModalContent>
+    
     </ModalWrapper>
   );
 };

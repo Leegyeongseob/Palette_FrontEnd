@@ -106,17 +106,19 @@ const CoupleImg = ({ clothes = false }) => {
   const [myDarling, setMyDarling] = useState("");
   const [saveFile, setSaveFile] = useState(null);
   const email = sessionStorage.getItem("email");
+  const coupleName = sessionStorage.getItem("coupleName");
 
   const coupleNickNameAxios = async () => {
-    const resCouple = await MemberAxiosApi.coupleNameSearch(email);
-    const resNickName = await MainAxios.searchNickName(email, resCouple.data);
+    // const resCouple = await MemberAxiosApi.coupleNameSearch(email);
+
+    const resNickName = await MainAxios.searchNickName(email, coupleName);
     setCoupleNickName(resNickName.data);
   };
 
   useEffect(() => {
     coupleNickNameAxios();
     coupleProfileAxios();
-  }, []);
+  }, [coupleName]);
 
   const AddImgBtnOnChangeHandler = (e) => {
     setSaveFile(e.target.files[0]);
@@ -155,7 +157,7 @@ const CoupleImg = ({ clothes = false }) => {
   };
 
   const coupleProfileAxios = async () => {
-    const res = await MemberAxiosApi.coupleProfileUrl(email);
+    const res = await MemberAxiosApi.coupleProfileUrl(coupleName,email);
     setImgUrl(res.data[0]);
     sessionStorage.setItem("imgUrl", res.data[0]);
     setMyDarling(res.data[1]);
