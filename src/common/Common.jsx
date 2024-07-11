@@ -5,7 +5,7 @@ moment.locale("ko"); // 한글 설정 적용
 
 const Common = {
   PALLETE_DOMAIN: "http://localhost:8111",
-  PALETTE_SOCKET_URL: "ws://localhost:8111/ws/chat",
+  PALETTE_SOCKET_URL: "ws://localhost/ws/chat",
 
   timeFromNow: (timestamp) => {
     return moment(timestamp).fromNow();

@@ -50,7 +50,8 @@ const Heart = styled.div`
 const Profile = styled.div`
   width: ${({ clothes }) => (clothes ? "5vw" : "6.771vw;")};
   height: ${({ clothes }) => (clothes ? "10vh" : "13.641vh;")};
-  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-image: ${({ imageurl }) =>
+    `url(${imageurl ? imageurl : manprofile})`};
   background-size: cover;
   border-radius: 50%;
   position: absolute;
@@ -181,7 +182,7 @@ const CoupleImg = ({ clothes = false }) => {
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
-          <Profile imageurl={imgUrl ? imgUrl : manprofile} clothes={clothes}>
+          <Profile imageurl={imgUrl} clothes={clothes}>
             <ProfileCover clothes={clothes}>
               <Label htmlFor="fileInput">Choose File</Label>
               <Input

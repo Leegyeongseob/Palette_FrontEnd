@@ -21,6 +21,10 @@ const KakaoRedirect = () => {
           kakaoName: tokendata.data.properties.nickname,
           kakaoImgUrl: tokendata.data.properties.profile_image,
         };
+        console.log(tokendata.data.kakao_account.email);
+        console.log(tokendata.data.id);
+        console.log(tokendata.data.properties.nickname);
+        console.log(tokendata.data.properties.profile_image);
         const emailExist = await LoginAxios.emailIsExist(
           tokendata.data.kakao_account.email
         );
@@ -37,7 +41,17 @@ const KakaoRedirect = () => {
           Common.setRefreshToken(response.data.refreshToken);
           sessionStorage.setItem("email", email);
           sessionStorage.setItem("kakaoImgUrl", ImgUrl);
-          navigate("/:coupleName/main-page");
+          //이메일로 커플이름 찾는 비동기 함수
+          const coupleNameSearchAxios = async (email) => {
+            const resCoupleName = await LoginAxios.emailToCoupleNameSearch(
+              email
+            );
+            console.log(resCoupleName.data);
+            // `coupleName`을 `sessionStorage`에 저장합니다.
+            sessionStorage.setItem("coupleName", resCoupleName.data);
+            navigate(`/${resCoupleName.data}/main-page`);
+          };
+          coupleNameSearchAxios(email);
         }
         //아니면 여기로 이동
         else {

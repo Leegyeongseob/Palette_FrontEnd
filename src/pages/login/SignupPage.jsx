@@ -327,7 +327,8 @@ const SignupPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   //카카오 로그인 props
   const location = useLocation();
-  const { kakaoProp, kakaoEmail, kakaopwd, kakaoName } = location.state || {};
+  const { kakaoProp, kakaoEmail, kakaopwd, kakaoName, kakaoImgUrl } =
+    location.state || {};
   console.log(kakaoProp);
   const closeModal = () => {
     setModalOpen(false);
@@ -499,7 +500,7 @@ const SignupPage = () => {
         isTermAccepted
       ) {
         //로그인 하는 부분
-        navigate("/:coupleName/main-page");
+        navigate(`/${inputCoupleName}/main-page`);
       }
     } catch (error) {
       console.log(error);
@@ -521,11 +522,21 @@ const SignupPage = () => {
       inputNickName,
       inputCoupleName
     );
-    kakaoLogin();
+    kakaoLogin(inputEmail, inputPwd);
+    sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
+    //이메일로 커플이름 찾는 비동기 함수
+    const coupleNameSearchAxios = async (email) => {
+      const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
+      console.log(resCoupleName.data);
+      // `coupleName`을 `sessionStorage`에 저장합니다.
+      sessionStorage.setItem("coupleName", resCoupleName.data);
+      navigate(`/${resCoupleName.data}/main-page`);
+    };
+    coupleNameSearchAxios(inputEmail);
   };
   //카카오 바로 로그인
-  const kakaoLogin = async () => {
-    const response = await LoginAxios.login(inputEmail, inputPwd);
+  const kakaoLogin = async (email, pwd) => {
+    const response = await LoginAxios.login(email, pwd);
     console.log("accessToken : ", response.data.accessToken);
     console.log("refreshToken : ", response.data.refreshToken);
     Common.setAccessToken(response.data.accessToken);
