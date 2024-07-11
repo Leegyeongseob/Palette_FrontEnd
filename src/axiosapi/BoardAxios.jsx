@@ -3,7 +3,7 @@ import axiosInstance from "./AxiosInstance";
 const BoardAxios = {
   fetchBoardData: async (page, size) => {
     try {
-      const response = await axiosInstance.get("/boards", {
+      const response = await axiosInstance.get("/boards/load", {
         params: {
           page: page,
           size: size,
@@ -11,7 +11,7 @@ const BoardAxios = {
       });
       return response.data;
     } catch (error) {
-      console.error("Failed to fetch board data", error);
+      console.error("게시글 데이터 불러오기 실패", error);
       throw error;
     }
   },
@@ -21,14 +21,14 @@ const BoardAxios = {
       const response = await axiosInstance.get(`/boards/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Failed to fetch board data with id: ${id}`, error);
+      console.error(`id가 ${id}인 게시글 데이터 불러오기 실패`, error);
       throw error;
     }
   },
 
   createBoard: async (boardReqDto) => {
     try {
-      const response = await axiosInstance.post("/boards", boardReqDto);
+      const response = await axiosInstance.post("/boards/save", boardReqDto);
       return response.data;
     } catch (error) {
       console.error("게시글 생성 실패:", error);
@@ -38,19 +38,22 @@ const BoardAxios = {
 
   updateBoard: async (id, boardReqDto) => {
     try {
-      const response = await axiosInstance.put(`/boards/${id}`, boardReqDto);
+      const response = await axiosInstance.put(
+        `/boards/update/${id}`,
+        boardReqDto
+      );
       return response.data;
     } catch (error) {
-      console.error(`Failed to update board with id: ${id}`, error);
+      console.error(`id가 ${id}인 게시글 업데이트 실패`, error);
       throw error;
     }
   },
 
   deleteBoard: async (id) => {
     try {
-      await axiosInstance.delete(`/boards/${id}`);
+      await axiosInstance.delete(`/boards/delete?id=${id}`);
     } catch (error) {
-      console.error(`Failed to delete board with id: ${id}`, error);
+      console.error(`id가 ${id}인 게시글 삭제 실패`, error);
       throw error;
     }
   },
