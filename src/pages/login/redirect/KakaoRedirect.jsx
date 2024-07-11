@@ -1,19 +1,21 @@
 import { useEffect } from "react";
 import SimpleLoginAxios from "../../../axiosapi/SimpleLoginAxios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginAxios from "../../../axiosapi/LoginAxios";
 import Common from "../../../common/Common";
 const KakaoRedirect = () => {
   const navigate = useNavigate();
-  const code = new URLSearchParams(window.location.search).get("code");
+  const location = useLocation();
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+
     const fetchKakaoAuthCode = async () => {
       try {
         // 인가 토큰으로 accessToken과 유저 정보 받아오는 부분
         const res = await SimpleLoginAxios.getToken(code);
-        const tokendata = await SimpleLoginAxios.tokenInfo(
-          res.data.access_token
-        );
+        //토큰으로 정보 받아오는 부분
+        const tokendata = await SimpleLoginAxios.tokenInfo(res.access_token);
         const propsToPass = {
           kakaoProp: true,
           kakaoEmail: tokendata.data.kakao_account.email,
@@ -21,10 +23,7 @@ const KakaoRedirect = () => {
           kakaoName: tokendata.data.properties.nickname,
           kakaoImgUrl: tokendata.data.properties.profile_image,
         };
-        console.log(tokendata.data.kakao_account.email);
-        console.log(tokendata.data.id);
-        console.log(tokendata.data.properties.nickname);
-        console.log(tokendata.data.properties.profile_image);
+        //이메일 존재하는지 확인하는 부분
         const emailExist = await LoginAxios.emailIsExist(
           tokendata.data.kakao_account.email
         );
@@ -63,6 +62,6 @@ const KakaoRedirect = () => {
     };
 
     fetchKakaoAuthCode();
-  }, [code, navigate]);
+  }, [location, navigate]);
 };
 export default KakaoRedirect;

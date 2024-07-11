@@ -329,7 +329,6 @@ const SignupPage = () => {
   const location = useLocation();
   const { kakaoProp, kakaoEmail, kakaopwd, kakaoName, kakaoImgUrl } =
     location.state || {};
-  console.log(kakaoProp);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -508,40 +507,38 @@ const SignupPage = () => {
   };
   //카카오로 온 경로
   const kakaoBtnOnClickHandler = () => {
-    if (kakaoProp) {
-      setInputEmail(kakaoEmail);
-      setInputName(kakaoName);
-      setInputPwd(kakaopwd);
-    }
     signUpAxios(
-      inputEmail,
-      inputPwd,
-      inputName,
+      kakaoEmail,
+      kakaopwd,
+      kakaoName,
       rrnFirstPart,
       rrnSecondPart,
       inputNickName,
       inputCoupleName
     );
-    kakaoLogin(inputEmail, inputPwd);
+    kakaoLogin(kakaoEmail, kakaopwd);
     sessionStorage.setItem("kakaoImgUrl", kakaoImgUrl);
-    //이메일로 커플이름 찾는 비동기 함수
-    const coupleNameSearchAxios = async (email) => {
-      const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
-      console.log(resCoupleName.data);
-      // `coupleName`을 `sessionStorage`에 저장합니다.
-      sessionStorage.setItem("coupleName", resCoupleName.data);
-      navigate(`/${resCoupleName.data}/main-page`);
-    };
-    coupleNameSearchAxios(inputEmail);
+
+    coupleNameSearch(kakaoEmail);
+  };
+  //이메일로 커플이름 찾는 비동기 함수
+  const coupleNameSearch = async (emailData) => {
+    const resCoupleName = await LoginAxios.emailToCoupleNameSearch(emailData);
+    console.log(resCoupleName.data);
+    // `coupleName`을 `sessionStorage`에 저장합니다.
+    sessionStorage.setItem("coupleName", resCoupleName.data);
+    navigate(`/${resCoupleName.data}/main-page`);
   };
   //카카오 바로 로그인
-  const kakaoLogin = async (email, pwd) => {
-    const response = await LoginAxios.login(email, pwd);
+  const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
+    console.log("이거 : " + kakoEmailvalue);
+    console.log("제발 : " + kakaoPwdValue);
+    const response = await LoginAxios.login(kakoEmailvalue, kakaoPwdValue);
     console.log("accessToken : ", response.data.accessToken);
     console.log("refreshToken : ", response.data.refreshToken);
     Common.setAccessToken(response.data.accessToken);
     Common.setRefreshToken(response.data.refreshToken);
-    sessionStorage.setItem("email", inputEmail);
+    sessionStorage.setItem("email", kakoEmailvalue);
   };
   // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {
@@ -554,6 +551,22 @@ const SignupPage = () => {
       inputNickName,
       inputCoupleName
     );
+  };
+  // 카카오 커플이름 등록 버튼 함수
+  const kakaoCoupleNameBtnOnClickHandler = () => {
+    // 신규 커플 등록
+    if (coupleNameDuplication === true) {
+      coupleNameInsertAxois(kakaoEmail, inputCoupleName);
+      //등록 모달창
+      setModalOpen(true);
+      SetHeaderContents("커플등록");
+      setModalContent("등록되었습니다.");
+    }
+    // 짝이 있는지 확인
+    else {
+      coupleEmailCheck(inputCoupleName);
+      setIsMyCoupleEmailForm(true);
+    }
   };
   //커플이름 onChange 함수 (중복확인)
   const handleInputCoupleName = (e) => {
@@ -592,8 +605,11 @@ const SignupPage = () => {
     }
   };
   //커플이름 Insert 비동기 함수
-  const coupleNameInsertAxois = async (email, coupleName) => {
-    const response = await LoginAxios.coupleNameInsert(email, coupleName);
+  const coupleNameInsertAxois = async (FirstEmailValue, coupleName) => {
+    const response = await LoginAxios.coupleNameInsert(
+      FirstEmailValue,
+      coupleName
+    );
     console.log(response.data);
   };
   //커플이름 존재시 두번째계정 Insert 비동기 함수
@@ -799,17 +815,33 @@ const SignupPage = () => {
               onChange={handleInputCoupleName}
             />
             <Empty />
-            {coupleNameDuplication ? (
+            {!kakaoProp ? (
+              coupleNameDuplication ? (
+                <EmailAthouized
+                  isActive={true}
+                  onClick={coupleNameBtnOnClickHandler}
+                >
+                  등록
+                </EmailAthouized>
+              ) : (
+                <EmailAthouized
+                  isActive={true}
+                  onClick={coupleNameBtnOnClickHandler}
+                >
+                  연결
+                </EmailAthouized>
+              )
+            ) : coupleNameDuplication ? (
               <EmailAthouized
                 isActive={true}
-                onClick={coupleNameBtnOnClickHandler}
+                onClick={kakaoCoupleNameBtnOnClickHandler}
               >
                 등록
               </EmailAthouized>
             ) : (
               <EmailAthouized
                 isActive={true}
-                onClick={coupleNameBtnOnClickHandler}
+                onClick={kakaoCoupleNameBtnOnClickHandler}
               >
                 연결
               </EmailAthouized>
