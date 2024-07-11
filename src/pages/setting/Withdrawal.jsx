@@ -179,6 +179,7 @@ const Withdrawal = () => {
   const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const emailplaceholder = sessionStorage.getItem("email");
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -275,6 +276,7 @@ const Withdrawal = () => {
               className="InputEmail"
               value={inputEmail}
               onChange={onChangeEmail}
+              placeholder={emailplaceholder}
             />
             <Empty></Empty>
             <EmailAthouized
