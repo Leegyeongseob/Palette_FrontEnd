@@ -4,6 +4,7 @@ import styled from "styled-components";
 import soleModalImg from "../../../img/commonImg/전구 아이콘.gif";
 import Modal from "../../datediary/Modal";
 import AlbumAxiosApi from "../../../axiosapi/AlbumAxiosApi";
+import { v4 as uuidv4 } from "uuid"; // Import uuidv4 from uuid library
 
 const BuyButton = styled.div`
   padding: 0.4rem 0.7rem;
@@ -37,11 +38,12 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
   };
 
   const handlePayment = async () => {
-    const response = await AlbumAxiosApi.getCustomer(userEmail);
-    const userName = response.data;
+    const customerName = await AlbumAxiosApi.getCustomer(userEmail);
+    const userName = customerName.data;
     const storeId = "store-7bad9ad7-1c77-49a1-b374-45668a8ef9cb"; // 포트원 관리자 콘솔에서 가져온 Store ID
     const channelKey = "channel-key-720b1a91-7a32-4fc4-ac44-40fa627f18b9"; // 포트원 관리자 콘솔에서 가져온 채널 키
-    const paymentId = `pay-${crypto.randomUUID()}`;
+    const shortId = crypto.randomUUID().slice(0, 32); // UUID 생성 후 처음 8자리 사용
+    const paymentId = `payment-${shortId}`;
     const totalAmount = amount; // 결제 금액
     const orderName = order;
     const currency = "CURRENCY_KRW";
@@ -51,7 +53,6 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
       phoneNumber: "010-0000-0000", // 구매자 전화번호 추가
       email: userEmail, // 구매자 이메일 추가
     };
-    console.log(customer);
 
     try {
       const response = await PortOne.requestPayment({
@@ -74,17 +75,17 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
         setModalText("결제를 취소하였습니다.");
       } else {
         // 결제가 성공한 경우
-        const notified = await fetch(
-          `${process.env.REACT_APP_SERVER_BASE_URL}/payment/complete`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              paymentId: response.paymentId,
-              // 추가적인 주문 정보를 여기에 전달
-            }),
-          }
-        );
+        const notified = await fetch(`http://localhost:5000/payment/complete`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentId: response.paymentId,
+            orderName: response.orderName,
+            totalAmount: response.totalAmount,
+            customer: response.customer,
+            // 추가적인 주문 정보를 여기에 전달
+          }),
+        });
 
         if (notified.ok) {
           setModalOpen(true);

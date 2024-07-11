@@ -8810,6 +8810,11 @@ react-js-pagination@^3.0.3:
     react "15.x.x - 16.x.x"
     tar "2.2.2"
 
+react-kakao-login@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-kakao-login/-/react-kakao-login-2.1.1.tgz#00e9f534d18ce500e31c02ef1d751a1c93dfefbd"
+  integrity sha512-t9htk41/i0zUY7q92mtqdqVZZ018BPi1DgbSVVrPCmuMKhZGJOnZ9OfaKLVPu3sn8QXbJc3dPwqKOiElpb44hQ==
+
 react-kakao-maps@^0.0.13:
   version "0.0.13"
   resolved "https://registry.npmjs.org/react-kakao-maps/-/react-kakao-maps-0.0.13.tgz"
@@ -10388,6 +10393,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 uuid@^8.3.2:
   version "8.3.2"
