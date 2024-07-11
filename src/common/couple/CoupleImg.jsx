@@ -108,16 +108,28 @@ const CoupleImg = ({ clothes = false }) => {
   const email = sessionStorage.getItem("email");
   const coupleName = sessionStorage.getItem("coupleName");
 
+  //카카오 로그인시 프로필 자동 변경
+  const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
+
+  //카카오 프로필 사진저장 비동기 함수
+  const kakaoProfileImgAxios = async (email, kakaoProfileUrl) => {
+    const res = await MemberAxiosApi.profileUrlSave(email, kakaoProfileUrl);
+    if (kakaoProfileUrl && res.data) {
+      setImgUrl(kakaoProfileUrl);
+    }
+  };
+
   const coupleNickNameAxios = async () => {
-    // const resCouple = await MemberAxiosApi.coupleNameSearch(email);
+    const resCouple = await MemberAxiosApi.coupleNameSearch(email);
 
     const resNickName = await MainAxios.searchNickName(email, coupleName);
     setCoupleNickName(resNickName.data);
   };
 
   useEffect(() => {
-    coupleNickNameAxios();
-    coupleProfileAxios();
+    kakaoProfileImgAxios(email, kakaoProfileUrl);
+    coupleNickNameAxios(email);
+    coupleProfileAxios(email);
   }, [coupleName]);
 
   const AddImgBtnOnChangeHandler = (e) => {
@@ -128,7 +140,7 @@ const CoupleImg = ({ clothes = false }) => {
     handleFileUpload();
   }, [saveFile]);
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (email) => {
     if (saveFile) {
       const storageRef = ref(profileStorage, saveFile.name);
       try {
@@ -156,8 +168,8 @@ const CoupleImg = ({ clothes = false }) => {
     }
   };
 
-  const coupleProfileAxios = async () => {
-    const res = await MemberAxiosApi.coupleProfileUrl(coupleName,email);
+  const coupleProfileAxios = async (email) => {
+    const res = await MemberAxiosApi.coupleProfileUrl(coupleName, email);
     setImgUrl(res.data[0]);
     sessionStorage.setItem("imgUrl", res.data[0]);
     setMyDarling(res.data[1]);

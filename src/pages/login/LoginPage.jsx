@@ -11,6 +11,9 @@ import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Common from "../../common/Common";
 import Modal from "../../common/utils/Modal";
+import GoogleAndNaverNotLogin from "../../img/loginImg/구글,네이버 간편 로그인.gif";
+import LoginModal from "../../common/utils/Modal";
+
 const Contain = styled.div`
   width: auto;
   height: auto;
@@ -231,7 +234,12 @@ const LoginPage = () => {
   const [isCouple, setIsCouple] = useState();
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
-  const coupleName = sessionStorage.getItem("coupleName");
+  // 모달 헤더
+  const [modalHeader, setModalheader] = useState("");
+  // 모달 이미지
+  const [modalImg, setModalImg] = useState();
+  // 모달 변경
+  const [isModalImg, setIsModalImg] = useState(false);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -285,6 +293,7 @@ const LoginPage = () => {
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
         Common.setRefreshToken(response.data.refreshToken);
+        sessionStorage.setItem("email", email);
 
         // 커플 이름을 세션에 저장합니다.
         const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
@@ -307,11 +316,15 @@ const LoginPage = () => {
         // // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
       } else {
         setModalOpen(true);
+        setIsModalImg(false);
+        setModalheader("로그인 에러");
         setModalContent("암호화에 실패했습니다.");
       }
     } catch (error) {
       console.log(error);
       setModalOpen(true);
+      setModalheader("로그인 에러");
+      setIsModalImg(false);
       setModalContent("계정이 없습니다.");
     }
   };
@@ -320,9 +333,50 @@ const LoginPage = () => {
       loginBtnHandler();
     }
   };
+  //카카오 간편 로그인 이벤트 함수
+  const kakaoLoginOnClick = () => {
+    // 직접 구현
+    const kakaoAuthorizeAxios = async () => {
+      const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+      const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+      const KAKAO_PATH = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
+      window.location.href = KAKAO_PATH;
+    };
+    kakaoAuthorizeAxios();
+  };
+  const codeModalOkBtnHandler = () => {
+    closeModal();
+  };
+  //모달 함수
+  const modalClickHandler = () => {
+    setModalOpen(true);
+    setIsModalImg(true);
+    setModalImg(GoogleAndNaverNotLogin);
+    setModalContent("서비스를 지원하지 않습니다. 카카오 서비스만 지원합니다.");
+  };
   return (
     <Contain>
+      {isModalImg ? (
+        <Modal
+          open={modalOpen}
+          header={modalHeader}
+          type={true}
+          confirm={codeModalOkBtnHandler}
+          img={modalImg}
+        >
+          {modalContent}
+        </Modal>
+      ) : (
+        <LoginModal
+          open={modalOpen}
+          header={modalHeader}
+          type={true}
+          confirm={codeModalOkBtnHandler}
+        >
+          {modalContent}
+        </LoginModal>
+      )}
       <IconDiv>
         <Icon />
       </IconDiv>
@@ -375,13 +429,13 @@ const LoginPage = () => {
       <SimpleLogin>
         <div>
           <CircleSide>
-            <GoogleIcon />
+            <GoogleIcon onClick={() => modalClickHandler()} />
           </CircleSide>
           <CircleSide>
-            <NaverIcon />
+            <NaverIcon onClick={() => modalClickHandler()} />
           </CircleSide>
           <CircleSide>
-            <KakaoIcon />
+            <KakaoIcon onClick={kakaoLoginOnClick} />
           </CircleSide>
         </div>
       </SimpleLogin>
@@ -390,9 +444,6 @@ const LoginPage = () => {
           Login
         </LoginButton>
       </ButtonDiv>
-      <Modal open={modalOpen} close={closeModal} header="로그인 에러">
-        {modalContent}
-      </Modal>
     </Contain>
   );
 };

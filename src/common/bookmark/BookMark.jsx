@@ -6,7 +6,7 @@ import theme3 from "../../img/background/theme/3.jpg";
 import clothesBg from "../../img/background/theme/clothes_background.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../../pages/datediary/Modal";
 import soleModalImg from "../../img/mainImg/솔로잠금.gif";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
@@ -36,7 +36,7 @@ const BookMarks = styled.div`
 `;
 
 const BookMark = () => {
-  const coupleName = sessionStorage.getItem("coupleName")
+  const coupleName = sessionStorage.getItem("coupleName");
   const navigator = useNavigate();
   // 모달 내용
   const [modalContent, setModalContent] = useState("");
@@ -90,7 +90,7 @@ const BookMark = () => {
   };
   const OpenDateplannerOnClickHandler = async () => {
     if ((await isCoupleAxios()) === true) {
-      navigator (`/${coupleName}/dateplanner`);
+      navigator(`/${coupleName}/dateplanner`);
     } else {
       // 모달
       soloModal();

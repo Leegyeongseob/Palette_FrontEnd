@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
+import Common from "../../common/Common";
 
 const Contain = styled.div`
   width: auto;
@@ -324,6 +325,10 @@ const SignupPage = () => {
   const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  //카카오 로그인 props
+  const location = useLocation();
+  const { kakaoProp, kakaoEmail, kakaopwd, kakaoName } = location.state || {};
+  console.log(kakaoProp);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -485,12 +490,48 @@ const SignupPage = () => {
         isTermAccepted
       ) {
         navigate("/login-page");
+      } else if (
+        response.data === "Success" &&
+        rrnFirstPart &&
+        rrnSecondPart &&
+        inputNickName &&
+        inputCoupleName &&
+        isTermAccepted
+      ) {
+        //로그인 하는 부분
+        navigate("/:coupleName/main-page");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
+  //카카오로 온 경로
+  const kakaoBtnOnClickHandler = () => {
+    if (kakaoProp) {
+      setInputEmail(kakaoEmail);
+      setInputName(kakaoName);
+      setInputPwd(kakaopwd);
+    }
+    signUpAxios(
+      inputEmail,
+      inputPwd,
+      inputName,
+      rrnFirstPart,
+      rrnSecondPart,
+      inputNickName,
+      inputCoupleName
+    );
+    kakaoLogin();
+  };
+  //카카오 바로 로그인
+  const kakaoLogin = async () => {
+    const response = await LoginAxios.login(inputEmail, inputPwd);
+    console.log("accessToken : ", response.data.accessToken);
+    console.log("refreshToken : ", response.data.refreshToken);
+    Common.setAccessToken(response.data.accessToken);
+    Common.setRefreshToken(response.data.refreshToken);
+    sessionStorage.setItem("email", inputEmail);
+  };
   // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {
     signUpAxios(
@@ -618,7 +659,7 @@ const SignupPage = () => {
   };
   return (
     <Contain>
-      <TitleDiv>회원가입</TitleDiv>
+      <TitleDiv>{kakaoProp ? "추가작성" : "회원가입"}</TitleDiv>
       <Modal
         open={modalOpen}
         header={headerContents}
@@ -628,24 +669,26 @@ const SignupPage = () => {
         {modalContent}
       </Modal>
       <InputDiv>
-        <div>
-          <InputDetailDiv>
-            <label>이메일</label>
-            <input
-              className="InputEmail"
-              value={inputEmail}
-              onChange={onChangeEmail}
-            />
-            <Empty></Empty>
-            <EmailAthouized
-              isActive={isId}
-              onClick={emailCertificationBtnHandler}
-            >
-              인증
-            </EmailAthouized>
-          </InputDetailDiv>
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-        </div>
+        {!kakaoProp && (
+          <div>
+            <InputDetailDiv>
+              <label>이메일</label>
+              <input
+                className="InputEmail"
+                value={inputEmail}
+                onChange={onChangeEmail}
+              />
+              <Empty></Empty>
+              <EmailAthouized
+                isActive={isId}
+                onClick={emailCertificationBtnHandler}
+              >
+                인증
+              </EmailAthouized>
+            </InputDetailDiv>
+            {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+          </div>
+        )}
         {isEmailSent && (
           <InputDetailDiv>
             <label>인증코드</label>
@@ -665,40 +708,46 @@ const SignupPage = () => {
             </EmailAthouized>
           </InputDetailDiv>
         )}
-        <div>
+        {!kakaoProp && (
+          <div>
+            <InputDetailDiv>
+              <label>비밀번호</label>
+              <input
+                type="password"
+                className="InputClass"
+                value={inputPwd}
+                onChange={onChangePw}
+              />
+            </InputDetailDiv>
+            {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
+          </div>
+        )}
+        {!kakaoProp && (
+          <div>
+            <InputDetailDiv>
+              <label>비밀번호 확인</label>
+              <input
+                type="password"
+                className="InputClass"
+                value={inputPwdCheck}
+                onChange={onCheckPw}
+              />
+            </InputDetailDiv>
+            {inputPwdCheck && (
+              <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
+            )}
+          </div>
+        )}
+        {!kakaoProp && (
           <InputDetailDiv>
-            <label>비밀번호</label>
+            <label>이름</label>
             <input
-              type="password"
               className="InputClass"
-              value={inputPwd}
-              onChange={onChangePw}
+              value={inputName}
+              onChange={handleInputName}
             />
           </InputDetailDiv>
-          {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-        </div>
-        <div>
-          <InputDetailDiv>
-            <label>비밀번호 확인</label>
-            <input
-              type="password"
-              className="InputClass"
-              value={inputPwdCheck}
-              onChange={onCheckPw}
-            />
-          </InputDetailDiv>
-          {inputPwdCheck && (
-            <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
-          )}
-        </div>
-        <InputDetailDiv>
-          <label>이름</label>
-          <input
-            className="InputClass"
-            value={inputName}
-            onChange={handleInputName}
-          />
-        </InputDetailDiv>
+        )}
         <div>
           <InputDetailDiv>
             <label>주민등록번호</label>
@@ -848,25 +897,42 @@ const SignupPage = () => {
           </TermsActions>
         </TermsForm>
       </InputDiv>
-      <ButtonDiv>
-        <SignupButton
-          isActive={
-            isEmail &&
-            isCode &&
-            isPwd &&
-            isPwdCheack &&
-            rrnFirstPart &&
-            rrnSecondPart &&
-            inputName &&
-            inputNickName &&
-            inputCoupleName &&
-            isTermAccepted
-          }
-          onClick={signupBtnOnclickHandler}
-        >
-          가입하기
-        </SignupButton>
-      </ButtonDiv>
+      {kakaoProp ? (
+        <ButtonDiv>
+          <SignupButton
+            isActive={
+              rrnFirstPart &&
+              rrnSecondPart &&
+              inputNickName &&
+              inputCoupleName &&
+              isTermAccepted
+            }
+            onClick={kakaoBtnOnClickHandler}
+          >
+            가입하기
+          </SignupButton>
+        </ButtonDiv>
+      ) : (
+        <ButtonDiv>
+          <SignupButton
+            isActive={
+              isEmail &&
+              isCode &&
+              isPwd &&
+              isPwdCheack &&
+              rrnFirstPart &&
+              rrnSecondPart &&
+              inputName &&
+              inputNickName &&
+              inputCoupleName &&
+              isTermAccepted
+            }
+            onClick={signupBtnOnclickHandler}
+          >
+            가입하기
+          </SignupButton>
+        </ButtonDiv>
+      )}
     </Contain>
   );
 };

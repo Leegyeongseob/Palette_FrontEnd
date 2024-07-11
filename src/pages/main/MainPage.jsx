@@ -220,7 +220,7 @@ const CloseBtn = styled(IoMdCloseCircleOutline)`
   }
 `;
 const MainPage = () => {
-  const coupleName = sessionStorage.getItem("coupleName")
+  const coupleName = sessionStorage.getItem("coupleName");
   const navigate = useNavigate();
   // 커플 이름 검색 후 추가
   const [coupleVisit, setCoupleVisit] = useState("");
@@ -245,15 +245,14 @@ const MainPage = () => {
   const email = sessionStorage.getItem("email");
   useEffect(() => {
     dDayAxois();
-  }, [isDday,coupleName]);
+  }, [isDday, coupleName]);
 
   //디데이 값을 가져오는 비동기함수
   const dDayAxois = async () => {
     //이메일로 커플이름 search
-    // const coupleName = await MemberAxiosApi.coupleNameSearch(email);
+    const coupleName = await MemberAxiosApi.coupleNameSearch(email);
     // Dday값 가져오기
-    // const resDday = await MainAxios.searchDday(coupleName.data);
-    const resDday = await MainAxios.searchDday(coupleName);
+    const resDday = await MainAxios.searchDday(coupleName.data);
     console.log(resDday.data);
     if (resDday.data !== "") {
       setIsDday(true);
