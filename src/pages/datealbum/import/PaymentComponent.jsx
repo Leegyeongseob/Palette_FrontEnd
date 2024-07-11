@@ -4,7 +4,7 @@ import styled from "styled-components";
 import soleModalImg from "../../../img/commonImg/전구 아이콘.gif";
 import Modal from "../../datediary/Modal";
 import AlbumAxiosApi from "../../../axiosapi/AlbumAxiosApi";
-import { v4 as uuidv4 } from "uuid"; // Import uuidv4 from uuid library
+import AxiosApi from "../../../axiosapi/AlbumAxiosApi";
 
 const BuyButton = styled.div`
   padding: 0.4rem 0.7rem;
@@ -53,8 +53,13 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
       phoneNumber: "010-0000-0000", // 구매자 전화번호 추가
       email: userEmail, // 구매자 이메일 추가
     };
+    // const fullName= userName; // 구매자 이름 추가
+    // const phoneNumber= "010-0000-0000"; // 구매자 전화번호 추가
+    // const email= userEmail; // 구매자 이메일 추가
 
     try {
+      const token = localStorage.getItem('accessToken');
+
       const response = await PortOne.requestPayment({
         storeId: storeId,
         channelKey: channelKey,
@@ -64,6 +69,9 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
         currency: currency,
         payMethod: payMethod,
         customer: customer,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         // 모바일 환경을 고려한 리디렉션 URL 설정
         redirectUrl: `${window.location.origin}/payment-redirect`,
       });
@@ -77,17 +85,29 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
         // 결제가 성공한 경우
         const notified = await fetch(`http://localhost:5000/payment/complete`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}` 
+           },
           body: JSON.stringify({
             paymentId: response.paymentId,
-            orderName: response.orderName,
-            totalAmount: response.totalAmount,
-            customer: response.customer,
+            orderName: orderName,
+            totalAmount: totalAmount,
+            customer: customer,
             // 추가적인 주문 정보를 여기에 전달
           }),
         });
 
         if (notified.ok) {
+          const saveData = {
+            email: userEmail,
+            paymentId: paymentId,
+            orderName: orderName,
+            totalAmount: totalAmount,
+            fullName: userName,
+          };
+          const response = await AxiosApi.getPayment(saveData);
+          console.log("URLs saved successfully:", response.data);
           setModalOpen(true);
           setModalType(false);
           setModalText("결제 성공!");
@@ -100,8 +120,8 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
       }
     } catch (error) {
       setModalOpen(true);
-      setModalText("결제 성공!");
-      console.error("결제 중 오류 발생:", error);
+      setModalText("결제 중 에러 발생");
+      console.error("결제 중 에러 발생:", error);
     }
   };
 

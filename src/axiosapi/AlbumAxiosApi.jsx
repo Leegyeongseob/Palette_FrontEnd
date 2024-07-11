@@ -29,5 +29,9 @@ const AlbumAxiosApi = {
       },
     });
   },
+  
+  getPayment:async (saveData) => {
+    return await AxiosInstance.post("/payment/complete", saveData);
+  },
 };
 export default AlbumAxiosApi;
