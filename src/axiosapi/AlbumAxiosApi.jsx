@@ -21,5 +21,13 @@ const AlbumAxiosApi = {
       },
     });
   },
+
+  getCustomer: async (email) => {
+    return await AxiosInstance.get("/member/customer", {
+      params: {
+        email: email,
+      },
+    });
+  },
 };
 export default AlbumAxiosApi;

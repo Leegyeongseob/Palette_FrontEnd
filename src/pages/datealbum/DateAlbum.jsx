@@ -6,7 +6,7 @@ import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import PagePop from "./import/PagePop";
 import TemaPop from "./import/TemaPop";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
 import {
   storage,
@@ -272,7 +272,7 @@ const DateAlbum = () => {
   const [pageOpen, setPageOpen] = useState(false);
   const [temaOpen, setTemaOpen] = useState(false);
   const [temaChange, setTemaChange] = useState(false);
-  const [bgColor, setBgColor] = useState('#eccdaf');
+  const [bgColor, setBgColor] = useState("#eccdaf");
 
   const closeModal = () => {
     setPageOpen(false);
@@ -285,11 +285,10 @@ const DateAlbum = () => {
   };
   const handleTemaPopup = () => {
     setTemaOpen(true);
-  };  
+  };
   const handleTemaChange = () => {
     setTemaChange(true);
   };
-
 
   const handleNext = () => {
     setAnimate(true);
@@ -428,42 +427,57 @@ const DateAlbum = () => {
   };
 
   // 이미지 박스 렌더링 함수
-  const renderImageBoxes = (startIndex, endIndex) => {
-    return imgBoxes.slice(startIndex, endIndex).map((box, index) => (
+  const ImgBoxComponent = ({
+    index,
+    startIndex,
+    box,
+    image,
+    handleDeleteImage,
+    handleFileInputChange,
+  }) => {
+    const fileInputRef = useRef(null);
+
+    const handleClick = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+
+    return (
       <ImgBox
-        key={startIndex + index}
-        onClick={() =>
-          images[startIndex + index] && handleDeleteImage(startIndex + index)
-        }
-        hasImage={images[startIndex + index] !== null}
+        onClick={() => image && handleDeleteImage(index)}
+        hasImage={image !== null}
       >
-        {images[startIndex + index] && (
-          <Img
-            src={images[startIndex + index]}
-            alt={`album-${startIndex + index + 1}`}
-          />
-        )}
+        {image && <Img src={image} alt={`album-${index + 1}`} />}
         {box === "+" && (
           <>
-            <PlusButton
-              onClick={() =>
-                document
-                  .getElementById(`fileInput${startIndex + index}`)
-                  .click()
-              }
-            >
-              +
-            </PlusButton>
+            <PlusButton onClick={handleClick}>+</PlusButton>
             <input
               type="file"
-              id={`fileInput${startIndex + index}`}
+              ref={fileInputRef}
               style={{ display: "none" }}
-              onChange={(e) => handleFileInputChange(startIndex + index, e)}
+              onChange={(e) => handleFileInputChange(index, e)}
             />
           </>
         )}
       </ImgBox>
-    ));
+    );
+  };
+
+  const renderImageBoxes = (startIndex, endIndex) => {
+    return imgBoxes
+      .slice(startIndex, endIndex)
+      .map((box, index) => (
+        <ImgBoxComponent
+          key={startIndex + index}
+          index={startIndex + index}
+          startIndex={startIndex}
+          box={box}
+          image={images[startIndex + index]}
+          handleDeleteImage={handleDeleteImage}
+          handleFileInputChange={handleFileInputChange}
+        />
+      ));
   };
 
   return (
@@ -501,14 +515,8 @@ const DateAlbum = () => {
         close={closeModal}
         setBgColor={setBgColor}
       />
-      <TemaPop
-        open={temaOpen}
-        close={closeModal}
-      />
-      <PagePop
-        open={pageOpen}
-        close={closeModal}
-      />
+      <TemaPop open={temaOpen} close={closeModal} />
+      <PagePop open={pageOpen} close={closeModal} />
     </>
   );
 };
