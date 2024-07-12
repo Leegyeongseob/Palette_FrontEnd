@@ -13,6 +13,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
 import { GiArchiveResearch } from "react-icons/gi";
 const BookSign = styled.div`
@@ -288,6 +289,27 @@ const MainPage = () => {
   const [searchCoupleList, setSearchCoupleList] = useState([]);
   // 내 방이면 true 아니면 false
   const [isMyHome, setIsMyHome] = useState(true);
+  //갤러리에서 이미지 메인 화면에 오도록 저장하는 변수
+  const [gallaryImg, setGallaryImg] = useState(Array(4).fill(null));
+  //갤러리 이미지 받아오는 비동기 함수
+  const listGallaryImg = async (siteCoupleName) => {
+    //커플 이름으로 email 받아오는 await 함수
+    const res = await MemberAxiosApi.firstEmailGet(siteCoupleName);
+    //email로 gallary 이미지들 받아오는 await 함수
+    const gallaryList = await AlbumAxiosApi.getImages(res.data);
+    const galleries = gallaryList.data;
+    // 평탄화 작업
+    const updatedImages = galleries.slice(0, 4).map((image) => image.urls[0]);
+    setGallaryImg(updatedImages);
+  };
+
+  useEffect(() => {
+    listGallaryImg(coupleName);
+  }, [coupleName]);
+
+  useEffect(() => {
+    console.log(gallaryImg);
+  }, [gallaryImg]);
   //커플 이름 검색
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -477,12 +499,12 @@ const MainPage = () => {
         </DdayDiv>
         <GalleryDiv>
           <PictureDiv>
-            <Picture imageurl={couple1} />
-            <Picture imageurl={couple2} />
+            <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} />
+            <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} />
           </PictureDiv>
           <PictureDiv>
-            <Picture imageurl={couple3} />
-            <Picture imageurl={couple4} />
+            <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} />
+            <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} />
           </PictureDiv>
         </GalleryDiv>
       </BookSign>
