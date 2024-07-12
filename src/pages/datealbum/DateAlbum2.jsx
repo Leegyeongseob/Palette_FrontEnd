@@ -1,8 +1,6 @@
 import styled, { keyframes, css } from "styled-components";
 import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
-import CoupleDday from "../../common/couple/CoupleDday";
-import CoupleImg from "../../common/couple/CoupleImgMini";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

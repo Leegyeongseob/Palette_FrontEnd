@@ -29,9 +29,13 @@ const AlbumAxiosApi = {
       },
     });
   },
-  
-  getPayment:async (saveData) => {
+
+  getPayment: async (saveData) => {
     return await AxiosInstance.post("/payment/complete", saveData);
+  },
+
+  getAmount: async (email) => {
+    return await AxiosInstance.get("/payment/amount", email);
   },
 };
 export default AlbumAxiosApi;

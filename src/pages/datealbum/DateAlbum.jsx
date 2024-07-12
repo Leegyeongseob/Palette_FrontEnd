@@ -8,6 +8,8 @@ import TemaPop from "./import/TemaPop";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
+import Modal from "../../pages/datediary/Modal";
+import modalImg from "../../img/commonImg/전구 아이콘.gif";
 import {
   storage,
   ref,
@@ -273,6 +275,38 @@ const DateAlbum = () => {
   const [temaOpen, setTemaOpen] = useState(false);
   const [temaChange, setTemaChange] = useState(false);
   const [bgColor, setBgColor] = useState("#eccdaf");
+  const [modalContent, setModalContent] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeNextModal();
+    navigator("/date-album");
+  };
+  const closeNextModal = () => {
+    setModalOpen(false);
+  };
+  //솔로 함수
+  const nextModal = () => {
+    setModalOpen(true);
+    setModalContent("페이지 구매 후 이용 가능합니다.");
+  };
+  const isAmountAxios = async () => {
+    const amountTotal = await AlbumAxiosApi.getAmount(userEmail);
+    return amountTotal.data;
+  };
+
+  const handleNext = () => {
+    if (isAmountAxios() % 1000 === 0) {
+      setAnimate(true);
+      setTimeout(() => {
+        navigate("/date-album2");
+      }, 1800);
+    } else {
+      // 모달
+      nextModal();
+      console.log("솔로는 웁니다.");
+    }
+  };
 
   const closeModal = () => {
     setPageOpen(false);
@@ -288,13 +322,6 @@ const DateAlbum = () => {
   };
   const handleTemaChange = () => {
     setTemaChange(true);
-  };
-
-  const handleNext = () => {
-    setAnimate(true);
-    setTimeout(() => {
-      navigate("/date-album2");
-    }, 1800); // 애니메이션 지속 시간 후 페이지 이동
   };
 
   // 이미지 불러오기
@@ -517,6 +544,15 @@ const DateAlbum = () => {
       />
       <TemaPop open={temaOpen} close={closeModal} />
       <PagePop open={pageOpen} close={closeModal} />
+      <Modal
+        open={modalOpen}
+        header="안내"
+        type={true}
+        confirm={codeModalOkBtnHandler}
+        img={modalImg}
+      >
+        {modalContent}
+      </Modal>
     </>
   );
 };
