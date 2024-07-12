@@ -14,6 +14,7 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
+import { GiArchiveResearch } from "react-icons/gi";
 const BookSign = styled.div`
   width: 25.8vw;
   height: 69vh;
@@ -132,13 +133,16 @@ const PictureDiv = styled.div`
 `;
 const VisitDiv = styled.div`
   width: 15vw;
-  height: 18vh;
+  height: auto;
   border-radius: 10px;
   border: 1px solid #fff;
-  display: flex;
-  & > input {
+  & > .visitDiv {
+    display: flex;
+  }
+  & > div > input {
     width: 14vw;
     height: 3vh;
+    padding-left: 1.083vw;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     outline: none;
@@ -147,9 +151,29 @@ const VisitDiv = styled.div`
     font-weight: 500;
   }
 `;
-const VisitPlus = styled(FcPlus)`
+const VisitList = styled.div`
+  width: 12vw;
+  height: 3vh;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 0.8vw;
+  font-weight: 500;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    transform: scale(0.9);
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+    color: #5549f7;
+  }
+`;
+const VisitSearchBtn = styled(GiArchiveResearch)`
   width: 1.563vw;
   height: 3.148vh;
+  color: green;
   cursor: pointer;
 `;
 const SettingDiv = styled.div`
@@ -158,6 +182,9 @@ const SettingDiv = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+  & > .space {
+    width: 1vw;
+  }
 `;
 const Setting = styled(IoSettingsSharp)`
   width: 1.563vw;
@@ -215,25 +242,71 @@ const CloseBtn = styled(IoMdCloseCircleOutline)`
   height: 3.148vh;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
+
   &:hover {
     color: blue;
+  }
+`;
+const VisitContainer = styled.div`
+  width: 25vw;
+  height: 13vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const BackMyHome = styled.div`
+  width: 5vw;
+  height: 3vh;
+  font-size: 0.6vw;
+  font-weight: 700;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
   }
 `;
 const MainPage = () => {
   const coupleName = sessionStorage.getItem("coupleName");
   const navigate = useNavigate();
   // 커플 이름 검색 후 추가
-  const [coupleVisit, setCoupleVisit] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
   // 설정 폼 변화
   const [settingForm, setSettingForm] = useState(false);
   // 커플 이름 검색 함수
-  const searchCoupleName = () => {
-    // 커플 이름이 같은게 존재하는지 확인하는 부분.
-  };
+
   //디데이 값 저장
   const [saveDday, setSaveDday] = useState("");
   //디데이 존재하는지
   const [isDday, setIsDday] = useState(false);
+  //searchCouple 포함 리스트 저장
+  const [searchCoupleList, setSearchCoupleList] = useState([]);
+  //커플 이름 검색
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (index) => {
+    const coupleName = searchCoupleList[index];
+    if (coupleName) {
+      sessionStorage.setItem("coupleName", coupleName);
+      console.log(
+        "오픈북 검색창 searchTerm",
+        searchTerm,
+        " coupleName",
+        coupleName
+      );
+      navigate(`/${coupleName}/main-page`);
+      setSearchTerm(""); // 필요시 네비게이션 후 검색어 초기화
+    }
+  };
 
   //설정 폼 변화 함수
   const settingFromStatus = () => {
@@ -269,6 +342,28 @@ const MainPage = () => {
   const fiveHundredCalculate = () => {
     return saveDday - 500;
   };
+  // 방문 검색 onChange 함수
+  const visitSearchOnChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const coupleNameListAxios = async (visitCoupleName) => {
+    if (visitCoupleName !== "") {
+      const res = await MainAxios.visitCoupleNameSearchList(visitCoupleName);
+      setSearchCoupleList(res.data);
+    } else {
+      setSearchCoupleList([]);
+    }
+  };
+  useEffect(() => {
+    coupleNameListAxios(searchTerm);
+  }, [searchTerm]);
+  const goHomeOnClickHandler = () => {
+    MycoupleNameSearch(email);
+  };
+  const MycoupleNameSearch = async (emailValue) => {
+    const myCoupleNameData = await MemberAxiosApi.coupleNameSearch(emailValue);
+    navigate(`/${myCoupleNameData.data}/main-page`);
+  };
   return (
     <BookTheme>
       <BookSign>
@@ -280,18 +375,34 @@ const MainPage = () => {
         </CoupleDiv>
         <CoupleDiv>
           <CoupleDday />
-          {/* <VisitDiv>
-            <input
-              type="text"
-              value={coupleVisit}
-              onChange={searchCoupleName}
-            />
-            <VisitPlus />
-          </VisitDiv> */}
+          <VisitContainer>
+            <VisitDiv>
+              <div className="visitDiv">
+                <input
+                  type="text"
+                  placeholder="다른 미니홈피 검색"
+                  value={searchTerm}
+                  onChange={visitSearchOnChange}
+                  onKeyDown={handleKeyPress}
+                />
+                <VisitSearchBtn />
+              </div>
+              {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
+              {searchCoupleList.map((couple, index) => (
+                <VisitList key={index} onClick={() => handleSearch(index)}>
+                  {couple}
+                </VisitList>
+              ))}
+            </VisitDiv>
+          </VisitContainer>
         </CoupleDiv>
       </BookSign>
       <BookSign>
         <SettingDiv>
+          <BackMyHome onClick={goHomeOnClickHandler}>
+            내 홈으로 돌아가기
+          </BackMyHome>
+          <div className="space" />
           {!settingForm && (
             <Setting onClick={settingFromStatus} openform={settingForm} />
           )}

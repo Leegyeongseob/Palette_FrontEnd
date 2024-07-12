@@ -60,30 +60,6 @@ const TopContain = styled.div`
 `;
 const OpenBook = () => {
   const coupleName = sessionStorage.getItem("coupleName");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [triggerSearch, setTriggerSearch] = useState(false);
-  const navigate = useNavigate();
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  const handleSearch = () => {
-    if (searchTerm.trim() !== "") {
-      // sessionStorage.clear(); // 로컬 스토리지를 초기화
-      sessionStorage.setItem("coupleName", searchTerm);
-      console.log(
-        "오픈북 검색창 searchTerm",
-        searchTerm,
-        " coupleName",
-        coupleName
-      );
-      navigate(`/${searchTerm}/main-page`);
-    }
-  };
-
   return (
     <Background>
       <TopContain>
@@ -100,16 +76,6 @@ const OpenBook = () => {
       <Book>
         <Outlet />
       </Book>
-      <div>
-        <input
-          type="text"
-          placeholder="다른 미니홈피 검색"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={handleKeyPress}
-        />
-        <button onClick={handleSearch}>검색</button>
-      </div>
     </Background>
   );
 };

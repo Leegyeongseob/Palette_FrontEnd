@@ -16,5 +16,11 @@ const MainAxios = {
       `/main/saveDday?coupleName=${coupleName}&dDay=${dDay}`
     );
   },
+  //커플 검색에 맞는 리스트 값.
+  visitCoupleNameSearchList: async (coupleName) => {
+    return await AxiosInstance.get(
+      `/main/visitCoupleNameSearchList?coupleName=${coupleName}`
+    );
+  },
 };
 export default MainAxios;

@@ -273,19 +273,11 @@ const LoginPage = () => {
       sessionStorage.setItem("email", inputEmail);
       //커플이름 search후 세션에 저장.
       coupleNameSearchAxios(inputEmail);
-      const coupleName = sessionStorage.getItem("coupleName");
-      //두번째 계정이 존재하는지 확인.
-      secondEmailExist(coupleName);
-
       // 로그인, main-page를 커플이름으로 구별해서 이동.
-      loginAxios(isCouple, inputEmail, inputpwd);
+      loginAxios(inputEmail, inputpwd);
     }
   };
-  const secondEmailExist = async (couple) => {
-    const response = await LoginAxios.secondEmailExist(couple);
-    setIsCouple(response.data);
-  };
-  const loginAxios = async (isCouple, email, pwd) => {
+  const loginAxios = async (email, pwd) => {
     try {
       const response = await LoginAxios.login(email, pwd);
       if (response.data.grantType === "bearer") {
@@ -295,25 +287,9 @@ const LoginPage = () => {
         Common.setRefreshToken(response.data.refreshToken);
         sessionStorage.setItem("email", email);
 
-        // 커플 이름을 세션에 저장합니다.
-        const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
-        sessionStorage.setItem("coupleName", resCoupleName.data);
-
         // 다시 로그인한 커플의 정보를 확인합니다.
         const coupleName = sessionStorage.getItem("coupleName");
-        secondEmailExist(coupleName);
         navigate(`/${coupleName}/main-page`);
-
-        // 커플일 경우
-        // if (isCouple) {
-        //   navigate(
-        //     `/main-page?coupleName=${sessionStorage.getItem("coupleName")}`
-        //   );
-        //솔로일 경우
-        // } else {
-        //   navigate("/main-page");
-        // }
-        // // `main-page` 경로로 쿼리 파라미터를 포함하여 이동합니다.
       } else {
         setModalOpen(true);
         setIsModalImg(false);
