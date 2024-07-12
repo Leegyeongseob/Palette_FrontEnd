@@ -5,14 +5,13 @@ import PlannerForm from "./PlannerForm";
 import SavedCoursesList from "./SavedCourseList";
 import PlaceCardList from "./PlaceCardList";
 import theme6 from "../../img/background/theme/6.jpg";
-import ReactDOM from "react-dom";
-// import DisplaceInfo from "./DisplaceInfo";
+import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
 import useAddress from "../../hooks/useLocation";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useParams } from "react-router-dom";
-// import ReactDOMServer from "react-dom/server";
+import ReactDOMServer from "react-dom/server";
 
 const LBookContainer = styled.div`
   width: 25.8vw;
@@ -60,7 +59,7 @@ const DatePlanner = () => {
   const [title, setTitle] = useState("");
   const email = sessionStorage.getItem("email");
   const { coupleName } = useParams(); // useParams를 통해 coupleName 파라미터 추출
-  
+  const currentOverlayRef = useRef(null); // CustomOverlay 상태를 useRef로 관리
   console.log("coupleName : ", coupleName);
 
   // 모든 코스 조회 및 저장된 코스 목록 업데이트
@@ -275,6 +274,39 @@ const DatePlanner = () => {
   }, [selectedPlaces, map]);
   // 이 useEffect는 selectedPlaces와 map 상태가 변경될 때마다 실행됩니다.
 
+  // 초기화 함수
+  const clearOverlay = () => {
+    if (currentOverlayRef.current) {
+      currentOverlayRef.current.setMap(null); // 맵에서 제거
+      currentOverlayRef.current = null; // Ref에서 제거
+    }
+  };
+  // 장소 정보 표시 함수
+  const displayPlaceInfo = (place) => {
+    console.log("장소정보실행");
+
+    // 이전 CustomOverlay 제거
+    clearOverlay();
+
+    // CustomOverlay에 표시될 콘텐츠 HTML 생성
+    const content = ReactDOMServer.renderToString(
+      <DisplaceInfo place={place} />
+    );
+
+    // 새로운 CustomOverlay 생성 및 설정
+    const newOverlay = new window.kakao.maps.CustomOverlay({
+      content: content,
+      position: new window.kakao.maps.LatLng(place.y, place.x),
+    });
+
+    // 맵에 추가
+    newOverlay.setMap(map);
+
+    // 상태 업데이트
+    currentOverlayRef.current = newOverlay; // Ref를 사용하여 업데이트
+    console.log("setCurrentOverlay", newOverlay);
+  };
+
   return (
     <BookWrapper>
       <LBookContainer>
@@ -298,12 +330,10 @@ const DatePlanner = () => {
       </LBookContainer>
       <RBookContainer>
         <MapContainer
-          // clearOverlay={clearOverlay}
+          clearOverlay={clearOverlay}
           mapContainer={mapContainer}
-          // displayPlaceInfo={displayPlaceInfo}
+          displayPlaceInfo={displayPlaceInfo}
           placeOverlay={placeOverlay}
-          // setCurrentOverlay={setCurrentOverlay}
-          // currentOverlay={currentOverlay}
           map={map}
           setMap={setMap}
           currCategory={currCategory}

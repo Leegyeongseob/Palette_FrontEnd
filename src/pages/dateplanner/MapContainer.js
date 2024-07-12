@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import useAddress from "../../hooks/useLocation";
-import ReactDOMServer from "react-dom/server";
-import DisplaceInfo from "./DisplaceInfo";
 
 const Search = styled.form`
   margin-top: 10px;
@@ -73,6 +70,7 @@ const CategoryIcon = styled.span`
 `;
 
 const MapContainer = ({
+  clearOverlay,
   mapContainer,
   placeOverlay,
   map,
@@ -81,10 +79,11 @@ const MapContainer = ({
   setCurrCategory,
   setPlaces,
   location,
+  displayPlaceInfo,
 }) => {
   const [markers, setMarkers] = useState([]);
   const ps = new window.kakao.maps.services.Places(map);
-  const currentOverlayRef = useRef(null); // CustomOverlay 상태를 useRef로 관리
+  
 
   useEffect(() => {
     const { kakao } = window;
@@ -245,39 +244,9 @@ const MapContainer = ({
     map.setBounds(bounds);
   };
 
-  // 장소 정보 표시 함수
-  const displayPlaceInfo = (place) => {
-    console.log("장소정보실행");
+  
 
-    // 이전 CustomOverlay 제거
-    clearOverlay();
-
-    // CustomOverlay에 표시될 콘텐츠 HTML 생성
-    const content = ReactDOMServer.renderToString(
-      <DisplaceInfo place={place} />
-    );
-
-    // 새로운 CustomOverlay 생성 및 설정
-    const newOverlay = new window.kakao.maps.CustomOverlay({
-      content: content,
-      position: new window.kakao.maps.LatLng(place.y, place.x),
-    });
-
-    // 맵에 추가
-    newOverlay.setMap(map);
-
-    // 상태 업데이트
-    currentOverlayRef.current = newOverlay; // Ref를 사용하여 업데이트
-    console.log("setCurrentOverlay", newOverlay);
-  };
-
-  // 초기화 함수
-  const clearOverlay = () => {
-    if (currentOverlayRef.current) {
-      currentOverlayRef.current.setMap(null); // 맵에서 제거
-      currentOverlayRef.current = null; // Ref에서 제거
-    }
-  };
+  
 
   return (
     <div>

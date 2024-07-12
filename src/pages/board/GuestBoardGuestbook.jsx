@@ -180,6 +180,7 @@ const GuestbookWriteButton = styled.div`
   cursor: pointer;
   &:hover {
     color: blue;
+  }
 `;
 const GuestbookArea = styled.div`
   margin-left: 1vw;

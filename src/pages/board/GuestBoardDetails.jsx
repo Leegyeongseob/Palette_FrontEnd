@@ -13,7 +13,7 @@ const BookTheme = styled.div`
   margin-left: 0.8vw;
   background-image: url(${boardBg});
   background-size: cover;
-  opadate: 0.8;
+  opacity: 0.8;
   display: flex;
 `;
 const BoardSide = styled.div`
