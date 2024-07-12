@@ -103,11 +103,12 @@ const Input = styled.input`
 
 const CoupleImg = ({ clothes = false, isMyHome }) => {
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
-  const [imgUrl, setImgUrl] = useState("");
-  const [myDarling, setMyDarling] = useState("");
-  const [saveFile, setSaveFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState();
+  const [myDarling, setMyDarling] = useState();
   const email = sessionStorage.getItem("email");
   const coupleName = sessionStorage.getItem("coupleName");
+  const [IsExistImg, setIsExistImg] = useState([false, false]);
+  const [saveFirstEmail, setSaveFirstEmail] = useState("");
 
   //카카오 로그인시 프로필 자동 변경
   const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
@@ -121,74 +122,127 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
   };
 
   const coupleNickNameAxios = async (emailData) => {
-    const resCouple = await MemberAxiosApi.coupleNameSearch(emailData);
-
+    console.log("emailData : " + emailData);
+    const resCouple = await MemberAxiosApi.renderCoupleNameSearch(emailData);
+    console.log("이거 :" + resCouple.data);
     const resNickName = await MainAxios.searchNickName(
       emailData,
       resCouple.data
     );
+
     setCoupleNickName(resNickName.data);
   };
 
+  //세션 커플이름이 바뀌었을 경우
   useEffect(() => {
-    kakaoProfileImgAxios(email, kakaoProfileUrl);
-    coupleNickNameAxios(email);
-    coupleProfileAxios(coupleName, email);
-  }, [coupleName]);
+    const fetchData = async (coupleNameData) => {
+      try {
+        console.log("커플이름 :" + coupleNameData);
+        // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
+        const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
+          coupleNameData
+        );
+        const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
+        setSaveFirstEmail(firstEmail);
+        // 첫 번째 이메일을 사용하여 다른 비동기 작업을 진행합니다.
+        await Promise.all([
+          coupleNickNameAxios(firstEmail),
+          coupleProfileAxios(coupleNameData, firstEmail),
+        ]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData(coupleName);
+  }, []);
 
   const AddImgBtnOnChangeHandler = (e) => {
-    setSaveFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    console.log("파일 경로 : ", selectedFile);
+    // setSaveFile(selectedFile);
+    handleFileUpload(email, selectedFile); // 선택된 파일을 즉시 업로드
+    coupleProfileAxios(coupleName, email);
   };
 
-  useEffect(() => {
-    handleFileUpload();
-  }, [saveFile]);
+  const handleFileUpload = async (userEmail, saveFileData) => {
+    const storageRef = ref(profileStorage, saveFileData.name);
+    try {
+      // 이미지 업로드
+      await uploadBytesResumable(storageRef, saveFileData);
+      console.log("File uploaded successfully!");
 
-  const handleFileUpload = async (email) => {
-    if (saveFile) {
-      const storageRef = ref(profileStorage, saveFile.name);
-      try {
-        await uploadBytesResumable(storageRef, saveFile);
-        console.log("File uploaded successfully!");
-
-        if (imgUrl) {
-          const oldFileRef = ref(profileStorage, imgUrl);
-          await deleteObject(oldFileRef);
-          console.log("Previous file deleted successfully!");
-        }
-
-        const url = await getDownloadURL(storageRef);
-        const res = await MemberAxiosApi.profileUrlSave(email, url);
-        console.log(res.data);
-
-        if (url && res.data) {
-          setImgUrl(url);
-        }
-
-        setSaveFile(null);
-      } catch (error) {
-        console.error("File upload failed:", error);
+      //이미지 업로드시 이전 이미지 삭제하는 부분
+      if (imgUrl) {
+        const oldFileRef = ref(profileStorage, imgUrl);
+        await deleteObject(oldFileRef);
+        console.log("Previous file deleted successfully!");
       }
+      // 이미지 다운로드
+      const url = await getDownloadURL(storageRef);
+
+      if (url !== null && url && url !== "" && url !== "null") {
+        setImgUrl(url);
+        // 이미지 url 저장
+        const res = await MemberAxiosApi.profileUrlSave(userEmail, url);
+        sessionStorage.setItem("imgUrl", url);
+        if (res.data === true) console.log("DB에 저장되었습니다.");
+        else {
+          console.log("DB 저장에 실패했습니다.");
+        }
+      }
+
+      // setSaveFile(null);
+    } catch (error) {
+      console.error("File upload failed:", error);
     }
   };
-
+  useEffect(() => {
+    const fetchFirstEmailData = async (coupleNameData) => {
+      try {
+        console.log("커플이름 :" + coupleNameData);
+        // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
+        const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
+          coupleNameData
+        );
+        const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
+        coupleProfileAxios(coupleName, firstEmail);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchFirstEmailData(coupleName);
+  }, [coupleName]);
+  // 커플 이미지 DB에서 불러오기
   const coupleProfileAxios = async (coupleNameData, emailData) => {
     const res = await MemberAxiosApi.coupleProfileUrl(
       coupleNameData,
       emailData
     );
-    setImgUrl(res.data[0]);
-    sessionStorage.setItem("imgUrl", res.data[0]);
-    setMyDarling(res.data[1]);
-    sessionStorage.setItem("myDarling", res.data[1]);
+    setImgUrl(manprofile);
+    sessionStorage.setItem("imgUrl", manprofile);
+    sessionStorage.setItem("myDarling", womanprofile);
+    setMyDarling(womanprofile);
     console.log(res.data);
+    if (res.data[0] !== null && res.data[0] !== "") {
+      setImgUrl(res.data[0]);
+      setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
+      sessionStorage.setItem("imgUrl", res.data[0]);
+    }
+    if (res.data[1] !== null && res.data[1] !== "") {
+      setMyDarling(res.data[1]);
+      setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
+      sessionStorage.setItem("myDarling", res.data[1]);
+    }
   };
 
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
-          <Profile imageurl={imgUrl} clothes={clothes}>
+          <Profile
+            imageurl={IsExistImg[0] ? imgUrl : manprofile}
+            clothes={clothes}
+          >
             {isMyHome && (
               <ProfileCover clothes={clothes}>
                 <Label htmlFor="fileInput">Choose File</Label>
@@ -210,7 +264,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       <ProfileDiv clothes={clothes} direction={true}>
         <ProfileImgDiv>
           <Profile
-            imageurl={myDarling ? myDarling : womanprofile}
+            imageurl={IsExistImg[1] ? myDarling : womanprofile}
             clothes={clothes}
           />
         </ProfileImgDiv>

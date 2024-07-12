@@ -10,7 +10,7 @@ import { SiGnuprivacyguard } from "react-icons/si";
 import { useState } from "react";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import Common from "../../common/Common";
-import Modal from "../../common/utils/Modal";
+import Modal from "../datediary/Modal";
 import GoogleAndNaverNotLogin from "../../img/loginImg/구글,네이버 간편 로그인.gif";
 import LoginModal from "../../common/utils/Modal";
 

@@ -61,13 +61,17 @@ const BookMark = () => {
   };
   // 커플인지 확인하는 비동기함수
   const isCoupleAxios = async (emailValue) => {
-    const coupleNameData = await MemberAxiosApi.coupleNameSearch(emailValue);
+    const coupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
+      emailValue
+    );
     const resCouple = await MemberAxiosApi.isCoupleTrue(coupleNameData.data);
     return resCouple.data;
   };
   // 주인인지 방문객인지 확인
   const compareCoulpleNameFunction = async (emailData) => {
-    const coupleNameData = await MemberAxiosApi.coupleNameSearch(emailData);
+    const coupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
+      emailData
+    );
     if (coupleNameData.data !== coupleName) {
       // 본인이 아닌경우
       setModalOpen(true);

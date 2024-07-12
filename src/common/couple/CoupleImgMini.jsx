@@ -70,7 +70,7 @@ const CoupleImg = () => {
   //커플 개인 닉네임 불러오기
   const coupleNickNameAxois = async () => {
     //커플 이름 search
-    const resCouple = await MemberAxiosApi.coupleNameSearch(email);
+    const resCouple = await MemberAxiosApi.renderCoupleNameSearch(email);
     //커플 이름으로 닉네임 찾기
     const resNickName = await MainAxios.searchNickName(email, resCouple.data);
     setCoupleNickName(resNickName.data);

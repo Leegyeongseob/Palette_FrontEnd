@@ -326,7 +326,7 @@ const MainPage = () => {
   //디데이 값을 가져오는 비동기함수
   const dDayAxois = async () => {
     //이메일로 커플이름 search
-    const coupleName = await MemberAxiosApi.coupleNameSearch(email);
+    const coupleName = await MemberAxiosApi.renderCoupleNameSearch(email);
     // Dday값 가져오기
     const resDday = await MainAxios.searchDday(coupleName.data);
     console.log(resDday.data);
@@ -365,7 +365,9 @@ const MainPage = () => {
     setIsMyHome(true);
   };
   const MycoupleNameSearch = async (emailValue) => {
-    const myCoupleNameData = await MemberAxiosApi.coupleNameSearch(emailValue);
+    const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
+      emailValue
+    );
     navigate(`/${myCoupleNameData.data}/main-page`);
   };
   return (

@@ -26,13 +26,11 @@ const MemberAxiosApi = {
     return await AxiosInstance.post("/member/delete", member);
   },
   //커플 이름 확인 Axios
-  coupleNameSearch: async (email) => {
-    const member = {
-      email: email,
-    };
-    return await AxiosInstance.post("/member/coupleNameSearch", member);
+  renderCoupleNameSearch: async (email) => {
+    return await AxiosInstance.get(
+      `/member/renderCoupleNameSearch?email=${email}`
+    );
   },
-
   //솔로인지 커플인지 Axios
   isCoupleTrue: async (coupleName) => {
     const member = {
@@ -49,7 +47,13 @@ const MemberAxiosApi = {
   //커플 프로필 url을 가져오는 Axios
   coupleProfileUrl: async (coupleName, email) => {
     return await AxiosInstance.get(
-      `member/coupleProfileUrl?coupleName=${coupleName}&email=${email}`
+      `/member/coupleProfileUrl?coupleName=${coupleName}&email=${email}`
+    );
+  },
+  //커플 이름으로 첫번째 계정을 뽑아오는 axios
+  firstEmailGet: async (coupleName) => {
+    return await AxiosInstance.get(
+      `/member/firstEmailGet?coupleName=${coupleName}`
     );
   },
 };

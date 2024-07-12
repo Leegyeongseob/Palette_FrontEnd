@@ -66,7 +66,7 @@ const CoupleDday = ({ isMyHome }) => {
   //디데이 값을 가져오는 비동기함수
   const dDayAxois = async () => {
     //이메일로 커플이름 search
-    const loginCoupleName = await MemberAxiosApi.coupleNameSearch(email);
+    const loginCoupleName = await MemberAxiosApi.renderCoupleNameSearch(email);
     console.log("5.이메일로 커플이름 서치", loginCoupleName);
     setSaveCoupleName(loginCoupleName.data);
     console.log("6. 커플이름 저장", loginCoupleName.data);
