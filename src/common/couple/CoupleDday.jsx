@@ -52,7 +52,7 @@ const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const CoupleDday = () => {
+const CoupleDday = ({ isMyHome }) => {
   const coupleName = sessionStorage.getItem("coupleName");
   const [isDday, setIsDday] = useState(false);
   const [saveCoupleName, setSaveCoupleName] = useState("");
@@ -101,19 +101,27 @@ const CoupleDday = () => {
     dDayAxois();
     console.log("4.디데이엑시오스 확인", dDayAxois);
   };
+  console.log("isMyHome : " + isMyHome);
   return (
     <DdayInputDiv>
-      {isDday ? (
-        <Dday isDday={isDday}>사귄지 {saveDday}일째!</Dday>
+      {isMyHome ? (
+        isDday ? (
+          <Dday isDday={isDday}>사귄지 {saveDday}일째!</Dday>
+        ) : (
+          <Dday isDday={isDday} isMyHome={isMyHome}>
+            <label>사귄날짜 : </label>
+            <DdayInputForm
+              value={saveDday}
+              onChange={dDayInputOnchangeHandler}
+            ></DdayInputForm>
+            <div className="day"> 일 </div>
+            <ButtonDiv>
+              <DDayInputBtn onClick={dDaySaveOnclickHandler}>입력</DDayInputBtn>
+            </ButtonDiv>
+          </Dday>
+        )
       ) : (
-        <Dday isDday={isDday}>
-          <label>사귄날짜 : </label>
-          <DdayInputForm onChange={dDayInputOnchangeHandler}></DdayInputForm>
-          <div className="day"> 일 </div>
-          <ButtonDiv>
-            <DDayInputBtn onClick={dDaySaveOnclickHandler}>입력</DDayInputBtn>
-          </ButtonDiv>
-        </Dday>
+        isDday && <Dday isDday={isDday}>사귄지 {saveDday}일째!</Dday>
       )}
     </DdayInputDiv>
   );

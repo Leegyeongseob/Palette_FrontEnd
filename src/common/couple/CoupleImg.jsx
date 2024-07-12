@@ -101,7 +101,7 @@ const Input = styled.input`
   display: none;
 `;
 
-const CoupleImg = ({ clothes = false }) => {
+const CoupleImg = ({ clothes = false, isMyHome }) => {
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
   const [imgUrl, setImgUrl] = useState("");
   const [myDarling, setMyDarling] = useState("");
@@ -189,15 +189,17 @@ const CoupleImg = ({ clothes = false }) => {
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv>
           <Profile imageurl={imgUrl} clothes={clothes}>
-            <ProfileCover clothes={clothes}>
-              <Label htmlFor="fileInput">Choose File</Label>
-              <Input
-                id="fileInput"
-                type="file"
-                clothes={clothes}
-                onChange={AddImgBtnOnChangeHandler}
-              />
-            </ProfileCover>
+            {isMyHome && (
+              <ProfileCover clothes={clothes}>
+                <Label htmlFor="fileInput">Choose File</Label>
+                <Input
+                  id="fileInput"
+                  type="file"
+                  clothes={clothes}
+                  onChange={AddImgBtnOnChangeHandler}
+                />
+              </ProfileCover>
+            )}
           </Profile>
         </ProfileImgDiv>
         <Text clothes={clothes}>{coupleNickName[0] || "알콩"}</Text>

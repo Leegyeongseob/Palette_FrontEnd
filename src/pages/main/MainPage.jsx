@@ -286,6 +286,8 @@ const MainPage = () => {
   const [isDday, setIsDday] = useState(false);
   //searchCouple 포함 리스트 저장
   const [searchCoupleList, setSearchCoupleList] = useState([]);
+  // 내 방이면 true 아니면 false
+  const [isMyHome, setIsMyHome] = useState(true);
   //커플 이름 검색
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -304,6 +306,7 @@ const MainPage = () => {
         coupleName
       );
       navigate(`/${coupleName}/main-page`);
+      setIsMyHome(false);
       setSearchTerm(""); // 필요시 네비게이션 후 검색어 초기화
     }
   };
@@ -359,6 +362,7 @@ const MainPage = () => {
   }, [searchTerm]);
   const goHomeOnClickHandler = () => {
     MycoupleNameSearch(email);
+    setIsMyHome(true);
   };
   const MycoupleNameSearch = async (emailValue) => {
     const myCoupleNameData = await MemberAxiosApi.coupleNameSearch(emailValue);
@@ -371,10 +375,10 @@ const MainPage = () => {
           <PaletteBanner />
         </CoupleDiv>
         <CoupleDiv>
-          <CoupleImg />
+          <CoupleImg isMyHome={isMyHome} />
         </CoupleDiv>
         <CoupleDiv>
-          <CoupleDday />
+          <CoupleDday isMyHome={isMyHome} />
           <VisitContainer>
             <VisitDiv>
               <div className="visitDiv">
