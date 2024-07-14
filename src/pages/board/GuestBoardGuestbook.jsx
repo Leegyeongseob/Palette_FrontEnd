@@ -5,6 +5,7 @@ import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
 import { useState } from "react";
+import Guestbook from "./Guestbook";
 
 const BookTheme = styled.div`
   width: 53vw;
@@ -349,7 +350,7 @@ const GuestBoardGuestbook = () => {
       </BoardSide>
       <CenterArea></CenterArea>
       <GuestbookSide>
-        <GuestbookTitle>방명록</GuestbookTitle>
+        {/* <GuestbookTitle>방명록</GuestbookTitle>
         <GuestbookGrayBar />
         <GuestbookWriteArea>
           <GuestbookBody>
@@ -404,7 +405,8 @@ const GuestBoardGuestbook = () => {
               세우고 있어요.
             </GuestbookMain>
           </GuestbookBody>
-        </GuestbookArea>
+        </GuestbookArea> */}
+        <Guestbook/>
       </GuestbookSide>
     </BookTheme>
   );
