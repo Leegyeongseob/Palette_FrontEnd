@@ -176,8 +176,10 @@ const BuyButton = styled.div`
 `;
 
 const TemaChange = (  {open, close,setBgColor} ) => {
+    const userEmail = sessionStorage.getItem("email");
     const handleSetColor = (color) => () => {
         setBgColor(color);
+        localStorage.setItem(`${userEmail}_themeColor`, color);
         close();
     };
     

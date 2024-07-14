@@ -277,41 +277,62 @@ const DateAlbum = () => {
   const [bgColor, setBgColor] = useState("#eccdaf");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeNextModal();
-    navigator("/date-album");
+    navigate("/date-album");
   };
+
   const closeNextModal = () => {
     setModalOpen(false);
   };
+
   //솔로 함수
   const nextModal = () => {
     setModalOpen(true);
     setModalContent("페이지 구매 후 이용 가능합니다.");
   };
+  
   const isAmountAxios = async () => {
-    const amountTotal = await AlbumAxiosApi.getAmount(userEmail);
-    return amountTotal.data;
-  };
-
-  const handleNext = () => {
-    if (isAmountAxios() % 1000 === 0) {
-      setAnimate(true);
-      setTimeout(() => {
-        navigate("/date-album2");
-      }, 1800);
-    } else {
-      // 모달
-      nextModal();
-      console.log("솔로는 웁니다.");
+    try {
+        const response = await AlbumAxiosApi.getAmount(userEmail);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching amount:", error);
+        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        setModalOpen(true);
+        return null;
     }
   };
+
+  const handleNext = async () => {
+    try {
+        const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
+        if (amount !== null && amount % 1000 === 0) {
+            setAnimate(true);
+            setTimeout(() => {
+                navigate("/date-album2");
+            }, 1800);
+        } else {
+            // 모달
+            nextModal();
+            console.log(amount);
+        }
+    } catch (error) {
+        console.error("Error in handleNext:", error);
+        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        setModalOpen(true);
+    }
+};
+
 
   const closeModal = () => {
     setPageOpen(false);
     setTemaOpen(false);
     setTemaChange(false);
+    setModalOpen(false);
   };
 
   const handlePagePopup = () => {
@@ -326,6 +347,12 @@ const DateAlbum = () => {
 
   // 이미지 불러오기
   useEffect(() => {
+    // 로컬 스토리지에서 저장된 테마 색상을 가져옴
+    const savedColor = localStorage.getItem(`${userEmail}_themeColor`);
+    if (savedColor) {
+      setBgColor(savedColor);
+    }
+    
     const fetchAlbum = async () => {
       try {
         const response = await AlbumAxiosApi.getImages(userEmail);
@@ -414,33 +441,29 @@ const DateAlbum = () => {
   };
 
   const handleDeleteImage = async (index) => {
-    const imageUrlToDelete = Array.isArray(images[index])
-      ? images[index][0]
-      : images[index];
+    const imageUrlToDelete = Array.isArray(images[index]) ? images[index][0] : images[index];
     try {
       await AlbumAxiosApi.deleteImage(userEmail, imageUrlToDelete);
-
-      const newImgBoxes = [...imgBoxes];
-      const newImages = [...images];
-
-      newImages.splice(index, 1); // 클릭된 이미지를 배열에서 제거
-      newImages.push(null); // 배열의 마지막에 null 추가
-
-      // 기존 + 버튼 위치를 찾아 제거
-      const plusIndex = newImgBoxes.indexOf("+");
-      if (plusIndex !== -1) {
-        newImgBoxes[plusIndex] = null;
+  
+      // 삭제 후 이미지 배열(데이터베이스)만 새로고침
+      const response = await AlbumAxiosApi.getImages(userEmail);
+      const galleries = response.data;
+      const updatedImages = Array(15).fill(null);
+      galleries.slice(0, 15).forEach((image, index) => {
+        updatedImages[index] = image.urls;
+      });
+      setImages(updatedImages);
+  
+      // 이미지를 기반으로 imgBoxes 배열 업데이트
+      const newImgBoxes = Array(15).fill(null);
+      const imageCount = galleries.length;
+      if (imageCount < 15) {
+        newImgBoxes[imageCount] = "+";
       }
-
-      // + 버튼을 마지막 null 위치에 추가
-      const nextPlusIndex = newImages.indexOf(null);
-      if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
-        newImgBoxes[nextPlusIndex] = "+";
-      }
-
       setImgBoxes(newImgBoxes);
-      setImages(newImages);
-      await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
+      
+    await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
+  
     } catch (error) {
       console.error("Error deleting image:", error);
     }
@@ -548,6 +571,7 @@ const DateAlbum = () => {
         open={modalOpen}
         header="안내"
         type={true}
+        close={closeModal}
         confirm={codeModalOkBtnHandler}
         img={modalImg}
       >

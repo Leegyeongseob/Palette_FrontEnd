@@ -35,7 +35,11 @@ const AlbumAxiosApi = {
   },
 
   getAmount: async (email) => {
-    return await AxiosInstance.get("/payment/amount", email);
+    return await AxiosInstance.get("/payment/amount", {
+      params: {
+        email: email,
+      },
+    });
   },
 };
 export default AlbumAxiosApi;
