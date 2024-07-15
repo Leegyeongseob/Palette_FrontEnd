@@ -1,11 +1,17 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
-import { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Guestbook from "./Guestbook";
+import BoardAxios from "../../axiosapi/BoardAxios";
+import {
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "../../firebase/firebaseBoard";
 
 const BookTheme = styled.div`
   width: 53vw;
@@ -14,7 +20,7 @@ const BookTheme = styled.div`
   margin-left: 0.8vw;
   background-image: url(${boardBg});
   background-size: cover;
-  opadate: 0.8;
+  opacity: 0.8;
   display: flex;
 `;
 const BoardSide = styled.div`
@@ -66,7 +72,7 @@ const BoardPost = styled.div`
   }
 `;
 const BoardTable = styled.table`
-  margin-top: 2vh;
+  margin-top: 1vh;
   margin-left: 1.5vw;
   width: 22.5vw;
   table-layout: fixed;
@@ -78,14 +84,14 @@ const BoardTh = styled.th`
   background-color: gray;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
-  // ID
+  vertical-align: middle;
   &:nth-child(1) {
     width: 3vw;
   }
-  // Date
   &:nth-child(3) {
     width: 4vw;
   }
@@ -95,13 +101,16 @@ const BoardTd = styled.td`
   height: 3.2vh;
   border: 1px solid black;
   font-size: 12px;
+  font-weight: 600;
   text-align: center;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: middle;
 `;
+
 const NameHover = styled(BoardTd)`
   cursor: pointer;
   &:hover {
@@ -130,10 +139,12 @@ const BoardPaginationButton = styled.button`
     background-color: #eeeeee;
   }
 `;
+
 const CenterArea = styled.div`
   width: 1.5vw;
   height: 68.5vh;
 `;
+
 const GuestbookSide = styled.div`
   width: 25.8vw;
   height: 68.5vh;
@@ -282,44 +293,43 @@ const GuestbookMain = styled.div`
   align-items: center;
 `;
 
-const BoardData = [
-  { id: 14, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 13, name: "13알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 12, name: "12알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 11, name: "11알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 10, name: "알콩이의 생일파티~", date: "2024-06-20" },
-  { id: 9, name: "한강 데이트!!", date: "2024-06-11" },
-  { id: 8, name: "2박 3일 부산여행 기록", date: "2024-06-03" },
-  { id: 7, name: "달콩이의 친구들과의 모임~", date: "2024-06-01" },
-  { id: 6, name: "100일 기념일 데이트 기록", date: "2024-05-25" },
-  { id: 5, name: "어버이날 기념으로 서로의 부모님 챙기기", date: "2024-05-08" },
-  { id: 4, name: "벚꽃이 흩날리는 석촌호수~~", date: "2024-04-03" },
-  { id: 3, name: "알콩이와 달콩이의 호캉스", date: "2024-03-25" },
-  { id: 2, name: "달콩이와 홍대 데이트", date: "2024-03-02" },
-  { id: 1, name: "첫 데이트 기념~", date: "2024-02-05" },
-];
-const itemsPerPage = 10; // 페이지 당 보여줄 항목 수
+const itemsPerPage = 10;
 
 const GuestBoardGuestbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [boardData, setBoardData] = useState([]);
 
   const navigate = useNavigate();
 
-  const handleNameClick = (id) => {
-    navigate(`/guest-board-details`);
-    //백엔드 작업 완료 후 사용 - id번호로 이동
-    // navigate(`/board-details/${id}`);
+  useEffect(() => {
+    fetchBoardDataCN();
+  }, []);
+
+  const fetchBoardDataCN = async () => {
+    const coupleName = sessionStorage.getItem("coupleName");
+    console.log(coupleName);
+    try {
+      const data = await BoardAxios.getCoupleName(coupleName);
+      console.log("axios 데이터", data.data);
+      setBoardData(data.data);
+    } catch (error) {
+      console.error("Failed to fetch board data", error);
+    }
   };
 
-  // 페이지 번호 클릭 시 이벤트 처리 함수
+  const handleNameClick = (id) => {
+    navigate(`/board-details/${id}`);
+  };
+
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  // 현재 페이지에 맞는 데이터 슬라이스
-  const currentData = BoardData.slice(
+
+  const currentData = boardData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  console.log("currentData", currentData);
   return (
     <BookTheme>
       <BoardSide>
@@ -344,15 +354,15 @@ const GuestBoardGuestbook = () => {
               <tr key={item.id}>
                 <BoardTd>{item.id}</BoardTd>
                 <NameHover onClick={() => handleNameClick(item.id)}>
-                  {item.name}
+                  {item.title}
                 </NameHover>
-                <BoardTd>{item.date}</BoardTd>
+                <BoardTd>{item.regDate}</BoardTd>
               </tr>
             ))}
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(BoardData.length / itemsPerPage))].map(
+          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
             (_, index) => (
               <BoardPaginationButton
                 key={index + 1}
@@ -367,7 +377,7 @@ const GuestBoardGuestbook = () => {
           )}
         </BoardPaginationContainer>
       </BoardSide>
-      <CenterArea></CenterArea>
+      <CenterArea />
       <GuestbookSide>
         {/* <GuestbookTitle>방명록</GuestbookTitle>
         <GuestbookGrayBar />
