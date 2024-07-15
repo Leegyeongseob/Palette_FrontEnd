@@ -4,20 +4,21 @@ import { useDrag } from "@use-gesture/react";
 import axios from "axios";
 
 // 스타일드 컴포넌트 정의
-const MenuContainer = styled.div`
-  width: ${({ shoes, clothNum }) =>
-    clothNum === 7 ? "13vw" : shoes ? "5vw" : "9w"};
-  height: ${({ shoes, clothNum }) =>
-    clothNum === 7 ? "33vh" : shoes ? "7vh" : "17vh"};
+const MenuContainer = styled.div.attrs(({ shoes, clothNum, OnePiece }) => ({
+  style: {
+    width: clothNum === 7 ? "13vw" : shoes ? "5vw" : "9vw",
+    height: clothNum === 7 ? "33vh" : shoes ? "7vh" : "17vh",
+    display:
+      (!OnePiece && clothNum === 7) ||
+      ((clothNum === 4 || clothNum === 5) && OnePiece)
+        ? "none"
+        : "block",
+  },
+}))`
   overflow: hidden;
   background-color: #fff;
   border-radius: 10px;
   position: relative;
-  display: ${({ clothNum, OnePiece }) =>
-    (!OnePiece && clothNum === 7) ||
-    ((clothNum === 4 || clothNum === 5) && OnePiece)
-      ? "none"
-      : "block"};
 `;
 
 const MenuWrapper = styled.div`
@@ -37,62 +38,62 @@ const MenuItem = styled.div`
 `;
 
 const Swiper = ({ shoes, clothNum, OnePiece }) => {
-  // const manPath = process.env.PUBLIC_URL + "/clothes/man/";
-  // const manTops = [
-  //   manPath + "top/1.png",
-  //   manPath + "top/2.png",
-  //   manPath + "top/3.png",
-  // ];
-  // const manPants = [
-  //   manPath + "pants/1.jpg",
-  //   manPath + "pants/2.jpg",
-  //   manPath + "pants/3.jpg",
-  // ];
-  // const manShoes = [
-  //   manPath + "shoes/1.jpg",
-  //   manPath + "shoes/2.jpg",
-  //   manPath + "shoes/3.jpg",
-  // ];
-  // const womanPath = process.env.PUBLIC_URL + "/clothes/woman/";
-  // const womanTops = [
-  //   womanPath + "top/1.jpg",
-  //   womanPath + "top/2.jpg",
-  //   womanPath + "top/3.jpg",
-  //   // womanPath + "top/4.jpg",
-  //   // womanPath + "top/5.jpg",
-  //   // womanPath + "top/6.jpg",
-  // ];
-  // const womanPants = [
-  //   womanPath + "pants/1.jpg",
-  //   womanPath + "pants/2.jpg",
-  //   womanPath + "pants/3.jpg",
-  //   // womanPath + "pants/4.jpg",
-  //   // womanPath + "pants/5.jpg",
-  //   // womanPath + "pants/6.jpg",
-  // ];
-  // const womanShoes = [
-  //   womanPath + "shoes/1.jpg",
-  //   womanPath + "shoes/2.jpg",
-  //   womanPath + "shoes/3.jpg",
-  //   // womanPath + "shoes/4.jpg",
-  //   // womanPath + "shoes/5.jpg",
-  //   // womanPath + "shoes/6.jpg",
-  // ];
-  // const womanOnepiece = [
-  //   womanPath + "onepiece/1.jpg",
-  //   womanPath + "onepiece/2.jpg",
-  //   womanPath + "onepiece/3.jpg",
-  //   // womanPath + "onepiece/4.jpg",
-  //   // womanPath + "onepiece/5.jpg",
-  // ];
+  const manPath = process.env.PUBLIC_URL + "/clothes/man/";
+  const manTops = [
+    manPath + "top/1.png",
+    manPath + "top/2.png",
+    manPath + "top/3.png",
+  ];
+  const manPants = [
+    manPath + "pants/1.jpg",
+    manPath + "pants/2.jpg",
+    manPath + "pants/3.jpg",
+  ];
+  const manShoes = [
+    manPath + "shoes/1.jpg",
+    manPath + "shoes/2.jpg",
+    manPath + "shoes/3.jpg",
+  ];
+  const womanPath = process.env.PUBLIC_URL + "/clothes/woman/";
+  const womanTops = [
+    womanPath + "top/1.jpg",
+    womanPath + "top/2.jpg",
+    womanPath + "top/3.jpg",
+    // womanPath + "top/4.jpg",
+    // womanPath + "top/5.jpg",
+    // womanPath + "top/6.jpg",
+  ];
+  const womanPants = [
+    womanPath + "pants/1.jpg",
+    womanPath + "pants/2.jpg",
+    womanPath + "pants/3.jpg",
+    // womanPath + "pants/4.jpg",
+    // womanPath + "pants/5.jpg",
+    // womanPath + "pants/6.jpg",
+  ];
+  const womanShoes = [
+    womanPath + "shoes/1.jpg",
+    womanPath + "shoes/2.jpg",
+    womanPath + "shoes/3.jpg",
+    // womanPath + "shoes/4.jpg",
+    // womanPath + "shoes/5.jpg",
+    // womanPath + "shoes/6.jpg",
+  ];
+  const womanOnepiece = [
+    womanPath + "onepiece/1.jpg",
+    womanPath + "onepiece/2.jpg",
+    womanPath + "onepiece/3.jpg",
+    // womanPath + "onepiece/4.jpg",
+    // womanPath + "onepiece/5.jpg",
+  ];
   const [clothesData, setClothesData] = useState({
-    manTopClothes: [],
-    manPantsClothes: [],
-    manShoes: [],
-    womanTopClothes: [],
-    womanButtomClothes: [],
-    womanShoes: [],
-    womanOnepiece: [],
+    manTopClothes: manTops,
+    manPantsClothes: manPants,
+    manShoes: manShoes,
+    womanTopClothes: womanTops,
+    womanButtomClothes: womanPants,
+    womanShoes: womanShoes,
+    womanOnepiece: womanOnepiece,
   });
 
   const clothGroups = {
@@ -109,38 +110,31 @@ const Swiper = ({ shoes, clothNum, OnePiece }) => {
   const [dragging, setDragging] = useState(false);
 
   //옷 데이터 저장
-  const PYTHON_CLOTHES_PATH = "http://localhost:5000/date-clothes";
   useEffect(() => {
     fetchData();
   }, []);
 
   // 파이썬에서 데이터를 가져오는 비동기 함수
   const fetchData = async () => {
-    const endpoints = [
-      "manTopClothes",
-      "manPantsClothes",
-      "manShoes",
-      "womanTopClothes",
-      "womanButtomClothes",
-      "womanShoes",
-      "womanOnepiece",
-    ];
-
     try {
-      const responses = await Promise.all(
-        endpoints.map((endpoint) =>
-          axios.get(`${PYTHON_CLOTHES_PATH}/${endpoint}`)
-        )
+      const responses = await axios.get(
+        "http://localhost:5000/date-clothes/totalClothes"
       );
-
+      console.log(responses.data);
       setClothesData({
-        manTopClothes: responses[0].data.map((data) => data.img_src),
-        manPantsClothes: responses[1].data.map((data) => data.img_src),
-        manShoes: responses[2].data.map((data) => data.img_src),
-        womanTopClothes: responses[3].data.map((data) => data.img_src),
-        womanButtomClothes: responses[4].data.map((data) => data.img_src),
-        womanShoes: responses[5].data.map((data) => data.img_src),
-        womanOnepiece: responses[6].data.map((data) => data.img_src),
+        manTopClothes: responses.data.manTopClothes.map((data) => data.img_src),
+        manPantsClothes: responses.data.manPantsClothes.map(
+          (data) => data.img_src
+        ),
+        manShoes: responses.data.manShoes.map((data) => data.img_src),
+        womanTopClothes: responses.data.womanTopClothes.map(
+          (data) => data.img_src
+        ),
+        womanButtomClothes: responses.data.womanButtomClothes.map(
+          (data) => data.img_src
+        ),
+        womanShoes: responses.data.womanShoes.map((data) => data.img_src),
+        womanOnepiece: responses.data.womanOnepiece.map((data) => data.img_src),
       });
     } catch (error) {
       console.error("Error fetching data:", error);

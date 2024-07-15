@@ -154,14 +154,13 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       }
     };
     fetchData(coupleName);
-  }, []);
-
+  }, [coupleName]);
+  //파일 업로드 이벤트 함수
   const AddImgBtnOnChangeHandler = (e) => {
     const selectedFile = e.target.files[0];
     console.log("파일 경로 : ", selectedFile);
-    // setSaveFile(selectedFile);
-    handleFileUpload(email, selectedFile); // 선택된 파일을 즉시 업로드
-    coupleProfileAxios(coupleName, email);
+    // 선택된 파일을 즉시 업로드 후 DB에 다시 저장
+    handleFileUpload(email, selectedFile);
   };
 
   const handleFileUpload = async (userEmail, saveFileData) => {
@@ -171,47 +170,32 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       await uploadBytesResumable(storageRef, saveFileData);
       console.log("File uploaded successfully!");
 
-      //이미지 업로드시 이전 이미지 삭제하는 부분
+      // 이전 이미지가 있는 경우 삭제
       if (imgUrl) {
-        const oldFileRef = ref(profileStorage, imgUrl);
-        await deleteObject(oldFileRef);
-        console.log("Previous file deleted successfully!");
-      }
-      // 이미지 다운로드
-      const url = await getDownloadURL(storageRef);
-
-      if (url !== null && url && url !== "" && url !== "null") {
-        setImgUrl(url);
-        // 이미지 url 저장
-        const res = await MemberAxiosApi.profileUrlSave(userEmail, url);
-        sessionStorage.setItem("imgUrl", url);
-        if (res.data === true) console.log("DB에 저장되었습니다.");
-        else {
-          console.log("DB 저장에 실패했습니다.");
+        try {
+          const oldFileRef = ref(profileStorage, imgUrl);
+          await deleteObject(oldFileRef);
+          console.log("Previous file deleted successfully!");
+        } catch (error) {
+          console.error("Error deleting previous file:", error);
+          // 이전 파일이 이미 삭제된 경우라도 진행합니다.
         }
       }
 
-      // setSaveFile(null);
+      // 이미지 다운로드 및 저장
+      const url = await getDownloadURL(storageRef);
+      if (url) {
+        setImgUrl(url);
+        sessionStorage.setItem("imgUrl", url);
+        const res = await MemberAxiosApi.profileUrlSave(userEmail, url);
+        if (res.data === true) console.log("DB에 저장되었습니다.");
+        else console.log("DB 저장에 실패했습니다.");
+      }
     } catch (error) {
       console.error("File upload failed:", error);
     }
   };
-  useEffect(() => {
-    const fetchFirstEmailData = async (coupleNameData) => {
-      try {
-        console.log("커플이름 :" + coupleNameData);
-        // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
-        const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
-          coupleNameData
-        );
-        const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
-        coupleProfileAxios(coupleName, firstEmail);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchFirstEmailData(coupleName);
-  }, [coupleName]);
+
   // 커플 이미지 DB에서 불러오기
   const coupleProfileAxios = async (coupleNameData, emailData) => {
     const res = await MemberAxiosApi.coupleProfileUrl(
@@ -223,16 +207,13 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
     sessionStorage.setItem("myDarling", womanprofile);
     setMyDarling(womanprofile);
     console.log(res.data);
-    if (res.data[0] !== null && res.data[0] !== "") {
-      setImgUrl(res.data[0]);
-      setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
-      sessionStorage.setItem("imgUrl", res.data[0]);
-    }
-    if (res.data[1] !== null && res.data[1] !== "") {
-      setMyDarling(res.data[1]);
-      setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
-      sessionStorage.setItem("myDarling", res.data[1]);
-    }
+    setImgUrl(res.data[0]);
+    setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
+    sessionStorage.setItem("imgUrl", res.data[0]);
+
+    setMyDarling(res.data[1]);
+    setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
+    sessionStorage.setItem("myDarling", res.data[1]);
   };
 
   return (
