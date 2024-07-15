@@ -219,8 +219,8 @@ const WriteMainInput = styled.textarea`
   outline: none;
   background-color: transparent;
   font-size: 20px;
-  resize: none; /* 크기 조정 불가능하도록 설정 */
-  overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+  resize: none;
+  overflow-y: auto;
 `;
 const WritePost = styled.div`
   margin-top: 2vh;
