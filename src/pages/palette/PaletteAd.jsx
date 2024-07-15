@@ -214,6 +214,25 @@ const AdPage = () => {
           </AdTitleWrapper>
         </AdTitle>
         <AdLine></AdLine>
+
+        <AdWrapper2>
+        <StyledSwiper2
+            key="swiper2"
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 9000 }}
+            modules={[Navigation, Pagination, Autoplay]}
+            onSwiper={(swiper) => (swiper2Ref.current = swiper)} 
+          >
+            <Slide>Slide 1</Slide>
+            <Slide>Slide 2</Slide>
+            <Slide>Slide 3</Slide>
+            <Slide>Slide 4</Slide>
+          </StyledSwiper2>
+        </AdWrapper2>        
+        <AdLine></AdLine>
         <AdWrapper>
           <StyledSwiper
             key="swiper1"
@@ -232,24 +251,7 @@ const AdPage = () => {
             <Slide>Slide 6</Slide>  
           </StyledSwiper>
         </AdWrapper>
-        <AdLine></AdLine>
-        <AdWrapper2>
-        <StyledSwiper2
-            key="swiper2"
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 9000 }}
-            modules={[Navigation, Pagination, Autoplay]}
-            onSwiper={(swiper) => (swiper2Ref.current = swiper)} 
-          >
-            <Slide>Slide 1</Slide>
-            <Slide>Slide 2</Slide>
-            <Slide>Slide 3</Slide>
-            <Slide>Slide 4</Slide>
-          </StyledSwiper2>
-        </AdWrapper2>
+
       </Background>
       <Footer />
     </Body>
