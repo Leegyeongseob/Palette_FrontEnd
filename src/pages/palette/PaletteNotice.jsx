@@ -3,7 +3,7 @@ import Globalstyle from "../../PaletteStyle";
 import Header from "./paletteImport/Header";
 import Footer from "./paletteImport/Footer";
 import Category from "./paletteImport/Category";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logosearch from "../../img/loginImg/findglass.png";
 import Pagination from "react-js-pagination";
 import { useEffect, useState } from "react";
@@ -257,13 +257,10 @@ const NoticePage = () => {
   const [originalNotice, setOriginalNotice] = useState([]);
   const [filteredNotice, setFilteredNotice] = useState([]);
   const itemsPerPage = 10;
+  const navigate = useNavigate();
 
   const NoticeList = async () => {
     try {
-      // const rsp = await AxiosApi.boardMain();
-      // setOriginalNotice(rsp.data);
-      // setTotalItemsCount(rsp.data.length);
-      // setBoards(rsp.data.slice(0, itemsPerPage));
       setOriginalNotice(exText);
       setFilteredNotice(exText);
       setTotalItemsCount(exText.length);
@@ -308,6 +305,10 @@ const NoticePage = () => {
 
   const handlePageChange = (page) => {
     setPage(page);
+  };
+  
+  const handleRowClick = (classNo) => {
+    navigate(`/customer/notice/${classNo}`);
   };
 
   return (
@@ -356,7 +357,7 @@ const NoticePage = () => {
                     <tbody>
                       {notices &&
                         notices.map((notice) => (
-                          <tr key={notice.classNo}>
+                          <tr key={notice.classNo} onClick={() => handleRowClick(notice.classNo)}>
                             <td className="number">{notice.classNo}</td>
                             <td>{notice.title}</td>
                             <td className="date">{notice.join}</td>

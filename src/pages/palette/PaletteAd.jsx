@@ -4,6 +4,19 @@ import { VelocityComponent } from 'velocity-react';
 import Header from './paletteImport/Header';
 import Footer from './paletteImport/Footer';
 import paletteLogo from "../../img/background/paletteLogo.png";
+import Ad1 from "../../img/palettePg/Ad1.png"
+import Ad2 from "../../img/palettePg/Ad2.png"
+import Ad3 from "../../img/palettePg/Ad3.png"
+import Ad4 from "../../img/palettePg/Ad4.png"
+import Ads1 from "../../img/palettePg/Ads1.png"
+import Ads2 from "../../img/palettePg/Ads2.png"
+import Ads3 from "../../img/palettePg/Ads3.png"
+import Ads4 from "../../img/palettePg/Ads4.png"
+import Ads5 from "../../img/palettePg/Ads5.png"
+import Ads6 from "../../img/palettePg/Ads6.png"
+import Ads7 from "../../img/palettePg/Ads7.png"
+import Ads8 from "../../img/palettePg/Ads8.png"
+import Ads9 from "../../img/palettePg/Ads9.png"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -14,7 +27,7 @@ import { Navigation, Pagination, Autoplay} from 'swiper/modules';
 const fadeInUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(45px);
   }
   to {
     opacity: 1;
@@ -57,9 +70,33 @@ const AdTitle = styled.div`
 
 const AdLine = styled.div`
   width: 100%;
-  height: 13vh;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   background-color: #d0d7e9;
+  opacity: 0;
+  animation: ${fadeInUp} 0.8s forwards;
+  animation-delay: ${({ delay }) => delay || "0s"};
+  animation-play-state: paused;
 `;
+
+const AdLineTitle = styled.div`
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10%;
+  color: #3f3f3f;
+  font-size: 2.6rem;
+  font-weight: bolder;
+  opacity: 0;
+  animation: ${fadeInUp} 0.8s forwards;
+  animation-delay: ${({ delay }) => delay || "0s"};
+  animation-play-state: paused; 
+`
 const AdLineTop = styled.div`
   width: 100%;
   height: 1vh;
@@ -74,6 +111,10 @@ const AdWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  animation: ${fadeInUp} 1.5s forwards;
+  animation-delay: ${({ delay }) => delay || "0s"};
+  animation-play-state: paused; 
 `;
 
 const AdWrapper2 = styled.div`
@@ -84,6 +125,10 @@ const AdWrapper2 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  animation: ${fadeInUp} 1.5s forwards;
+  animation-delay: ${({ delay }) => delay || "0s"};
+  animation-play-state: paused; 
 `;
 
 const PaletteImg = styled(AnimatedDiv)`
@@ -125,13 +170,13 @@ const StyledSwiper = styled(Swiper)`
   width: 90%;
   height: 50%; // 원하는 높이로 설정
   .swiper-pagination-bullet {
-    background: #4b6dc5; // 페이지네이션 점 색상 변경
+    background: #393939; // 페이지네이션 점 색상 변경
     width: 0.5vw;
     height: 1vh;
     
   }
   .swiper-button-next, .swiper-button-prev {
-    color: #efefef; // 네비게이션 버튼 색상 변경
+    color: #393939; // 네비게이션 버튼 색상 변경
   }
 `;
 
@@ -139,12 +184,12 @@ const StyledSwiper2 = styled(Swiper)`
   width: 90%;
   height: 90%; // 원하는 높이로 설정
   .swiper-pagination-bullet {
-    background: #4b6dc5; // 페이지네이션 점 색상 변경
+    background: #393939; // 페이지네이션 점 색상 변경
     width: 0.7vw;
     height: 1.4vh;
   }
   .swiper-button-next, .swiper-button-prev {
-    color: #efefef; // 네비게이션 버튼 색상 변경
+    color: #393939; // 네비게이션 버튼 색상 변경
   }
 `;
 
@@ -153,7 +198,11 @@ const Slide = styled(SwiperSlide)`
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
-  background-color: #d0d7e9;
+  background-color: #fff9f2;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const AdPage = () => {
@@ -163,6 +212,8 @@ const AdPage = () => {
   // 각각의 스와이퍼를 제어하기 위한 ref 선언
   const swiper1Ref = useRef(null);
   const swiper2Ref = useRef(null);
+  const adLineTitleRefs = useRef([]);
+  adLineTitleRefs.current = [];
 
 
   useEffect(() => {
@@ -201,21 +252,55 @@ const AdPage = () => {
       enableScroll();
     };
   }, []);
+  
+
+  // 사용자를 마주했을 때 애니메이션 효과
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+    };
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, observerOptions);
+  
+    adLineTitleRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+  
+    return () => {
+      adLineTitleRefs.current.forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+  
+  const addToRefs = (el) => {
+    if (el && !adLineTitleRefs.current.includes(el)) {
+      adLineTitleRefs.current.push(el);
+    }
+  };
 
   return (
     <Body>
       <Background>
         <Header bgColor={bgColor}/>
-        <AdLineTop></AdLineTop>
+        <AdLineTop/>
         <AdTitle bgColor={bgColor}>
           <PaletteImg data-animate />
           <AdTitleWrapper>
             {letters}
           </AdTitleWrapper>
         </AdTitle>
-        <AdLine></AdLine>
-
-        <AdWrapper2>
+        <AdLine ref={addToRefs} data-animate>
+        <AdLineTitle ref={addToRefs} data-animate>왜 Palette 인가 ?</AdLineTitle>
+        </AdLine>
+        <AdWrapper2 ref={addToRefs} data-animate>
         <StyledSwiper2
             key="swiper2"
             spaceBetween={10}
@@ -226,14 +311,16 @@ const AdPage = () => {
             modules={[Navigation, Pagination, Autoplay]}
             onSwiper={(swiper) => (swiper2Ref.current = swiper)} 
           >
-            <Slide>Slide 1</Slide>
-            <Slide>Slide 2</Slide>
-            <Slide>Slide 3</Slide>
-            <Slide>Slide 4</Slide>
+            <Slide imageurl={Ad1}/>
+            <Slide imageurl={Ad2}/>
+            <Slide imageurl={Ad3}/>
+            <Slide imageurl={Ad4}/>
           </StyledSwiper2>
         </AdWrapper2>        
-        <AdLine></AdLine>
-        <AdWrapper>
+        <AdLine ref={addToRefs} data-animate>
+        <AdLineTitle ref={addToRefs} data-animate>Palette Details</AdLineTitle>
+        </AdLine>
+        <AdWrapper ref={addToRefs} data-animate>
           <StyledSwiper
             key="swiper1"
             spaceBetween={30}
@@ -243,12 +330,15 @@ const AdPage = () => {
             modules={[Navigation, Pagination, Autoplay]}
             onSwiper={(swiper) => (swiper1Ref.current = swiper)} // ref 설정
           >
-            <Slide>Slide 1</Slide>
-            <Slide>Slide 2</Slide>
-            <Slide>Slide 3</Slide>
-            <Slide>Slide 4</Slide>
-            <Slide>Slide 5</Slide>
-            <Slide>Slide 6</Slide>  
+            <Slide imageurl={Ads1}/>
+            <Slide imageurl={Ads2}/>
+            <Slide imageurl={Ads9}/>
+            <Slide imageurl={Ads3}/>
+            <Slide imageurl={Ads4}/>
+            <Slide imageurl={Ads5}/>
+            <Slide imageurl={Ads6}/>
+            <Slide imageurl={Ads7}/>
+            <Slide imageurl={Ads8}/>
           </StyledSwiper>
         </AdWrapper>
 

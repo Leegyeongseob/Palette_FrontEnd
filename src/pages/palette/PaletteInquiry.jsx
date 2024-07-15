@@ -3,7 +3,7 @@ import Globalstyle from "../../PaletteStyle";
 import Header from "./paletteImport/Header";
 import Category from "./paletteImport/Category";
 import Footer from "./paletteImport/Footer";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
 import { useRef, useState } from "react";
 import Modal from "../datediary/Modal";
@@ -241,7 +241,6 @@ const InquiryPage = () => {
 
   const sendEmail = e => {
     e.preventDefault();
-    // form data에 체크박스 값을 추가합니다.
     const formData = new FormData(form.current);
     formData.append("number_check", numberCheck);
     formData.append("user_check", userCheck);
@@ -255,7 +254,7 @@ const InquiryPage = () => {
       (error) => {
         console.log(error.text);
         setModalOpen(true);
-        setModalContent("이메일이 전송이 실패되었습니다. 잠시 후 다시 시도해주세요.");
+        setModalContent("이메일 전송에 실패 하였습니다. ");
       },
     );
   };

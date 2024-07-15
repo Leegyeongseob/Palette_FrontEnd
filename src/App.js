@@ -29,6 +29,7 @@ import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
 import GuestBoardDetails from "./pages/board/GuestBoardDetails";
 import PaletteHelp from "./pages/palette/PaletteHelp";
 import PaletteNotice from "./pages/palette/PaletteNotice";
+import PaletteNoticeDetails from "./pages/palette/PaletteNoticeDetails";
 import PaletteInquiry from "./pages/palette/PaletteInquiry";
 import PaletteAd from "./pages/palette/PaletteAd";
 import PaletteCustomer from "./pages/palette/PaletteCustomer";
@@ -53,6 +54,7 @@ function App() {
           <Route path="/customer/inquiry" element={<PaletteInquiry />} />
           <Route path="/customer/ad" element={<PaletteAd />} />
           <Route path="/customer/notice" element={<PaletteNotice />} />
+          <Route path="/customer/notice/:id" element={<PaletteNoticeDetails />} />
           <Route element={<OpenBook />}>
             <Route path="/:coupleName/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />

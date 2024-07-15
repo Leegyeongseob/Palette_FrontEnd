@@ -103,6 +103,7 @@ const PalettePage = () => {
   const DIVIDER_HEIGHT = 5;
   const outerDivRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
+  const animatedElementsRef = useRef([]);
 
   useEffect(() => {
     const wheelHandler = (e) => {
@@ -169,6 +170,7 @@ const PalettePage = () => {
 
   // Intersection Observer로 애니메이션 트리거
   useEffect(() => {
+    const elements = animatedElementsRef.current;
     const options = {
       threshold: 0.1,
     };
@@ -182,14 +184,13 @@ const PalettePage = () => {
       });
     }, options);
 
-    const elements = document.querySelectorAll("[data-animate]");
     elements.forEach((el) => {
-      observer.observe(el);
+      if (el) observer.observe(el);
     });
 
     return () => {
       elements.forEach((el) => {
-        observer.unobserve(el);
+        if (el) observer.unobserve(el);
       });
     };
   }, []);
@@ -201,42 +202,38 @@ const PalettePage = () => {
       <Outer ref={outerDivRef}>
         <Background>
           <Header />
-          <Intro data-animate>
-            <PageIntro data-animate>연애의 시작,</PageIntro>
-            <CloseBookImg data-animate />
-            <PageIntro data-animate>팔레트</PageIntro>
+          <Intro ref={(el) => animatedElementsRef.current[0] = el} data-animate>
+            <PageIntro ref={(el) => animatedElementsRef.current[1] = el} data-animate>연애의 시작,</PageIntro>
+            <CloseBookImg ref={(el) => animatedElementsRef.current[2] = el} data-animate />
+            <PageIntro ref={(el) => animatedElementsRef.current[3] = el} data-animate>팔레트</PageIntro>
           </Intro>
-          <Intro1 data-animate>
-            <OpenBookImg imageurl={page1} data-animate />
-            <PageIntro data-animate>지금 연애하고 계신가요?</PageIntro>
+          <Intro1 ref={(el) => animatedElementsRef.current[4] = el} data-animate>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[5] = el} imageurl={page1} data-animate />
+            <PageIntro ref={(el) => animatedElementsRef.current[6] = el} data-animate>지금 연애하고 계신가요?</PageIntro>
           </Intro1>
-          <Intro2 data-animate>
-            <PageIntro data-animate>팔레트를 시작하세요!</PageIntro>
-            <OpenBookImg imageurl={page2} data-animate />
+          <Intro2 ref={(el) => animatedElementsRef.current[7] = el} data-animate>
+            <PageIntro ref={(el) => animatedElementsRef.current[8] = el} data-animate>팔레트를 시작하세요!</PageIntro>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[9] = el} imageurl={page2} data-animate />
           </Intro2>
-          <Intro1 data-animate>
-            <OpenBookImg imageurl={page3} data-animate />
-            <PageIntro data-animate>
-              팔레트는 연인과 더 사랑스럽게 소통하고,
-            </PageIntro>
+          <Intro1 ref={(el) => animatedElementsRef.current[10] = el} data-animate>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[11] = el} imageurl={page3} data-animate />
+            <PageIntro ref={(el) => animatedElementsRef.current[12] = el} data-animate>팔레트는 연인과 더 사랑스럽게 소통하고,</PageIntro>
           </Intro1>
-          <Intro2 data-animate>
-            <PageIntro data-animate>
-              소중한 추억을 손쉽게 저장할 수 있습니다.
-            </PageIntro>
-            <OpenBookImg imageurl={page2} data-animate />
+          <Intro2 ref={(el) => animatedElementsRef.current[13] = el} data-animate>
+            <PageIntro ref={(el) => animatedElementsRef.current[14] = el} data-animate>소중한 추억을 손쉽게 저장할 수 있습니다.</PageIntro>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[15] = el} imageurl={page2} data-animate />
           </Intro2>
-          <Intro1 data-animate>
-            <OpenBookImg imageurl={page3} data-animate />
-            <PageIntro data-animate>둘만의 추억,</PageIntro>
+          <Intro1 ref={(el) => animatedElementsRef.current[16] = el} data-animate>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[17] = el} imageurl={page3} data-animate />
+            <PageIntro ref={(el) => animatedElementsRef.current[18] = el} data-animate>둘만의 추억,</PageIntro>
           </Intro1>
-          <Intro2 data-animate>
-            <PageIntro data-animate>특별한 기억,</PageIntro>
-            <OpenBookImg imageurl={page2} data-animate />
+          <Intro2 ref={(el) => animatedElementsRef.current[19] = el} data-animate>
+            <PageIntro ref={(el) => animatedElementsRef.current[20] = el} data-animate>특별한 기억,</PageIntro>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[21] = el} imageurl={page2} data-animate />
           </Intro2>
-          <Intro1 data-animate>
-            <OpenBookImg imageurl={page3} data-animate />
-            <PageIntro data-animate>추억을 만들어보세요!</PageIntro>
+          <Intro1 ref={(el) => animatedElementsRef.current[22] = el} data-animate>
+            <OpenBookImg ref={(el) => animatedElementsRef.current[23] = el} imageurl={page3} data-animate />
+            <PageIntro ref={(el) => animatedElementsRef.current[24] = el} data-animate>추억을 만들어보세요!</PageIntro>
           </Intro1>
           <Footer />
         </Background>
