@@ -132,6 +132,7 @@ const CloseButton = styled.div`
 `;
 
 const TemaPop = (props) => {
+  const { open, close } = props;
   const [purchasedOrders, setPurchasedOrders] = useState([]);
   const userEmail = sessionStorage.getItem("email");
 
@@ -141,22 +142,20 @@ const TemaPop = (props) => {
       const temaList = response.data.flatMap((dto) => dto.orderName);
       setPurchasedOrders(temaList);
     } catch (error) {
-      console.error("Error fetching purchased orders:", error);
+      console.error("테마 구매 중 에러 발생", error);
     }
   }, [userEmail]);
 
   useEffect(() => {
-    if (userEmail) {
+    if (open) {
       fetchPurchasedOrders();
     }
-  }, [userEmail, fetchPurchasedOrders]);
+  }, [open, fetchPurchasedOrders]);
 
   const handlePaymentSuccess = () => {
-    console.log("Payment was successful!");
+    console.log("테마 구매 성공");
     fetchPurchasedOrders(); // 결제 성공 후 리스트 새로고침
   };
-
-  const { open, close } = props;
 
   const checkPurchased = (order) => {
     return purchasedOrders && purchasedOrders.includes(order);

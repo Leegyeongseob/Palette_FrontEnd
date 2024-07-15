@@ -209,12 +209,12 @@ const TemaChange = ({ open, close, setBgColor }) => {
       console.error("Error fetching purchased themes:", error);
     }
   }, [userEmail]);
-
+  
   useEffect(() => {
-    if (userEmail) {
-      fetchPurchasedThemes(); // 컴포넌트 마운트 시 구매한 테마 로드
+    if (open) {
+      fetchPurchasedThemes(); // 팝업이 열릴 때 구매한 테마 로드
     }
-  }, [userEmail, fetchPurchasedThemes]);
+  }, [open, fetchPurchasedThemes]);
 
   const handleSetColor = (color) => () => {
     setBgColor(color);
