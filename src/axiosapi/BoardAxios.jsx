@@ -26,9 +26,13 @@ const BoardAxios = {
     }
   },
 
-  createBoard: async (boardReqDto) => {
+  createBoard: async (boardReqDto, coupleName) => {
     try {
-      const response = await axiosInstance.post("/boards/save", boardReqDto);
+      console.log("aixos 확인", boardReqDto);
+      const response = await axiosInstance.post(
+        `/boards/save/${coupleName}`,
+        boardReqDto
+      );
       return response.data;
     } catch (error) {
       console.error("게시글 생성 실패:", error);

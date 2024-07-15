@@ -126,7 +126,7 @@ const BookMark = () => {
   };
   const OpenBoardOnClickHandler = async () => {
     if ((await isCoupleAxios(email)) === true) {
-      navigator("/board-guestbook");
+      navigator(`/${coupleName}/board-guestbook`);
     } else {
       // 모달
       soloModal();

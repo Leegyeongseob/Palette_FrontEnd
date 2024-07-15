@@ -57,7 +57,7 @@ function App() {
             <Route path="/date-diary" element={<DateDiary />} />
             <Route path="/chat" element={<ChatMain />} />
             <Route path="/:coupleName/dateplanner" element={<DatePlanner />} />
-            <Route path="/board-guestbook" element={<GuestBoardGuestbook />} />
+            <Route path="/:coupleName/board-guestbook" element={<GuestBoardGuestbook />} />
             <Route path="/board-details" element={<BoardDetails />} />
             <Route path="/board-write" element={<BoardWrite />} />
             <Route
