@@ -34,6 +34,9 @@ import PaletteAd from "./pages/palette/PaletteAd";
 import PaletteCustomer from "./pages/palette/PaletteCustomer";
 import ErrorPage from "./error/ErrorPage";
 import KakaoRedirect from "./pages/login/redirect/KakaoRedirect";
+import ChatList from "./pages/chat/ChatList";
+import ChatRoomCreate from "./pages/chat/ChatRoomCreate";
+
 function App() {
   return (
     <>
@@ -60,8 +63,8 @@ function App() {
             <Route path="/date-album5" element={<DateAlbum5 />} />
             <Route path="/date-diary" element={<DateDiary />} />
             <Route path="/Chat" element={<ChatList />} />
-            <Route path="/Chat-create" element={<ChatRoomCreate />} />
-            <Route path="/Chatting/:roomId" element={<Chatting />} />
+            <Route path="/Chatcreate" element={<ChatRoomCreate />} />
+            <Route path="/Chat/:roomId" element={<ChatMain />} />
             <Route path="/:coupleName/dateplanner" element={<DatePlanner />} />
             <Route
               path="/:coupleName/board-guestbook"
