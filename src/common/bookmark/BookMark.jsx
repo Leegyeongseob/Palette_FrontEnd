@@ -7,10 +7,12 @@ import clothesBg from "../../img/background/theme/clothes_background.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 import Modal from "../../pages/datediary/Modal";
 import soleModalImg from "../../img/mainImg/솔로잠금.gif";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import visitLcck from "../../img/mainImg/방문자 잠금.gif";
+import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
 const BookMarkDiv = styled.div`
   width: 18.75vw;
   height: 10.493vh;
@@ -133,16 +135,18 @@ const BookMark = () => {
       console.log("솔로는 웁니다.");
     }
   };
+
   const OpenChatOnClickHandler = async () => {
     compareCoulpleNameFunction(email);
     if ((await isCoupleAxios(email)) === true) {
-      navigator("/chat");
+      navigator(`/Chat`);
     } else {
       // 모달
       soloModal();
       console.log("솔로는 웁니다.");
     }
   };
+
   //방문객 모달 확인버튼 이벤트함수
   const visitCodeModalOkBtnHandler = () => {
     closeModal();

@@ -235,32 +235,6 @@ const ChatMain = () => {
     }
   };
 
-  // const onClickMsgSend = (e) => {
-  //   // 메시지 전송
-  //   const MessagesSave = async (roomId, sender, receiver, message) => {
-  //     const rsp = await ChatAxiosApi.chatMessagesSave(
-  //       roomId,
-  //       sender,
-  //       receiver,
-  //       message
-  //     );
-  //     setInputMsg("");
-  //   };
-  //   ws.current.send(
-  //     JSON.stringify({
-  //       type: "TALK",
-  //       roomId: roomId,
-  //       sender: sender,
-  //       receiver: receiver,
-  //       message: inputMsg,
-  //     })
-  //   );
-  //   MessagesSave(roomId, sender, receiver, inputMsg);
-  //   setInputMsg("");
-  //   console.log("receiver" + receiver);
-  //   console.log(inputMsg);
-  // };
-
   const onClickMsgSend = (e) => {
     const sendMessage = async (roomId, sender, receiver, message) => {
       try {
@@ -338,71 +312,6 @@ const ChatMain = () => {
     getChatRoom();
     getPastMessages();
   }, []);
-
-  // useEffect(() => {
-  //   console.log("방번호는 " + roomId);
-  //   if (!ws.current) {
-  //     ws.current = new WebSocket(Common.PALETTE_SOCKET_URL);
-  //     ws.current.onopen = () => {
-  //       console.log("웹소켓연결됨" + Common.PALETTE_SOCKET_URL);
-  //       setSocketConnected(true);
-  //     };
-  //   }
-  //   if (socketConnected) {
-  //     // 웹소켓 연결되면
-  //     ws.current.send(
-  //       JSON.stringify({
-  //         // 서버에 입장 메시지 전송
-  //         type: "ENTER",
-  //         roomId: roomId,
-  //         sender: sender,
-  //         receiver: receiver,
-  //         message: inputMsg,
-  //       })
-  //     );
-  //   }
-  //   ws.current.onmessage = (evt) => {
-  //     const data = JSON.parse(evt.data);
-  //     console.log("메세지 수신입니다: ", data.message);
-  //     console.log("메세지 수신입니다", data.chatData);
-  //     setChatList((prevChatList) => [...prevChatList, data]); // 새로운 메시지를 로컬 상태에 추가
-  //   };
-  // }, [socketConnected]);
-
-  // useEffect(() => {
-  //   const connectWebSocket = () => {
-  //     ws.current = new WebSocket(Common.PALETTE_SOCKET_URL);
-  //     ws.current.onopen = () => {
-  //       console.log("웹소켓 연결됨", Common.PALETTE_SOCKET_URL);
-  //       setSocketConnected(true);
-  //       ws.current.send(
-  //         JSON.stringify({
-  //           type: "ENTER",
-  //           roomId: roomId,
-  //           sender: sender,
-  //           receiver: receiver,
-  //           message: inputMsg,
-  //         })
-  //       );
-  //     };
-  //     ws.current.onmessage = (evt) => {
-  //       const data = JSON.parse(evt.data);
-  //       console.log("메세지 수신", data.message);
-  //       setChatList((prevChatList) => [...prevChatList, data]);
-  //     };
-  //     ws.current.onclose = () => {
-  //       console.log("웹소켓 연결이 끊어졌습니다. 재연결 시도 중...");
-  //       setTimeout(connectWebSocket, 0); // 0초 후 재연결 시도
-  //     };
-  //   };
-  //   connectWebSocket();
-
-  //   return () => {
-  //     if (ws.current) {
-  //       ws.current.close();
-  //     }
-  //   };
-  // }, [sender, receiver, roomId]);
 
   useEffect(() => {
     // console.log("방번호 : " + roomId);

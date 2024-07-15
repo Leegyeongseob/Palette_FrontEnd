@@ -41,7 +41,7 @@ const Button = styled.button`
   }
 `;
 
-function ChatRoomCreate() {
+const ChatRoomCreate = () => {
   const [chatRoomTitle, setChatRoomTitle] = useState("");
   const navigate = useNavigate();
 
@@ -73,6 +73,6 @@ function ChatRoomCreate() {
       </ButtonContainer>
     </Container>
   );
-}
+};
 
 export default ChatRoomCreate;

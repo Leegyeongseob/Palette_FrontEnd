@@ -88,6 +88,8 @@ function ChatList() {
   const [chatRooms, setChatRooms] = useState([]);
   const navigate = useNavigate();
 
+  const deleteChatRoom = () => {};
+
   useEffect(() => {
     // 서버로부터 채팅방 목록을 가져오는 API 호출
     const getChatRoom = async () => {
