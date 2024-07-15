@@ -3,15 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Guestbook from "./Guestbook";
 import BoardAxios from "../../axiosapi/BoardAxios";
-import {
-  storage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "../../firebase/firebaseBoard";
 
 const BookTheme = styled.div`
   width: 53vw;
