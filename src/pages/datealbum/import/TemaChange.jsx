@@ -1,4 +1,6 @@
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import AlbumAxiosApi from "../../../axiosapi/AlbumAxiosApi";
 
 const PopupOverlay = styled.div`
   display: none;
@@ -20,7 +22,7 @@ const Popup = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 650px;
-  height: 240px;
+  height: 250px;
   background: white;
   display: flex;
   flex-direction: column;
@@ -37,7 +39,7 @@ const TitleDiv = styled.div`
   border-bottom: 1px solid #c8c8c8;
   align-items: center;
   justify-content: flex-start;
-`
+`;
 
 const TitleLeft = styled.div`
   width: 50%;
@@ -75,30 +77,29 @@ const TitleRightBtn = styled.div`
 
 const PopBoard = styled.div`
   width: 95%;
-  height: 60%;
+  height: 60%; /* 최대 높이 설정 */
+  max-height: 60%;
   margin-top: 0.5rem;
   padding: 0.5rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap; /* 요소들이 한 줄에 3개씩 배치되도록 함 */
+  align-items: flex-start; /* 요소들이 위쪽에 정렬되도록 함 */
   border-radius: 0.5rem;
   background-color: white;
+  overflow-y: auto; /* 세로 스크롤바 표시 */
 `;
 
 const BuyTema = styled.div`
-  width: 33%;
+  width: 33%; /* 요소들이 한 줄에 3개씩 배치되도록 함 */
   height: 90%;
+  margin-bottom: 0.5rem; /* 요소들 사이의 간격 */
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid darkgray;
-  &:last-child {
-    border-right: none;
-  }
 `;
+
 const TemaSky = styled.div`
   width: 90%;
   height: 100%;
@@ -115,6 +116,24 @@ const TemaPink = styled.div`
   width: 90%;
   height: 100%;
   background-color: #f6dee2;
+  display: flex;
+`;
+const TemaGreen = styled.div`
+  width: 90%;
+  height: 100%;
+  background-color: #b9e7b7;
+  display: flex;
+`;
+const TemaYellow = styled.div`
+  width: 90%;
+  height: 100%;
+  background-color: #fffdb8;
+  display: flex;
+`;
+const TemaPurple = styled.div`
+  width: 90%;
+  height: 100%;
+  background-color: #e5c9f5;
   display: flex;
 `;
 const TemaInfo = styled.div`
@@ -175,57 +194,128 @@ const BuyButton = styled.div`
   }
 `;
 
-const TemaChange = (  {open, close,setBgColor} ) => {
-    const userEmail = sessionStorage.getItem("email");
-    const handleSetColor = (color) => () => {
-        setBgColor(color);
-        localStorage.setItem(`${userEmail}_themeColor`, color);
-        close();
-    };
-    
-    return (
-      <PopupOverlay className={open ? "openModal" : ""}>
-        {open && (
-          <Popup>
-            <TitleDiv>
-          <TitleLeft>보유 테마 목록</TitleLeft>
-          <TitleRight>
-            <TitleRightBtn color="#eccdaf" onClick={handleSetColor("#eccdaf")}>기본테마</TitleRightBtn>
-          </TitleRight>
+const TemaChange = ({ open, close, setBgColor }) => {
+  const [purchasedThemes, setPurchasedThemes] = useState([]); // 구매한 테마 목록 상태
+
+  const userEmail = sessionStorage.getItem("email");
+
+  // 사용자가 구매한 테마를 가져오는 함수
+  const fetchPurchasedThemes = useCallback(async () => {
+    try {
+      const response = await AlbumAxiosApi.getTemaLoad(userEmail);
+      const temaList = response.data.flatMap((dto) => dto.orderName); // 구매한 테마 이름 추출
+      setPurchasedThemes(temaList);
+    } catch (error) {
+      console.error("Error fetching purchased themes:", error);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (userEmail) {
+      fetchPurchasedThemes(); // 컴포넌트 마운트 시 구매한 테마 로드
+    }
+  }, [userEmail, fetchPurchasedThemes]);
+
+  const handleSetColor = (color) => () => {
+    setBgColor(color);
+    localStorage.setItem(`${userEmail}_themeColor`, color);
+    close();
+  };
+
+  return (
+    <PopupOverlay className={open ? "openModal" : ""}>
+      {open && (
+        <Popup>
+          <TitleDiv>
+            <TitleLeft>보유 테마 목록</TitleLeft>
+            <TitleRight>
+              <TitleRightBtn onClick={handleSetColor("#eccdaf")}>
+                기본테마
+              </TitleRightBtn>
+            </TitleRight>
           </TitleDiv>
           <PopBoard>
-            <BuyTema>
-              <TemaSky>
-                <TemaInfo>
-                  <TemaOne>SkyBlue Tema</TemaOne>
-                  <BuyButton color="#d9f2fc" onClick={handleSetColor("#d9f2fc")}>변경 하기</BuyButton>
-                </TemaInfo>
-              </TemaSky>
-            </BuyTema>
-            <BuyTema>
-              <TemaBlack>
-                <TemaInfo>
-                  <TemaOne>Black Tema</TemaOne>
-                  <BuyButton color="#dadada" onClick={handleSetColor("#dadada")}>변경 하기</BuyButton>
-                </TemaInfo>
-              </TemaBlack>
-            </BuyTema>
-            <BuyTema>
-              <TemaPink>
-                <TemaInfo>
-                  <TemaOne>Pink Tema</TemaOne>
-                  <BuyButton color="#f6dee2" onClick={handleSetColor("#f6dee2")}>변경 하기</BuyButton>
-                </TemaInfo>
-              </TemaPink>
-            </BuyTema>
+            {/* 구매한 테마만 표시 */}
+            {purchasedThemes.includes("Palette SkyBlue Tema 구매") && (
+              <BuyTema>
+                <TemaSky>
+                  <TemaInfo>
+                    <TemaOne>SkyBlue Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#d9f2fc")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaSky>
+              </BuyTema>
+            )}
+            {purchasedThemes.includes("Palette Black Tema 구매") && (
+              <BuyTema>
+                <TemaBlack>
+                  <TemaInfo>
+                    <TemaOne>Black Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#dadada")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaBlack>
+              </BuyTema>
+            )}
+            {purchasedThemes.includes("Palette Pink Tema 구매") && (
+              <BuyTema>
+                <TemaPink>
+                  <TemaInfo>
+                    <TemaOne>Pink Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#f6dee2")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaPink>
+              </BuyTema>
+            )}
+            {purchasedThemes.includes("Palette Green Tema 구매") && (
+              <BuyTema>
+                <TemaGreen>
+                  <TemaInfo>
+                    <TemaOne>Green Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#b9e7b7")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaGreen>
+              </BuyTema>
+            )}
+            {purchasedThemes.includes("Palette Yellow Tema 구매") && (
+              <BuyTema>
+                <TemaYellow>
+                  <TemaInfo>
+                    <TemaOne>Yellow Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#fffdb8")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaYellow>
+              </BuyTema>
+            )}
+            {purchasedThemes.includes("Palette Purple Tema 구매") && (
+              <BuyTema>
+                <TemaPurple>
+                  <TemaInfo>
+                    <TemaOne>Purple Tema</TemaOne>
+                    <BuyButton onClick={handleSetColor("#e5c9f5")}>
+                      변경 하기
+                    </BuyButton>
+                  </TemaInfo>
+                </TemaPurple>
+              </BuyTema>
+            )}
           </PopBoard>
           <CloseDiv>
-          <CloseButton onClick={close}>닫기</CloseButton>
+            <CloseButton onClick={close}>닫기</CloseButton>
           </CloseDiv>
         </Popup>
-        )}
-      </PopupOverlay>
-    );
-  };
-  export default TemaChange;
-  
+      )}
+    </PopupOverlay>
+  );
+};
+
+export default TemaChange;

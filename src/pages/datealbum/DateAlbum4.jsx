@@ -284,7 +284,7 @@ const PlusButton = styled.button`
   }
 `;
 
-const DateAlbum3 = () => {
+const DateAlbum4 = () => {
   const [animate, setAnimate] = useState(false);
   const [animate2, setAnimate2] = useState(false);
 
@@ -306,7 +306,7 @@ const DateAlbum3 = () => {
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeNextModal();
-    navigate("/date-album3");
+    navigate("/date-album4");
   };
 
   const closeNextModal = () => {
@@ -333,10 +333,10 @@ const DateAlbum3 = () => {
   const handleNext = async () => {
     try {
       const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
-      if (amount !== null && amount / 1000 >= 3) {
+      if (amount !== null && amount / 1000 >= 4) {
         setAnimate2(true);
         setTimeout(() => {
-          navigate("/date-album4");
+          navigate("/date-album5");
         }, 1800);
       } else {
         // 모달
@@ -370,7 +370,7 @@ const DateAlbum3 = () => {
   const handleBack = () => {
     setAnimate(true);
     setTimeout(() => {
-      navigate("/date-album2");
+      navigate("/date-album3");
     }, 1800);
   };
 
@@ -386,14 +386,14 @@ const DateAlbum3 = () => {
         const response = await AlbumAxiosApi.getImages(userEmail);
         const galleries = response.data;
         const updatedImages = Array(18).fill(null);
-        galleries.slice(33, 51).forEach((image, index) => {
+        galleries.slice(51, 69).forEach((image, index) => {
           updatedImages[index] = image.urls;
         });
         setImages(updatedImages);
 
         // 이미지를 기반으로 imgBoxes 배열 업데이트
         const newImgBoxes = Array(18).fill(null);
-        const imageCount = galleries.slice(33, 51).length;
+        const imageCount = galleries.slice(51, 69).length;
         if (imageCount < 18) {
           newImgBoxes[imageCount] = "+";
         }
@@ -479,14 +479,14 @@ const DateAlbum3 = () => {
       const response = await AlbumAxiosApi.getImages(userEmail);
       const galleries = response.data;
       const updatedImages = Array(18).fill(null);
-      galleries.slice(33, 51).forEach((image, index) => {
+      galleries.slice(51, 69).forEach((image, index) => {
         updatedImages[index] = image.urls;
       });
       setImages(updatedImages);
 
       // 이미지를 기반으로 imgBoxes 배열 업데이트
       const newImgBoxes = Array(18).fill(null);
-      const imageCount = galleries.slice(33, 51).length;
+      const imageCount = galleries.slice(51, 69).length;
       if (imageCount < 18) {
         newImgBoxes[imageCount] = "+";
       }
@@ -615,4 +615,4 @@ const DateAlbum3 = () => {
   );
 };
 
-export default DateAlbum3;
+export default DateAlbum4;

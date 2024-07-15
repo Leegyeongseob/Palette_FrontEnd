@@ -199,42 +199,54 @@ const PagePop = (props) => {
           <PopTitle>
             <PageTitleleft>페이지 구매</PageTitleleft>
             <PageTitleRight>
-              보유 페이지 : {amount !== null ? amount : "0"}
+              최대 페이지 : 5 / 보유 페이지 :{" "}
+              {amount !== null ? amount + 1 : "1"}
             </PageTitleRight>
           </PopTitle>
           <PopBoard>
-            <BuyPage>
-              <PageLeft>
-                <PageInfo>
-                  <PageOne>페이지 1장 구매</PageOne>
-                  <PageTwo>파격세일!!</PageTwo>
-                  <PageThr>
-                    <Strikethrough>5000원</Strikethrough>={">"}1000원
-                  </PageThr>
-                  <PaymentComponent
-                    onPaymentSuccess={handlePaymentSuccess}
-                    amount={1000}
-                    order={"Palette Album 페이지 구매"}
-                  />
-                </PageInfo>
-              </PageLeft>
-            </BuyPage>
-            <BuyPage>
-              <PageRight>
-                <PageInfo>
-                  <PageOne>페이지 2장 구매</PageOne>
-                  <PageTwo>파격세일!!</PageTwo>
-                  <PageThr>
-                    <Strikethrough>10000원</Strikethrough>={">"}2000원
-                  </PageThr>
-                  <PaymentComponent
-                    onPaymentSuccess={handlePaymentSuccess}
-                    amount={2000}
-                    order={"Palette Album 페이지 2장 구매"}
-                  />
-                </PageInfo>
-              </PageRight>
-            </BuyPage>
+            {amount < 4 && (
+              <>
+                <BuyPage>
+                  <PageLeft>
+                    <PageInfo>
+                      <PageOne>페이지 1장 구매</PageOne>
+                      <PageTwo>파격세일!!</PageTwo>
+                      <PageThr>
+                        <Strikethrough>5000원</Strikethrough>= 1000원
+                      </PageThr>
+                      <PaymentComponent
+                        onPaymentSuccess={handlePaymentSuccess}
+                        amount={1000}
+                        order={"Palette Album 페이지 구매"}
+                      />
+                    </PageInfo>
+                  </PageLeft>
+                </BuyPage>
+                {amount < 3 && (
+                  <BuyPage>
+                    <PageRight>
+                      <PageInfo>
+                        <PageOne>페이지 2장 구매</PageOne>
+                        <PageTwo>파격세일!!</PageTwo>
+                        <PageThr>
+                          <Strikethrough>10000원</Strikethrough>= 2000원
+                        </PageThr>
+                        <PaymentComponent
+                          onPaymentSuccess={handlePaymentSuccess}
+                          amount={2000}
+                          order={"Palette Album 페이지 2장 구매"}
+                        />
+                      </PageInfo>
+                    </PageRight>
+                  </BuyPage>
+                )}
+              </>
+            )}
+            {amount >= 4 && (
+              <PageInfo>
+                <PageOne>더 이상 페이지를 구매할 수 없습니다.</PageOne>
+              </PageInfo>
+            )}
           </PopBoard>
           <CloseDiv>
             <CloseButton onClick={close}>닫기</CloseButton>

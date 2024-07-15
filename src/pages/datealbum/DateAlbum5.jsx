@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from "react";
 
 import PagePop from "./import/PagePop";
 import TemaPop from "./import/TemaPop";
-import Modal from "../../pages/datediary/Modal";
-import modalImg from "../../img/commonImg/전구 아이콘.gif";
 import TemaChange from "./import/TemaChange";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
@@ -26,21 +24,6 @@ const turnPageRight = keyframes`
   100% {
     transform: perspective(1000px) rotateY(180deg);
     transform-origin: right;
-  }
-`;
-
-const turnPageLeft = keyframes`
-  0% {
-    transform: perspective(1000px) rotateY(0deg);
-    transform-origin: left;
-  }
-  30% {
-    transform: perspective(1600px) rotateY(-25deg);
-    transform-origin: left;
-  } 
-  100% {
-    transform: perspective(1000px) rotateY(-180deg);
-    transform-origin: left;
   }
 `;
 
@@ -94,12 +77,6 @@ const BookSign2 = styled.div`
   position: absolute;
   border-left: 0.5px solid black;
   display: flex;
-  z-index: ${({ animate2 }) => (animate2 ? 2 : 1)};
-  ${({ animate2 }) =>
-    animate2 &&
-    css`
-      animation: ${turnPageLeft} 1.8s forwards;
-    `}
 `;
 const ContentWrapper = styled.div`
   width: 100%;
@@ -120,12 +97,6 @@ const ContentWrapper2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  ${({ animate2 }) =>
-    animate2 &&
-    css`
-      opacity: 0;
-      transition: opacity 1.4s;
-    `}
 `;
 const ImgWrapper2 = styled.div`
   width: 90%;
@@ -181,18 +152,6 @@ const Dday = styled.div`
   align-items: center;
 `;
 
-const NextButton = styled.div`
-  width: 20px;
-  height: 20px;
-  font-weight: 600;
-  font-size: 20px;
-  margin-left: 20px;
-  color: white;
-  cursor: pointer;
-  &:hover {
-    color: #ff6750;
-  }
-`;
 const BackButton = styled.div`
   width: 20px;
   height: 20px;
@@ -284,9 +243,8 @@ const PlusButton = styled.button`
   }
 `;
 
-const DateAlbum3 = () => {
+const DateAlbum5 = () => {
   const [animate, setAnimate] = useState(false);
-  const [animate2, setAnimate2] = useState(false);
 
   const [images, setImages] = useState(Array(18).fill(null));
   const [bgColor, setBgColor] = useState("#eccdaf");
@@ -300,61 +258,11 @@ const DateAlbum3 = () => {
   const [temaChange, setTemaChange] = useState(false);
   const [pageOpen, setPageOpen] = useState(false);
   const [temaOpen, setTemaOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-
-  //코드 모달 확인
-  const codeModalOkBtnHandler = () => {
-    closeNextModal();
-    navigate("/date-album3");
-  };
-
-  const closeNextModal = () => {
-    setModalOpen(false);
-  }; //솔로 함수
-  const nextModal = () => {
-    setModalOpen(true);
-    setModalContent("페이지 구매 후 이용 가능합니다.");
-  };
-
-  const isAmountAxios = async () => {
-    try {
-      const response = await AlbumAxiosApi.getAmount(userEmail);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching amount:", error);
-      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      setModalOpen(true);
-      return null;
-    }
-  };
-
-  const handleNext = async () => {
-    try {
-      const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
-      if (amount !== null && amount / 1000 >= 3) {
-        setAnimate2(true);
-        setTimeout(() => {
-          navigate("/date-album4");
-        }, 1800);
-      } else {
-        // 모달
-        nextModal();
-        console.log(amount);
-      }
-    } catch (error) {
-      console.error("Error in handleNext:", error);
-      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      setModalOpen(true);
-    }
-  };
 
   const closeModal = () => {
     setPageOpen(false);
     setTemaOpen(false);
     setTemaChange(false);
-    setModalOpen(false);
   };
 
   const handlePagePopup = () => {
@@ -370,7 +278,7 @@ const DateAlbum3 = () => {
   const handleBack = () => {
     setAnimate(true);
     setTimeout(() => {
-      navigate("/date-album2");
+      navigate("/date-album4");
     }, 1800);
   };
 
@@ -386,14 +294,14 @@ const DateAlbum3 = () => {
         const response = await AlbumAxiosApi.getImages(userEmail);
         const galleries = response.data;
         const updatedImages = Array(18).fill(null);
-        galleries.slice(33, 51).forEach((image, index) => {
+        galleries.slice(69, 87).forEach((image, index) => {
           updatedImages[index] = image.urls;
         });
         setImages(updatedImages);
 
         // 이미지를 기반으로 imgBoxes 배열 업데이트
         const newImgBoxes = Array(18).fill(null);
-        const imageCount = galleries.slice(33, 51).length;
+        const imageCount = galleries.slice(69, 87).length;
         if (imageCount < 18) {
           newImgBoxes[imageCount] = "+";
         }
@@ -479,14 +387,14 @@ const DateAlbum3 = () => {
       const response = await AlbumAxiosApi.getImages(userEmail);
       const galleries = response.data;
       const updatedImages = Array(18).fill(null);
-      galleries.slice(33, 51).forEach((image, index) => {
+      galleries.slice(69, 87).forEach((image, index) => {
         updatedImages[index] = image.urls;
       });
       setImages(updatedImages);
 
       // 이미지를 기반으로 imgBoxes 배열 업데이트
       const newImgBoxes = Array(18).fill(null);
-      const imageCount = galleries.slice(33, 51).length;
+      const imageCount = galleries.slice(69, 87).length;
       if (imageCount < 18) {
         newImgBoxes[imageCount] = "+";
       }
@@ -578,8 +486,8 @@ const DateAlbum3 = () => {
         </BookSign>
       </BookTheme>
       <BookTheme2>
-        <BookSign2 animate2={animate2}>
-          <ContentWrapper2 animate2={animate2}>
+        <BookSign2>
+          <ContentWrapper2>
             <AddButton>
               <AddTema onClick={handleTemaPopup}>테마 추가</AddTema>
               <AddAlbum onClick={handlePagePopup}>앨범 추가</AddAlbum>
@@ -591,9 +499,7 @@ const DateAlbum3 = () => {
           </ContentWrapper2>
         </BookSign2>
       </BookTheme2>
-      <InputDetailDiv2>
-        <NextButton onClick={handleNext}>▶▶</NextButton>
-      </InputDetailDiv2>
+      <InputDetailDiv2 />
       <TemaChange
         open={temaChange}
         close={closeModal}
@@ -601,18 +507,8 @@ const DateAlbum3 = () => {
       />
       <TemaPop open={temaOpen} close={closeModal} />
       <PagePop open={pageOpen} close={closeModal} />
-      <Modal
-        open={modalOpen}
-        header="안내"
-        type={true}
-        close={closeModal}
-        confirm={codeModalOkBtnHandler}
-        img={modalImg}
-      >
-        {modalContent}
-      </Modal>
     </>
   );
 };
 
-export default DateAlbum3;
+export default DateAlbum5;

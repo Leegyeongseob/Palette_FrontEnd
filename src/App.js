@@ -17,6 +17,8 @@ import DateAlbum from "./pages/datealbum/DateAlbum";
 import DateDiary from "./pages/datediary/DateDiary";
 import DateAlbum2 from "./pages/datealbum/DateAlbum2";
 import DateAlbum3 from "./pages/datealbum/DateAlbum3";
+import DateAlbum4 from "./pages/datealbum/DateAlbum4";
+import DateAlbum5 from "./pages/datealbum/DateAlbum5";
 import BoardGuestbook from "./pages/board/BoardGuestbook";
 import BoardDetails from "./pages/board/BoardDetails";
 import BoardWrite from "./pages/board/BoardWrite";
@@ -54,10 +56,15 @@ function App() {
             <Route path="/date-album" element={<DateAlbum />} />
             <Route path="/date-album2" element={<DateAlbum2 />} />
             <Route path="/date-album3" element={<DateAlbum3 />} />
+            <Route path="/date-album4" element={<DateAlbum4 />} />
+            <Route path="/date-album5" element={<DateAlbum5 />} />
             <Route path="/date-diary" element={<DateDiary />} />
             <Route path="/chat" element={<ChatMain />} />
             <Route path="/:coupleName/dateplanner" element={<DatePlanner />} />
-            <Route path="/:coupleName/board-guestbook" element={<GuestBoardGuestbook />} />
+            <Route
+              path="/:coupleName/board-guestbook"
+              element={<GuestBoardGuestbook />}
+            />
             <Route path="/board-details" element={<BoardDetails />} />
             <Route path="/board-write" element={<BoardWrite />} />
             <Route

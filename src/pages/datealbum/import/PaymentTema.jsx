@@ -22,7 +22,7 @@ const BuyButton = styled.div`
   }
 `;
 
-const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
+const PaymentTema = ({ onPaymentSuccess, amount, order }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState("잘못된 요청입니다.");
   const [modalType, setModalType] = useState(false);
@@ -91,7 +91,7 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
         setModalText("결제를 취소하였습니다.");
       } else {
         // 결제가 성공한 경우
-        const notified = await fetch(`http://localhost:5000/payment/complete`, {
+        const notified = await fetch(`http://localhost:5000/paymenttema/tema`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -141,4 +141,4 @@ const PaymentComponent = ({ onPaymentSuccess, amount, order }) => {
   );
 };
 
-export default PaymentComponent;
+export default PaymentTema;

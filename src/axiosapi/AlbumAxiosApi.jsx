@@ -41,5 +41,17 @@ const AlbumAxiosApi = {
       },
     });
   },
+
+  // getPaymentTema: async (saveData) => {
+  //   return await AxiosInstance.post("/paymenttema/tema", saveData);
+  // },
+
+  getTemaLoad: async (email) => {
+    return await AxiosInstance.get("/paymenttema/temaload", {
+      params: {
+        email: email,
+      },
+    });
+  },
 };
 export default AlbumAxiosApi;

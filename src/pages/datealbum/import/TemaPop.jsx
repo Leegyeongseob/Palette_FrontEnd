@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import PaymentComponent from "./PaymentComponent";
+import PaymentTema from "./PaymentTema";
+import AlbumAxiosApi from "../../../axiosapi/AlbumAxiosApi";
 
 const PopupOverlay = styled.div`
   display: none;
@@ -46,47 +47,28 @@ const PopTitle = styled.div`
 
 const PopBoard = styled.div`
   width: 95%;
-  height: 60%;
+  height: 55%; /* 최대 높이 설정 */
+  max-height: 55%;
   margin-top: 0.5rem;
   padding: 0.5rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap; /* 요소들이 한 줄에 3개씩 배치되도록 함 */
+  align-items: flex-start; /* 요소들이 위쪽에 정렬되도록 함 */
+  justify-content: space-between; /* 요소들 사이의 간격을 균등하게 분배 */
   border-radius: 0.5rem;
   background-color: white;
+  overflow-y: auto; /* 세로 스크롤바 표시 */
 `;
 
 const BuyTema = styled.div`
   width: 33%;
   height: 90%;
   font-size: 1rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid darkgray;
-  &:last-child {
-    border-right: none;
-  }
-`;
-const TemaSky = styled.div`
-  width: 90%;
-  height: 100%;
-  background-color: #d9f2fc;
-  display: flex;
-`;
-const TemaBlack = styled.div`
-  width: 90%;
-  height: 100%;
-  background-color: #dadada;
-  display: flex;
-`;
-const TemaPink = styled.div`
-  width: 90%;
-  height: 100%;
-  background-color: #f6dee2;
-  display: flex;
 `;
 const TemaInfo = styled.div`
   width: 100%;
@@ -150,75 +132,117 @@ const CloseButton = styled.div`
 `;
 
 const TemaPop = (props) => {
+  const [purchasedOrders, setPurchasedOrders] = useState([]);
+  const userEmail = sessionStorage.getItem("email");
 
-// 결제
+  const fetchPurchasedOrders = useCallback(async () => {
+    try {
+      const response = await AlbumAxiosApi.getTemaLoad(userEmail);
+      const temaList = response.data.flatMap((dto) => dto.orderName);
+      setPurchasedOrders(temaList);
+    } catch (error) {
+      console.error("Error fetching purchased orders:", error);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (userEmail) {
+      fetchPurchasedOrders();
+    }
+  }, [userEmail, fetchPurchasedOrders]);
+
   const handlePaymentSuccess = () => {
     console.log("Payment was successful!");
-    // 결제 성공 후 추가적인 처리를 여기에 작성
+    fetchPurchasedOrders(); // 결제 성공 후 리스트 새로고침
   };
-    const { open, close } = props;
-    return (
-      <PopupOverlay className={open ? "openModal" : ""}>
-        {open && (
-          <Popup>
+
+  const { open, close } = props;
+
+  const checkPurchased = (order) => {
+    return purchasedOrders && purchasedOrders.includes(order);
+  };
+  return (
+    <PopupOverlay className={open ? "openModal" : ""}>
+      {open && (
+        <Popup>
           <PopTitle>테마 구매</PopTitle>
           <PopBoard>
-            <BuyTema>
-              <TemaSky>
-                <TemaInfo>
-                  <TemaOne>SkyBlue Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr>
-                    <Strikethrough>9900원</Strikethrough>={">"}1000원
-                  </TemaThr>
-                  <PaymentComponent
-                    onPaymentSuccess={handlePaymentSuccess}
-                    amount={1000}
-                    order={"Palette SkyBlue Pink Tema 구매"}
-                  />
-                </TemaInfo>
-              </TemaSky>
-            </BuyTema>
-            <BuyTema>
-              <TemaBlack>
-                <TemaInfo>
-                  <TemaOne>Black Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr>
-                    <Strikethrough>59900원</Strikethrough>={">"}1500원
-                  </TemaThr>
-                  <PaymentComponent
-                    onPaymentSuccess={handlePaymentSuccess}
-                    amount={1500}
-                    order={"Palette Black Pink Tema 구매"}
-                  />
-                </TemaInfo>
-              </TemaBlack>
-            </BuyTema>
-            <BuyTema>
-              <TemaPink>
-                <TemaInfo>
-                  <TemaOne>Pink Tema</TemaOne>
-                  <TemaTwo>파격세일!!</TemaTwo>
-                  <TemaThr>
-                    <Strikethrough>129800원</Strikethrough>={">"}2000원
-                  </TemaThr>
-                  <PaymentComponent
-                    onPaymentSuccess={handlePaymentSuccess}
-                    amount={2000}
-                    order={"Palette Album Pink Tema 구매"}
-                  />
-                </TemaInfo>
-              </TemaPink>
-            </BuyTema>
+            {[
+              {
+                name: "SkyBlue",
+                color: "#d9f2fc",
+                price: 1100,
+                order: "Palette SkyBlue Tema 구매",
+              },
+              {
+                name: "Black",
+                color: "#dadada",
+                price: 1200,
+                order: "Palette Black Tema 구매",
+              },
+              {
+                name: "Pink",
+                color: "#f6dee2",
+                price: 1300,
+                order: "Palette Pink Tema 구매",
+              },
+              {
+                name: "Green",
+                color: "#b9e7b7",
+                price: 1400,
+                order: "Palette Green Tema 구매",
+              },
+              {
+                name: "Yellow",
+                color: "#fffdb8",
+                price: 1500,
+                order: "Palette Yellow Tema 구매",
+              },
+              {
+                name: "Purple",
+                color: "#e5c9f5",
+                price: 1600,
+                order: "Palette Purple Tema 구매",
+              },
+            ].map((tema) => (
+              <BuyTema key={tema.order}>
+                <div
+                  style={{
+                    width: "90%",
+                    height: "100%",
+                    backgroundColor: tema.color,
+                    display: "flex",
+                  }}
+                >
+                  <TemaInfo>
+                    <TemaOne>{tema.name} Tema</TemaOne>
+                    {checkPurchased(tema.order) ? (
+                      <TemaTwo>구매 완료</TemaTwo>
+                    ) : (
+                      <>
+                        <TemaTwo>파격세일!!</TemaTwo>
+                        <TemaThr>
+                          <Strikethrough>{tema.price * 10}원</Strikethrough>{" "}
+                          {">"} {tema.price}원
+                        </TemaThr>
+                        <PaymentTema
+                          onPaymentSuccess={handlePaymentSuccess}
+                          amount={tema.price}
+                          order={tema.order}
+                        />
+                      </>
+                    )}
+                  </TemaInfo>
+                </div>
+              </BuyTema>
+            ))}
           </PopBoard>
           <CloseDiv>
-          <CloseButton onClick={close}>닫기</CloseButton>
+            <CloseButton onClick={close}>닫기</CloseButton>
           </CloseDiv>
         </Popup>
-        )}
-      </PopupOverlay>
-    );
-  };
-  export default TemaPop;
-  
+      )}
+    </PopupOverlay>
+  );
+};
+export default TemaPop;

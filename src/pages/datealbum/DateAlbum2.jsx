@@ -475,26 +475,23 @@ const DateAlbum2 = () => {
     try {
       await AlbumAxiosApi.deleteImage(userEmail, imageUrlToDelete);
 
-      const newImgBoxes = [...imgBoxes];
-      const newImages = [...images];
+      // 삭제 후 이미지 배열(데이터베이스)만 새로고침
+      const response = await AlbumAxiosApi.getImages(userEmail);
+      const galleries = response.data;
+      const updatedImages = Array(18).fill(null);
+      galleries.slice(15, 33).forEach((image, index) => {
+        updatedImages[index] = image.urls;
+      });
+      setImages(updatedImages);
 
-      newImages.splice(index, 1); // 클릭된 이미지를 배열에서 제거
-      newImages.push(null); // 배열의 마지막에 null 추가
-
-      // 기존 + 버튼 위치를 찾아 제거
-      const plusIndex = newImgBoxes.indexOf("+");
-      if (plusIndex !== -1) {
-        newImgBoxes[plusIndex] = null;
+      // 이미지를 기반으로 imgBoxes 배열 업데이트
+      const newImgBoxes = Array(18).fill(null);
+      const imageCount = galleries.slice(15, 33).length;
+      if (imageCount < 18) {
+        newImgBoxes[imageCount] = "+";
       }
-
-      // + 버튼을 마지막 null 위치에 추가
-      const nextPlusIndex = newImages.indexOf(null);
-      if (nextPlusIndex !== -1 && nextPlusIndex < newImgBoxes.length) {
-        newImgBoxes[nextPlusIndex] = "+";
-      }
-
       setImgBoxes(newImgBoxes);
-      setImages(newImages);
+
       await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
     } catch (error) {
       console.error("Error deleting image:", error);
@@ -530,7 +527,7 @@ const DateAlbum2 = () => {
         onClick={() => image && handleDeleteImage(index)}
         hasImage={image !== null}
       >
-        {image && <Img src={image} alt={`album-${index + 15}`} />}
+        {image && <Img src={image} alt={`album-${index + 1}`} />}
         {box === "+" && (
           <>
             <PlusButton onClick={handleClick}>+</PlusButton>
