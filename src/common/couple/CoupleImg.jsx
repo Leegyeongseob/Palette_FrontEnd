@@ -112,7 +112,6 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
 
   //카카오 로그인시 프로필 자동 변경
   const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
-
   //카카오 프로필 사진저장 비동기 함수
   const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
     const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
@@ -120,7 +119,11 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       setImgUrl(kakaoProfile);
     }
   };
-
+  useEffect(() => {
+    if (kakaoProfileUrl !== null) {
+      kakaoProfileImgAxios(email, kakaoProfileUrl);
+    }
+  }, []);
   const coupleNickNameAxios = async (emailData) => {
     console.log("emailData : " + emailData);
     const resCouple = await MemberAxiosApi.renderCoupleNameSearch(emailData);

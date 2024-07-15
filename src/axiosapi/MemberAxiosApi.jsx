@@ -56,6 +56,10 @@ const MemberAxiosApi = {
       `/member/firstEmailGet?coupleName=${coupleName}`
     );
   },
+  //이메일로 프로필 url 가져오기
+  searchProfileUrl: async (email) => {
+    return await AxiosInstance.get(`/member/searchProfileUrl?email=${email}`);
+  },
 };
 
 export default MemberAxiosApi;

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import manprofile from "../../img/commonImg/남자프사.jpg";
-import womanprofile from "../../img/commonImg/여자프사.jpg";
 import GuestbookAxios from "../../axiosapi/GuestbookAxios";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const GuestbookSide = styled.div`
   width: 25.8vw;
@@ -140,19 +140,27 @@ const GuestbookBody = styled.div`
 `;
 const GuestbookImage = styled.div`
   width: 4.8vw;
-  height: 9.7vh;
+  height: 9.6vh;
+  background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+const GuestWriteImg = styled.div`
+  width: 4.8vw;
+  height: 9.6vh;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
 `;
 
 const GuestbookMain = styled.div`
-  margin-left: 1vw;
   width: 17vw;
-  height: 10vh - 1px;
+  height: calc(10vh - 1px);
   font-size: 12px;
   font-weight: 600;
   display: flex;
-  justify-content: right;
+  justify-content: first baseline;
   align-items: center;
 `;
 
@@ -162,30 +170,17 @@ const Guestbook = ({}) => {
   const [guestbookEntries, setGuestbookEntries] = useState([]);
   const coupleName = sessionStorage.getItem("coupleName");
   const email = sessionStorage.getItem("email");
-
+  // 내 방이면 true 아니면 false
+  const [isMyHome, setIsMyHome] = useState(true);
   const [imgUrl, setImgUrl] = useState("");
-
-  useEffect(() => {
-    const myImgUrl = async () => {
-      try {
-        const myImg = await GuestbookAxios.getMyImgUrl(email);
-        if (myImg.data === "") {
-          const myImgUrl = await GuestbookAxios.getMyImgUrlEmail(email);
-          if (myImgUrl === true) {
-            setImgUrl(manprofile); // 이미지가 있는 경우 이미지 경로 설정
-          } else {
-            setImgUrl(womanprofile); // 이미지가 없는 경우 빈 문자열 설정
-          }
-        } else {
-          console.log("나의이미지", myImg);
-          setImgUrl(myImg.data);
-        }
-      } catch (error) {
-        console.log("이미지가져오기 실패", error);
-      }
-    };
-    myImgUrl();
-  });
+  // 이메일로 프로필 이미지 가져오기
+  const profileImgAxios = async () => {
+    const res = await MemberAxiosApi.searchProfileUrl(email);
+    console.log("방명록 글쓴이 프로필 : " + res.data);
+    if ((res.data !== "") | (res.data !== null)) {
+      setImgUrl(res.data);
+    }
+  };
 
   useEffect(() => {
     const fetchGuestbookEntries = async () => {
@@ -193,20 +188,22 @@ const Guestbook = ({}) => {
         const data = await GuestbookAxios.getGuestBookEntries(coupleName);
         console.log("커푸루이름 방명록에서 확인", coupleName);
         console.log("data", data);
+        console.log("설마 이메일도?:" + data.data);
+
         setGuestbookEntries(data);
       } catch (error) {
         console.log("방명록 가져오기 실패", error);
       }
     };
     fetchGuestbookEntries();
+    //방명록 작성 보일지 말지!
+    isMyHomeAxios();
+    // // 이메일로 프로필 이미지 불러오기
+    profileImgAxios();
   }, []);
 
   const handleAddEntry = async () => {
     if (!newEntry.trim()) return; // 입력값이 없으면 처리하지 않음
-
-    const coupleName = sessionStorage.getItem("coupleName");
-    const email = sessionStorage.getItem("email");
-
     try {
       const addedEntry = await GuestbookAxios.addGuestBookEntry({
         contents: newEntry, // 실제 입력된 내용을 사용
@@ -224,40 +221,53 @@ const Guestbook = ({}) => {
 
   const handleDeleteEntry = async (entryId) => {
     try {
-      const email = sessionStorage.getItem("email");
       await GuestbookAxios.deleteGuestBookEntry(entryId, email);
       setGuestbookEntries(
         guestbookEntries.filter((entry) => entry.id !== entryId)
       );
     } catch (error) {
-      alert('작성자가 다른 게시물 입니다.')
+      alert("작성자가 다른 게시물 입니다.");
       console.error("Failed to delete guestbook entry:", error);
     }
   };
   console.log("entry확인", guestbookEntries);
-
+  //방문자만 방명록 쓰는 부분이 보이도록 하는 함수
+  const isMyHomeAxios = async () => {
+    const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(email);
+    console.log("불러온 커플네임 : " + myCoupleNameData.data);
+    console.log("세션 커플네임 :" + coupleName);
+    if (myCoupleNameData.data !== coupleName) {
+      setIsMyHome(false);
+    } else {
+      setIsMyHome(true);
+    }
+  };
   return (
     <GuestbookSide>
       <GuestbookTitle>방명록</GuestbookTitle>
       <GuestbookGrayBar />
-      <GuestbookWriteArea>
-        <GuestbookBody>
-          <GuestbookImage
-            style={{ backgroundImage: `url(${imgUrl})` }}
-          ></GuestbookImage>
+      {!isMyHome && (
+        <>
+          <GuestbookWriteArea>
+            <GuestbookBody>
+              <GuestbookImage
+                imageurl={imgUrl ? imgUrl : manprofile}
+              ></GuestbookImage>
+              <GuestbookWriteMain>
+                <GuestbookInput
+                  value={newEntry}
+                  onChange={(e) => setNewEntry(e.target.value)}
+                  placeholder="내용을 입력하세요."
+                />
+              </GuestbookWriteMain>
+            </GuestbookBody>
+          </GuestbookWriteArea>
 
-          <GuestbookWriteMain>
-            <GuestbookInput
-              value={newEntry}
-              onChange={(e) => setNewEntry(e.target.value)}
-              placeholder="내용을 입력하세요."
-            />
-          </GuestbookWriteMain>
-        </GuestbookBody>
-      </GuestbookWriteArea>
-      <GuestbookWriteButton onClick={handleAddEntry}>
-        방명록 등록
-      </GuestbookWriteButton>
+          <GuestbookWriteButton onClick={handleAddEntry}>
+            방명록 등록
+          </GuestbookWriteButton>
+        </>
+      )}
       <GuestbookList>
         {guestbookEntries.map((entry, index) => (
           <GuestbookArea key={entry.id}>
@@ -272,10 +282,10 @@ const Guestbook = ({}) => {
               </GuestbookDelete>
             </GuestbookHead>
             <GuestbookBody>
-              <GuestbookImage
+              <GuestWriteImg
                 style={{ backgroundImage: `url(${entry.imgUrl})` }}
               />
-              <GuestbookImage />
+              <GuestWriteImg />
               <GuestbookMain>{entry.contents}</GuestbookMain>
             </GuestbookBody>
           </GuestbookArea>

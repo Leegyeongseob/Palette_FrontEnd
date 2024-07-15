@@ -6,6 +6,7 @@ import CandyImg from "../../img/mainImg/커플2.jpg";
 import React, { useEffect, useState } from "react";
 import Guestbook from "./Guestbook";
 import BoardAxios from "../../axiosapi/BoardAxios";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 
 const BookTheme = styled.div`
   width: 53vw;
@@ -291,15 +292,29 @@ const itemsPerPage = 10;
 
 const GuestBoardGuestbook = () => {
   const coupleName = sessionStorage.getItem("coupleName");
+  const email = sessionStorage.getItem("email");
   const [currentPage, setCurrentPage] = useState(1);
   const [boardData, setBoardData] = useState([]);
-
+  // 내 방이면 true 아니면 false
+  const [isMyHome, setIsMyHome] = useState(true);
   const navigate = useNavigate();
-
   useEffect(() => {
     fetchBoardDataCN();
+
+    isMyHomeAxios();
   }, []);
 
+  //본인만 "새 게시물 작성"이 보이도록 하는 axios
+  const isMyHomeAxios = async () => {
+    const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(email);
+    console.log("불러온 커플네임 : " + myCoupleNameData.data);
+    console.log("세션 커플네임 :" + coupleName);
+    if (myCoupleNameData.data !== coupleName) {
+      setIsMyHome(false);
+    } else {
+      setIsMyHome(true);
+    }
+  };
   const fetchBoardDataCN = async () => {
     console.log(coupleName);
     try {
@@ -312,7 +327,7 @@ const GuestBoardGuestbook = () => {
   };
 
   const handleNameClick = (id) => {
-    navigate(`/board-details/${id}`);
+    navigate(`/${coupleName}/board-details/${id}`);
   };
 
   const handleClick = (pageNumber) => {
@@ -336,7 +351,7 @@ const GuestBoardGuestbook = () => {
           to={`/${coupleName}/board-write`}
           style={{ textDecoration: "none" }}
         >
-          <BoardPost>새 게시물</BoardPost>
+          {isMyHome && <BoardPost>새 게시물 작성</BoardPost>}
         </Link>
         <BoardTable>
           <thead>

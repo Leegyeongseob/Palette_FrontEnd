@@ -241,7 +241,7 @@ const WritePost = styled.div`
 
 const itemsPerPage = 10;
 
-const BoardWrite = () => {
+const BoardUpdate = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
@@ -249,16 +249,20 @@ const BoardWrite = () => {
   const [url, setUrl] = useState("");
   const [boardData, setBoardData] = useState([]);
   const fileInputRef = useRef(null);
+  const [placeholderTitle, setPlaceholderTitle] = useState("");
+  const [placeholderContents, setPlaceholderContents] = useState("");
+  // id 값을 넘김
+  const location = useLocation();
+  const idValue = location.state;
 
   const navigate = useNavigate();
   // 세션 추가
   const email = sessionStorage.getItem("email");
   const coupleName = sessionStorage.getItem("coupleName");
-  // useEffect(() => {
-  //   fetchBoardData();
-  // }, []);
   useEffect(() => {
     fetchBoardDataCN();
+    // 아이디로 데이터 불러오기
+    fetchByIdAxios();
   }, []);
 
   const fetchBoardDataCN = async () => {
@@ -290,36 +294,13 @@ const BoardWrite = () => {
     setFile(e.target.files[0]);
   };
 
-  const handleUploadClick = () => {
-    if (!file) return;
-
-    const fileRef = ref(storage, file.name);
-    const uploadTask = uploadBytesResumable(fileRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Progress handling can be added here if needed
-      },
-      (error) => {
-        console.error("Upload failed:", error);
-        alert("파일 업로드 실패");
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setUrl(downloadURL);
-        });
-      }
-    );
-  };
-
   const handleAddPhotoClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleSubmit = async () => {
+  const updatehandleSubmit = async () => {
     if (!title || !contents) {
       alert("제목과 내용을 입력해주세요.");
       return;
@@ -363,18 +344,17 @@ const BoardWrite = () => {
         memberEmail: email || "",
       };
       console.log("제출할 데이터:", boardData);
-      await submitBoard(boardData);
+      await updateSubmitBoard(boardData);
     } catch (error) {
       console.error("게시글 생성 실패:", error);
       alert("게시글 생성에 실패했습니다.");
     }
   };
 
-  const submitBoard = async (boardReqDto) => {
-    const coupleName = sessionStorage.getItem("coupleName");
+  const updateSubmitBoard = async (boardReqDto) => {
     try {
-      console.log("서버로 전송할 데이터:", boardReqDto, coupleName);
-      const response = await BoardAxios.createBoard(boardReqDto, coupleName);
+      console.log("서버로 전송할 데이터:", boardReqDto);
+      const response = await BoardAxios.updateBoard(idValue, boardReqDto);
 
       console.log("서버 응답 데이터:", response);
       navigate(`/${coupleName}/board-guestbook`); // 리다이렉트
@@ -389,6 +369,12 @@ const BoardWrite = () => {
         }`
       );
     }
+  };
+  // id로 board 데이터 불러오기
+  const fetchByIdAxios = async () => {
+    const res = await BoardAxios.fetchBoardById(idValue);
+    setPlaceholderTitle(res.data.title);
+    setPlaceholderContents(res.data.contents);
   };
   return (
     <BookTheme>
@@ -449,7 +435,7 @@ const BoardWrite = () => {
         <WriteTitle>
           <WriteTitleInput
             type="text"
-            placeholder="제목"
+            placeholder={placeholderTitle}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -464,15 +450,15 @@ const BoardWrite = () => {
         <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
         <WriteMain>
           <WriteMainInput
-            placeholder="내용을 입력하세요."
+            placeholder={placeholderContents}
             value={contents}
             onChange={(e) => setContents(e.target.value)}
           />
         </WriteMain>
-        <WritePost onClick={handleSubmit}>게시하기</WritePost>
+        <WritePost onClick={updatehandleSubmit}>수정하기</WritePost>
       </WriteSide>
     </BookTheme>
   );
 };
 
-export default BoardWrite;
+export default BoardUpdate;

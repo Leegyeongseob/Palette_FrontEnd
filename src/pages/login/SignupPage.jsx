@@ -523,6 +523,7 @@ const SignupPage = () => {
   };
   //이메일로 커플이름 찾는 비동기 함수
   const coupleNameSearch = async (emailData) => {
+    console.log("카카오 이메일:" + emailData);
     const resCoupleName = await LoginAxios.emailToCoupleNameSearch(emailData);
     console.log(resCoupleName.data);
     // `coupleName`을 `sessionStorage`에 저장합니다.
@@ -531,14 +532,32 @@ const SignupPage = () => {
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
-    console.log("이거 : " + kakoEmailvalue);
-    console.log("제발 : " + kakaoPwdValue);
-    const response = await LoginAxios.login(kakoEmailvalue, kakaoPwdValue);
-    console.log("accessToken : ", response.data.accessToken);
-    console.log("refreshToken : ", response.data.refreshToken);
-    Common.setAccessToken(response.data.accessToken);
-    Common.setRefreshToken(response.data.refreshToken);
-    sessionStorage.setItem("email", kakoEmailvalue);
+    try {
+      const response = await LoginAxios.login(kakoEmailvalue, kakaoPwdValue);
+      if (response.data.grantType === "bearer") {
+        console.log("이거 : " + kakoEmailvalue);
+        console.log("제발 : " + kakaoPwdValue);
+        const response = await LoginAxios.login(kakoEmailvalue, kakaoPwdValue);
+        console.log("accessToken : ", response.data.accessToken);
+        console.log("refreshToken : ", response.data.refreshToken);
+        Common.setAccessToken(response.data.accessToken);
+        Common.setRefreshToken(response.data.refreshToken);
+        sessionStorage.setItem("email", kakoEmailvalue);
+
+        // 다시 로그인한 커플의 정보를 확인합니다.
+        const coupleName = sessionStorage.getItem("coupleName");
+        navigate(`/${coupleName}/main-page`);
+      } else {
+        setModalOpen(true);
+        SetHeaderContents("로그인 에러");
+        setModalContent("암호화에 실패했습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      SetHeaderContents("로그인 에러");
+      setModalContent("계정이 없습니다.");
+    }
   };
   // 회원가입 버튼을 클릭했을 경우 함수
   const signupBtnOnclickHandler = () => {

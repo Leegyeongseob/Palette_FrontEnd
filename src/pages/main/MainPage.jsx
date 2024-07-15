@@ -366,7 +366,6 @@ const MainPage = () => {
     }
   };
   // 게시물 가져오기
-
   const fetchBoardDataCN = async () => {
     console.log(coupleName);
     try {
@@ -410,6 +409,10 @@ const MainPage = () => {
     );
     sessionStorage.setItem("coupleName", myCoupleNameData.data);
     navigate(`/${myCoupleNameData.data}/main-page`);
+  };
+  //게시물 보기로 이동
+  const boardOnClickHandler = (id) => {
+    navigate(`/${coupleName}/board-details/${id}`);
   };
   return (
     <BookTheme>
@@ -490,7 +493,14 @@ const MainPage = () => {
             <RecentPosts>
               <RecentTitle>&nbsp;최근 게시물</RecentTitle>
               {boardSaveData.slice(0, 4).map((item, index) => (
-                <Recents key={index}>&nbsp;{item.title}</Recents>
+                <Recents
+                  key={index}
+                  onClick={() => {
+                    boardOnClickHandler(item.id);
+                  }}
+                >
+                  &nbsp;{item.title}
+                </Recents>
               ))}
             </RecentPosts>
           </RecentPostDiv>

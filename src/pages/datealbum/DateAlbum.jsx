@@ -17,6 +17,7 @@ import {
   getDownloadURL,
 } from "../../firebase/firebaseAlbum";
 import TemaChange from "./import/TemaChange";
+import MainAxios from "../../axiosapi/MainAxios";
 
 const turnPageLeft = keyframes`
   0% {
@@ -277,7 +278,11 @@ const DateAlbum = () => {
   const [bgColor, setBgColor] = useState("#eccdaf");
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-
+  const coupleName = sessionStorage.getItem("coupleName");
+  //디데이 상태저장
+  const [isDday, setIsDday] = useState();
+  //디데이 값 저장
+  const [saveDday, setSaveDday] = useState("");
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {
     closeNextModal();
@@ -293,40 +298,39 @@ const DateAlbum = () => {
     setModalOpen(true);
     setModalContent("페이지 구매 후 이용 가능합니다.");
   };
-  
+
   const isAmountAxios = async () => {
     try {
-        const response = await AlbumAxiosApi.getAmount(userEmail);
-        console.log(response.data);
-        return response.data;
+      const response = await AlbumAxiosApi.getAmount(userEmail);
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-        console.error("Error fetching amount:", error);
-        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        setModalOpen(true);
-        return null;
+      console.error("Error fetching amount:", error);
+      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setModalOpen(true);
+      return null;
     }
   };
 
   const handleNext = async () => {
     try {
-        const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
-        if (amount !== null && amount % 1000 === 0) {
-            setAnimate(true);
-            setTimeout(() => {
-                navigate("/date-album2");
-            }, 1800);
-        } else {
-            // 모달
-            nextModal();
-            console.log(amount);
-        }
+      const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
+      if (amount !== null && amount % 1000 === 0) {
+        setAnimate(true);
+        setTimeout(() => {
+          navigate("/date-album2");
+        }, 1800);
+      } else {
+        // 모달
+        nextModal();
+        console.log(amount);
+      }
     } catch (error) {
-        console.error("Error in handleNext:", error);
-        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        setModalOpen(true);
+      console.error("Error in handleNext:", error);
+      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setModalOpen(true);
     }
-};
-
+  };
 
   const closeModal = () => {
     setPageOpen(false);
@@ -352,7 +356,7 @@ const DateAlbum = () => {
     if (savedColor) {
       setBgColor(savedColor);
     }
-    
+
     const fetchAlbum = async () => {
       try {
         const response = await AlbumAxiosApi.getImages(userEmail);
@@ -376,6 +380,8 @@ const DateAlbum = () => {
     };
 
     fetchAlbum();
+    //디데이 가져오기
+    dDayAxios();
   }, [userEmail]);
 
   // 이미지 저장
@@ -441,10 +447,12 @@ const DateAlbum = () => {
   };
 
   const handleDeleteImage = async (index) => {
-    const imageUrlToDelete = Array.isArray(images[index]) ? images[index][0] : images[index];
+    const imageUrlToDelete = Array.isArray(images[index])
+      ? images[index][0]
+      : images[index];
     try {
       await AlbumAxiosApi.deleteImage(userEmail, imageUrlToDelete);
-  
+
       // 삭제 후 이미지 배열(데이터베이스)만 새로고침
       const response = await AlbumAxiosApi.getImages(userEmail);
       const galleries = response.data;
@@ -453,7 +461,7 @@ const DateAlbum = () => {
         updatedImages[index] = image.urls;
       });
       setImages(updatedImages);
-  
+
       // 이미지를 기반으로 imgBoxes 배열 업데이트
       const newImgBoxes = Array(15).fill(null);
       const imageCount = galleries.length;
@@ -461,9 +469,8 @@ const DateAlbum = () => {
         newImgBoxes[imageCount] = "+";
       }
       setImgBoxes(newImgBoxes);
-      
-    await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
-  
+
+      await deleteImageFromFirebase(imageUrlToDelete); // 파이어베이스 삭제
     } catch (error) {
       console.error("Error deleting image:", error);
     }
@@ -475,7 +482,18 @@ const DateAlbum = () => {
       handleAddImage(index, file);
     }
   };
-
+  // DDay 바꾸는 함수
+  const dDayAxios = async () => {
+    const resDday = await MainAxios.searchDday(coupleName);
+    if (resDday.data !== "") {
+      setIsDday(true);
+      setSaveDday(resDday.data);
+      console.log("if실행");
+    } else {
+      setIsDday(false);
+      console.log("else 실행");
+    }
+  };
   // 이미지 박스 렌더링 함수
   const ImgBoxComponent = ({
     index,
@@ -551,7 +569,11 @@ const DateAlbum = () => {
               <AddAlbum onClick={handlePagePopup}>앨범 추가</AddAlbum>
             </AddButton>
             <ImgWrapper2 bgColor={bgColor}>
-              <Dday>♥ D + 150 ♥</Dday>
+              {isDday ? (
+                <Dday>♥ D + {saveDday} ♥</Dday>
+              ) : (
+                <Dday>♥ 사귄날을 입력해주세요! ♥</Dday>
+              )}
               {renderImageBoxes(6, 15)}
             </ImgWrapper2>
           </ContentWrapper>

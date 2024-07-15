@@ -4,6 +4,8 @@ import theme3 from "../../img/background/theme/3.jpg";
 import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
+import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import { useEffect, useState } from "react";
 
 const Background = styled.div`
   width: 100%;
@@ -70,6 +72,17 @@ const Book = styled.div`
 `;
 
 const CloseBook = ({ modify }) => {
+  const [coupleName, setCoupleName] = useState();
+  const email = sessionStorage.getItem("email");
+  useEffect(() => {
+    if (modify) {
+      coupleNameAxios();
+    }
+  }, []);
+  const coupleNameAxios = async () => {
+    const res = await MemberAxiosApi.renderCoupleNameSearch(email);
+    setCoupleName(res.data);
+  };
   return (
     <Background>
       <Book>
@@ -81,7 +94,7 @@ const CloseBook = ({ modify }) => {
               </Link>
             )}
             {modify && (
-              <Link to="/main-page">
+              <Link to={`/${coupleName}/main-page`}>
                 <Logo alt="logo" src={logo} />
               </Link>
             )}

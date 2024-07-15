@@ -37,6 +37,7 @@ import ErrorPage from "./error/ErrorPage";
 import KakaoRedirect from "./pages/login/redirect/KakaoRedirect";
 import ChatList from "./pages/chat/ChatList";
 import ChatRoomCreate from "./pages/chat/ChatRoomCreate";
+import BoardUpdate from "./pages/board/BoardUpdate";
 
 function App() {
   return (
@@ -54,7 +55,10 @@ function App() {
           <Route path="/customer/inquiry" element={<PaletteInquiry />} />
           <Route path="/customer/ad" element={<PaletteAd />} />
           <Route path="/customer/notice" element={<PaletteNotice />} />
-          <Route path="/customer/notice/:id" element={<PaletteNoticeDetails />} />
+          <Route
+            path="/customer/notice/:id"
+            element={<PaletteNoticeDetails />}
+          />
           <Route element={<OpenBook />}>
             <Route path="/:coupleName/main-page" element={<MainPage />} />
             <Route path="/date-clothes" element={<DateClothes />} />
@@ -72,8 +76,12 @@ function App() {
               path="/:coupleName/board-guestbook"
               element={<GuestBoardGuestbook />}
             />
-            <Route path="/board-details/:id" element={<BoardDetails />} />
+            <Route
+              path="/:coupleName/board-details/:id"
+              element={<BoardDetails />}
+            />
             <Route path="/:coupleName/board-write" element={<BoardWrite />} />
+            <Route path="/:coupleName/board-update" element={<BoardUpdate />} />
             <Route
               path="/guest-board-guestbook"
               element={<GuestBoardGuestbook />}

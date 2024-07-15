@@ -67,17 +67,41 @@ const CoupleImg = () => {
   const email = sessionStorage.getItem("email");
   const imgUrl = sessionStorage.getItem("imgUrl");
   const myDarling = sessionStorage.getItem("myDarling");
-  //커플 개인 닉네임 불러오기
-  const coupleNickNameAxois = async () => {
-    //커플 이름 search
-    const resCouple = await MemberAxiosApi.renderCoupleNameSearch(email);
-    //커플 이름으로 닉네임 찾기
-    const resNickName = await MainAxios.searchNickName(email, resCouple.data);
-    setCoupleNickName(resNickName.data);
-  };
+  const coupleName = sessionStorage.getItem("coupleName");
+  const [saveFirstEmail, setSaveFirstEmail] = useState("");
+
+  //세션 커플이름이 바뀌었을 경우
   useEffect(() => {
-    coupleNickNameAxois();
-  }, []);
+    const fetchData = async (coupleNameData) => {
+      try {
+        console.log("커플이름 :" + coupleNameData);
+        // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
+        const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
+          coupleNameData
+        );
+        const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
+        setSaveFirstEmail(firstEmail);
+        // 첫 번째 이메일을 사용하여 다른 비동기 작업을 진행합니다.
+        await Promise.all([coupleNickNameAxios(firstEmail)]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData(coupleName);
+  }, [coupleName]);
+  //
+  const coupleNickNameAxios = async (emailData) => {
+    console.log("emailData : " + emailData);
+    const resCouple = await MemberAxiosApi.renderCoupleNameSearch(emailData);
+    console.log("이거 :" + resCouple.data);
+    const resNickName = await MainAxios.searchNickName(
+      emailData,
+      resCouple.data
+    );
+
+    setCoupleNickName(resNickName.data);
+    console.log("커플닉네임 확인:" + resNickName.data);
+  };
   return (
     <Contain>
       <ProfileDiv>

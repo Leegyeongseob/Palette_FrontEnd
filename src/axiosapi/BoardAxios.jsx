@@ -18,14 +18,15 @@ const BoardAxios = {
 
   fetchBoardById: async (id) => {
     try {
-      const response = await axiosInstance.get(`/boards/${id}`);
-      return response.data;
+      const idobj = {
+        id: id,
+      };
+      return await axiosInstance.post("/boards/fetchBoardById", idobj);
     } catch (error) {
       console.error(`id가 ${id}인 게시글 데이터 불러오기 실패`, error);
       throw error;
     }
   },
-
   createBoard: async (boardReqDto, coupleName) => {
     try {
       console.log("aixos 확인", boardReqDto);
