@@ -49,8 +49,24 @@ const BoardGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const BoardPost = styled.div`
+  margin-top: 2vh;
+  margin-left: 18.5vw;
+  width: 8vw;
+  height: 1vh;
+  font-size: 11px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+`;
 const BoardTable = styled.table`
-  margin-top: 4vh;
+  margin-top: 2vh;
   margin-left: 1.5vw;
   width: 22.5vw;
   table-layout: fixed;
@@ -312,6 +328,9 @@ const GuestBoardGuestbook = () => {
           <CoupleImg />
         </CoupleDiv>
         <BoardGrayBar />
+        <Link to="/board-write" style={{ textDecoration: "none" }}>
+          <BoardPost>새 게시물</BoardPost>
+        </Link>
         <BoardTable>
           <thead>
             <tr>
@@ -406,7 +425,7 @@ const GuestBoardGuestbook = () => {
             </GuestbookMain>
           </GuestbookBody>
         </GuestbookArea> */}
-        <Guestbook/>
+        <Guestbook />
       </GuestbookSide>
     </BookTheme>
   );
