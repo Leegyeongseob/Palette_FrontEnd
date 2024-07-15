@@ -14,7 +14,6 @@ import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import { storage } from "../../firebase/firebaseAlbum";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
 
-
 const turnPageRight = keyframes`
   0% {
     transform: perspective(1000px) rotateY(0deg);
@@ -272,40 +271,6 @@ const Img = styled.img`
   object-fit: cover;
 `;
 
-// const ImgBox = styled.div`
-//   width: 7.4vw;
-//   height: 15vh;
-//   background-color: gray;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-left: 1%;
-//   position: relative;
-//   overflow: hidden;
-//   &:hover {
-//     cursor: ${({ hasImage }) => (hasImage ? "pointer" : "default")};
-//     ${({ hasImage }) =>
-//       hasImage &&
-//       `
-//       & > ${Img} {
-//         transform: scale(1.18); /* 이미지 확대 효과 */
-//       }
-//       &::after {
-//         content: "삭제하기";
-//         position: absolute;
-//         bottom: 5px;
-//         left: 50%;
-//         transform: translateX(-50%);
-//         background: rgba(0, 0, 0, 0.6);
-//         color: white;
-//         padding: 2px 5px;
-//         border-radius: 3px;
-//         font-size: 0.78vw;
-//       }
-//     `}
-//   }
-// `;
-
 const PlusButton = styled.button`
   width: 2.5vw;
   height: 5vh;
@@ -322,7 +287,7 @@ const PlusButton = styled.button`
 const DateAlbum2 = () => {
   const [animate, setAnimate] = useState(false);
   const [animate2, setAnimate2] = useState(false);
-  
+
   const [images, setImages] = useState(Array(18).fill(null));
   const [bgColor, setBgColor] = useState("#eccdaf");
   const navigate = useNavigate();
@@ -338,51 +303,50 @@ const DateAlbum2 = () => {
   const [modalContent, setModalContent] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
+  //코드 모달 확인
+  const codeModalOkBtnHandler = () => {
+    closeNextModal();
+    navigate("/date-album2");
+  };
 
-//코드 모달 확인
-const codeModalOkBtnHandler = () => {
-  closeNextModal();
-  navigate("/date-album2");
-};
-
-const closeNextModal = () => {
-  setModalOpen(false);
-};  //솔로 함수
+  const closeNextModal = () => {
+    setModalOpen(false);
+  }; //솔로 함수
   const nextModal = () => {
     setModalOpen(true);
     setModalContent("페이지 구매 후 이용 가능합니다.");
   };
-  
+
   const isAmountAxios = async () => {
     try {
-        const response = await AlbumAxiosApi.getAmount(userEmail);
-        console.log(response.data);
-        return response.data;
+      const response = await AlbumAxiosApi.getAmount(userEmail);
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-        console.error("Error fetching amount:", error);
-        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        setModalOpen(true);
-        return null;
+      console.error("Error fetching amount:", error);
+      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setModalOpen(true);
+      return null;
     }
   };
 
   const handleNext = async () => {
     try {
-        const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
-        if (amount !== null && amount / 1000 >= 2) {
-            setAnimate2(true);
-            setTimeout(() => {
-                navigate("/date-album3");
-            }, 1800);
-        } else {
-            // 모달
-            nextModal();
-            console.log(amount);
-        }
+      const amount = await isAmountAxios(); // async 호출의 결과를 변수에 저장
+      if (amount !== null && amount / 1000 >= 2) {
+        setAnimate2(true);
+        setTimeout(() => {
+          navigate("/date-album3");
+        }, 1800);
+      } else {
+        // 모달
+        nextModal();
+        console.log(amount);
+      }
     } catch (error) {
-        console.error("Error in handleNext:", error);
-        setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        setModalOpen(true);
+      console.error("Error in handleNext:", error);
+      setModalContent("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setModalOpen(true);
     }
   };
 
@@ -416,7 +380,7 @@ const closeNextModal = () => {
     const savedColor = localStorage.getItem(`${userEmail}_themeColor`);
     if (savedColor) {
       setBgColor(savedColor);
-    };
+    }
     const fetchAlbum = async () => {
       try {
         const response = await AlbumAxiosApi.getImages(userEmail);
@@ -498,9 +462,9 @@ const closeNextModal = () => {
     };
     try {
       const response = await AlbumAxiosApi.albumReg(saveDate);
-      console.log("URLs saved successfully:", response.data);
+      console.log("URLs 저장 성공:", response.data);
     } catch (error) {
-      console.error("Axios 에러!!!!!!!!!Error saving URLs:", error);
+      console.error("URLs 저장 Axios 에러 : ", error);
     }
   };
 
@@ -544,60 +508,59 @@ const closeNextModal = () => {
     }
   };
 
+  // 이미지 박스 렌더링 함수
+  const ImgBoxComponent = ({
+    index,
+    startIndex,
+    box,
+    image,
+    handleDeleteImage,
+    handleFileInputChange,
+  }) => {
+    const fileInputRef = useRef(null);
 
-    // 이미지 박스 렌더링 함수
-    const ImgBoxComponent = ({
-      index,
-      startIndex,
-      box,
-      image,
-      handleDeleteImage,
-      handleFileInputChange,
-    }) => {
-      const fileInputRef = useRef(null);
-  
-      const handleClick = () => {
-        if (fileInputRef.current) {
-          fileInputRef.current.click();
-        }
-      };
-  
-      return (
-        <ImgBox2
-          onClick={() => image && handleDeleteImage(index)}
-          hasImage={image !== null}
-        >
-          {image && <Img src={image} alt={`album-${index + 15}`} />}
-          {box === "+" && (
-            <>
-              <PlusButton onClick={handleClick}>+</PlusButton>
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={(e) => handleFileInputChange(index, e)}
-              />
-            </>
-          )}
-        </ImgBox2>
-      );
+    const handleClick = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
     };
-  
-    const renderImageBoxes = (startIndex, endIndex) => {
-      return imgBoxes
-        .slice(startIndex, endIndex)
-        .map((box, index) => (
-          <ImgBoxComponent
-            key={startIndex + index}
-            index={startIndex + index}
-            startIndex={startIndex}
-            box={box}
-            image={images[startIndex + index]}
-            handleDeleteImage={handleDeleteImage}
-            handleFileInputChange={handleFileInputChange}
-          />
-        ));
-    };
+
+    return (
+      <ImgBox2
+        onClick={() => image && handleDeleteImage(index)}
+        hasImage={image !== null}
+      >
+        {image && <Img src={image} alt={`album-${index + 15}`} />}
+        {box === "+" && (
+          <>
+            <PlusButton onClick={handleClick}>+</PlusButton>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={(e) => handleFileInputChange(index, e)}
+            />
+          </>
+        )}
+      </ImgBox2>
+    );
+  };
+
+  const renderImageBoxes = (startIndex, endIndex) => {
+    return imgBoxes
+      .slice(startIndex, endIndex)
+      .map((box, index) => (
+        <ImgBoxComponent
+          key={startIndex + index}
+          index={startIndex + index}
+          startIndex={startIndex}
+          box={box}
+          image={images[startIndex + index]}
+          handleDeleteImage={handleDeleteImage}
+          handleFileInputChange={handleFileInputChange}
+        />
+      ));
+  };
 
   return (
     <>
@@ -608,7 +571,7 @@ const closeNextModal = () => {
         <BookSign animate={animate}>
           <ContentWrapper animate={animate}>
             <AddButton>
-            <TitleLine onClick={handleTemaChange}>테마 변경</TitleLine>
+              <TitleLine onClick={handleTemaChange}>테마 변경</TitleLine>
             </AddButton>
             <ImgWrapper2 bgColor={bgColor}>
               <Dday>♥ D + 150 ♥</Dday>

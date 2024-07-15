@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import PaymentComponent from "./PaymentComponent";
+import AlbumAxiosApi from "../../../axiosapi/AlbumAxiosApi";
 
 const PopupOverlay = styled.div`
   display: none;
@@ -23,7 +24,7 @@ const Popup = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 650px;
-  height: 325px; 
+  height: 325px;
   background: white;
   display: flex;
   flex-direction: column;
@@ -36,12 +37,28 @@ const PopTitle = styled.div`
   width: 90%;
   height: 15%;
   padding-left: 1%;
-  font-size: 1.35rem;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #c8c8c8;
   align-items: center;
+  justify-content: center;
+`;
+const PageTitleleft = styled.div`
+  width: 50%;
+  height: 100%;
+  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
   justify-content: flex-start;
+`;
+const PageTitleRight = styled.div`
+  width: 50%;
+  height: 100%;
+  padding-right: 1%;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const PopBoard = styled.div`
@@ -73,7 +90,7 @@ const PageLeft = styled.div`
   width: 90%;
   height: 100%;
   display: flex;
-  
+
   background-color: #eeeeee;
 `;
 const PageRight = styled.div`
@@ -83,7 +100,7 @@ const PageRight = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   background-color: #eeeeee;
 `;
 const PageInfo = styled.div`
@@ -148,18 +165,43 @@ const CloseButton = styled.div`
 `;
 
 const PagePop = (props) => {
+  const { open, close } = props;
+  const [amount, setAmount] = useState(null);
+  const userEmail = sessionStorage.getItem("email");
 
-// 결제
+  const isAmountAxios = useCallback(async () => {
+    try {
+      const response = await AlbumAxiosApi.getAmount(userEmail);
+      const amount = Math.floor(response.data / 1000);
+      setAmount(amount);
+    } catch (error) {
+      console.error("페이지 조회 실패", error);
+      setAmount(null);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (open) {
+      isAmountAxios();
+    }
+  }, [open, isAmountAxios]);
+
+  // 결제
   const handlePaymentSuccess = () => {
     console.log("Payment was successful!");
-    // 결제 성공 후 추가적인 처리를 여기에 작성
+    isAmountAxios(); // 결제 성공 후 금액 업데이트
   };
-    const { open, close } = props;
-    return (
-      <PopupOverlay className={open ? "openModal" : ""}>
-        {open && (
-          <Popup >
-          <PopTitle>페이지 구매</PopTitle>
+
+  return (
+    <PopupOverlay className={open ? "openModal" : ""}>
+      {open && (
+        <Popup>
+          <PopTitle>
+            <PageTitleleft>페이지 구매</PageTitleleft>
+            <PageTitleRight>
+              보유 페이지 : {amount !== null ? amount : "0"}
+            </PageTitleRight>
+          </PopTitle>
           <PopBoard>
             <BuyPage>
               <PageLeft>
@@ -183,11 +225,11 @@ const PagePop = (props) => {
                   <PageOne>페이지 2장 구매</PageOne>
                   <PageTwo>파격세일!!</PageTwo>
                   <PageThr>
-                    <Strikethrough>10000원</Strikethrough>={">"}1500원
+                    <Strikethrough>10000원</Strikethrough>={">"}2000원
                   </PageThr>
                   <PaymentComponent
                     onPaymentSuccess={handlePaymentSuccess}
-                    amount={1500}
+                    amount={2000}
                     order={"Palette Album 페이지 2장 구매"}
                   />
                 </PageInfo>
@@ -195,12 +237,11 @@ const PagePop = (props) => {
             </BuyPage>
           </PopBoard>
           <CloseDiv>
-          <CloseButton onClick={close}>닫기</CloseButton>
+            <CloseButton onClick={close}>닫기</CloseButton>
           </CloseDiv>
         </Popup>
-        )}
-      </PopupOverlay>
-    );
-  };
-  export default PagePop;
-  
+      )}
+    </PopupOverlay>
+  );
+};
+export default PagePop;
