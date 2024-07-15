@@ -59,7 +59,9 @@ function App() {
             <Route path="/date-album4" element={<DateAlbum4 />} />
             <Route path="/date-album5" element={<DateAlbum5 />} />
             <Route path="/date-diary" element={<DateDiary />} />
-            <Route path="/chat" element={<ChatMain />} />
+            <Route path="/Chat" element={<ChatList />} />
+            <Route path="/Chat-create" element={<ChatRoomCreate />} />
+            <Route path="/Chatting/:roomId" element={<Chatting />} />
             <Route path="/:coupleName/dateplanner" element={<DatePlanner />} />
             <Route
               path="/:coupleName/board-guestbook"
