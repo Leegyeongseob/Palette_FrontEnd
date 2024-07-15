@@ -15,28 +15,31 @@ import GoogleAndNaverNotLogin from "../../img/loginImg/구글,네이버 간편 �
 import LoginModal from "../../common/utils/Modal";
 
 const Contain = styled.div`
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 80%;
 `;
 
 const IconDiv = styled.div`
-  width: 24.6vw;
-  height: 13vh;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const Icon = styled.div`
-  width: 5.208vw;
-  height: 10.493vh;
+  width: 100px;
+  height: 100px;
   background-image: url(${personicon});
   background-size: cover;
+  @media screen and (max-width: 1333px) {
+    width: 8vw;
+    height: 8vw;
+  }
 `;
 
 const LoginDiv = styled.div`
-  width: 24.6vw;
-  height: 19.888vh;
+  width: 100%;
+  height: 32%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -60,12 +63,13 @@ const IconWrapper = styled.div`
 `;
 
 const FindDiv = styled.div`
-  width: 24.6vw;
-  height: 4.197vh;
+  width: 100%;
+  height: 3.197vh;
   display: flex;
   justify-content: space-evenly;
   & > div {
     display: flex;
+    align-items: center;
   }
 `;
 
@@ -75,6 +79,7 @@ const Signin = styled.div`
   font-size: 0.833vw;
   color: #b44a4a;
   font-weight: bolder;
+  margin-top: 1vw;
   cursor: pointer;
 `;
 
@@ -95,20 +100,20 @@ const ForgotPassword = styled.div`
 `;
 
 const ButtonDiv = styled.div`
-  width: 23.438vw;
-  height: 11.962vh;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const LoginButton = styled.div`
-  width: 9.375vw;
-  height: 5.247vh;
+  width: 180px;
+  height: 50px;
   background-color: ${({ isActive }) =>
     isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.1)"};
   border-radius: 1.042vw;
-  font-size: 1.198vw;
+  font-size: 20px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
@@ -119,10 +124,15 @@ const LoginButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
+  @media screen and (max-width: 1333px) {
+    width: 12vw;
+    height: 4vw;
+    font-size: 1.5vw;
+  }
 `;
 
 const SimpleLogin = styled.div`
-  width: 23.438vw;
+  width: 100%;
   height: 5.247vh;
   display: flex;
   justify-content: center;
@@ -141,8 +151,8 @@ const SigninDiv = styled.div`
 `;
 
 const CircleSide = styled.div`
-  width: 2.604vw;
-  height: 5.247vh;
+  width: 45px;
+  height: 45px;
   border: none;
   border-radius: 50%;
   background-color: transparent;
@@ -155,29 +165,45 @@ const CircleSide = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
+  @media screen and (max-width: 1333px) {
+    width: 3vw;
+    height: 3vw;
+  }
 `;
 const GoogleIcon = styled(FcGoogle)`
-  width: 2.604vw;
-  height: 5.247vh;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
+  @media screen and (max-width: 1333px) {
+    width: 3vw;
+    height: 3vw;
+  }
 `;
 
 const NaverIcon = styled.div`
-  width: 2.604vw;
-  height: 5.247vh;
+  width: 45px;
+  height: 45px;
   background-image: url(${naver});
   background-size: cover;
   background-position: center;
   cursor: pointer;
+  @media screen and (max-width: 1333px) {
+    width: 3vw;
+    height: 3vw;
+  }
 `;
 
 const KakaoIcon = styled.div`
-  width: 2.604vw;
-  height: 5.247vh;
+  width: 45px;
+  height: 45px;
   background-image: url(${kakao});
   background-size: cover;
   background-position: center;
   cursor: pointer;
+  @media screen and (max-width: 1333px) {
+    width: 3vw;
+    height: 3vw;
+  }
 `;
 const MdOutlineMailOutlineStyle = styled(MdOutlineMailOutline)`
   width: 1.25vw;

@@ -62,9 +62,11 @@ const BoardAxios = {
     }
   },
   getCoupleName: async (coupleName) => {
-      const getCoupleName = await axiosInstance.get(`/boards/couple/${coupleName}`);
-      return getCoupleName;
-  }
+    const getCoupleName = await axiosInstance.get(
+      `/boards/couple/${coupleName}`
+    );
+    return getCoupleName;
+  },
 };
 
 export default BoardAxios;

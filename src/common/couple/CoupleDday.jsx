@@ -54,14 +54,14 @@ const ButtonDiv = styled.div`
 `;
 const CoupleDday = ({ isMyHome }) => {
   const coupleName = sessionStorage.getItem("coupleName");
-  const [isDday, setIsDday] = useState(false);
+  const [isDday, setIsDday] = useState();
   const [saveCoupleName, setSaveCoupleName] = useState("");
   const [saveDday, setSaveDday] = useState("");
   const email = sessionStorage.getItem("email");
 
   useEffect(() => {
     dDayAxois();
-  }, [saveDday, coupleName]);
+  }, [saveDday, coupleName, isMyHome]);
 
   //디데이 값을 가져오는 비동기함수
   const dDayAxois = async () => {
@@ -72,6 +72,7 @@ const CoupleDday = ({ isMyHome }) => {
     console.log("6. 커플이름 저장", loginCoupleName.data);
     // Dday값 가져오기
     // const resDday = await MainAxios.searchDday(coupleName.data);
+    console.log("이거이거" + coupleName);
     const resDday = await MainAxios.searchDday(coupleName);
     console.log("7. 디데이 가져오기", resDday.data);
     if (resDday.data !== "") {
@@ -102,6 +103,7 @@ const CoupleDday = ({ isMyHome }) => {
     console.log("4.디데이엑시오스 확인", dDayAxois);
   };
   console.log("isMyHome : " + isMyHome);
+  console.log("isDday :" + isDday);
   return (
     <DdayInputDiv>
       {isMyHome ? (

@@ -7,11 +7,14 @@ import PLogo from "../../../img/background/paletteLogo.png";
 const HeaderContainer = styled.div`
   width: 100%;
   height: 10vh;
-  background-color: ${({ bgColor }) => bgColor || '#feeee8'};
+  background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    min-width: 768px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -52,7 +55,7 @@ const CenterLogo = styled(Link)`
 const MenuBar = styled.div`
   width: 100%;
   height: 5vh;
-  background-color: ${({ bgColor }) => bgColor || '#feeee8'};
+  background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
   flex-direction: column;
@@ -61,7 +64,10 @@ const MenuBar = styled.div`
   top: 0;
   z-index: 1000;
   &:hover {
-  opacity: 90%;
+    opacity: 90%;
+  }
+  @media screen and (max-width: 768px) {
+    min-width: 768px;
   }
 `;
 
@@ -75,16 +81,19 @@ const MenuBox = styled.div`
 `;
 
 const Menu = styled(Link)`
-  width: 7%;
+  width: 10%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  font-size: 0.85vw;
+  font-size: 1vw;
   color: #000;
   &:hover {
     font-weight: bolder;
+  }
+  @media screen and (max-width: 1333px) {
+    font-size: 13px;
   }
 `;
 
@@ -98,22 +107,24 @@ const Header = ({ bgColor }) => {
   }, [pathname]);
 
   return (
-  <>
-    <HeaderContainer bgColor={bgColor}>
-      <LogoBox>
-        <PaletteLogo to="/"></PaletteLogo>
-        <CenterLogo to="/"></CenterLogo>
-      </LogoBox>
-    </HeaderContainer>
-    <MenuBar bgColor={bgColor}>
-      <MenuBox>
-        <Menu to="/">Palette 소개</Menu>
-        <Menu to="/customer">고객센터</Menu>
-        <Menu to="/customer/ad" isActive={currentPath === "/customer/ad"}>광고문의</Menu>
-        <Menu to="/not-login">시작하기</Menu>
-      </MenuBox>
-    </MenuBar>
-  </>
+    <>
+      <HeaderContainer bgColor={bgColor}>
+        <LogoBox>
+          <PaletteLogo to="/"></PaletteLogo>
+          <CenterLogo to="/"></CenterLogo>
+        </LogoBox>
+      </HeaderContainer>
+      <MenuBar bgColor={bgColor}>
+        <MenuBox>
+          <Menu to="/">Palette 소개</Menu>
+          <Menu to="/customer">고객센터</Menu>
+          <Menu to="/customer/ad" isActive={currentPath === "/customer/ad"}>
+            광고문의
+          </Menu>
+          <Menu to="/not-login">시작하기</Menu>
+        </MenuBox>
+      </MenuBar>
+    </>
   );
 };
 

@@ -272,13 +272,13 @@ const BoardWrite = () => {
   // };
 
   const fetchBoardDataCN = async () => {
-    const coupleName = sessionStorage.getItem("coupleName")
-    console.log(coupleName)
+    const coupleName = sessionStorage.getItem("coupleName");
+    console.log(coupleName);
     try {
-      const data = await BoardAxios.getCoupleName(coupleName)
-      console.log("axios 데이터",data.data)
+      const data = await BoardAxios.getCoupleName(coupleName);
+      console.log("axios 데이터", data.data);
       setBoardData(data.data);
-    }catch(error){
+    } catch (error) {
       console.error("Failed to fetch board data", error);
     }
   };
@@ -389,7 +389,7 @@ const BoardWrite = () => {
       console.log("서버 응답 데이터:", response);
       // fetchBoardData(); // 게시판 데이터 다시 불러오기
       fetchBoardDataCN();
-      navigate("/board-guestbook"); // 리다이렉트
+      navigate(`/${coupleName}/board-guestbook`); // 리다이렉트
     } catch (error) {
       console.error(
         "게시글 생성 실패:",
@@ -402,7 +402,7 @@ const BoardWrite = () => {
       );
     }
   };
-  console.log("currentData",currentData)
+  console.log("currentData", currentData);
 
   return (
     <BookTheme>

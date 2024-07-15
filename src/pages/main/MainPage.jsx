@@ -16,6 +16,7 @@ import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
 import { GiArchiveResearch } from "react-icons/gi";
+import BoardAxios from "../../axiosapi/BoardAxios";
 const BookSign = styled.div`
   width: 25.8vw;
   height: 69vh;
@@ -305,8 +306,12 @@ const MainPage = () => {
 
   useEffect(() => {
     listGallaryImg(coupleName);
+    fetchBoardDataCN();
   }, [coupleName]);
 
+  useEffect(() => {
+    fetchBoardDataCN();
+  }, []);
   useEffect(() => {
     console.log(gallaryImg);
   }, [gallaryImg]);
@@ -340,6 +345,7 @@ const MainPage = () => {
   const closeFromStatus = () => {
     setSettingForm(false);
   };
+  const [boardSaveData, setBoardSaveData] = useState([]);
   const email = sessionStorage.getItem("email");
   useEffect(() => {
     dDayAxois();
@@ -357,6 +363,18 @@ const MainPage = () => {
       setSaveDday(resDday.data);
     } else {
       setIsDday(false);
+    }
+  };
+  // 게시물 가져오기
+
+  const fetchBoardDataCN = async () => {
+    console.log(coupleName);
+    try {
+      const data = await BoardAxios.getCoupleName(coupleName);
+      setBoardSaveData(data.data);
+      console.log("axios 데이터", data.data);
+    } catch (error) {
+      console.error("Failed to fetch board data", error);
     }
   };
   // 100일 계산 함수
@@ -390,6 +408,7 @@ const MainPage = () => {
     const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
       emailValue
     );
+    sessionStorage.setItem("coupleName", myCoupleNameData.data);
     navigate(`/${myCoupleNameData.data}/main-page`);
   };
   return (
@@ -470,10 +489,9 @@ const MainPage = () => {
           <RecentPostDiv>
             <RecentPosts>
               <RecentTitle>&nbsp;최근 게시물</RecentTitle>
-              <Recents>&nbsp;알콩이와 달콩이의 여의도 데이트</Recents>
-              <Recents>&nbsp;둘만의 강원도 여행</Recents>
-              <Recents>&nbsp;함께 보낸 첫번째 발렌타인데이</Recents>
-              <Recents>&nbsp;100일 기념 데이트</Recents>
+              {boardSaveData.slice(0, 4).map((item, index) => (
+                <Recents key={index}>&nbsp;{item.title}</Recents>
+              ))}
             </RecentPosts>
           </RecentPostDiv>
           <DdayFormDiv>

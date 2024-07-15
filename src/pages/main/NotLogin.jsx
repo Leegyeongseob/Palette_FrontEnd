@@ -3,8 +3,8 @@ import { BsPersonCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const Contain = styled.div`
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 40%;
 `;
 
 const PaletteDiv = styled.div`
@@ -15,27 +15,30 @@ const PaletteDiv = styled.div`
     font-weight: normal;
     font-style: normal;
   }
-  width: 24.6vw;
-  height: 31.48vh;
+  width: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: 9.375vw;
+  font-size: 150px;
   font-weight: normal;
   font-family: "Cafe24Lovingu";
+  @media screen and (max-width: 1333px) {
+    font-size: 10vw;
+  }
 `;
-const LoginDiv = styled.div`
-  width: 24.6vw;
-  height: 20.986vh;
 
+const LoginDiv = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 6.25vw;
-  height: 12.592vh;
+  width: 7vw;
+  height: 7vw;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;

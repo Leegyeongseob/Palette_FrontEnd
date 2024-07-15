@@ -131,6 +131,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
     );
 
     setCoupleNickName(resNickName.data);
+    console.log("커플닉네임 확인:" + resNickName.data);
   };
 
   //세션 커플이름이 바뀌었을 경우
@@ -147,7 +148,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
         // 첫 번째 이메일을 사용하여 다른 비동기 작업을 진행합니다.
         await Promise.all([
           coupleNickNameAxios(firstEmail),
-          coupleProfileAxios(coupleNameData, firstEmail),
+          coupleProfileAxios(coupleNameData, email),
         ]);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -202,18 +203,21 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       coupleNameData,
       emailData
     );
-    setImgUrl(manprofile);
     sessionStorage.setItem("imgUrl", manprofile);
     sessionStorage.setItem("myDarling", womanprofile);
-    setMyDarling(womanprofile);
-    console.log(res.data);
-    setImgUrl(res.data[0]);
-    setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
-    sessionStorage.setItem("imgUrl", res.data[0]);
 
-    setMyDarling(res.data[1]);
-    setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
-    sessionStorage.setItem("myDarling", res.data[1]);
+    console.log(res.data);
+
+    if (res.data[0]) {
+      setImgUrl(res.data[0]);
+      setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
+      sessionStorage.setItem("imgUrl", res.data[0]);
+    }
+    if (res.data[1]) {
+      setMyDarling(res.data[1]);
+      setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
+      sessionStorage.setItem("myDarling", res.data[1]);
+    }
   };
 
   return (

@@ -71,7 +71,7 @@ function App() {
               element={<GuestBoardGuestbook />}
             />
             <Route path="/board-details/:id" element={<BoardDetails />} />
-            <Route path="/board-write" element={<BoardWrite />} />
+            <Route path="/:coupleName/board-write" element={<BoardWrite />} />
             <Route
               path="/guest-board-guestbook"
               element={<GuestBoardGuestbook />}

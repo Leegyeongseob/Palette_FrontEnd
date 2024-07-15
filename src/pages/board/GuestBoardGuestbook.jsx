@@ -290,6 +290,7 @@ const GuestbookMain = styled.div`
 const itemsPerPage = 10;
 
 const GuestBoardGuestbook = () => {
+  const coupleName = sessionStorage.getItem("coupleName");
   const [currentPage, setCurrentPage] = useState(1);
   const [boardData, setBoardData] = useState([]);
 
@@ -300,7 +301,6 @@ const GuestBoardGuestbook = () => {
   }, []);
 
   const fetchBoardDataCN = async () => {
-    const coupleName = sessionStorage.getItem("coupleName");
     console.log(coupleName);
     try {
       const data = await BoardAxios.getCoupleName(coupleName);
@@ -332,7 +332,10 @@ const GuestBoardGuestbook = () => {
           <CoupleImg />
         </CoupleDiv>
         <BoardGrayBar />
-        <Link to="/board-write" style={{ textDecoration: "none" }}>
+        <Link
+          to={`/${coupleName}/board-write`}
+          style={{ textDecoration: "none" }}
+        >
           <BoardPost>새 게시물</BoardPost>
         </Link>
         <BoardTable>

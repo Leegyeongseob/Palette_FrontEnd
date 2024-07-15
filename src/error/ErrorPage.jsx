@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { UserContext } from "../contextapi/UserStore";
 import fourHundred from "../img/error/400error.png";
 import fourHundredOne from "../img/error/401error.png";
 import fourHundredThree from "../img/error/403error.png";
@@ -31,7 +30,8 @@ const PageContainer = styled.div`
 `;
 
 const ErrorPage = () => {
-  const { error } = useContext(UserContext);
+  const location = useLocation();
+  const { error } = location.state || {};
 
   return <PageContainer error={error} />;
 };
