@@ -255,15 +255,30 @@ const BoardWrite = () => {
   // 세션 추가
   const email = sessionStorage.getItem("email");
 
+  // useEffect(() => {
+  //   fetchBoardData();
+  // }, []);
   useEffect(() => {
-    fetchBoardData();
+    fetchBoardDataCN();
   }, []);
 
-  const fetchBoardData = async () => {
+  // const fetchBoardData = async () => {
+  //   try {
+  //     const data = await BoardAxios.fetchBoardData();
+  //     setBoardData(data);
+  //   } catch (error) {
+  //     console.error("Failed to fetch board data", error);
+  //   }
+  // };
+
+  const fetchBoardDataCN = async () => {
+    const coupleName = sessionStorage.getItem("coupleName")
+    console.log(coupleName)
     try {
-      const data = await BoardAxios.fetchBoardData();
-      setBoardData(data);
-    } catch (error) {
+      const data = await BoardAxios.getCoupleName(coupleName)
+      console.log("axios 데이터",data.data)
+      setBoardData(data.data);
+    }catch(error){
       console.error("Failed to fetch board data", error);
     }
   };
@@ -372,7 +387,8 @@ const BoardWrite = () => {
       const response = await BoardAxios.createBoard(boardReqDto, coupleName);
 
       console.log("서버 응답 데이터:", response);
-      fetchBoardData(); // 게시판 데이터 다시 불러오기
+      // fetchBoardData(); // 게시판 데이터 다시 불러오기
+      fetchBoardDataCN();
       navigate("/board-guestbook"); // 리다이렉트
     } catch (error) {
       console.error(
@@ -386,6 +402,7 @@ const BoardWrite = () => {
       );
     }
   };
+  console.log("currentData",currentData)
 
   return (
     <BookTheme>
