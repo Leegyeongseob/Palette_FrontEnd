@@ -230,6 +230,7 @@ const Guestbook = ({}) => {
         guestbookEntries.filter((entry) => entry.id !== entryId)
       );
     } catch (error) {
+      alert('작성자가 다른 게시물 입니다.')
       console.error("Failed to delete guestbook entry:", error);
     }
   };

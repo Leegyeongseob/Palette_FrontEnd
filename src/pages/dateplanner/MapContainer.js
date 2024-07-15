@@ -126,6 +126,7 @@ const MapContainer = ({
 
     placeOverlay.current.setMap(null);
     removeMarker();
+    clearOverlay();
 
     ps.categorySearch(currCategory, placesSearchCB, {
       useMapBounds: true,
