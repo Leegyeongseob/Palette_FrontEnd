@@ -240,6 +240,7 @@ const WritePost = styled.div`
 `;
 
 const itemsPerPage = 10;
+const maxPageButtons = 5;
 
 const BoardUpdate = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -289,7 +290,34 @@ const BoardUpdate = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const totalPages = Math.ceil(boardData.length / itemsPerPage);
 
+  const getPaginationButtons = () => {
+    const buttons = [];
+    let startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
+    let endPage = startPage + maxPageButtons - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxPageButtons + 1, 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <BoardPaginationButton
+          key={i}
+          onClick={() => handleClick(i)}
+          style={{
+            fontWeight: currentPage === i ? "bold" : "normal",
+          }}
+        >
+          {i}
+        </BoardPaginationButton>
+      );
+    }
+
+    return buttons;
+  };
   const handleFileInputChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -409,19 +437,19 @@ const BoardUpdate = () => {
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
-            (_, index) => (
-              <BoardPaginationButton
-                key={index + 1}
-                onClick={() => handleClick(index + 1)}
-                style={{
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}
-              >
-                {index + 1}
-              </BoardPaginationButton>
-            )
-          )}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt; 이전
+          </BoardPaginationButton>
+          {getPaginationButtons()}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            다음 &gt;
+          </BoardPaginationButton>
         </BoardPaginationContainer>
       </BoardSide>
       <CenterArea />

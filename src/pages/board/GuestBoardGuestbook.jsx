@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import boardBg from "../../img/background/theme/9.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import CandyImg from "../../img/mainImg/커플2.jpg";
-import React, { useEffect, useState } from "react";
 import Guestbook from "./Guestbook";
 import BoardAxios from "../../axiosapi/BoardAxios";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
@@ -133,6 +133,10 @@ const BoardPaginationButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const CenterArea = styled.div`
@@ -144,151 +148,9 @@ const GuestbookSide = styled.div`
   width: 25.8vw;
   height: 68.5vh;
 `;
-const GuestbookTitle = styled.div`
-  margin-top: 2.5vh;
-  width: 25.5vw;
-  height: 5vh;
-  font-size: 20px;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookGrayBar = styled.div`
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 0.4vh;
-  background-color: #b0b0b0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookWriteArea = styled.div`
-  margin-left: 1vw;
-  margin-top: 2vh;
-  width: 23.5vw;
-  height: 9.6vh;
-  border: 1px solid black;
-`;
-const GuestbookWriteMain = styled.div`
-  margin-left: 1vw;
-  width: 17.8vw;
-  height: 10vh - 1px;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-const GuestbookInput = styled.textarea`
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 13px;
-  resize: none;
-  overflow-y: aute;
-`;
-const GuestbookWriteButton = styled.div`
-  margin-top: 0.5vh;
-  margin-left: 20vw;
-  width: 4vw;
-  height: 2vh;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
-const GuestbookArea = styled.div`
-  margin-left: 1vw;
-  margin-top: 2vh;
-  width: 23.5vw;
-  height: 12vh;
-  border: 1px solid black;
-`;
-const GuestbookHead = styled.div`
-  height: 2.375vh;
-  background-color: #cdcfc4;
-  border-bottom: 1px solid black;
-  display: flex;
-`;
-const GuestbookNo = styled.div`
-  width: 3vw;
-  height: 2.375vh;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookNickname = styled.div`
-  width: 6vw;
-  height: 2.375vh;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
-const GuestbookDate = styled.div`
-  width: 7vw;
-  height: 2.375vh;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const GuestbookDelete = styled.div`
-  margin-left: 4vw;
-  width: 3vw;
-  height: 2.375vh;
-  font-size: 12px;
-  font-weight: 500;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
-const GuestbookBody = styled.div`
-  height: 9.6vh;
-  background-color: #eccdb0;
-  border-bottom: 1px solid black;
-  display: flex;
-`;
-const GuestbookImage = styled.div`
-  width: 4.8vw;
-  height: 9.7vh;
-  background-image: url(${CandyImg});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-
-const GuestbookMain = styled.div`
-  margin-left: 1vw;
-  width: 17vw;
-  height: 10vh - 1px;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
 
 const itemsPerPage = 10;
+const maxPageButtons = 5;
 
 const GuestBoardGuestbook = () => {
   const coupleName = sessionStorage.getItem("coupleName");
@@ -298,28 +160,25 @@ const GuestBoardGuestbook = () => {
   // 내 방이면 true 아니면 false
   const [isMyHome, setIsMyHome] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchBoardDataCN();
-
     isMyHomeAxios();
   }, []);
 
   //본인만 "새 게시물 작성"이 보이도록 하는 axios
   const isMyHomeAxios = async () => {
     const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(email);
-    console.log("불러온 커플네임 : " + myCoupleNameData.data);
-    console.log("세션 커플네임 :" + coupleName);
     if (myCoupleNameData.data !== coupleName) {
       setIsMyHome(false);
     } else {
       setIsMyHome(true);
     }
   };
+
   const fetchBoardDataCN = async () => {
-    console.log(coupleName);
     try {
       const data = await BoardAxios.getCoupleName(coupleName);
-      console.log("axios 데이터", data.data);
       setBoardData(data.data.reverse());
     } catch (error) {
       console.error("Failed to fetch board data", error);
@@ -338,7 +197,36 @@ const GuestBoardGuestbook = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  console.log("currentData", currentData);
+
+  const totalPages = Math.ceil(boardData.length / itemsPerPage);
+
+  const getPaginationButtons = () => {
+    const buttons = [];
+    let startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
+    let endPage = startPage + maxPageButtons - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxPageButtons + 1, 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <BoardPaginationButton
+          key={i}
+          onClick={() => handleClick(i)}
+          style={{
+            fontWeight: currentPage === i ? "bold" : "normal",
+          }}
+        >
+          {i}
+        </BoardPaginationButton>
+      );
+    }
+
+    return buttons;
+  };
+
   return (
     <BookTheme>
       <BoardSide>
@@ -374,82 +262,27 @@ const GuestBoardGuestbook = () => {
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
-            (_, index) => (
-              <BoardPaginationButton
-                key={index + 1}
-                onClick={() => handleClick(index + 1)}
-                style={{
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}
-              >
-                {index + 1}
-              </BoardPaginationButton>
-            )
-          )}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt; 이전
+          </BoardPaginationButton>
+          {getPaginationButtons()}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            다음 &gt;
+          </BoardPaginationButton>
         </BoardPaginationContainer>
       </BoardSide>
       <CenterArea />
       <GuestbookSide>
-        {/* <GuestbookTitle>방명록</GuestbookTitle>
-        <GuestbookGrayBar />
-        <GuestbookWriteArea>
-          <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
-            <GuestbookWriteMain>
-              <GuestbookInput placeholder="내용을 입력하세요." />
-            </GuestbookWriteMain>
-          </GuestbookBody>
-        </GuestbookWriteArea>
-        <GuestbookWriteButton>방명록 등록</GuestbookWriteButton>
-        <GuestbookArea>
-          <GuestbookHead>
-            <GuestbookNo>No.1</GuestbookNo>
-            <GuestbookNickname>캔디</GuestbookNickname>
-            <GuestbookDate>(2024.02.15)</GuestbookDate>
-            <GuestbookDelete>삭제</GuestbookDelete>
-          </GuestbookHead>
-          <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
-            <GuestbookMain>
-              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-              세우고 있어요.
-            </GuestbookMain>
-          </GuestbookBody>
-        </GuestbookArea>
-        <GuestbookArea>
-          <GuestbookHead>
-            <GuestbookNo>No.1</GuestbookNo>
-            <GuestbookNickname>캔디</GuestbookNickname>
-            <GuestbookDate>(2024.02.15)</GuestbookDate>
-            <GuestbookDelete>삭제</GuestbookDelete>
-          </GuestbookHead>
-          <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
-            <GuestbookMain>
-              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-              세우고 있어요.
-            </GuestbookMain>
-          </GuestbookBody>
-        </GuestbookArea>
-        <GuestbookArea>
-          <GuestbookHead>
-            <GuestbookNo>No.1</GuestbookNo>
-            <GuestbookNickname>캔디</GuestbookNickname>
-            <GuestbookDate>(2024.02.15)</GuestbookDate>
-            <GuestbookDelete>삭제</GuestbookDelete>
-          </GuestbookHead>
-          <GuestbookBody>
-            <GuestbookImage></GuestbookImage>
-            <GuestbookMain>
-              데이트 게시물 잘 보고 있어요! 저희 커플도 참고해서 데이트 계획
-              세우고 있어요.
-            </GuestbookMain>
-          </GuestbookBody>
-        </GuestbookArea> */}
         <Guestbook />
       </GuestbookSide>
     </BookTheme>
   );
 };
+
 export default GuestBoardGuestbook;

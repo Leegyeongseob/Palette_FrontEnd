@@ -232,6 +232,7 @@ const BoardImgDetail = styled.div`
   border-radius: 10px;
 `;
 const itemsPerPage = 10;
+const maxPageButtons = 5;
 
 const BoardDetails = () => {
   const [boardDetails, setBoardDetails] = useState(null); // State to store board details
@@ -293,11 +294,39 @@ const BoardDetails = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Ensure boardData is defined before slicing
   const currentData = boardData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const totalPages = Math.ceil(boardData.length / itemsPerPage);
+
+  const getPaginationButtons = () => {
+    const buttons = [];
+    let startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
+    let endPage = startPage + maxPageButtons - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxPageButtons + 1, 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <BoardPaginationButton
+          key={i}
+          onClick={() => handleClick(i)}
+          style={{
+            fontWeight: currentPage === i ? "bold" : "normal",
+          }}
+        >
+          {i}
+        </BoardPaginationButton>
+      );
+    }
+
+    return buttons;
+  };
   // 게시글 수정하기
   const updateBoardContentsAxios = async (idValue) => {
     navigate(`/${coupleName}/board-update`, { state: idValue });
@@ -349,22 +378,22 @@ const BoardDetails = () => {
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
-            (_, index) => (
-              <BoardPaginationButton
-                key={index + 1}
-                onClick={() => handleClick(index + 1)}
-                style={{
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}
-              >
-                {index + 1}
-              </BoardPaginationButton>
-            )
-          )}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt; 이전
+          </BoardPaginationButton>
+          {getPaginationButtons()}
+          <BoardPaginationButton
+            onClick={() => handleClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            다음 &gt;
+          </BoardPaginationButton>
         </BoardPaginationContainer>
       </BoardSide>
-      <CenterArea></CenterArea>
+      <CenterArea />
       {boardDetails && ( // Render DetailsSide if boardDetails is not null
         <DetailsSide>
           <EditBackContainer isMyHome={isMyHome}>
