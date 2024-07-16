@@ -7,8 +7,9 @@ const SavedCoursesContainer = styled.div`
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  height: 24vh;
-  h3{
+  height: 30vh;
+
+  h3 {
     margin: 10px;
     text-align: center;
   }
@@ -31,16 +32,24 @@ const CourseItem = styled.li`
   border-radius: 4px;
   border: 1px solid #ddd;
   gap: 6px;
+
+ 
+
 `;
 
 const CourseTitle = styled.div`
-width: auto;
+  width: auto;
   cursor: pointer;
+  font-size: 16px;
+
+ 
 `;
 
 const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
+
+ 
 `;
 
 const Button = styled.button`
@@ -51,26 +60,34 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+
   &:hover {
     background-color: #444;
   }
+
+ 
 `;
 
-const SavedCoursesList = ({openModal, savedCourses, setSelectedCourse, handleEditCourse, handleDeleteCourse }) => {
-
-  
-  
+const SavedCoursesList = ({
+  openModal,
+  savedCourses,
+  setSelectedCourse,
+  handleEditCourse,
+  handleDeleteCourse
+}) => {
   return (
     <SavedCoursesContainer>
       <h3>저장된 코스</h3>
       <CourseList>
         {savedCourses.map((course, index) => (
           <CourseItem key={index}>
-            <CourseTitle onClick={() =>openModal(index)}>{course.title}</CourseTitle>
+            <CourseTitle onClick={() => openModal(index)}>
+              {course.title}
+            </CourseTitle>
             <ActionButtons>
               <Button onClick={() => handleEditCourse(index)}>수정</Button>
               <Button onClick={() => handleDeleteCourse(index)}>삭제</Button>
-              <button onClick={() => openModal(index)}>지도 보기</button>
+              <Button onClick={() => openModal(index)}>지도 보기</Button>
             </ActionButtons>
           </CourseItem>
         ))}

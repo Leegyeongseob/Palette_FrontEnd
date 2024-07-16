@@ -1,5 +1,3 @@
-// PlannerForm 컴포넌트
-
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -13,17 +11,41 @@ const PlannerContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+    padding: 8px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    padding: 6px;
+  }
 `;
 
 const CourseTitleInput = styled.input`
   padding: 10px;
   border: 1px solid #e6e6fa;
   border-radius: 4px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px;
+  }
 `;
 
 const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SaveButton = styled.button`
@@ -35,8 +57,17 @@ const SaveButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+
   &:hover {
     background-color: #444;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px;
   }
 `;
 
@@ -48,8 +79,17 @@ const ClearButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+
   &:hover {
     background-color: #ff3333;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px;
   }
 `;
 
@@ -66,8 +106,8 @@ const RemoveButton = styled.button`
   &:hover {
     background-color: #ff3333;
   }
-`;
 
+`;
 
 const PlaceList = styled.ul`
   overflow-x: hidden;
@@ -75,6 +115,8 @@ const PlaceList = styled.ul`
   height: 24vh;
   list-style-type: none;
   padding: 0;
+
+ 
 `;
 
 const PlaceItem = styled.li`
@@ -89,18 +131,24 @@ const PlaceItem = styled.li`
     margin: 0;
     color: #333;
     font-size: 16px;
+
+   
   }
 
   p {
     margin: 5px 0;
     color: #666;
     font-size: 12px;
+
   }
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+ 
 `;
+
 
 
 const PlannerForm = ({
