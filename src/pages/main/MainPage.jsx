@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme11 from "../../img/background/theme/11.jpg";
 import iu from "../../img/mainImg/아이유.jpg";
 import CoupleDday from "../../common/couple/CoupleDday";
 import CoupleImg from "../../common/couple/CoupleImg";
@@ -11,27 +10,66 @@ import { useEffect, useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
 import { GiArchiveResearch } from "react-icons/gi";
 import BoardAxios from "../../axiosapi/BoardAxios";
-const BookSign = styled.div`
-  width: 25.8vw;
-  height: 69vh;
-`;
+import theme3 from "../../img/background/theme/new.jpg";
+import theme3_1 from "../../img/background/theme/new-1.jpg";
+
 const BookTheme = styled.div`
-  width: 53vw;
-  height: 69vh;
-  margin-top: 4vh;
-  margin-left: 0.8vw;
-  background-image: url(${theme11});
+  width: 26vw;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.7vw;
+  background-image: url(${theme3});
   background-size: cover;
-  opacity: 0.8;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 1900px) {
+    min-width: 480px;
+    height: 640px;
+  }
+  @media screen and (max-height: 912px) {
+    width: 460px;
+    min-height: 580px;
+  }
 `;
+
+const BookTheme2 = styled.div`
+  width: 26vw;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.7vw;
+  background-image: url(${theme3_1});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1900px) {
+    min-width: 480px;
+    height: 640px;
+  }
+  @media screen and (max-height: 912px) {
+    width: 460px;
+    min-height: 580px;
+  }
+`;
+
+const BookSign = styled.div`
+  width: 25vw;
+  height: 66vh;
+`;
+const BookSign2 = styled.div`
+  width: 25vw;
+  height: 66vh;
+`;
+
 const CoupleDiv = styled.div`
   width: 25.8vw;
   height: 22vh;
@@ -415,128 +453,132 @@ const MainPage = () => {
     navigate(`/${coupleName}/board-details/${id}`);
   };
   return (
-    <BookTheme>
-      <BookSign>
-        <CoupleDiv>
-          <PaletteBanner />
-        </CoupleDiv>
-        <CoupleDiv>
-          <CoupleImg isMyHome={isMyHome} />
-        </CoupleDiv>
-        <CoupleDiv>
-          <CoupleDday isMyHome={isMyHome} />
-          <VisitContainer>
-            <VisitDiv>
-              <div className="visitDiv">
-                <input
-                  type="text"
-                  placeholder="다른 미니홈피 검색"
-                  value={searchTerm}
-                  onChange={visitSearchOnChange}
-                  onKeyDown={handleKeyPress}
-                />
-                <VisitSearchBtn />
-              </div>
-              {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
-              {searchCoupleList.map((couple, index) => (
-                <VisitList key={index} onClick={() => handleSearch(index)}>
-                  {couple}
-                </VisitList>
-              ))}
-            </VisitDiv>
-          </VisitContainer>
-        </CoupleDiv>
-      </BookSign>
-      <BookSign>
-        <SettingDiv>
-          <BackMyHome onClick={goHomeOnClickHandler}>
-            내 홈으로 돌아가기
-          </BackMyHome>
-          <div className="space" />
-          {!settingForm && (
-            <Setting onClick={settingFromStatus} openform={settingForm} />
-          )}
-          {settingForm && (
-            <SettingForm>
-              <XbtnDiv>
-                <CloseBtn onClick={closeFromStatus} />
-              </XbtnDiv>
-              <BtnDiv>
-                <Btn
-                  onClick={() => {
-                    navigate("/modify");
-                  }}
-                >
-                  수정하기
-                </Btn>
-                <Btn
-                  onClick={() => {
-                    sessionStorage.setItem("email", "");
-                    navigate("/");
-                  }}
-                >
-                  로그아웃
-                </Btn>
-                <Btn
-                  onClick={() => {
-                    navigate("/withdrawal");
-                  }}
-                >
-                  회원탈퇴
-                </Btn>
-              </BtnDiv>
-            </SettingForm>
-          )}
-        </SettingDiv>
-        <DdayDiv>
-          <RecentPostDiv>
-            <RecentPosts>
-              <RecentTitle>&nbsp;최근 게시물</RecentTitle>
-              {boardSaveData.slice(0, 4).map((item, index) => (
-                <Recents
-                  key={index}
-                  onClick={() => {
-                    boardOnClickHandler(item.id);
-                  }}
-                >
-                  &nbsp;{item.title}
-                </Recents>
-              ))}
-            </RecentPosts>
-          </RecentPostDiv>
-          <DdayFormDiv>
-            <Dday>
-              <Ddays>&nbsp;TODAY : 8 </Ddays>
-              {isDday ? (
-                <>
-                  <Ddays>&nbsp;TOTAL : {saveDday} day</Ddays>
-                  <Ddays>&nbsp;100일 : {hundredCalculate()} day</Ddays>
-                  <Ddays>&nbsp;500일 : {fiveHundredCalculate()} day</Ddays>
-                </>
-              ) : (
-                <>
-                  <Ddays>&nbsp;TOTAL : 입력해주세요. </Ddays>
-                  <Ddays>&nbsp;100일 : 입력해주세요. </Ddays>
-                  <Ddays>&nbsp;500일 : 입력해주세요.</Ddays>
-                </>
-              )}
+    <>
+      <BookTheme>
+        <BookSign>
+          <CoupleDiv>
+            <PaletteBanner />
+          </CoupleDiv>
+          <CoupleDiv>
+            <CoupleImg isMyHome={isMyHome} />
+          </CoupleDiv>
+          <CoupleDiv>
+            <CoupleDday isMyHome={isMyHome} />
+            <VisitContainer>
+              <VisitDiv>
+                <div className="visitDiv">
+                  <input
+                    type="text"
+                    placeholder="다른 미니홈피 검색"
+                    value={searchTerm}
+                    onChange={visitSearchOnChange}
+                    onKeyDown={handleKeyPress}
+                  />
+                  <VisitSearchBtn />
+                </div>
+                {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
+                {searchCoupleList.map((couple, index) => (
+                  <VisitList key={index} onClick={() => handleSearch(index)}>
+                    {couple}
+                  </VisitList>
+                ))}
+              </VisitDiv>
+            </VisitContainer>
+          </CoupleDiv>
+        </BookSign>
+      </BookTheme>
+      <BookTheme2>
+        <BookSign2>
+          <SettingDiv>
+            <BackMyHome onClick={goHomeOnClickHandler}>
+              내 홈으로 돌아가기
+            </BackMyHome>
+            <div className="space" />
+            {!settingForm && (
+              <Setting onClick={settingFromStatus} openform={settingForm} />
+            )}
+            {settingForm && (
+              <SettingForm>
+                <XbtnDiv>
+                  <CloseBtn onClick={closeFromStatus} />
+                </XbtnDiv>
+                <BtnDiv>
+                  <Btn
+                    onClick={() => {
+                      navigate("/modify");
+                    }}
+                  >
+                    수정하기
+                  </Btn>
+                  <Btn
+                    onClick={() => {
+                      sessionStorage.setItem("email", "");
+                      navigate("/");
+                    }}
+                  >
+                    로그아웃
+                  </Btn>
+                  <Btn
+                    onClick={() => {
+                      navigate("/withdrawal");
+                    }}
+                  >
+                    회원탈퇴
+                  </Btn>
+                </BtnDiv>
+              </SettingForm>
+            )}
+          </SettingDiv>
+          <DdayDiv>
+            <RecentPostDiv>
+              <RecentPosts>
+                <RecentTitle>&nbsp;최근 게시물</RecentTitle>
+                {boardSaveData.slice(0, 4).map((item, index) => (
+                  <Recents
+                    key={index}
+                    onClick={() => {
+                      boardOnClickHandler(item.id);
+                    }}
+                  >
+                    &nbsp;{item.title}
+                  </Recents>
+                ))}
+              </RecentPosts>
+            </RecentPostDiv>
+            <DdayFormDiv>
+              <Dday>
+                <Ddays>&nbsp;TODAY : 8 </Ddays>
+                {isDday ? (
+                  <>
+                    <Ddays>&nbsp;TOTAL : {saveDday} day</Ddays>
+                    <Ddays>&nbsp;100일 : {hundredCalculate()} day</Ddays>
+                    <Ddays>&nbsp;500일 : {fiveHundredCalculate()} day</Ddays>
+                  </>
+                ) : (
+                  <>
+                    <Ddays>&nbsp;TOTAL : 입력해주세요. </Ddays>
+                    <Ddays>&nbsp;100일 : 입력해주세요. </Ddays>
+                    <Ddays>&nbsp;500일 : 입력해주세요.</Ddays>
+                  </>
+                )}
 
-              <Ddays>&nbsp;알콩이 생일 : D - 70 </Ddays>
-            </Dday>
-          </DdayFormDiv>
-        </DdayDiv>
-        <GalleryDiv>
-          <PictureDiv>
-            <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} />
-            <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} />
-          </PictureDiv>
-          <PictureDiv>
-            <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} />
-            <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} />
-          </PictureDiv>
-        </GalleryDiv>
-      </BookSign>
-    </BookTheme>
+                <Ddays>&nbsp;알콩이 생일 : D - 70 </Ddays>
+              </Dday>
+            </DdayFormDiv>
+          </DdayDiv>
+          <GalleryDiv>
+            <PictureDiv>
+              <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} />
+              <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} />
+            </PictureDiv>
+            <PictureDiv>
+              <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} />
+              <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} />
+            </PictureDiv>
+          </GalleryDiv>
+        </BookSign2>
+      </BookTheme2>
+    </>
   );
 };
 

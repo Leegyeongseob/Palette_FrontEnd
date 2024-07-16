@@ -2,16 +2,16 @@ import styled from "styled-components";
 import openbook from "../../img/background/openbook.png";
 import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import BookMark from "../bookmark/BookMark";
-import { useEffect, useState } from "react";
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background-image: url(${background});
   background-size: cover;
-  background-position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,14 +19,14 @@ const Background = styled.div`
 `;
 const LogoDiv = styled.div`
   width: 10vw;
-  height: 17.838vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const BookMarkDiv = styled.div`
   width: 22vw;
-  height: 17.838vh;
+  height: 15vh;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
@@ -43,13 +43,22 @@ const Logo = styled.img`
   }
 `;
 const Book = styled.div`
-  width: 63vw;
-  height: 100vh;
+  width: 1200px;
+  height: 85vh;
   background-image: url(${openbook});
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 1500px) {
+    min-width: 1200px;
+    height: 80%;
+  }
+  @media screen and (max-height: 830px) {
+    width: 1300px;
+    min-height: 700px;
+  }
 `;
 const TopContain = styled.div`
   width: auto;
