@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Contain = styled.div`
   width: 100%;
-  height: 40%;
+  height: 100%;
 `;
 
 const PaletteDiv = styled.div`
@@ -16,35 +16,39 @@ const PaletteDiv = styled.div`
     font-style: normal;
   }
   width: 100%;
-  height: 70%;
+  height: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: 150px;
+  font-size: calc(150px - 1vw);
   font-weight: normal;
   font-family: "Cafe24Lovingu";
-  @media screen and (max-width: 1333px) {
-    font-size: 10vw;
+  @media screen and (max-width: 768px) {
+    font-size: 100px;
   }
 `;
 
 const LoginDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 7vw;
-  height: 7vw;
+  width: 120px;
+  height: 120px;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   &:hover {
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
+  @media screen and (max-width: 1133px) {
+    width: 80px;
+    height: 80px;
   }
 `;
 const NotLogin = () => {

@@ -11,19 +11,20 @@ const Contain = styled.div`
 `;
 const IconDiv = styled.div`
   width: 24.6vw;
-  height: 18.888vh;
+  height: 14vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const InputDiv = styled.div`
-  width: 24.6vw;
+  width: 400px;
   height: 20.986vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  background-color: purple;
 `;
 const ButtonDiv = styled.div`
   width: 23.438vw;
@@ -33,11 +34,11 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 9.375vw;
+  width: calc(130px + 1vw);
   height: 5.247vh;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
-  font-size: 1.198vw;
+  font-size: calc(10px + 1vw);
   color: #b44a4a;
   display: flex;
   justify-content: center;
@@ -50,13 +51,13 @@ const FindButton = styled.div`
 `;
 const InputDetailDiv = styled.div`
   width: 17.708vw;
-  height: 3.358vh;
+  height: 30px;
 
   display: flex;
   & > label {
-    width: 5.729vw;
+    width: 130px;
     height: auto;
-    font-size: 0.833vw;
+    font-size: 17px;
     color: #b44a4a;
     display: flex;
     font-weight: bolder;
@@ -64,7 +65,7 @@ const InputDetailDiv = styled.div`
     align-items: center;
   }
   & > .InputClass {
-    width: 11.458vw;
+    width: 200px;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -76,7 +77,7 @@ const InputDetailDiv = styled.div`
   }
 `;
 const RegisterationInput1 = styled.input`
-  width: 6.25vw;
+  width: 120px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -85,19 +86,22 @@ const RegisterationInput1 = styled.input`
   padding-left: 0.521vw;
   font-size: 0.833vw;
   font-weight: 600;
+  @media screen and (max-width: 1363px) {
+    width: 95px;
+  }
 `;
 const Text = styled.div`
-  width: 0.521vw;
+  width: 8px;
   height: 3.358vh;
   font-weight: bolder;
-  font-size: 0.833vw;
+  font-size: 20px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const RegisterationInput2 = styled.input`
-  width: 1.042vw;
+  width: 20px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -108,9 +112,17 @@ const RegisterationInput2 = styled.input`
   font-weight: 600;
 `;
 const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
-  width: 5.208vw;
-  height: 10.493vh;
+  width: 100px;
+  height: 100px;
   color: rgba(0, 0, 0, 0.7);
+  @media screen and (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+  }
+  @media screen and (max-height: 768px) {
+    width: 65px;
+    height: 65px;
+  }
 `;
 const Message = styled.div`
   width: 100%;

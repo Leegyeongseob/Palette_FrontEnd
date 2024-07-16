@@ -24,24 +24,27 @@ const Contain = styled.div`
 `;
 
 const IconDiv = styled.div`
-  width: 100%;
-  height: 20%;
+  width: 90%;
+  height: 22%;
   display: flex;
   justify-content: center;
 `;
 
 const Icon = styled.div`
-  width: 100px;
-  height: 100px;
+  width: calc(110px - 1vw);
+  height: calc(110px - 1vh);
   background-image: url(${personicon});
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
   @media screen and (max-width: 768px) {
-    width: 8vw;
-    height: 8vw;
+    width: 7vw;
+    height: 7vw;
   }
   @media screen and (max-height: 768px) {
-    width: 3vw;
-    height: 3vw;
+    width: 65px;
+    height: 65px;
   }
 `;
 
@@ -72,12 +75,13 @@ const IconWrapper = styled.div`
 `;
 
 const FindDiv = styled.div`
-  width: 100%;
+  width: 80%;
   height: 3.197vh;
   display: flex;
   justify-content: space-evenly;
   & > div {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
   }
   @media screen and (max-height: 768px) {
@@ -92,13 +96,14 @@ const Signin = styled.div`
   font-size: 16px;
   color: #b44a4a;
   font-weight: bolder;
-  margin-top: 1vw;
+  margin-top: 0.5vh;
   cursor: pointer;
+
   @media screen and (max-width: 768px) {
-    font-size: 1.5vw;
+    font-size: 14px;
   }
   @media screen and (max-height: 768px) {
-    font-size: 0.8vw;
+    font-size: 14px;
   }
 `;
 
@@ -109,10 +114,10 @@ const ForgotId = styled.div`
   color: #b44a4a;
   cursor: pointer;
   @media screen and (max-width: 768px) {
-    font-size: 1.5vw;
+    font-size: 14px;
   }
   @media screen and (max-height: 768px) {
-    font-size: 0.8vw;
+    font-size: 14px;
   }
 `;
 
@@ -123,10 +128,10 @@ const ForgotPassword = styled.div`
   color: #b44a4a;
   cursor: pointer;
   @media screen and (max-width: 768px) {
-    font-size: 1.5vw;
+    font-size: 14px;
   }
   @media screen and (max-height: 768px) {
-    font-size: 0.8vw;
+    font-size: 14px;
   }
 `;
 
@@ -161,15 +166,20 @@ const LoginButton = styled.div`
     font-size: 1.5vw;
   }
   @media screen and (max-height: 768px) {
-    width: 6vw;
-    height: 2vw;
-    font-size: 0.8vw;
+    width: 17vh;
+    height: 6vh;
+    font-size: 2vh;
+  }
+  @media screen and (max-height: 668px) {
+    width: 100px;
+    height: 30px;
+    font-size: 13px;
   }
 `;
 
 const SimpleLogin = styled.div`
   width: 100%;
-  height: 5.247vh;
+  height: 7.247vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -208,8 +218,8 @@ const CircleSide = styled.div`
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
   @media screen and (max-width: 768px) {
-    width: 50%;
-    height: 50%;
+    width: 45px;
+    height: 45px;
   }
 `;
 const GoogleIcon = styled(FcGoogle)`
@@ -262,19 +272,19 @@ const InputDiv = styled.input`
   outline: none;
   &::placeholder {
     text-align: center;
-    font-size: 0.833vw;
+    font-size: 15px;
     color: #b44a4a;
     font-weight: bolder;
   }
   @media screen and (max-width: 768px) {
     width: 90%;
     height: 80%;
-    font-size: 1.5vw;
+    font-size: 13px;
   }
   @media screen and (max-height: 768px) {
     width: 90%;
     height: 80%;
-    font-size: 0.8vw;
+    font-size: 10px;
   }
 `;
 const Message = styled.div`
