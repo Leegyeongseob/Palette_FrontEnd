@@ -16,7 +16,11 @@ import LoginModal from "../../common/utils/Modal";
 
 const Contain = styled.div`
   width: 100%;
-  height: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const IconDiv = styled.div`
@@ -31,9 +35,13 @@ const Icon = styled.div`
   height: 100px;
   background-image: url(${personicon});
   background-size: cover;
-  @media screen and (max-width: 1333px) {
+  @media screen and (max-width: 768px) {
     width: 8vw;
     height: 8vw;
+  }
+  @media screen and (max-height: 768px) {
+    width: 3vw;
+    height: 3vw;
   }
 `;
 
@@ -48,8 +56,9 @@ const LoginDiv = styled.div`
 
 const InputContainer = styled.div`
   position: relative;
-  width: 10.417vw;
-  height: 5.247vh;
+  width: 200px;
+  height: 5vh;
+  font-size: 16px;
   display: flex;
   align-items: center;
 `;
@@ -71,32 +80,54 @@ const FindDiv = styled.div`
     display: flex;
     align-items: center;
   }
+  @media screen and (max-height: 768px) {
+    width: 270px;
+    height: 60px;
+  }
 `;
 
 const Signin = styled.div`
-  width: 3.646vw;
+  width: 70px;
   height: 3.148vh;
-  font-size: 0.833vw;
+  font-size: 16px;
   color: #b44a4a;
   font-weight: bolder;
   margin-top: 1vw;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    font-size: 0.8vw;
+  }
 `;
 
 const ForgotId = styled.div`
-  width: 3.646vw;
+  width: 70px;
   height: 2.099vh;
-  font-size: 0.833vw;
+  font-size: 16px;
   color: #b44a4a;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    font-size: 0.8vw;
+  }
 `;
 
 const ForgotPassword = styled.div`
-  width: 3.646vw;
+  width: 70px;
   height: 2.099vh;
-  font-size: 0.833vw;
+  font-size: 16px;
   color: #b44a4a;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    font-size: 0.8vw;
+  }
 `;
 
 const ButtonDiv = styled.div`
@@ -124,10 +155,15 @@ const LoginButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
-  @media screen and (max-width: 1333px) {
+  @media screen and (max-width: 768px) {
     width: 12vw;
     height: 4vw;
     font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    width: 6vw;
+    height: 2vw;
+    font-size: 0.8vw;
   }
 `;
 
@@ -138,11 +174,17 @@ const SimpleLogin = styled.div`
   justify-content: center;
   align-items: center;
   & > div {
-    width: 13.021vw;
+    width: 250px;
     height: 5.247vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    font-size: 0.8vw;
   }
 `;
 
@@ -165,19 +207,15 @@ const CircleSide = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 1333px) {
-    width: 3vw;
-    height: 3vw;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+    height: 50%;
   }
 `;
 const GoogleIcon = styled(FcGoogle)`
   width: 45px;
   height: 45px;
   cursor: pointer;
-  @media screen and (max-width: 1333px) {
-    width: 3vw;
-    height: 3vw;
-  }
 `;
 
 const NaverIcon = styled.div`
@@ -187,10 +225,6 @@ const NaverIcon = styled.div`
   background-size: cover;
   background-position: center;
   cursor: pointer;
-  @media screen and (max-width: 1333px) {
-    width: 3vw;
-    height: 3vw;
-  }
 `;
 
 const KakaoIcon = styled.div`
@@ -200,34 +234,30 @@ const KakaoIcon = styled.div`
   background-size: cover;
   background-position: center;
   cursor: pointer;
-  @media screen and (max-width: 1333px) {
-    width: 3vw;
-    height: 3vw;
-  }
 `;
 const MdOutlineMailOutlineStyle = styled(MdOutlineMailOutline)`
-  width: 1.25vw;
+  width: 24px;
   height: 2.518vh;
   color: gray;
 `;
 const MdLockOutlineStyled = styled(MdLockOutline)`
-  width: 1.25vw;
+  width: 24px;
   height: 2.518vh;
   color: gray;
 `;
 const SiGnuprivacyguardStyle = styled(SiGnuprivacyguard)`
-  width: 1.25vw;
+  width: 24px;
   height: 2.518vh;
   color: gray;
 `;
 const InputDiv = styled.input`
   width: 100%;
   height: 100%;
-  padding-left: 2.083vw;
+  padding-left: 40px;
   border: none;
   border-bottom: 0.21vh solid gray;
   background-color: transparent;
-  font-size: 0.833vw;
+  font-size: 16px;
   font-weight: bolder;
   outline: none;
   &::placeholder {
@@ -236,13 +266,33 @@ const InputDiv = styled.input`
     color: #b44a4a;
     font-weight: bolder;
   }
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    height: 80%;
+    font-size: 1.5vw;
+  }
+  @media screen and (max-height: 768px) {
+    width: 90%;
+    height: 80%;
+    font-size: 0.8vw;
+  }
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 0.6vw;
+  font-size: 12px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+  @media screen and (max-width: 768px) {
+    width: 80%;
+    height: 80%;
+    font-size: 1.1vw;
+  }
+  @media screen and (max-height: 768px) {
+    width: 80%;
+    height: 80%;
+    font-size: 0.6vw;
+  }
 `;
 const LoginPage = () => {
   // 키보드 입력

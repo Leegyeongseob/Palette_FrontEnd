@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import closebook from "../../img/background/closebook.png";
-import theme3 from "../../img/background/theme/3.jpg";
+import closebook from "../../img/background/closebook2.png";
 import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
@@ -8,67 +7,108 @@ import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useEffect, useState } from "react";
 
 const Background = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-image: url(${background});
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  font-size: 16px;
 `;
-const BookTheme = styled.div`
-  width: 450px;
-  height: 72.5%;
-  margin-top: 10vh;
-  margin-left: 55px;
-  background-image: url(${theme3});
-  background-size: cover;
+
+const Book = styled.div`
+  width: 950px;
+  height: 100vh;
+  background-image: url(${closebook});
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  @media screen and (max-width: 1333px) {
-    width: 64%;
-    height: 48.5vw;
-    margin-top: calc(480px - 27vw);
-    margin-left: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
+    min-width: 550px;
+    height: 80%;
+  }
+  @media screen and (max-height: 768px) {
+    width: 85%;
+    min-height: 700px;
   }
 `;
+
+const BookTheme = styled.div`
+  width: 470px;
+  height: 73vh;
+  margin-left: 48px;
+  margin-bottom: 7vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    min-width: 450px;
+    height: 70%;
+  }
+  @media screen and (max-height: 768px) {
+    width: 65%;
+    min-height: 100px;
+  }
+`;
+
 const LogoDiv = styled.div`
-  width: 100%;
-  height: 26%;
+  width: 125px;
+  height: 10vh;
   display: flex;
   justify-content: center;
-  align-items: first baseline;
+  align-items: center;
 `;
+
 const Logo = styled.img`
-  width: 130px;
-  height: 130px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
     transform: scale(0.95);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 1333px) {
+
+  @media screen and (max-width: 768px) {
     width: 10vw;
     height: 10vw;
   }
+  @media screen and (max-height: 768px) {
+    width: 4vw;
+    height: 4vw;
+  }
+  @media screen and (max-width: 480px) {
+    width: 5vw;
+    height: 5vw;
+  }
 `;
-const Contents = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-const Book = styled.div`
-  width: 50%;
-  height: 100%;
-  background-image: url(${closebook});
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
 
+const Contents = styled.div`
+  width: 460px;
+  height: 58vh;
   display: flex;
+  align-items: center;
   justify-content: center;
+  font-size: 16px;
+
+  @media screen and (max-width: 768px) {
+    width: 50vw;
+    height: 50vh;
+  }
+  @media screen and (max-height: 768px) {
+    min-height: 350px;
+    width: 50vw;
+  }
 `;
 
 const CloseBook = ({ modify }) => {
