@@ -271,7 +271,7 @@ const BoardUpdate = () => {
     try {
       const data = await BoardAxios.getCoupleName(coupleName);
       console.log("axios 데이터", data.data);
-      setBoardData(data.data);
+      setBoardData(data.data.reverse());
     } catch (error) {
       console.error("Failed to fetch board data", error);
     }
