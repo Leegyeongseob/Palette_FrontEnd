@@ -349,21 +349,19 @@ const BoardDetails = () => {
           </tbody>
         </BoardTable>
         <BoardPaginationContainer>
-          {[
-            ...Array(
-              Math.ceil((boardData && boardData.length) || 0 / itemsPerPage)
-            ),
-          ].map((_, index) => (
-            <BoardPaginationButton
-              key={index + 1}
-              onClick={() => handleClick(index + 1)}
-              style={{
-                fontWeight: currentPage === index + 1 ? "bold" : "normal",
-              }}
-            >
-              {index + 1}
-            </BoardPaginationButton>
-          ))}
+          {[...Array(Math.ceil(boardData.length / itemsPerPage))].map(
+            (_, index) => (
+              <BoardPaginationButton
+                key={index + 1}
+                onClick={() => handleClick(index + 1)}
+                style={{
+                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
+                }}
+              >
+                {index + 1}
+              </BoardPaginationButton>
+            )
+          )}
         </BoardPaginationContainer>
       </BoardSide>
       <CenterArea></CenterArea>
