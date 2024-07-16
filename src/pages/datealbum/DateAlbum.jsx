@@ -192,6 +192,7 @@ const AlbumTitle = styled.div`
   height: 4%;
   display: flex;
   align-items: center;
+  padding-left: 2%;
   font-size: 1.1vw;
   color: #000;
   font-weight: 800;
@@ -556,7 +557,7 @@ const DateAlbum = () => {
           <CoupleDiv>
             <CoupleImg />
           </CoupleDiv>
-          <AlbumTitle>알콩 달콩이의 앨범</AlbumTitle>
+          <AlbumTitle>♥ {coupleName} 의 앨범 ♥</AlbumTitle>
           <TitleLine onClick={handleTemaChange}>테마 변경</TitleLine>
           <ImgWrapper bgColor={bgColor}>{renderImageBoxes(0, 6)}</ImgWrapper>
         </BookSign>

@@ -11,6 +11,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import { storage } from "../../firebase/firebaseAlbum";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
+import MainAxios from "../../axiosapi/MainAxios";
 
 const turnPageRight = keyframes`
   0% {
@@ -151,6 +152,16 @@ const Dday = styled.div`
   justify-content: left;
   align-items: center;
 `;
+const DdayCoupleName = styled.div`
+  width: 90%;
+  height: 11%;
+  font-size: 30px;
+  margin-left: 5%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.5rem;
+`;
 
 const BackButton = styled.div`
   width: 20px;
@@ -255,9 +266,15 @@ const DateAlbum5 = () => {
       .map((_, index) => (index === 0 ? "+" : null))
   );
   const userEmail = sessionStorage.getItem("email");
+  const coupleName = sessionStorage.getItem("coupleName");
   const [temaChange, setTemaChange] = useState(false);
   const [pageOpen, setPageOpen] = useState(false);
   const [temaOpen, setTemaOpen] = useState(false);
+
+  //디데이 상태저장
+  const [isDday, setIsDday] = useState();
+  //디데이 값 저장
+  const [saveDday, setSaveDday] = useState("");
 
   const closeModal = () => {
     setPageOpen(false);
@@ -280,6 +297,19 @@ const DateAlbum5 = () => {
     setTimeout(() => {
       navigate("/date-album4");
     }, 1800);
+  };
+
+  // DDay 바꾸는 함수
+  const dDayAxios = async () => {
+    const resDday = await MainAxios.searchDday(coupleName);
+    if (resDday.data !== "") {
+      setIsDday(true);
+      setSaveDday(resDday.data);
+      console.log("if실행");
+    } else {
+      setIsDday(false);
+      console.log("else 실행");
+    }
   };
 
   // 이미지 불러오기
@@ -312,6 +342,7 @@ const DateAlbum5 = () => {
     };
 
     fetchAlbum();
+    dDayAxios();
   }, [userEmail]);
 
   // 이미지 저장
@@ -479,7 +510,11 @@ const DateAlbum5 = () => {
               <TitleLine onClick={handleTemaChange}>테마 변경</TitleLine>
             </AddButton>
             <ImgWrapper2 bgColor={bgColor}>
-              <Dday>♥ D + 150 ♥</Dday>
+              {isDday ? (
+                <Dday>♥ D + {saveDday} ♥</Dday>
+              ) : (
+                <Dday>♥ 사귄날을 입력해주세요! ♥</Dday>
+              )}
               {renderImageBoxes(0, 9)}
             </ImgWrapper2>
           </ContentWrapper>
@@ -493,7 +528,7 @@ const DateAlbum5 = () => {
               <AddAlbum onClick={handlePagePopup}>앨범 추가</AddAlbum>
             </AddButton>
             <ImgWrapper2 bgColor={bgColor}>
-              <Dday></Dday>
+              <DdayCoupleName>♥ {coupleName} ♥</DdayCoupleName>
               {renderImageBoxes(9, 18)}
             </ImgWrapper2>
           </ContentWrapper2>
