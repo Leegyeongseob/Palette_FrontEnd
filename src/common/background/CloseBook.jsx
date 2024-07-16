@@ -67,6 +67,10 @@ const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-height: 768px) {
+    width: 65%;
+    min-height: 100px;
+  }
 `;
 
 const Logo = styled.img`
