@@ -265,7 +265,6 @@ const SettingFormat = styled.div`
   height: auto;
   border-radius: 10px;
   margin-top: 22vh;
-
   display: flex;
   justify-content: end;
   align-items: center;

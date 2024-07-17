@@ -39,8 +39,8 @@ const Icon = styled.div`
   background-repeat: no-repeat;
 
   @media screen and (max-width: 768px) {
-    width: 7vw;
-    height: 7vw;
+    width: 65px;
+    height: 65px;
   }
   @media screen and (max-height: 768px) {
     width: 65px;
@@ -161,19 +161,14 @@ const LoginButton = styled.div`
       isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
   @media screen and (max-width: 768px) {
-    width: 12vw;
-    height: 4vw;
-    font-size: 1.5vw;
+    width: 134px;
+    height: 42px;
+    font-size: 15px;
   }
   @media screen and (max-height: 768px) {
-    width: 17vh;
-    height: 6vh;
-    font-size: 2vh;
-  }
-  @media screen and (max-height: 668px) {
-    width: 100px;
-    height: 30px;
-    font-size: 13px;
+    width: 134px;
+    height: 42px;
+    font-size: 15px;
   }
 `;
 

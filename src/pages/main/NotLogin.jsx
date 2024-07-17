@@ -16,7 +16,7 @@ const PaletteDiv = styled.div`
     font-style: normal;
   }
   width: 100%;
-  height: 30%;
+  height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -62,11 +62,12 @@ const BookTheme = styled.div`
 `;
 
 const LogoDiv = styled.div`
-  width: 125px;
-  height: 10vh;
+  width: 100%;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
+
   @media screen and (max-height: 768px) {
     width: 65%;
     min-height: 100px;
@@ -74,8 +75,8 @@ const LogoDiv = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
@@ -84,12 +85,12 @@ const Logo = styled.img`
   }
 
   @media screen and (max-width: 768px) {
-    width: 10vw;
-    height: 10vw;
+    width: 85px;
+    height: 85px;
   }
   @media screen and (max-height: 768px) {
-    width: 4vw;
-    height: 4vw;
+    width: 85px;
+    height: 85px;
   }
   @media screen and (max-width: 480px) {
     width: 5vw;
@@ -101,8 +102,10 @@ const Contents = styled.div`
   width: 460px;
   height: 58vh;
   display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   font-size: 16px;
 
   @media screen and (max-width: 768px) {

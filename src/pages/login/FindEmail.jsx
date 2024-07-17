@@ -10,35 +10,40 @@ const Contain = styled.div`
   height: auto;
 `;
 const IconDiv = styled.div`
-  width: 24.6vw;
-  height: 14vh;
+  width: 100%;
+  height: 18vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    height: 90px;
+  }
+  @media screen and (max-height: 768px) {
+    height: 90px;
+  }
 `;
 
 const InputDiv = styled.div`
-  width: 400px;
-  height: 20.986vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  background-color: purple;
 `;
 const ButtonDiv = styled.div`
-  width: 23.438vw;
-  height: 11.962vh;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: calc(130px + 1vw);
-  height: 5.247vh;
+  width: 180px;
+  height: 50px;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
-  font-size: calc(10px + 1vw);
+  border-radius: 1.042vw;
+  font-size: 20px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
@@ -48,76 +53,88 @@ const FindButton = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
+  @media screen and (max-width: 768px) {
+    width: 134px;
+    height: 42px;
+    font-size: 15px;
+  }
+  @media screen and (max-height: 768px) {
+    width: 134px;
+    height: 42px;
+    font-size: 15px;
+  }
 `;
 const InputDetailDiv = styled.div`
-  width: 17.708vw;
-  height: 30px;
-
+  width: 300px;
   display: flex;
+  gap: 6px;
+
+  @media (max-width: 768px) {
+  }
   & > label {
-    width: 130px;
-    height: auto;
-    font-size: 17px;
-    color: #b44a4a;
     display: flex;
-    font-weight: bolder;
     justify-content: center;
     align-items: center;
+    width: 84px;
+    height: auto;
+    font-size: 14px;
+    color: #b44a4a;
+    font-weight: bolder;
   }
   & > .InputClass {
-    width: 200px;
+    width: 150px;
+    height: 30px;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
     padding-left: 0.521vw;
-    font-size: 0.833vw;
+    font-size: 14px;
     font-weight: 600;
   }
 `;
 const RegisterationInput1 = styled.input`
-  width: 120px;
+  width: 76px;
+  height: 30px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   padding-left: 0.521vw;
-  font-size: 0.833vw;
+  font-size: 14px;
   font-weight: 600;
-  @media screen and (max-width: 1363px) {
-    width: 95px;
-  }
 `;
 const Text = styled.div`
-  width: 8px;
-  height: 3.358vh;
+  width: 10px;
+  height: 20px;
   font-weight: bolder;
-  font-size: 20px;
+  font-size: 15px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const RegisterationInput2 = styled.input`
-  width: 20px;
+  width: 16px;
+  height: 30px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
   padding-left: 0.208vw;
-  font-size: 0.833vw;
+  font-size: 14px;
   font-weight: 600;
 `;
 const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
-  width: 100px;
-  height: 100px;
+  width: calc(110px - 1vw);
+  height: calc(110px - 1vh);
   color: rgba(0, 0, 0, 0.7);
   @media screen and (max-width: 768px) {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
   }
   @media screen and (max-height: 768px) {
     width: 65px;
