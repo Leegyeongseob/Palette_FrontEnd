@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Common from "../../common/Common";
 import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
+import { useRef } from "react";
 
 const ChatListContainer = styled.div`
+  width: 54vw;
+  height: 68vh;
   padding: 30px;
   position: relative;
   margin: 40px;
@@ -19,6 +22,7 @@ const ChatUl = styled.ul`
 `;
 
 const ChatRoom = styled.li`
+  display: flex;
   background-color: #fff;
   border: 1px solid #ddd;
   margin-bottom: 10px;
@@ -32,6 +36,7 @@ const ChatRoom = styled.li`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 `;
+
 const Header = styled.h1`
   color: #333;
   text-align: center;
@@ -43,43 +48,54 @@ const ChatName = styled.p`
   margin: 0 0 10px 0;
   color: #444;
 `;
+
 const ChatDate = styled.p`
   font-size: 1em;
   color: #666;
   margin: 0;
   text-align: right;
 `;
+
+const DeleteButton = styled.button`
+  margin-left: auto;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+`;
+
 const CircleFixedButton = styled.button`
-  position: fixed; // 버튼을 부모 컨테이너에 대해 절대적 위치로 설정
+  position: fixed;
   bottom: 24px;
   right: 30px;
   z-index: 10;
-
-  width: 60px; // 버튼의 크기를 정사각형으로 설정
-  height: 60px; // 버튼의 크기를 정사각형으로 설정
-  border-radius: 50%; // 동그란 모양으로 만들기 위해 반지름을 50%로 설정
-
-  display: flex; // Flexbox 레이아웃 사용
-  justify-content: center; // 가로 중앙 정렬
-  align-items: center; // 세로 중앙 정렬
-
-  background-color: #1da1f2; // 트위터 색상
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1da1f2;
   color: white;
-  font-size: 30px; // 플러스 기호 크기
-  line-height: 1; // 기본 라인 높이 제거
-  // 그림자 효과
+  font-size: 30px;
+  line-height: 1;
   box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.4);
-
-  border: none; // 기본 테두리 제거
+  border: none;
   cursor: pointer;
-  outline: none; // 클릭 시 테두리 제거
+  outline: none;
 
   &:hover {
-    background-color: #1991db; // 호버 시 배경색 변경
+    background-color: #1991db;
   }
 
   &:before {
-    // 가상 요소로 플러스 기호 생성
     content: "+";
   }
 `;
@@ -87,29 +103,109 @@ const CircleFixedButton = styled.button`
 function ChatList() {
   const [chatRooms, setChatRooms] = useState([]);
   const navigate = useNavigate();
+  const email = sessionStorage.getItem("email");
+  const ws = useRef(null); // 웹소켓 객체
+  const { roomId } = useParams(); // 채팅방 번호
+  const [sender, setSender] = useState(""); // 보내는 사람
+  const [roomName, setRoomName] = useState(""); // 채팅방 이름
+  const [socketConnected, setSocketConnected] = useState(false); // 웹소켓 연결 여부
 
-  const deleteChatRoom = () => {};
+  // useEffect(() => {
+  //   const fetchChatRooms = async () => {
+  //     try {
+  //       const response = await ChatAxiosApi.chatList(email);
+  //       console.log(response.data);
+  //       setChatRooms(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching chat rooms:", error);
+  //     }
+  //   };
+  //   fetchChatRooms();
+
+  // }, [email]);
 
   useEffect(() => {
-    // 서버로부터 채팅방 목록을 가져오는 API 호출
-    const getChatRoom = async () => {
+    const fetchChatRooms = async () => {
       try {
-        const rsp = await ChatAxiosApi.chatList();
-        setChatRooms(rsp.data);
-      } catch (e) {
-        console.log(e);
+        const response = await ChatAxiosApi.chatList(email);
+        console.log(response.data);
+        const filteredRooms = filterChatRooms(response.data, email);
+        setChatRooms(filteredRooms);
+      } catch (error) {
+        console.error("Error fetching chat rooms:", error);
       }
     };
-    const intervalID = setInterval(getChatRoom, 1000);
-    return () => {
-      clearInterval(intervalID);
-    };
+    fetchChatRooms(); // 최초 한 번 호출
+
+    // 1초마다 채팅방 목록 업데이트
+    const intervalId = setInterval(fetchChatRooms, 1000);
+
+    // 컴포넌트 언마운트 시 인터벌 해제
+    return () => clearInterval(intervalId);
   }, []);
 
+  const filterChatRooms = (rooms, email) => {
+    return rooms.filter(
+      (room) => room.firstEmail === email || room.secondEmail === email
+    );
+  };
+
   const enterChatRoom = (roomId) => {
-    // 채팅방으로 이동하는 로직 작성
     console.log(`Entering chat room ${roomId}`);
     navigate(`/chat/${roomId}`);
+  };
+
+  const deleteChatRoom = async (roomId, e) => {
+    e.stopPropagation(); // 이벤트 전파 차단
+    try {
+      await ChatAxiosApi.deleteChatRoom(roomId);
+      setChatRooms((prevChatRooms) =>
+        prevChatRooms.filter((room) => room.roomId !== roomId)
+      );
+    } catch (error) {
+      console.error("Error deleting chat room:", error);
+    }
+  };
+
+  useEffect(() => {
+    // console.log("방번호 : " + roomId);
+    if (!ws.current) {
+      ws.current = new WebSocket(Common.PALETTE_SOCKET_URL);
+      ws.current.onopen = () => {
+        console.log("connected to " + Common.PALETTE_SOCKET_URL);
+        setSocketConnected(true);
+      };
+    }
+    if (socketConnected) {
+      ws.current.send(
+        JSON.stringify({
+          type: "ENTER",
+          roomId: roomId,
+          sender: sender,
+          receiver: [],
+          message: "처음으로 접속 합니다.",
+        })
+      );
+    }
+  }, [socketConnected]);
+
+  const onClickMsgClose = () => {
+    // 채팅 종료
+    ws.current.send(
+      JSON.stringify({
+        type: "CLOSE",
+        roomId: roomId,
+        sender: sender,
+        message: "종료 합니다.",
+      })
+    );
+    ws.current.close();
+    navigate("/Chat");
+  };
+
+  const deleteChatroomOnClick = (e) => {
+    e.stopPropagation(); // 이벤트 전파 차단
+    onClickMsgClose();
   };
 
   const createChatRoom = () => {
@@ -126,7 +222,11 @@ function ChatList() {
             onClick={() => enterChatRoom(room.roomId)}
           >
             <ChatName>{room.name}</ChatName>
-            <ChatDate>{Common.formatDate(room.regDate)}</ChatDate>
+            {/* <ChatDate>{Common.formatDate(room.regDate)}</ChatDate> */}
+            <DeleteButton onClick={(e) => deleteChatRoom(room.roomId, e)}>
+              삭제
+            </DeleteButton>
+            <DeleteButton onClick={deleteChatroomOnClick}>delete</DeleteButton>
           </ChatRoom>
         ))}
       </ChatUl>
