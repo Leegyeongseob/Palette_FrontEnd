@@ -14,8 +14,9 @@ import {
 } from "firebase/storage";
 
 const Contain = styled.div`
-  width: 70vw;
+  width: ${({ clothes }) => (clothes ? "70vw" : "26vw")};
   height: 100%;
+  margin-right: 1.5%;
   display: flex;
   justify-content: ${({ clothes }) => (clothes ? "space-between" : "center")};
   align-items: center;
@@ -25,20 +26,20 @@ const Contain = styled.div`
   }
 `;
 const ProfileDiv = styled.div`
-  width: ${({ clothes }) => (clothes ? "100%" : "8vw")};
+  width: ${({ clothes }) => (clothes ? "100%" : "11vw")};
   height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: space-evenly;
-  background-color: aliceblue;
+  background-color: ${({ clothes }) => (clothes ? "aliceblue" : "none")};
 `;
 const ProfileImgDiv = styled.div`
-  width: 70%;
+  width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  background-color: lightblue;
+  background-color: ${({ clothes }) => (clothes ? "lightblue" : "none")};
 `;
 const HeartDiv = styled.div`
   width: 4vw;
@@ -51,7 +52,9 @@ const Heart = styled.div`
   width: ${({ clothes }) => (clothes ? "40px" : "3.646vw")};
   height: ${({ clothes }) => (clothes ? "40px" : "7.345vh")};
   background-image: url(${heart});
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 const Profile = styled.div`
   width: ${({ clothes }) => (clothes ? "100px" : "6.771vw;")};
@@ -59,6 +62,7 @@ const Profile = styled.div`
   background-image: ${({ imageurl }) =>
     `url(${imageurl ? imageurl : manprofile})`};
   background-size: cover;
+  background-position: center;
   border-radius: 50%;
   position: absolute;
 `;
@@ -232,7 +236,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
-        <ProfileImgDiv>
+        <ProfileImgDiv clothes={clothes}>
           <Profile
             imageurl={IsExistImg[0] ? imgUrl : manprofile}
             clothes={clothes}
@@ -256,7 +260,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
         <Heart clothes={clothes} />
       </HeartDiv>
       <ProfileDiv clothes={clothes} direction={true}>
-        <ProfileImgDiv>
+        <ProfileImgDiv clothes={clothes}>
           <Profile
             imageurl={IsExistImg[1] ? myDarling : womanprofile}
             clothes={clothes}

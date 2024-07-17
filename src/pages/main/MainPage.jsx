@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import iu from "../../img/mainImg/아이유.jpg";
+import iu from "../../img/background/paletteLogo.png";
 import CoupleDday from "../../common/couple/CoupleDday";
 import CoupleImg from "../../common/couple/CoupleImg";
 import couple1 from "../../img/mainImg/커플1.jpg";
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
@@ -21,7 +21,7 @@ import theme3_1 from "../../img/background/theme/new-1.jpg";
 import postIt from "../../img/mainImg/postIt.png";
 
 const BookTheme = styled.div`
-  width: 26vw;
+  width: 497px;
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
@@ -31,43 +31,48 @@ const BookTheme = styled.div`
   background-repeat: no-repeat;
   display: flex;
   justify-content: space-between;
-  @media screen and (max-width: 1900px) {
-    min-width: 480px;
-    height: 640px;
-  }
-  @media screen and (max-height: 912px) {
-    width: 460px;
-    min-height: 580px;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  } 
+  @media screen and (max-width: 768px) {  
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
   }
 `;
 
 const BookTheme2 = styled.div`
-  width: 26vw;
+  width: 497px;
   height: 67vh;
   margin-top: 5vh;
-  margin-left: 0.7vw;
+  margin-left: 0.1vw;
   background-image: url(${theme3_1});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  justify-content: space-between;
-  @media screen and (max-width: 1900px) {
-    min-width: 480px;
-    height: 640px;
-  }
-  @media screen and (max-height: 912px) {
-    width: 460px;
-    min-height: 580px;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  } 
+  @media screen and (max-width: 768px) {  
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
   }
 `;
 
 const BookSign = styled.div`
-  width: 25vw;
+  width: 497px;
   height: 66vh;
 `;
 const BookSign2 = styled.div`
-  width: 25vw;
+  width: 497px;
   height: 66vh;
 `;
 
@@ -80,12 +85,13 @@ const CoupleDiv = styled.div`
   align-items: center;
 `;
 const PaletteBanner = styled.div`
-  width: 20vw;
+  width: 24vw;
   height: 15vh;
   display: flex;
   background-image: url(${iu});
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
 `;
 const DdayDiv = styled.div`
   width: auto;
@@ -120,7 +126,6 @@ const DdayFormDiv = styled.div`
 const Dday = styled.div`
   width: 8vw;
   height: 20vh;
-
   border: 1px solid #000;
 `;
 const RecentTitle = styled.div`
@@ -159,18 +164,24 @@ const Ddays = styled.div`
   color: #000;
   font-weight: 600;
 `;
-const Picture = styled.div`
+const Picture = styled(Link)`
   width: 7.813vw;
   height: 15.74vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
+  border: 1px solid black;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
+
 `;
 const PictureDiv = styled.div`
   width: 25.8vw;
   height: 20vh;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: center;  
 `;
 const VisitDiv = styled.div`
   width: 15vw;
@@ -255,9 +266,11 @@ const Setting = styled(IoSettingsSharp)`
   width: 1.563vw;
   height: 3.148vh;
   color: rgba(0, 0, 0, 0.8);
+  margin-right: 2%;
   cursor: pointer;
   &:hover {
     color: rgba(131, 55, 55, 0.8);
+    
   }
 `;
 const SettingFormat = styled.div`
@@ -275,7 +288,7 @@ const SettingForm = styled.div`
   height: 27vh;
   background-image: url(${postIt});
   background-size: cover;
-  background-position: left;
+  background-position: center;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
@@ -610,12 +623,12 @@ const MainPage = () => {
           </DdayDiv>
           <GalleryDiv>
             <PictureDiv>
-              <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} />
-              <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} />
+              <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} to="/date-album"/>
+              <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} to="/date-album"/>
             </PictureDiv>
             <PictureDiv>
-              <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} />
-              <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} />
+              <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} to="/date-album"/>
+              <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} to="/date-album"/>
             </PictureDiv>
           </GalleryDiv>
         </BookSign2>

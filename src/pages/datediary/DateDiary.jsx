@@ -44,12 +44,23 @@ const StyledCalendarWrapper = styled.div`
   .react-calendar__navigation {
     justify-content: center;
     background-color: #e7bfa1;
+  @media screen and (max-width: 1200px) { 
+    height: 30px;
+    font-size: 10px;
+  }
+  @media screen and (max-width: 768px) { 
+    height: 25px;
+    font-size: 10px;
+  }
   }
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 16px;
+  @media screen and (max-width: 768px) { 
+    font-size: 10px;
+  }
   }
 
   /* 네비게이션 버튼 컬러 */
@@ -114,9 +125,17 @@ const StyledCalendarWrapper = styled.div`
 
   /* 일 날짜 간격 */
   .react-calendar__tile {
-    top: 0.45vw;
-    padding: 0.95vw 0vw 0.9vw;
+    top: 10px;
+    padding: 18px 0vw 18px;
     position: relative;
+  @media screen and (max-width: 1200px) { 
+    top: 7px; 
+    padding: 14px 0vw 14px;
+  }
+  @media screen and (max-width: 768px) { 
+    top: 5px; 
+    padding: 5px 0vw 5px;
+  }
   }
 
   /* 네비게이션 월 스타일 적용 */
@@ -203,8 +222,9 @@ const StyledDot = styled.div`
   transform: translateX(-35%);
 `;
 
+
 const BookTheme = styled.div`
-  width: 26vw;
+  width: 497px;
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
@@ -213,10 +233,20 @@ const BookTheme = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  } 
+  @media screen and (max-width: 768px) {  
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
+  }
 `;
 
 const BookTheme2 = styled.div`
-  width: 26vw;
+  width: 497px;
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.05vw;
@@ -224,6 +254,16 @@ const BookTheme2 = styled.div`
   background-size: cover;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  } 
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
+  }
 `;
 
 const BookSign = styled.div`
@@ -299,20 +339,32 @@ const LineDown = styled.div`
 const PicDate = styled.div`
   width: 50%;
   height: 90%;
-  font-size: 1vw;
+  font-size: 1.3rem;
   display: flex;
   margin-left: 3%;
   align-items: flex-end;
   justify-content: flex-start;
+  @media screen and (max-width: 1200px) { 
+    font-size: 1.1rem;
+  }
+  @media screen and (max-width: 768px) { 
+    font-size: 0.8rem;
+  }
 `;
 const DdayWe = styled.div`
   width: 50%;
   height: 90%;
-  font-size: 0.729vw;
+  font-size: 1.2rem;
   display: flex;
   margin-right: 3%;
   align-items: flex-end;
   justify-content: flex-end;
+  @media screen and (max-width: 1200px) { 
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 768px) { 
+    font-size: 0.6rem;
+  }
 `;
 
 const BoardTitle = styled.div`
@@ -338,6 +390,10 @@ const MemoInput = styled.textarea`
   resize: none;
   outline: none; /* 외곽선 색상 설정 (선택 사항) */
   overflow: hidden;
+  @media screen and (max-width: 768px) { 
+    height: 50%;
+    font-size: 0.6rem;
+  }
 `;
 const ButtonWrap = styled.div`
   width: 90%;
@@ -350,7 +406,7 @@ const ButtonWrap = styled.div`
 
 const SaveButton = styled.button`
   padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  font-size: 1vw;
   margin-top: 2px;
   margin-bottom: 2px;
   border: none;
@@ -363,7 +419,7 @@ const SaveButton = styled.button`
 `;
 const ClearButton = styled.button`
   padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  font-size: 1vw;
   margin-top: 2px;
   margin-bottom: 2px;
   border: none;
@@ -376,7 +432,7 @@ const ClearButton = styled.button`
 `;
 const EditButton = styled.button`
   padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  font-size: 1vw;
   margin-top: 2px;
   margin-bottom: 2px;
   border: none;
@@ -408,6 +464,9 @@ const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 0.5rem;
+  @media screen and (max-width: 768px) { 
+    margin-top: 0;
+  }
 `;
 
 const EventInput = styled.input`
@@ -419,6 +478,10 @@ const EventInput = styled.input`
   border-radius: 0.3rem;
   background-color: #eccdaf;
   outline: none;
+  @media screen and (max-width: 768px) { 
+    height: 17px;
+    font-size: 0.5rem;
+  }
 `;
 
 const AnniversaryInput = styled.input`
@@ -430,6 +493,10 @@ const AnniversaryInput = styled.input`
   border-radius: 0.3rem;
   background-color: #eccdaf;
   outline: none;
+  @media screen and (max-width: 768px) { 
+    height: 20px;
+    font-size: 0.5rem;
+  }
 `;
 
 const AddButton = styled.button`
@@ -474,7 +541,7 @@ const CustomCheckbox = styled.input`
 const RemoveButton = styled.button`
   margin-left: 0.5rem;
   padding: 0.2rem 0.6rem;
-  font-size: 1rem;
+  font-size: 1vw;
   border: none;
   border-radius: 0.3rem;
   background-color: #e7bfa1;

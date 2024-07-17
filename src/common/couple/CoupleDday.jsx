@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const Dday = styled.div`
   width: 20vw;
   height: 10vh;
-  font-size: ${({ isDday }) => (isDday ? "3vw" : "1vw")};
+  font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
   font-weight: 700;
   display: flex;
   justify-content: center;

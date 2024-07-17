@@ -69,7 +69,7 @@ const BookTheme2 = styled.div`
   width: 41.5%;
   height: 81.5%;
   margin-top: 5vh;
-  margin-left: 0.7vw;
+  margin-left: 0.1vw;
   background-image: url(${clothesBg});
   background-size: cover;
   background-position: right;
@@ -159,7 +159,7 @@ const DateClothes = () => {
         <BookSign>
           <Title>데이트룩 코디</Title>
           <div className="coupleimg">
-            <CoupleImage clothes={true} />
+            <CoupleImage clothes={true}/>
           </div>
           <BookDiv />
 
