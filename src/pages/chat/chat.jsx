@@ -22,7 +22,8 @@ import chatBack4 from "../../img/chat/pcchatimg/13.png";
 import chatBack5 from "../../img/chat/pcchatimg/21.png";
 import chatBack6 from "../../img/chat/pcchatimg/25.png";
 import chatBack7 from "../../img/chat/pcchatimg/31.png";
-import chatBack8 from "../../img/chat/pcchatimg/e2778e53a9a2d07fdce550181fc43fc5.jpg";
+import chatBack8 from "../../img/background/theme/5.jpg";
+import chatBack9 from "../../img/background/theme/background4.jpg";
 import Common from "../../common/Common";
 import { chatstorage } from "../../firebase/Chatfirebase";
 import LoginAxios from "../../axiosapi/LoginAxios";
@@ -249,7 +250,6 @@ const ChatMain = () => {
         console.error("Error sending message:", error);
       }
     };
-
     // WebSocket을 통해 메시지 전송
     if (ws.current) {
       ws.current.send(
@@ -262,6 +262,20 @@ const ChatMain = () => {
         })
       );
     }
+
+    const onClickMsgClose = () => {
+      // 채팅 종료
+      ws.current.send(
+        JSON.stringify({
+          type: "CLOSE",
+          roomId: roomId,
+          sender: sender,
+          message: `${coupleNickName[0]}+님이 나갔습니다`,
+        })
+      );
+      ws.current.close();
+      navigate("/Chat");
+    };
 
     // 서버에 메시지 저장
     sendMessage(roomId, sender, receiver, inputMsg);
@@ -327,7 +341,6 @@ const ChatMain = () => {
         JSON.stringify({
           type: "ENTER",
           roomId: roomId,
-
           sender: sender,
           receiver: receiver,
           message: "처음으로 접속 합니다.",
@@ -500,6 +513,11 @@ const ChatMain = () => {
             src={chatBack8}
             alt="테마3"
             onClick={() => handleTemaClick(chatBack8)}
+          />
+          <img
+            src={chatBack9}
+            alt="테마9"
+            onClick={() => handleTemaClick(chatBack9)}
           />
         </TemaMenu>
         <EmojiMenu isVisible={isEmojiMenuVisible}>
