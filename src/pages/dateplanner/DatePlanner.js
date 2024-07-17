@@ -12,6 +12,15 @@ import useAddress from "../../hooks/useLocation";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useParams } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
+const BookWrapper = styled.div`
+  width: 85%;
+  height: 654px;
+  background-image: url(${theme6});
+  background-size: cover;
+  opacity: 0.8;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const LBookContainer = styled.div`
   width: 25.8vw;
@@ -22,17 +31,7 @@ const RBookContainer = styled.div`
   height: 69vh;
 `;
 
-const BookWrapper = styled.div`
-  width: 53vw;
-  height: 69vh;
-  margin-top: 4vh;
-  margin-left: 0.8vw;
-  background-image: url(${theme6});
-  background-size: cover;
-  opacity: 0.8;
-  display: flex;
-  justify-content: space-between;
-`;
+
 
 // const EmptyDiv = () => {
 //   return <div></div>;

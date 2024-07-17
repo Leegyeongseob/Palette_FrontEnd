@@ -12,9 +12,7 @@ const Contain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
-  @media (max-width: 768px) {
-  }
+ 
 `;
 const TitleDiv = styled.div`
 
@@ -27,8 +25,6 @@ const TitleDiv = styled.div`
   font-weight: 900;
   color: #b44a4a;
 
-  @media (max-width: 768px) {
-  }
 `;
 const InputDiv = styled.div`
   width: 100%;
@@ -38,18 +34,12 @@ const InputDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
   
-  @media (max-width: 768px) {
-  }
 `;
 const InputDetailDiv = styled.div`
-  /* width: 17.708vw;
-  height: 3.358vh; */
   width: 300px;
   display: flex;
   gap: 6px;
   
-  @media (max-width: 768px) {
-  }
   & > label {
     
     display: block;
@@ -125,7 +115,6 @@ const Text = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #b44a4a;
 `;
 const RegisterationInput2 = styled.input`
   width: 16px;
@@ -139,7 +128,6 @@ const RegisterationInput2 = styled.input`
   font-weight: 600;
 `;
 const CoupleText = styled.div`
-border: 1px solid black;
   font-size: 13px;
   color: #b44a4a;
   display: flex;
@@ -151,7 +139,6 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid orange;
 `;
 const SignupButton = styled.div`
 
