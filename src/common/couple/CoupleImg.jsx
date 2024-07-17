@@ -21,11 +21,12 @@ const Contain = styled.div`
   align-items: center;
 `;
 const ProfileDiv = styled.div`
-  width: ${({ clothes }) => (clothes ? "23vw" : "8vw")};
+  width: ${({ clothes }) => (clothes ? "465px" : "8vw")};
   height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: flex-end;
+  background-color: aliceblue;
 `;
 const ProfileImgDiv = styled.div`
   width: 8vw;

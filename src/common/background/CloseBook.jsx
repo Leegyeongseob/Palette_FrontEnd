@@ -31,52 +31,42 @@ const Book = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* @media screen and (max-width: 768px) {
-    min-width: 550px;
-    height: 80%;
-  }
-  @media screen and (max-height: 768px) {
-    width: 85%;
-    min-height: 700px;
-  } */
 `;
 
 const BookTheme = styled.div`
-  width: 470px;
-  height: 73vh;
-  margin-left: 48px;
-  margin-bottom: 7vh;
+  width: 100%;
+  height: 100%;
+  margin-left: 50px;
+  margin-bottom: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  @media screen and (max-width: 768px) {
-    min-width: 450px;
-    height: 70%;
-  }
-  @media screen and (max-height: 768px) {
-    width: 65%;
-    min-height: 100px;
+  @media screen and (max-width: 650px) {
+    margin-left: 8%;
+    margin-bottom: 10%;
   }
 `;
 
 const LogoDiv = styled.div`
-  width: 100%;
-  height: 80px;
+  width: 420px;
+  aspect-ratio: 420 /170;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @media screen and (max-height: 768px) {
-    width: 65%;
-    min-height: 100px;
+  background-color: purple;
+  @media screen and (max-width: 650px) {
+    width: 70%;
+    height: auto; /* 높이 자동 조절 */
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled.div`
   width: 125px;
   height: 125px;
+  background-image: url(${logo});
+  background-size: contain;
+  background-repeat: no-repeat;
   border-radius: 50%;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
@@ -84,23 +74,15 @@ const Logo = styled.img`
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
 
-  @media screen and (max-width: 768px) {
-    width: 85px;
-    height: 85px;
-  }
-  @media screen and (max-height: 768px) {
-    width: 85px;
-    height: 85px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 5vw;
-    height: 5vw;
+  @media screen and (max-width: 650px) {
+    width: 20vw;
+    height: 20vw;
   }
 `;
 
 const Contents = styled.div`
-  width: 460px;
-  height: 58vh;
+  width: 420px;
+  aspect-ratio: 420 /460;
   display: flex;
   flex-direction: column;
 
@@ -108,13 +90,9 @@ const Contents = styled.div`
   align-items: center;
   font-size: 16px;
 
-  @media screen and (max-width: 768px) {
-    width: 50vw;
-    height: 50vh;
-  }
-  @media screen and (max-height: 768px) {
-    min-height: 350px;
-    width: 50vw;
+  @media screen and (max-width: 650px) {
+    width: 70%;
+    height: auto; /* 높이 자동 조절 */
   }
 `;
 
@@ -137,12 +115,12 @@ const CloseBook = ({ modify }) => {
           <LogoDiv>
             {!modify && (
               <Link to="/">
-                <Logo alt="logo" src={logo} />
+                <Logo />
               </Link>
             )}
             {modify && (
               <Link to={`/${coupleName}/main-page`}>
-                <Logo alt="logo" src={logo} />
+                <Logo />
               </Link>
             )}
           </LogoDiv>

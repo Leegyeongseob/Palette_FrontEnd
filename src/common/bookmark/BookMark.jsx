@@ -3,7 +3,7 @@ import theme6 from "../../img/background/theme/6.jpg";
 import theme12 from "../../img/background/theme/12.jpg";
 import theme8 from "../../img/background/theme/8.jpg";
 import theme3 from "../../img/background/theme/3.jpg";
-import clothesBg from "../../img/background/theme/clothes_background.jpg";
+import clothesBg from "../../img/background/theme/4.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

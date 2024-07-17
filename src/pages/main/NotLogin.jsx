@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const Contain = styled.div`
   width: 100%;
   height: 100%;
+  background-color: aliceblue;
 `;
 
 const PaletteDiv = styled.div`
@@ -24,8 +25,8 @@ const PaletteDiv = styled.div`
   font-size: calc(150px - 1vw);
   font-weight: normal;
   font-family: "Cafe24Lovingu";
-  @media screen and (max-width: 768px) {
-    font-size: 100px;
+  @media screen and (max-width: 650px) {
+    font-size: 20vw;
   }
 `;
 
@@ -46,9 +47,13 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 1133px) {
-    width: 80px;
-    height: 80px;
+  @media screen and (max-width: 650px) {
+    width: 20vw;
+    height: 20vw;
+  }
+  @media screen and (max-height: 650px) {
+    width: 20vh;
+    height: 20vh;
   }
 `;
 const NotLogin = () => {
