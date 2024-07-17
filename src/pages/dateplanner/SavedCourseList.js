@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const SavedCoursesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: 30vh;
+    display: flex;
+    flex-direction: column;
+    /* max-width: 100%; */
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 43%;
 
   h3 {
     margin: 10px;
@@ -32,24 +32,17 @@ const CourseItem = styled.li`
   border-radius: 4px;
   border: 1px solid #ddd;
   gap: 6px;
-
- 
-
 `;
 
 const CourseTitle = styled.div`
   width: auto;
   cursor: pointer;
   font-size: 16px;
-
- 
 `;
 
 const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
-
- 
 `;
 
 const Button = styled.button`
@@ -64,8 +57,6 @@ const Button = styled.button`
   &:hover {
     background-color: #444;
   }
-
- 
 `;
 
 const SavedCoursesList = ({
@@ -73,7 +64,7 @@ const SavedCoursesList = ({
   savedCourses,
   setSelectedCourse,
   handleEditCourse,
-  handleDeleteCourse
+  handleDeleteCourse,
 }) => {
   return (
     <SavedCoursesContainer>

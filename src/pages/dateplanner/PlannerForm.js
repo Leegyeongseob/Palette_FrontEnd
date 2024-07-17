@@ -11,30 +11,12 @@ const PlannerContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 768px) {
-    max-width: 90%;
-    padding: 8px;
-  }
-
-  @media (max-width: 480px) {
-    max-width: 100%;
-    padding: 6px;
-  }
 `;
 
 const CourseTitleInput = styled.input`
   padding: 10px;
   border: 1px solid #e6e6fa;
   border-radius: 4px;
-
-  @media (max-width: 768px) {
-    padding: 8px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 6px;
-  }
 `;
 
 const BtnContainer = styled.div`
@@ -42,10 +24,6 @@ const BtnContainer = styled.div`
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
-
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
 `;
 
 const SaveButton = styled.button`
@@ -61,14 +39,6 @@ const SaveButton = styled.button`
   &:hover {
     background-color: #444;
   }
-
-  @media (max-width: 768px) {
-    padding: 8px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 6px;
-  }
 `;
 
 const ClearButton = styled.button`
@@ -82,14 +52,6 @@ const ClearButton = styled.button`
 
   &:hover {
     background-color: #ff3333;
-  }
-
-  @media (max-width: 768px) {
-    padding: 8px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 6px;
   }
 `;
 
@@ -106,7 +68,6 @@ const RemoveButton = styled.button`
   &:hover {
     background-color: #ff3333;
   }
-
 `;
 
 const PlaceList = styled.ul`
@@ -115,8 +76,6 @@ const PlaceList = styled.ul`
   height: 24vh;
   list-style-type: none;
   padding: 0;
-
- 
 `;
 
 const PlaceItem = styled.li`
@@ -131,25 +90,18 @@ const PlaceItem = styled.li`
     margin: 0;
     color: #333;
     font-size: 16px;
-
-   
   }
 
   p {
     margin: 5px 0;
     color: #666;
     font-size: 12px;
-
   }
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-
- 
 `;
-
-
 
 const PlannerForm = ({
   title,
@@ -158,11 +110,11 @@ const PlannerForm = ({
   setSelectedPlaces,
   isEditing,
   handleDeletePlace,
-  handleClearPlaces
+  handleClearPlaces,
 }) => {
   const [courseTitle, setCourseTitle] = useState("");
   const [storedPlaces, setStoredPlaces] = useState(selectedPlaces);
-  
+
   useEffect(() => {
     setStoredPlaces(selectedPlaces);
   }, [selectedPlaces]);
@@ -184,7 +136,6 @@ const PlannerForm = ({
     handleSaveCourse(newCourse);
     setCourseTitle("");
     setSelectedPlaces([]);
-    
   };
 
   const handleRemoveClick = (placeId) => {
@@ -197,24 +148,21 @@ const PlannerForm = ({
     setStoredPlaces([]);
     handleClearPlaces();
   };
- 
 
   return (
     <PlannerContainer isEditing={isEditing}>
-      
       <h2>{isEditing ? "코스 수정" : "코스 플래너"}</h2>
       <CourseTitleInput
         type="text"
         value={courseTitle}
         onChange={handleTitleChange}
-        placeholder={isEditing ? (title) : "코스 제목을 입력하세요"}
-        
+        placeholder={isEditing ? title : "코스 제목을 입력하세요"}
       />
       <BtnContainer>
-      <ClearButton onClick={handleClearClick}>리스트 초기화</ClearButton>
-      <SaveButton onClick={handleSaveClick}>
-        {isEditing ? "코스 수정" : "코스 저장"}
-      </SaveButton>
+        <ClearButton onClick={handleClearClick}>리스트 초기화</ClearButton>
+        <SaveButton onClick={handleSaveClick}>
+          {isEditing ? "코스 수정" : "코스 저장"}
+        </SaveButton>
       </BtnContainer>
       <PlaceList>
         {storedPlaces.map((place) => (

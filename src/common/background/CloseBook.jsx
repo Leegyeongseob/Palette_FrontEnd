@@ -10,7 +10,7 @@ const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background-image: url(${background});
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -22,8 +22,8 @@ const Background = styled.div`
 `;
 
 const Book = styled.div`
-  width: 950px;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-image: url(${closebook});
   background-size: contain;
   background-position: center;
@@ -31,14 +31,14 @@ const Book = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     min-width: 550px;
     height: 80%;
   }
   @media screen and (max-height: 768px) {
     width: 85%;
     min-height: 700px;
-  }
+  } */
 `;
 
 const BookTheme = styled.div`

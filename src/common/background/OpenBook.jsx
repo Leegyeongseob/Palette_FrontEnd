@@ -43,7 +43,7 @@ const Logo = styled.img`
   }
 `;
 const Book = styled.div`
-  width: 1200px;
+  width: 100vw;
   height: 85vh;
   background-image: url(${openbook});
   /* background-size: contain; */
@@ -52,14 +52,14 @@ const Book = styled.div`
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
-  @media screen and (max-width: 1500px) {
+  /* @media screen and (max-width: 1500px) {
     min-width: 1200px;
     height: 80%;
   }
   @media screen and (max-height: 830px) {
     width: 1300px;
     min-height: 700px;
-  }
+  } */
 `;
 const TopContain = styled.div`
   width: auto;

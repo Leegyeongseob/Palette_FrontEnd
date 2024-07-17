@@ -1,15 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-const Search = styled.form`
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const MapSection = styled.div`
-  width: 25.8vw;
-  min-width: 228px;
+  width: 100%;
+  height: 55%;
   display: flex;
   flex-direction: column;
 `;
@@ -17,32 +11,34 @@ const MapSection = styled.div`
 const MapWrap = styled.div`
   position: relative;
   width: 100%;
-  height: 36vh;
+  height: 87%;
 `;
 
 const CategoryList = styled.ul`
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  border-radius: 5px;
-  border: 1px solid #909090;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-  background: #fff;
-  overflow: hidden;
-  z-index: 2;
-  padding: 0;
-  display: flex;
+    position: absolute;
+    width: 339px;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    background: #fff;
+    /* overflow: hidden; */
+    z-index: 2;
+    /* padding: 0; */
+    display: flex;
 `;
 
+
 const CategoryItem = styled.li`
-  float: left;
-  list-style: none;
-  width: 3.8vw;
-  padding: 6px 0;
-  text-align: center;
-  cursor: pointer;
-  border-right: 1px solid #acacac;
-  font-size: 12px;
+    float: left;
+    /* list-style: none; */
+    width: 20%;
+    padding: 6px 0;
+    text-align: center;
+    cursor: pointer;
+    border-right: 1px solid #acacac;
+    font-size: 13px;
   &.on {
     background: #eee;
   }
@@ -68,6 +64,14 @@ const CategoryIcon = styled.span`
       : `url(/mapmarker/category/${category}.png) no-repeat`};
   background-size: 30px 30px;
 `;
+
+const Search = styled.form`
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+
 
 const MapContainer = ({
   clearOverlay,
@@ -250,7 +254,7 @@ const MapContainer = ({
   
 
   return (
-    <div>
+    <>
       <MapSection
         placeOverlay={placeOverlay}
         map={map}
@@ -280,7 +284,7 @@ const MapContainer = ({
           <button type="submit">검색하기</button>
         </Search>
       </MapSection>
-    </div>
+    </>
   );
 };
 

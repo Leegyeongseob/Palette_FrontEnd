@@ -18,7 +18,7 @@ border: 1px solid green;
   height: 83%;
   margin-top: 41px;
   margin-left: 14px;
-  background-image: url(${theme6});
+ 
   background-size: cover;
   opacity: 0.8;
   display: flex;
@@ -27,13 +27,15 @@ border: 1px solid green;
 
 const LBookContainer = styled.div`
 border: 1px solid red;
+background-image: url(${theme6});
   width: 50%;
-  height: 69vh;
+  height: 100%;
 `;
 const RBookContainer = styled.div`
 border: 1px solid blue;
+ background-image: url(${theme6});
   width: 50%;
-  height: 69vh;
+  height: 100%;
 `;
 
 const DatePlanner = () => {

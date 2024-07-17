@@ -8,7 +8,7 @@ const PlaceCardContainer = styled.div`
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  height: 28vh; /* 지도 영역의 높이를 제외한 남은 공간만큼 높이 설정 */
+  height: 44%;
   
 `;
 
