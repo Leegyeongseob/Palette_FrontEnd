@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 const Contain = styled.div`
   width: 100%;
   height: 100%;
-  background-color: aliceblue;
 `;
 
 const PaletteDiv = styled.div`
@@ -22,10 +21,10 @@ const PaletteDiv = styled.div`
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: calc(150px - 1vw);
+  font-size: 250px;
   font-weight: normal;
   font-family: "Cafe24Lovingu";
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 1080px) {
     font-size: 20vw;
   }
 `;
@@ -38,8 +37,8 @@ const LoginDiv = styled.div`
   align-items: center;
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -47,13 +46,9 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 650px) {
-    width: 20vw;
-    height: 20vw;
-  }
-  @media screen and (max-height: 650px) {
-    width: 20vh;
-    height: 20vh;
+  @media screen and (max-width: 1080px) {
+    width: 16vw;
+    height: 16vw;
   }
 `;
 const NotLogin = () => {
