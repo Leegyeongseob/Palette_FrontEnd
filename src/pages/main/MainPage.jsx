@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import iu from "../../img/mainImg/아이유.jpg";
 import CoupleDday from "../../common/couple/CoupleDday";
 import CoupleImg from "../../common/couple/CoupleImg";
@@ -18,6 +18,7 @@ import { GiArchiveResearch } from "react-icons/gi";
 import BoardAxios from "../../axiosapi/BoardAxios";
 import theme3 from "../../img/background/theme/new.jpg";
 import theme3_1 from "../../img/background/theme/new-1.jpg";
+import postIt from "../../img/mainImg/postIt.png";
 
 const BookTheme = styled.div`
   width: 26vw;
@@ -226,27 +227,65 @@ const SettingDiv = styled.div`
     width: 1vw;
   }
 `;
+// flipInX 애니메이션 정의
+const flipInX = keyframes`
+  from {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -10deg);
+    animation-timing-function: ease-in;
+  }
+
+  70% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    animation-timing-function: ease-in;
+  }
+
+  to {
+    transform: perspective(400px) rotate3d(1, 0, 0, 0deg);
+    animation-timing-function: ease-in;
+    opacity: 1;
+  }
+`;
 const Setting = styled(IoSettingsSharp)`
   width: 1.563vw;
   height: 3.148vh;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
   &:hover {
-    color: blue;
+    color: rgba(131, 55, 55, 0.8);
   }
 `;
-const SettingForm = styled.div`
-  width: 15vw;
-  height: 13vh;
-  background-color: lightpink;
+const SettingFormat = styled.div`
+  width: 20vw;
+  height: auto;
   border-radius: 10px;
-  margin-top: 10vh;
+  margin-top: 22vh;
+
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  animation: ${flipInX} 0.5s ease-in-out; /* 애니메이션 적용 */
+`;
+const SettingForm = styled.div`
+  width: 20vw;
+  height: 27vh;
+  background-image: url(${postIt});
+  background-size: cover;
+  background-position: left;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: first baseline;
   z-index: 10;
 `;
 const Btn = styled.div`
   width: 70px;
   height: 35px;
-  border: 1px solid #000;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
@@ -263,14 +302,15 @@ const Btn = styled.div`
 `;
 const BtnDiv = styled.div`
   width: 15vw;
-  height: 9vh;
+  height: 23vh;
 
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 `;
 const XbtnDiv = styled.div`
-  width: 15vw;
+  width: 14vw;
   height: 4vh;
 
   display: flex;
@@ -282,9 +322,8 @@ const CloseBtn = styled(IoMdCloseCircleOutline)`
   height: 3.148vh;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
-
   &:hover {
-    color: blue;
+    color: rgba(131, 55, 55, 0.8);
   }
 `;
 const VisitContainer = styled.div`
@@ -498,35 +537,39 @@ const MainPage = () => {
               <Setting onClick={settingFromStatus} openform={settingForm} />
             )}
             {settingForm && (
-              <SettingForm>
-                <XbtnDiv>
-                  <CloseBtn onClick={closeFromStatus} />
-                </XbtnDiv>
-                <BtnDiv>
-                  <Btn
-                    onClick={() => {
-                      navigate("/modify");
-                    }}
-                  >
-                    수정하기
-                  </Btn>
-                  <Btn
-                    onClick={() => {
-                      sessionStorage.setItem("email", "");
-                      navigate("/");
-                    }}
-                  >
-                    로그아웃
-                  </Btn>
-                  <Btn
-                    onClick={() => {
-                      navigate("/withdrawal");
-                    }}
-                  >
-                    회원탈퇴
-                  </Btn>
-                </BtnDiv>
-              </SettingForm>
+              <SettingFormat>
+                <SettingForm>
+                  <div className="settingDiv">
+                    <XbtnDiv>
+                      <CloseBtn onClick={closeFromStatus} />
+                    </XbtnDiv>
+                    <BtnDiv>
+                      <Btn
+                        onClick={() => {
+                          navigate("/modify");
+                        }}
+                      >
+                        수정하기
+                      </Btn>
+                      <Btn
+                        onClick={() => {
+                          sessionStorage.setItem("email", "");
+                          navigate("/");
+                        }}
+                      >
+                        로그아웃
+                      </Btn>
+                      <Btn
+                        onClick={() => {
+                          navigate("/withdrawal");
+                        }}
+                      >
+                        회원탈퇴
+                      </Btn>
+                    </BtnDiv>
+                  </div>
+                </SettingForm>
+              </SettingFormat>
             )}
           </SettingDiv>
           <DdayDiv>
