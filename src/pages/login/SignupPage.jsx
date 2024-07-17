@@ -7,16 +7,19 @@ import Modal from "../../common/utils/Modal";
 import Common from "../../common/Common";
 
 const Contain = styled.div`
-  width: auto;
-  height: auto;
-
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
   @media (max-width: 768px) {
-    
   }
 `;
 const TitleDiv = styled.div`
-  width: 24.6vw;
-  height: 6.296vh;
+
+  width: 60px;
+  height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,22 +28,17 @@ const TitleDiv = styled.div`
   color: #b44a4a;
 
   @media (max-width: 768px) {
-    width: 100%;
-    font-size: 14px; /* 예시에 따라 필요한 크기로 조정 */
   }
 `;
 const InputDiv = styled.div`
-  width: 24.6vw;
-  height: 39.874vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-
+  
   @media (max-width: 768px) {
-    border:1px solid red;
-    width: 50vw;
-    height: 37vh;
   }
 `;
 const InputDetailDiv = styled.div`
@@ -48,79 +46,46 @@ const InputDetailDiv = styled.div`
   height: 3.358vh; */
   width: 300px;
   display: flex;
-  justify-content: space-between;
-
+  gap: 6px;
+  
   @media (max-width: 768px) {
-    border:1px solid red;
-    width: 34vw
   }
   & > label {
-    width: 100px;
+    
+    display: block;
+    width: 84px;
     height: auto;
     font-size: 14px;
     color: #b44a4a;
-    display: flex;
+    text-align: center;
     font-weight: bolder;
-    justify-content: center;
-    align-items: center;
+    
+    
 
     @media (max-width: 768px) {
-    border:1px solid red;
-    width: 20vw;
-    font-size: 12px;
+    }
   }
-  }
-  & > .InputClass {
-    width: 280px;
-    border-radius: 0.521vw;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.3);
-    outline: none;
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 0.521vw;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  & > .InputEmail {
-    width: 180px;
-    border-radius: 0.521vw;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.3);
-    outline: none;
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 0.521vw;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  & > .InputCoupleName {
-    width: 180px;
-    border-radius: 0.521vw;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.3);
-    outline: none;
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-    padding-left: 0.521vw;
-    font-size: 14px;
-    font-weight: 600;
-  }
+  & > .InputClass,
+  & > .InputEmail,
+  & > .InputCoupleName,
   & > .InputCode {
-    width: 100px;
+    width: 150px;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
     outline: none;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
     padding-left: 0.521vw;
-    text-align: center;
     font-size: 14px;
     font-weight: 600;
   }
+  
 `;
 const Empty = styled.div`
-  width: 0.521vw;
+  width: 5px;
 `;
 const EmailAthouized = styled.div`
-  width: 2.604vw;
+  width: 37px;
   border-radius: 0.521vw;
   border: none;
   background-color: ${({ isActive }) =>
@@ -131,7 +96,7 @@ const EmailAthouized = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.729vw;
+  font-size: 11px;
   color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
   font-weight: 700;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
@@ -141,7 +106,7 @@ const EmailAthouized = styled.div`
   }
 `;
 const RegisterationInput1 = styled.input`
-  width: 6.771vw;
+  width: 76px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -163,7 +128,7 @@ const Text = styled.div`
   border: 1px solid #b44a4a;
 `;
 const RegisterationInput2 = styled.input`
-  width: 1.042vw;
+  width: 16px;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -174,26 +139,29 @@ const RegisterationInput2 = styled.input`
   font-weight: 600;
 `;
 const CoupleText = styled.div`
-  font-size: 0.729vw;
+border: 1px solid black;
+  font-size: 13px;
   color: #b44a4a;
   display: flex;
   align-items: center;
 `;
 const ButtonDiv = styled.div`
-  width: 23.438vw;
-  height: 11.962vh;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid orange;
 `;
 const SignupButton = styled.div`
-  width: 9.375vw;
-  height: 5.247vh;
+
+  width: 134px;
+  height: 42px;
   background-color: ${({ isActive }) =>
     isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   border-radius: 1.042vw;
   font-weight: 600;
-  font-size: 1.094vw;
+  font-size: 15px;
   color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
   display: flex;
   justify-content: center;
@@ -206,14 +174,14 @@ const SignupButton = styled.div`
   }
 `;
 const InputDetailDiv2 = styled.div`
-  width: 17.708vw;
+  width: 100px;
   height: 3.358vh;
   display: flex;
   justify-content: center;
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 0.6vw;
+  font-size: 12px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
@@ -280,8 +248,8 @@ const TermsScrollableContent = styled.div`
   overflow-y: auto;
 `;
 const IsMyCoupleEmailForm = styled.div`
-  width: 13vw;
-  height: 12vh;
+  width: 300px;
+  height: 100px;
   background-color: #fff;
   border: 5px solid #cefdce;
   border-radius: 10px;
@@ -291,283 +259,20 @@ const IsMyCoupleEmailForm = styled.div`
   & > div > p {
     font-size: 15px;
     text-align: center;
+    line-height: 1.5;
   }
   & > .YesOrNo {
+    margin-top: 20px;
     width: auto;
     height: auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    
   }
 `;
 
 
-// const Contain = styled.div`
-//   width: auto;
-//   height: auto;
-// `;
-// const TitleDiv = styled.div`
-//   width: 24.6vw;
-//   height: 6.296vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 1.198vw;
-//   font-weight: 900;
-//   color: #b44a4a;
-// `;
-// const InputDiv = styled.div`
-//   width: 24.6vw;
-//   height: 39.874vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-evenly;
-//   align-items: center;
-// `;
-// const InputDetailDiv = styled.div`
-//   width: 17.708vw;
-//   height: 3.358vh;
-
-//   display: flex;
-//   justify-content: end;
-//   & > label {
-//     width: 5.729vw;
-//     height: auto;
-//     font-size: 0.8vw;
-//     color: #b44a4a;
-//     display: flex;
-//     font-weight: bolder;
-//     justify-content: center;
-//     align-items: center;
-//   }
-//   & > .InputClass {
-//     width: 11.458vw;
-//     border-radius: 0.521vw;
-//     border: none;
-//     background-color: rgba(0, 0, 0, 0.3);
-//     outline: none;
-//     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//     padding-left: 0.521vw;
-//     font-size: 0.8vw;
-//     font-weight: 600;
-//   }
-//   & > .InputEmail {
-//     width: 8.333vw;
-//     border-radius: 0.521vw;
-//     border: none;
-//     background-color: rgba(0, 0, 0, 0.3);
-//     outline: none;
-//     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//     padding-left: 0.521vw;
-//     font-size: 0.8vw;
-//     font-weight: 600;
-//   }
-//   & > .InputCoupleName {
-//     width: 8.333vw;
-//     border-radius: 0.521vw;
-//     border: none;
-//     background-color: rgba(0, 0, 0, 0.3);
-//     outline: none;
-//     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//     padding-left: 0.521vw;
-//     font-size: 0.8vw;
-//     font-weight: 600;
-//   }
-//   & > .InputCode {
-//     width: 8.333vw;
-//     border-radius: 0.521vw;
-//     border: none;
-//     background-color: rgba(0, 0, 0, 0.3);
-//     outline: none;
-//     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//     padding-left: 0.521vw;
-//     font-size: 0.8vw;
-//     font-weight: 600;
-//   }
-// `;
-// const Empty = styled.div`
-//   width: 0.521vw;
-// `;
-// const EmailAthouized = styled.div`
-//   width: 2.604vw;
-//   border-radius: 0.521vw;
-//   border: none;
-//   background-color: ${({ isActive }) =>
-//     isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-//   outline: none;
-//   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//   padding-left: 0.208vw;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 0.729vw;
-//   color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-//   font-weight: 700;
-//   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
-//   &:hover {
-//     background-color: ${({ isActive }) =>
-//       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-//   }
-// `;
-// const RegisterationInput1 = styled.input`
-//   width: 6.771vw;
-//   border-radius: 0.521vw;
-//   border: none;
-//   background-color: rgba(0, 0, 0, 0.3);
-//   outline: none;
-//   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//   padding-left: 0.521vw;
-//   font-size: 0.833vw;
-//   font-weight: 600;
-// `;
-// const Text = styled.div`
-//   width: 0.521vw;
-//   height: 3.358vh;
-//   font-weight: bolder;
-//   font-size: 0.833vw;
-//   color: #b44a4a;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-// const RegisterationInput2 = styled.input`
-//   width: 1.042vw;
-//   border-radius: 0.521vw;
-//   border: none;
-//   background-color: rgba(0, 0, 0, 0.3);
-//   outline: none;
-//   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-//   padding-left: 0.208vw;
-//   font-size: 0.833vw;
-//   font-weight: 600;
-// `;
-// const CoupleText = styled.div`
-//   font-size: 0.729vw;
-//   color: #b44a4a;
-//   display: flex;
-//   align-items: center;
-// `;
-// const ButtonDiv = styled.div`
-//   width: 23.438vw;
-//   height: 11.962vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-// const SignupButton = styled.div`
-//   width: 9.375vw;
-//   height: 5.247vh;
-//   background-color: ${({ isActive }) =>
-//     isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
-//   border-radius: 1.042vw;
-//   font-weight: 600;
-//   font-size: 1.094vw;
-//   color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-weight: border;
-//   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
-//   &:hover {
-//     background-color: ${({ isActive }) =>
-//       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
-//   }
-// `;
-// const InputDetailDiv2 = styled.div`
-//   width: 17.708vw;
-//   height: 3.358vh;
-//   display: flex;
-//   justify-content: center;
-// `;
-// const Message = styled.div`
-//   width: 100%;
-//   font-size: 0.6vw;
-//   display: flex;
-//   justify-content: center;
-//   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
-// `;
-// const TermsForm = styled.div`
-//   width: 30vw;
-//   height: 60vh;
-//   background-color: #fff;
-//   border: 5px solid #cefdce;
-//   border-radius: 10px;
-//   padding: 20px;
-//   position: absolute;
-//   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-//   overflow-y: auto;
-// `;
-
-// const TermsTitle = styled.div`
-//   font-size: 1.2vw; /* Adjust size as needed */
-//   font-weight: bold;
-//   margin-bottom: 10px;
-// `;
-
-// const TermsContent = styled.p`
-//   font-size: 0.8vw; /* Adjust size as needed */
-//   line-height: 1.4; /* Adjust line height for better readability */
-//   color: #333; /* Darker text color */
-// `;
-
-// const TermsActions = styled.div`
-//   margin-top: 20px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   & > .termAgree {
-//     width: 10vw;
-//     height: auto;
-//   }
-// `;
-
-// const TermsCheckbox = styled.input`
-//   margin-right: 10px;
-// `;
-
-// const TermsLabel = styled.label`
-//   font-size: 0.8vw; /* Adjust size as needed */
-// `;
-
-// const TermsButton = styled.button`
-//   background-color: rgba(0, 0, 0, 0.4);
-//   color: white;
-//   border: none;
-//   border-radius: 5px;
-//   padding: 8px 16px;
-//   font-size: 0.9vw; /* Adjust size as needed */
-//   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
-//   &:hover {
-//     background-color: ${({ isActive }) =>
-//       isActive ? "#8e3636" : "rgba(0, 0, 0, 0.2)"};
-//   }
-// `;
-
-// const TermsScrollableContent = styled.div`
-//   max-height: calc(100% - 100px);
-//   overflow-y: auto;
-// `;
-// const IsMyCoupleEmailForm = styled.div`
-//   width: 13vw;
-//   height: 12vh;
-//   background-color: #fff;
-//   border: 5px solid #cefdce;
-//   border-radius: 10px;
-//   position: absolute;
-//   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-//   overflow-y: auto;
-//   & > div > p {
-//     font-size: 15px;
-//     text-align: center;
-//   }
-//   & > .YesOrNo {
-//     width: auto;
-//     height: auto;
-//     display: flex;
-//     justify-content: space-evenly;
-//     align-items: center;
-//   }
-// `;
 const SignupPage = () => {
   const navigate = useNavigate();
   // 키보드 입력
@@ -1012,7 +717,7 @@ const SignupPage = () => {
       </Modal>
       <InputDiv>
         {!kakaoProp && (
-          <div>
+          <>
             <InputDetailDiv>
               <label>이메일</label>
               <input
@@ -1029,7 +734,7 @@ const SignupPage = () => {
               </EmailAthouized>
             </InputDetailDiv>
             {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-          </div>
+          </>
         )}
         {isEmailSent && (
           <InputDetailDiv>
@@ -1051,7 +756,7 @@ const SignupPage = () => {
           </InputDetailDiv>
         )}
         {!kakaoProp && (
-          <div>
+          <>
             <InputDetailDiv>
               <label>비밀번호</label>
               <input
@@ -1062,10 +767,10 @@ const SignupPage = () => {
               />
             </InputDetailDiv>
             {inputPwd && <Message isCorrect={isPwd}>{pwdMessage}</Message>}
-          </div>
+          </>
         )}
         {!kakaoProp && (
-          <div>
+          <>
             <InputDetailDiv>
               <label>비밀번호 확인</label>
               <input
@@ -1078,7 +783,7 @@ const SignupPage = () => {
             {inputPwdCheck && (
               <Message isCorrect={isPwdCheack}>{pwdCheckMessage}</Message>
             )}
-          </div>
+          </>
         )}
         {!kakaoProp && (
           <InputDetailDiv>
@@ -1121,7 +826,7 @@ const SignupPage = () => {
             onChange={handleInputNickName}
           />
         </InputDetailDiv>
-        <div>
+        
           <InputDetailDiv>
             <label>커플이름</label>
             <input
@@ -1164,7 +869,7 @@ const SignupPage = () => {
           </InputDetailDiv>
           <IsMyCoupleEmailForm isOpen={isMyCoupleEmailForm}>
             <div>
-              <p>"{myCoupleEmail}"님이 내 짝의 계정이 맞나요?</p>
+              <p>"{myCoupleEmail}"님이 <br/> 내 짝의 계정이 맞나요?</p>
             </div>
             <div className="YesOrNo">
               <EmailAthouized
@@ -1182,7 +887,7 @@ const SignupPage = () => {
             </div>
           </IsMyCoupleEmailForm>
           <Message isCorrect={coupleNameDuplication}>{coupleMessage}</Message>
-        </div>
+      
         <InputDetailDiv2>
           <CoupleText style={{ fontSize: "0.833vw", fontWeight: "600" }}>
             약관 보기
