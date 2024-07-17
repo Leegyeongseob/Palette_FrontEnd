@@ -43,11 +43,11 @@ const Logo = styled.img`
   }
 `;
 const Book = styled.div`
-border: 1px solid black;
   width: 1200px;
   height: 85vh;
   background-image: url(${openbook});
-  background-size: contain;
+  /* background-size: contain; */
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;

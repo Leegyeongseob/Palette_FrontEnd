@@ -13,8 +13,11 @@ import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useParams } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
 const BookWrapper = styled.div`
+border: 1px solid green;
   width: 85%;
-  height: 654px;
+  height: 83%;
+  margin-top: 41px;
+  margin-left: 14px;
   background-image: url(${theme6});
   background-size: cover;
   opacity: 0.8;
@@ -23,19 +26,15 @@ const BookWrapper = styled.div`
 `;
 
 const LBookContainer = styled.div`
-  width: 25.8vw;
+border: 1px solid red;
+  width: 50%;
   height: 69vh;
 `;
 const RBookContainer = styled.div`
-  width: 25.8vw;
+border: 1px solid blue;
+  width: 50%;
   height: 69vh;
 `;
-
-
-
-// const EmptyDiv = () => {
-//   return <div></div>;
-// };
 
 const DatePlanner = () => {
   const { location } = useAddress();
