@@ -5,7 +5,8 @@ import Swiper from "./Swiper";
 import { useState } from "react";
 const BookSign = styled.div`
   width: 100%;
-  height: 630px;
+  aspect-ratio: 50/20;
+  height: auto;
   display: flex;
   justify-content: end;
   flex-direction: column;
@@ -18,17 +19,19 @@ const BookSign = styled.div`
     justify-content: end;
   }
   & > .coupleimg {
-    margin-left: 380px;
+    margin-left: 104%;
+    aspect-ratio: 203/35;
     display: flex;
-    justify-content: space-between;
-    width: 850px;
-    height: 200px;
+    justify-content: center;
+    width: 203%;
+    height: auto;
     position: relative;
   }
 `;
 const BookSign2 = styled.div`
   width: 100%;
-  height: 630px;
+  aspect-ratio: 50/20;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,10 +43,7 @@ const BookSign2 = styled.div`
     justify-content: end;
   }
   & > .clothDiv {
-    height: 400px;
-    @media screen and (max-width: 1919px) {
-      height: 220px;
-    }
+    height: 32%;
   }
   & > .optionSDiv {
     width: 480px;

@@ -160,7 +160,7 @@ const LoginButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.1)"};
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 134px;
     height: 42px;
     font-size: 15px;
@@ -185,7 +185,7 @@ const SimpleLogin = styled.div`
     justify-content: space-evenly;
     align-items: center;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     font-size: 1.5vw;
   }
   @media screen and (max-height: 768px) {
@@ -212,7 +212,7 @@ const CircleSide = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 45px;
     height: 45px;
   }
@@ -271,7 +271,7 @@ const InputDiv = styled.input`
     color: #b44a4a;
     font-weight: bolder;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 90%;
     height: 80%;
     font-size: 13px;
@@ -288,7 +288,7 @@ const Message = styled.div`
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 80%;
     height: 80%;
     font-size: 1.1vw;

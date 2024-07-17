@@ -15,7 +15,7 @@ const IconDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     height: 90px;
   }
   @media screen and (max-height: 768px) {
@@ -53,7 +53,7 @@ const FindButton = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 134px;
     height: 42px;
     font-size: 15px;

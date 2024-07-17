@@ -16,7 +16,7 @@ const IconDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     height: 90px;
   }
   @media screen and (max-height: 768px) {
@@ -53,7 +53,7 @@ const FindButton = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 134px;
     height: 42px;
     font-size: 15px;
@@ -69,7 +69,7 @@ const InputDetailDiv = styled.div`
   display: flex;
   gap: 6px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1080px) {
   }
   & > label {
     display: flex;
@@ -142,7 +142,7 @@ const LuKeyRoundstyle = styled(LuKeyRound)`
   width: calc(110px - 1vw);
   height: calc(110px - 1vh);
   color: rgba(0, 0, 0, 0.7);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 65px;
     height: 65px;
   }

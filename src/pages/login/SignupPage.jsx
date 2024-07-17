@@ -173,7 +173,7 @@ const TermsForm = styled.div`
   padding: 20px;
   position: absolute;
   overflow-y: auto;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 400px;
     height: 60vh;
   }
@@ -205,7 +205,7 @@ const TermImgDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   animation: ${focusInExpand} 0.5s ease-in-out; /* 애니메이션 적용 */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1080px) {
     width: 800px;
     height: 900px;
   }

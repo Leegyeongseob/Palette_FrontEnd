@@ -14,26 +14,31 @@ import {
 } from "firebase/storage";
 
 const Contain = styled.div`
-  width: auto;
-  height: auto;
+  width: 70vw;
+  height: 100%;
   display: flex;
-  justify-content: ${({ clothes }) => (clothes ? "space-evenly" : "center")};
+  justify-content: ${({ clothes }) => (clothes ? "space-between" : "center")};
   align-items: center;
+  @media screen and (max-width: 840px) {
+    aspect-ratio: 70/15;
+    height: auto;
+  }
 `;
 const ProfileDiv = styled.div`
-  width: ${({ clothes }) => (clothes ? "465px" : "8vw")};
+  width: ${({ clothes }) => (clothes ? "100%" : "8vw")};
   height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
-  justify-content: flex-end;
+  justify-content: space-evenly;
   background-color: aliceblue;
 `;
 const ProfileImgDiv = styled.div`
-  width: 8vw;
-  height: 15vh;
+  width: 70%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: lightblue;
 `;
 const HeartDiv = styled.div`
   width: 4vw;
@@ -43,14 +48,14 @@ const HeartDiv = styled.div`
   align-items: center;
 `;
 const Heart = styled.div`
-  width: ${({ clothes }) => (clothes ? "2.604vw" : "3.646vw")};
-  height: ${({ clothes }) => (clothes ? "5.247vh" : "7.345vh")};
+  width: ${({ clothes }) => (clothes ? "40px" : "3.646vw")};
+  height: ${({ clothes }) => (clothes ? "40px" : "7.345vh")};
   background-image: url(${heart});
   background-size: cover;
 `;
 const Profile = styled.div`
-  width: ${({ clothes }) => (clothes ? "5vw" : "6.771vw;")};
-  height: ${({ clothes }) => (clothes ? "10vh" : "13.641vh;")};
+  width: ${({ clothes }) => (clothes ? "100px" : "6.771vw;")};
+  height: ${({ clothes }) => (clothes ? "100px" : "13.641vh;")};
   background-image: ${({ imageurl }) =>
     `url(${imageurl ? imageurl : manprofile})`};
   background-size: cover;
@@ -58,12 +63,12 @@ const Profile = styled.div`
   position: absolute;
 `;
 const Text = styled.div`
-  width: ${({ clothes }) => (clothes ? "7vw" : "8vw")};
+  width: ${({ clothes }) => (clothes ? "30%" : "8vw")};
   height: 7.345vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.042vw;
+  font-size: 16px;
   font-weight: 600;
   color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
 `;
