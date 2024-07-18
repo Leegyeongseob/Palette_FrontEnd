@@ -29,6 +29,7 @@ import Common from "../../common/Common";
 import { chatstorage } from "../../firebase/Chatfirebase";
 import LoginAxios from "../../axiosapi/LoginAxios";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import Modal from "../datediary/Modal";
 
 const GlobalStyle = styled.div`
   /* 스크롤바 스타일 */
@@ -46,6 +47,39 @@ const GlobalStyle = styled.div`
     background: #a3a59c; /* 스크롤바 호버 색상 */
   }
 `;
+const Chatpage = styled.div`
+  width: 54vw;
+  height: 68vh;
+  margin-top: 5vh;
+  background: url(${(props) => props.backgroundImage}) no-repeat center center;
+  /* background-color: black; */
+  background-size: cover;
+  position: relative;
+  @media screen and (max-width: 1200px) {
+    width: 300px;
+    height: 9vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 180px;
+    height: 4vh;
+  }
+`;
+const Textarea = styled.div`
+  width: 54vw;
+  display: flex;
+  flex-direction: column;
+  height: ${(props) => (props.isPlusMenuVisible ? "30vh" : "50vh")};
+  overflow-y: auto;
+  padding: 7px;
+  align-items: flex-start;
+  background: transparent;
+`;
+
+// const MessageBox = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+// `;
 
 const Message = styled.div`
   max-width: 60%;
@@ -56,23 +90,6 @@ const Message = styled.div`
   align-self: ${(props) => (props.isSender ? "flex-end" : "flex-start")};
   border: ${(props) =>
     props.isSender ? "1px solid #DCF8C6" : "1px solid #E0E0E0"};
-`;
-
-const Chatpage = styled.div`
-  width: 54vw;
-  height: 68vh;
-  margin-top: 5vh;
-  background: url(${(props) => props.backgroundImage}) no-repeat center center;
-  background-size: cover;
-  position: relative;
-`;
-
-const Textarea = styled.div`
-  width: 54vw;
-  height: ${(props) => (props.isPlusMenuVisible ? "30vh" : "50vh")};
-  overflow-y: auto;
-  padding: 10px;
-  background: transparent;
 `;
 
 const TopText = styled.div`
@@ -221,9 +238,13 @@ const ChatMain = () => {
   const ws = useRef(null); // 웹소켓 객체
   const [roomName, setRoomName] = useState(""); // 채팅방 이름
   const navigate = useNavigate(); // useNavigate 훅 추가
-  const [imageURL, setImageURL] = useState("");
+  // const [imageURL, setImageURL] = useState("");
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
   const email = sessionStorage.getItem("email");
+  // 모달 내용
+  const [modalContent, setModalContent] = useState("");
+  //팝업 처리
+  const [modalOpen, setModalOpen] = useState(false);
 
   const onChangMsg = (e) => {
     setInputMsg(e.target.value);
@@ -389,41 +410,50 @@ const ChatMain = () => {
   };
   //삭제토글
   const handleRoomDeleteClick = () => {
+    deleteModal();
+  };
+  const deleteModal = () => {
+    setModalOpen(true);
+    setModalContent("채팅방을 삭제하시겠습니까?");
+  };
+  const deleteOkHandler = () => {
     onClickMsgClose();
+    setModalOpen(false);
+    navigate("/chat");
   };
 
   // 이미지 업로드 부분
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
 
-    const storageRef = chatstorage.ref();
-    const fileRef = storageRef.child(file.name);
-    fileRef
-      .put(file)
-      .then(() => {
-        return fileRef.getDownloadURL();
-      })
-      .then((url) => {
-        setImageURL(url);
-        console.log("File available at", url);
-        const messageData = {
-          type: "IMAGE",
-          sender: sender,
-          receiver: receiver,
-          message: "",
-          imageUrl: url,
-        };
-        ws.current.send(JSON.stringify(messageData));
-        setChatList((prevChatList) => [
-          ...prevChatList,
-          { sender: sender, message: "", imageUrl: url },
-        ]); // 로컬 상태 업데이트
-      })
-      .catch((error) => {
-        console.error("Error uploading file: ", error);
-      });
-  };
+  //   const storageRef = chatstorage.ref();
+  //   const fileRef = storageRef.child(file.name);
+  //   fileRef
+  //     .put(file)
+  //     .then(() => {
+  //       return fileRef.getDownloadURL();
+  //     })
+  //     .then((url) => {
+  //       setImageURL(url);
+  //       console.log("File available at", url);
+  //       const messageData = {
+  //         type: "IMAGE",
+  //         sender: sender,
+  //         receiver: receiver,
+  //         message: "",
+  //         imageUrl: url,
+  //       };
+  //       ws.current.send(JSON.stringify(messageData));
+  //       setChatList((prevChatList) => [
+  //         ...prevChatList,
+  //         { sender: sender, message: "", imageUrl: url },
+  //       ]); // 로컬 상태 업데이트
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error uploading file: ", error);
+  //     });
+  // };
 
   //커플 개인 닉네임 불러오기
   const coupleNickNameAxois = async (couple) => {
@@ -437,6 +467,15 @@ const ChatMain = () => {
 
   return (
     <GlobalStyle>
+      <Modal
+        open={modalOpen}
+        header="채팅방 삭제"
+        type={true}
+        confirm={deleteOkHandler}
+        // img={}
+      >
+        {modalContent}
+      </Modal>
       <Chatpage backgroundImage={backgroundImage}>
         <TopText>{coupleNickName[0]}</TopText>
         <Textarea
@@ -445,24 +484,18 @@ const ChatMain = () => {
             isPlusMenuVisible || isTemaMenuVisible || isEmojiMenuVisible
           }
         >
+          {/* <MessageBox> */}
           {chatList.map((chat, index) => (
             <Message key={index} isSender={chat.sender === sender}>
               {chat.chatData}
-              {chat.imageUrl ? (
-                <img
-                  src={chat.imageUrl}
-                  alt="전송된 이미지"
-                  style={{ maxWidth: "100%" }}
-                />
-              ) : (
-                chat.message
-              )}
+              {chat.message}
             </Message>
           ))}
+          {/* </MessageBox> */}
         </Textarea>
         <PlusMenu isVisible={isPlusMenuVisible}>
           <PlusMenuBtn>
-            <label htmlFor="imageInput">
+            {/* <label htmlFor="imageInput">
               <FaRegImage className="icon 이미지사진" />
             </label>
             <input
@@ -471,7 +504,7 @@ const ChatMain = () => {
               ref={inputFileRef}
               style={{ display: "none" }}
               onChange={handleImageUpload}
-            />
+            /> */}
             <TbWallpaper className="icon 톱니" onClick={toggleTemaMenu} />
             <MdEmojiEmotions className="icon 임티" onClick={toggleEmojiMenu} />
             <MdDelete className="방삭제" onClick={handleRoomDeleteClick} />

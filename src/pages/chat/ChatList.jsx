@@ -14,6 +14,7 @@ const ChatListContainer = styled.div`
   background-color: #f3f3f3;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: black;
 `;
 
 const ChatUl = styled.ul`
@@ -54,21 +55,6 @@ const ChatDate = styled.p`
   color: #666;
   margin: 0;
   text-align: right;
-`;
-
-const DeleteButton = styled.button`
-  margin-left: auto;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #d32f2f;
-  }
 `;
 
 const CircleFixedButton = styled.button`
