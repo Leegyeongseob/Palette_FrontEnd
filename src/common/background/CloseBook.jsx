@@ -1,11 +1,25 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import closebook from "../../img/background/closebook2.png";
 import background from "../../img/background/theme/background3.jpg";
 import logo from "../../img/background/logo.png";
 import { Outlet, Link } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useEffect, useState } from "react";
-
+const zoomInDown = keyframes`
+  from {
+    opacity: 0;
+    transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+`;
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -31,10 +45,10 @@ const Book = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${zoomInDown} 2s ease-out;
 `;
 
 const BookTheme = styled.div`
-
   width: 100%;
   height: 100%;
   margin-left: 52px;
@@ -50,7 +64,6 @@ const BookTheme = styled.div`
 `;
 
 const LogoDiv = styled.div`
-
   width: 420px;
   aspect-ratio: 420 /170;
   display: flex;
@@ -79,11 +92,9 @@ const Logo = styled.div`
     width: 20vw;
     height: 20vw;
   }
- 
 `;
 
 const Contents = styled.div`
-
   width: 420px;
   aspect-ratio: 420 /460;
   display: flex;

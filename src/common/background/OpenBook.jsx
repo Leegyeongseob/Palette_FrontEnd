@@ -110,13 +110,13 @@ const TopContain = styled.div`
   }
 `;
 const OpenBook = () => {
-  const coupleName = sessionStorage.getItem("coupleName");
+  // const coupleName = sessionStorage.getItem("coupleName");
   return (
     <Background>
       <TopContain>
         <BookMarkDiv />
         <LogoDiv>
-          <Link to={`/${coupleName}/main-page`}>
+          <Link to={`/main-page`}>
             <Logo alt="logo" src={logo} />
           </Link>
         </LogoDiv>

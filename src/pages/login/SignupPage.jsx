@@ -6,6 +6,7 @@ import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
 import Common from "../../common/Common";
 import termNote from "../../img/loginImg/note.png";
+import coupleMatching from "../../img/loginImg/coupleMatching.png";
 const Contain = styled.div`
   width: 100%;
   height: 100%;
@@ -37,7 +38,6 @@ const InputDiv = styled.div`
 `;
 const JuminDiv = styled.div`
   width: 100%;
-
 `;
 const InputDetailDiv = styled.div`
   width: 100%;
@@ -54,7 +54,7 @@ const InputDetailDiv = styled.div`
     font-weight: bolder;
     @media screen and (max-width: 654px) {
       font-size: 2vw;
-  }
+    }
   }
   & > .InputClass,
   & > .InputEmail,
@@ -71,35 +71,32 @@ const InputDetailDiv = styled.div`
     font-size: 14px;
     font-weight: 600;
     @media screen and (max-width: 654px) {
-    font-size: 3vw;
-  }
+      font-size: 3vw;
+    }
   }
 `;
 const Empty = styled.div`
   width: 2%;
 `;
 const EmailAthouized = styled.div`
-  width: 10%;
-  border-radius: 0.521vw;
+  width: 60px;
+  height: 30px;
+  border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) =>
     isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   outline: none;
   box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
-  padding-left: 0.208vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 11px;
+  font-size: 14px;
   color: ${({ isActive }) => (isActive ? "#b44a4a" : "#ccc")};
-  font-weight: 700;
+  font-weight: 600;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "not-allowed")};
   &:hover {
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-  }
-  @media screen and (max-width: 654px) {
-    font-size: 3vw;
   }
 `;
 const RegisterationInput1 = styled.input`
@@ -230,7 +227,7 @@ const focusInExpand = keyframes`
 const TermImgDiv = styled.div`
   width: 1100px;
   height: 120vh;
-  display: ${({ isOpen }) => (isOpen ? "flex;" : "none")};
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -303,23 +300,42 @@ const TermsScrollableContent = styled.div`
   max-height: calc(100% - 100px);
   overflow-y: auto;
 `;
+const IsMyCoupleEmailImg = styled.div`
+  width: 350px;
+  height: 350px;
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-image: url(${coupleMatching});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: ${focusInExpand} 0.5s ease-in-out; /* 애니메이션 적용 */
+`;
 const IsMyCoupleEmailForm = styled.div`
-  width: 300px;
-  height: 100px;
-  background-color: #fff;
-  border: 5px solid #cefdce;
+  width: 260px;
+  height: 300px;
+  padding-right: 20px;
   border-radius: 10px;
   position: absolute;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: "block";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   overflow-y: auto;
+  & > div {
+  }
   & > div > p {
-    font-size: 15px;
+    font-size: 16px;
     text-align: center;
+    font-weight: 500;
     line-height: 1.5;
   }
   & > .YesOrNo {
     margin-top: 20px;
-    width: auto;
+    width: 80%;
     height: auto;
     display: flex;
     justify-content: space-evenly;
@@ -921,21 +937,29 @@ const SignupPage = () => {
             </EmailAthouized>
           )}
         </InputDetailDiv>
-        <IsMyCoupleEmailForm isOpen={isMyCoupleEmailForm}>
-          <div>
-            <p>
-              "{myCoupleEmail}"님이 <br /> 내 짝의 계정이 맞나요?
-            </p>
-          </div>
-          <div className="YesOrNo">
-            <EmailAthouized isActive={true} onClick={isMyCoupleEmailYesHandler}>
-              Yes
-            </EmailAthouized>
-            <EmailAthouized isActive={true} onClick={isMyCoupleEmailNoHandler}>
-              No
-            </EmailAthouized>
-          </div>
-        </IsMyCoupleEmailForm>
+        <IsMyCoupleEmailImg isOpen={isMyCoupleEmailForm}>
+          <IsMyCoupleEmailForm>
+            <div>
+              <p>
+                "{myCoupleEmail}"님이 <br /> 내 짝의 계정이 맞나요?
+              </p>
+            </div>
+            <div className="YesOrNo">
+              <EmailAthouized
+                isActive={true}
+                onClick={isMyCoupleEmailYesHandler}
+              >
+                Yes
+              </EmailAthouized>
+              <EmailAthouized
+                isActive={true}
+                onClick={isMyCoupleEmailNoHandler}
+              >
+                No
+              </EmailAthouized>
+            </div>
+          </IsMyCoupleEmailForm>
+        </IsMyCoupleEmailImg>
         <Message isCorrect={coupleNameDuplication}>{coupleMessage}</Message>
 
         <InputDetailDiv2>

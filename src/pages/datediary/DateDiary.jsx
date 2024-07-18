@@ -11,6 +11,7 @@ import soleModalImg from "../../img/commonImg/전구 아이콘.gif";
 import AxiosApi from "../../axiosapi/DiaryAxiosApi";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
+import MainAxios from "../../axiosapi/MainAxios";
 
 // 한국어 locale 설정
 moment.locale("ko");
@@ -44,23 +45,23 @@ const StyledCalendarWrapper = styled.div`
   .react-calendar__navigation {
     justify-content: center;
     background-color: #e7bfa1;
-  @media screen and (max-width: 1200px) { 
-    height: 30px;
-    font-size: 10px;
-  }
-  @media screen and (max-width: 768px) { 
-    height: 25px;
-    font-size: 10px;
-  }
+    @media screen and (max-width: 1200px) {
+      height: 30px;
+      font-size: 10px;
+    }
+    @media screen and (max-width: 768px) {
+      height: 25px;
+      font-size: 10px;
+    }
   }
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
     font-weight: 800;
     font-size: 16px;
-  @media screen and (max-width: 768px) { 
-    font-size: 10px;
-  }
+    @media screen and (max-width: 768px) {
+      font-size: 10px;
+    }
   }
 
   /* 네비게이션 버튼 컬러 */
@@ -128,14 +129,14 @@ const StyledCalendarWrapper = styled.div`
     top: 10px;
     padding: 18px 0vw 18px;
     position: relative;
-  @media screen and (max-width: 1200px) { 
-    top: 7px; 
-    padding: 14px 0vw 14px;
-  }
-  @media screen and (max-width: 768px) { 
-    top: 5px; 
-    padding: 5px 0vw 5px;
-  }
+    @media screen and (max-width: 1200px) {
+      top: 7px;
+      padding: 14px 0vw 14px;
+    }
+    @media screen and (max-width: 768px) {
+      top: 5px;
+      padding: 5px 0vw 5px;
+    }
   }
 
   /* 네비게이션 월 스타일 적용 */
@@ -222,7 +223,6 @@ const StyledDot = styled.div`
   transform: translateX(-35%);
 `;
 
-
 const BookTheme = styled.div`
   width: 497px;
   height: 67vh;
@@ -237,8 +237,8 @@ const BookTheme = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
-  @media screen and (max-width: 768px) {  
+  }
+  @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
     margin-top: 2.8vh;
@@ -258,7 +258,7 @@ const BookTheme2 = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
@@ -344,10 +344,10 @@ const PicDate = styled.div`
   margin-left: 3%;
   align-items: flex-end;
   justify-content: flex-start;
-  @media screen and (max-width: 1200px) { 
+  @media screen and (max-width: 1200px) {
     font-size: 1.1rem;
   }
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     font-size: 0.8rem;
   }
 `;
@@ -359,10 +359,10 @@ const DdayWe = styled.div`
   margin-right: 3%;
   align-items: flex-end;
   justify-content: flex-end;
-  @media screen and (max-width: 1200px) { 
+  @media screen and (max-width: 1200px) {
     font-size: 1rem;
   }
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     font-size: 0.6rem;
   }
 `;
@@ -390,7 +390,7 @@ const MemoInput = styled.textarea`
   resize: none;
   outline: none; /* 외곽선 색상 설정 (선택 사항) */
   overflow: hidden;
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     height: 50%;
     font-size: 0.6rem;
   }
@@ -464,7 +464,7 @@ const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 0.5rem;
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     margin-top: 0;
   }
 `;
@@ -478,7 +478,7 @@ const EventInput = styled.input`
   border-radius: 0.3rem;
   background-color: #eccdaf;
   outline: none;
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     height: 17px;
     font-size: 0.5rem;
   }
@@ -493,7 +493,7 @@ const AnniversaryInput = styled.input`
   border-radius: 0.3rem;
   background-color: #eccdaf;
   outline: none;
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     height: 20px;
     font-size: 0.5rem;
   }
@@ -554,11 +554,15 @@ const RemoveButton = styled.button`
 
 const DateDiary = () => {
   const today = new Date();
+  //디데이 상태저장
+  const [isDday, setIsDday] = useState();
+  //디데이 값 저장
+  const [saveDday, setSaveDday] = useState("");
   const navigator = useNavigate();
   const [date, setDate] = useState(new Date());
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(today); // 1. 선택한 날짜 데이터
-  const [anniversaryText, setAnniversaryText] = useState(""); //2. 기념일 텍스트 상태
+  const [anniversaryText, setAnniversaryText] = useState(); //2. 기념일 텍스트 상태
   const [events, setEvents] = useState([{ isEvent: false, eventText: "" }]); // 3. 일정 체크 여부 4. 일정 내용
   const [currentMemo, setCurrentMemo] = useState(""); // 5. 일기 작성 데이터
   const [isEditMode, setIsEditMode] = useState(false); // 읽기/쓰기 모드 상태
@@ -566,8 +570,9 @@ const DateDiary = () => {
   const [memos, setMemos] = useState({});
 
   const attendDay = [""];
-  const anniversaryDate = moment("2024-05-11");
-  const daysTogether = moment(today).diff(anniversaryDate, "days") + 1;
+  const anniversaryDate = moment(today).subtract(saveDday, "days"); // 31일 전의 날짜를 anniversaryDate로 설정
+
+  const daysTogether = moment(today).diff(anniversaryDate, "days");
   const SdaysTogether = moment(selectedDate).diff(anniversaryDate, "days") + 1;
   const memoTextAreaRef = useRef(null);
 
@@ -576,6 +581,7 @@ const DateDiary = () => {
   const [modalType, setModalType] = useState(false);
 
   const userEmail = sessionStorage.getItem("email");
+  const coupleName = sessionStorage.getItem("coupleName");
 
   const modalOkBtnHandler = () => {
     closeModal();
@@ -619,10 +625,25 @@ const DateDiary = () => {
         setModalText("불러오기 오류가 발생하였습니다!");
       }
     };
-
     fetchCoupleDiaries();
   }, [userEmail]);
 
+  // DDay 바꾸는 함수
+  const dDayAxios = async () => {
+    try {
+      const resDday = await MainAxios.searchDday(coupleName);
+      if (resDday.data !== "") {
+        setIsDday(true);
+        setSaveDday(resDday.data);
+        console.log("if 실행");
+      } else {
+        setIsDday(false);
+        console.log("else 실행");
+      }
+    } catch (error) {
+      console.error("DDay 정보를 불러오는 중 에러 발생:", error);
+    }
+  };
   useEffect(() => {
     const memoData = memos[moment(selectedDate).format("YYYY-MM-DD")] || {};
     setCurrentMemo(memoData.memo || "");
@@ -634,6 +655,7 @@ const DateDiary = () => {
   }, [selectedDate, memos, anniversaries]);
 
   useEffect(() => {
+    dDayAxios();
     const memoTextArea = memoTextAreaRef.current;
     if (memoTextArea) {
       const handleWheel = (event) => {
@@ -798,7 +820,12 @@ const DateDiary = () => {
     <>
       <BookTheme>
         <BookSign>
-          <Dday>♥ D + {daysTogether} ♥</Dday>
+          {" "}
+          {isDday ? (
+            <Dday>♥ D + {daysTogether} ♥</Dday>
+          ) : (
+            <Dday>♥ 사귄날을 입력해주세요! ♥</Dday>
+          )}
           <CoupleDiv>
             <CoupleImg />
           </CoupleDiv>

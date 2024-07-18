@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import iu from "../../img/background/paletteLogo.png";
 import CoupleDday from "../../common/couple/CoupleDday";
 import CoupleImg from "../../common/couple/CoupleImg";
@@ -18,7 +18,6 @@ import BoardAxios from "../../axiosapi/BoardAxios";
 import theme3 from "../../img/background/theme/new.jpg";
 import theme3_1 from "../../img/background/theme/new-1.jpg";
 import postIt from "../../img/mainImg/postIt.png";
-
 const BookTheme = styled.div`
   width: 497px;
   height: 67vh;
