@@ -16,7 +16,7 @@ const BookWrapper = styled.div`
 border: 1px solid green;
   width: 85%;
   height: 83%;
-  margin-top: 41px;
+  margin-top: 3%;
   margin-left: 14px;
  
   background-size: cover;

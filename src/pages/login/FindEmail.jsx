@@ -6,41 +6,37 @@ import LoginAxios from "../../axiosapi/LoginAxios";
 import Modal from "../datediary/Modal";
 import findIdImg from "../../img/loginImg/아이디찾기.gif";
 const Contain = styled.div`
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 `;
 const IconDiv = styled.div`
   width: 100%;
-  height: 18vh;
+  height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 1080px) {
-    height: 90px;
-  }
-  @media screen and (max-height: 768px) {
-    height: 90px;
-  }
+ 
 `;
 
 const InputDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  
 `;
 const ButtonDiv = styled.div`
   width: 100%;
-  height: 20%;
+  height: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 180px;
-  height: 50px;
+ width: 40%;
+ height: 60%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1.042vw;
   font-size: 20px;
@@ -50,14 +46,15 @@ const FindButton = styled.div`
   align-items: center;
   font-weight: 600;
   cursor: pointer;
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
-  @media screen and (max-width: 1080px) {
-    width: 134px;
-    height: 42px;
-    font-size: 15px;
+
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
   }
+
   @media screen and (max-height: 768px) {
     width: 134px;
     height: 42px;
@@ -65,25 +62,27 @@ const FindButton = styled.div`
   }
 `;
 const InputDetailDiv = styled.div`
-  width: 300px;
+  width: 100%;
+  height: 20%;
   display: flex;
-  gap: 6px;
+  gap: 2px;
 
-  @media (max-width: 768px) {
-  }
   & > label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 84px;
+    display: block;
+    width: 29%;
     height: auto;
     font-size: 14px;
     color: #b44a4a;
+    text-align: center;
     font-weight: bolder;
+    @media screen and (max-width: 654px) {
+      font-size: 2vw;
   }
+}
+  
   & > .InputClass {
-    width: 150px;
-    height: 30px;
+    width: 53%;
+    height: auto;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -92,11 +91,15 @@ const InputDetailDiv = styled.div`
     padding-left: 0.521vw;
     font-size: 14px;
     font-weight: 600;
+    @media screen and (max-width: 654px) {
+    font-size: 3vw;
   }
+}
 `;
+
 const RegisterationInput1 = styled.input`
-  width: 76px;
-  height: 30px;
+  width: 22%;
+  height: auto;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -105,20 +108,26 @@ const RegisterationInput1 = styled.input`
   padding-left: 0.521vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const Text = styled.div`
-  width: 10px;
-  height: 20px;
+  width: 3%;
+  height: auto;
   font-weight: bolder;
   font-size: 15px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const RegisterationInput2 = styled.input`
   width: 16px;
-  height: 30px;
+  height: auto;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -132,10 +141,11 @@ const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
   width: calc(110px - 1vw);
   height: calc(110px - 1vh);
   color: rgba(0, 0, 0, 0.7);
-  @media screen and (max-width: 768px) {
-    width: 65px;
-    height: 65px;
+  @media screen and (max-width: 654px) {
+    width: 30%;
+    height: 100%;
   }
+ 
   @media screen and (max-height: 768px) {
     width: 65px;
     height: 65px;
@@ -309,7 +319,7 @@ const FindEmail = () => {
           <label>이름</label>
           <input className="InputClass" onChange={nameInputOnChange} />
         </InputDetailDiv>
-        <div>
+        <>
           <InputDetailDiv>
             <label>주민등록번호</label>
             <RegisterationInput1
@@ -329,7 +339,7 @@ const FindEmail = () => {
             <Text>*</Text>
           </InputDetailDiv>
           <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        </div>
+        </>
       </InputDiv>
       <ButtonDiv>
         <FindButton onClick={findIdOnclickHandler}>찾기</FindButton>

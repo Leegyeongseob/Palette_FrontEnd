@@ -13,8 +13,9 @@ const Contain = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 const TitleDiv = styled.div`
-  width: 60px;
+  width: 100%;
   height: 20%;
   display: flex;
   justify-content: center;
@@ -22,35 +23,45 @@ const TitleDiv = styled.div`
   font-size: 16px;
   font-weight: 900;
   color: #b44a4a;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const InputDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 `;
+const JuminDiv = styled.div`
+  width: 100%;
+
+`;
 const InputDetailDiv = styled.div`
-  width: 300px;
+  width: 100%;
   display: flex;
-  gap: 6px;
+  gap: 2px;
 
   & > label {
     display: block;
-    width: 84px;
+    width: 29%;
     height: auto;
     font-size: 14px;
     color: #b44a4a;
     text-align: center;
     font-weight: bolder;
+    @media screen and (max-width: 654px) {
+      font-size: 2vw;
+  }
   }
   & > .InputClass,
   & > .InputEmail,
   & > .InputCoupleName,
   & > .InputCode {
-    width: 150px;
-    height: 25px;
+    width: 53%;
+    height: 100%;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -59,14 +70,16 @@ const InputDetailDiv = styled.div`
     padding-left: 0.521vw;
     font-size: 14px;
     font-weight: 600;
+    @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
   }
 `;
 const Empty = styled.div`
-  width: 5px;
+  width: 2%;
 `;
 const EmailAthouized = styled.div`
-  width: 37px;
-  height: 25px;
+  width: 10%;
   border-radius: 0.521vw;
   border: none;
   background-color: ${({ isActive }) =>
@@ -85,10 +98,13 @@ const EmailAthouized = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   }
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const RegisterationInput1 = styled.input`
-  width: 76px;
-  height: 25px;
+  width: 22%;
+  height: 100%;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -97,20 +113,26 @@ const RegisterationInput1 = styled.input`
   padding-left: 0.521vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const Text = styled.div`
-  width: 10px;
-  height: 20px;
+  width: 3%;
+  height: 100%;
   font-weight: bolder;
   font-size: 15px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const RegisterationInput2 = styled.input`
-  width: 16px;
-  height: 25px;
+  width: 7%;
+  height: 100%;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -119,6 +141,9 @@ const RegisterationInput2 = styled.input`
   padding-left: 0.208vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const CoupleText = styled.div`
   font-size: 15px;
@@ -126,17 +151,20 @@ const CoupleText = styled.div`
   color: #b44a4a;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const ButtonDiv = styled.div`
   width: 100%;
-  height: 20%;
+  height: 14%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const SignupButton = styled.div`
-  width: 134px;
-  height: 42px;
+  width: 40%;
+  height: 100%;
   background-color: ${({ isActive }) =>
     isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   border-radius: 1.042vw;
@@ -152,9 +180,12 @@ const SignupButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const InputDetailDiv2 = styled.div`
-  width: 120px;
+  width: 100%;
   height: 3.358vh;
   display: flex;
   justify-content: center;
@@ -165,6 +196,9 @@ const Message = styled.div`
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const TermsForm = styled.div`
   width: 400px;
@@ -815,7 +849,7 @@ const SignupPage = () => {
             />
           </InputDetailDiv>
         )}
-        <div>
+        <JuminDiv>
           <InputDetailDiv>
             <label>주민등록번호</label>
             <RegisterationInput1
@@ -837,7 +871,7 @@ const SignupPage = () => {
             <Text>*</Text>
           </InputDetailDiv>
           <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-        </div>
+        </JuminDiv>
         <InputDetailDiv>
           <label>닉네임</label>
           <input

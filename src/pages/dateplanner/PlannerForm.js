@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const PlannerContainer = styled.div`
   padding: 10px;
-  max-width: 600px;
+  height: 56%;
   background-color: ${({ isEditing }) =>
     isEditing ? "rgba(236, 205, 175, 1)" : "rgba(135, 163, 159, 1)"};
   border: 1px solid #e6e6fa;

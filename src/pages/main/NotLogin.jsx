@@ -21,10 +21,10 @@ const PaletteDiv = styled.div`
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: 250px;
+  font-size: 177px;
   font-weight: normal;
   font-family: "Cafe24Lovingu";
-  @media screen and (max-width: 1080px) {
+  @media screen and (max-width: 654px) {
     font-size: 20vw;
   }
 `;
@@ -37,7 +37,7 @@ const LoginDiv = styled.div`
   align-items: center;
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 200px;
+  width: 130px;
   height: 200px;
   cursor: pointer;
   border-radius: 50%;
@@ -46,7 +46,7 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  @media screen and (max-width: 1080px) {
+  @media screen and (max-width: 654px) {
     width: 16vw;
     height: 16vw;
   }
