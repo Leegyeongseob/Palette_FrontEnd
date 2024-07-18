@@ -16,6 +16,7 @@ const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 `;
 const LogoDiv = styled.div`
   width: 192px;
@@ -26,7 +27,7 @@ const LogoDiv = styled.div`
   @media screen and (max-width: 1200px) {
     width: 10vw;
     height: 15.5vh;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 10vw;
     height: 10vh;
@@ -34,27 +35,27 @@ const LogoDiv = styled.div`
 `;
 
 const BookMarkDiv = styled.div`
-width: 864px;
-height: 15vh;
-display: flex;
-justify-content: center;
-align-items: flex-end;
-margin-top: 11.5vh; // 추가된 부분
-margin-right: 20%;
-z-index: 98;
-@media screen and (max-width: 1200px) {
-  width: 40vw;
-  height: 15.5vh;
-  margin-top: 113px; // 추가된 부분
-  margin-left: 50px;
-  margin-right: 80px;
-} 
-@media screen and (max-width: 768px) {
-  width: 40vw;
-  height: 10vh;
-  margin-top: 73px; // 추가된 부분
-  margin-right: 80px;
-}
+  width: 864px;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 11.5vh; // 추가된 부분
+  margin-right: 20%;
+  z-index: 98;
+  @media screen and (max-width: 1200px) {
+    width: 40vw;
+    height: 15.5vh;
+    margin-top: 113px; // 추가된 부분
+    margin-left: 50px;
+    margin-right: 80px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 40vw;
+    height: 10vh;
+    margin-top: 73px; // 추가된 부분
+    margin-right: 80px;
+  }
 `;
 const Logo = styled.img`
   width: 140px;
@@ -65,14 +66,14 @@ const Logo = styled.img`
     transform: scale(0.95);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-@media screen and (max-width: 1200px) {
-  width: 120px;
-  height: 120px;
-} 
-@media screen and (max-width: 768px) {
-  width: 90px;
-  height: 90px;
-}
+  @media screen and (max-width: 1200px) {
+    width: 120px;
+    height: 120px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 90px;
+    height: 90px;
+  }
 `;
 const Book = styled.div`
   width: 1190px;
@@ -87,7 +88,7 @@ const Book = styled.div`
   @media screen and (max-width: 1200px) {
     width: 1000px;
     height: 650px;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 670px;
     height: 410px;
@@ -102,7 +103,7 @@ const TopContain = styled.div`
   @media screen and (max-width: 1200px) {
     width: 1000px;
     height: 17.838vh;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 768px;
     height: 15vh;

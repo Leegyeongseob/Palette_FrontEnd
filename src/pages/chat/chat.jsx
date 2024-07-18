@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaRegImage, FaGear, FaHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 import { TbWallpaper } from "react-icons/tb";
 import { useParams, useNavigate } from "react-router-dom";
 import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
@@ -26,10 +26,8 @@ import chatBack7 from "../../img/chat/pcchatimg/31.png";
 import chatBack8 from "../../img/background/theme/5.jpg";
 import chatBack9 from "../../img/background/theme/background4.jpg";
 import Common from "../../common/Common";
-import { chatstorage } from "../../firebase/Chatfirebase";
-import LoginAxios from "../../axiosapi/LoginAxios";
-import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import Modal from "../datediary/Modal";
+import modalImg from "../../img/commonImg/전구 아이콘.gif";
 
 const GlobalStyle = styled.div`
   /* 스크롤바 스타일 */
@@ -48,25 +46,28 @@ const GlobalStyle = styled.div`
   }
 `;
 const Chatpage = styled.div`
-  width: 100%;
-  height: 68vh;
-  margin-top: 5vh;
+  width: 997px;
+  height: 67vh;
+  margin-top: 4.5%;
+  margin-left: 0.7vw;
   background: url(${(props) => props.backgroundImage}) no-repeat center center;
   /* background-color: #9b9b9b; */
   background-size: cover;
   position: relative;
 
   @media screen and (max-width: 1200px) {
-    width: 832px;
-    height: 60vh;
+    width: 100%;
+    height: 56vh;
+    margin-top: 4vh;
   }
   @media screen and (max-width: 768px) {
-    width: 560px;
-    height: 36vh;
+    width: 100%;
+    height: 34.5vh;
+    margin-top: 3vh;
   }
 `;
 const Textarea = styled.div`
-  width: 1000px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -75,21 +76,21 @@ const Textarea = styled.div`
   background: transparent;
   height: ${({ isPlusMenuVisible }) =>
     isPlusMenuVisible
-      ? "calc(68vh - 35vh)"
-      : "calc(68vh - 10vh)"}; // 기본 화면 크기
+      ? "calc(68vh - 25vh)"
+      : "calc(68vh - 11.5vh); border-bottom: 1px solid gray;"}; // 기본 화면 크기
   @media screen and (max-width: 1200px) {
     width: 832px;
     height: ${({ isPlusMenuVisible }) =>
       isPlusMenuVisible
-        ? "calc(60vh - 30vh)"
-        : "calc(60vh - 10vh)"}; // 중간 화면 크기
+        ? "calc(60vh - 24.7vh)"
+        : "calc(60vh - 14vh)"}; // 중간 화면 크기
   }
   @media screen and (max-width: 768px) {
     width: 560px;
     height: ${({ isPlusMenuVisible }) =>
       isPlusMenuVisible
-        ? "calc(36vh - 30vh)"
-        : "calc(36vh - 10vh)"}; // 작은 화면 크기
+        ? "calc(36vh - 15vh)"
+        : "calc(36vh - 9vh)"}; // 작은 화면 크기
   }
 `;
 
@@ -110,30 +111,97 @@ const Message = styled.div`
     props.isSender ? "1px solid #DCF8C6" : "1px solid #E0E0E0"};
 `;
 
-const TopText = styled.div`
+const TopDiv = styled.div`
+  width: 100%;
+  height: 8%;
   position: sticky;
   top: 0;
   background-color: transparent;
+  border-bottom: 1px solid gray;
   z-index: 1;
-  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const TopText = styled.div`
+  width: 63%;
+  height: 95%;
+  padding-left: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 20px;
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+const TopName = styled.div`
+  width: 30%;
+  height: 95%;
+  padding-right: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 16px;
+  @media screen and (max-width: 1200px) {
+    font-size: 13px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+  }
+`;
+
+const TopBtn = styled.div`
+  width: 6%;
+  height: 60%;
+  border-radius: 8px;
+  display: flex;
+  border: 1px solid darkgray;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bolder;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    background-color: #dadada;
+  }
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 9px;
+  }
 `;
 
 const PlusMenu = styled.div`
   width: 100%;
-  height: 30%;
-  background-color: gray;
+  height: 20%;
+  background-color: #dadada;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
   position: absolute;
-  bottom: 10vh;
+  bottom: 8%;
+  @media screen and (max-width: 1200px) {
+    bottom: 9%;
+  }
+  @media screen and (max-width: 768px) {
+    bottom: 14%;
+  }
 `;
 
 const TemaMenu = styled.div`
-  width: 54vw;
-  height: 18vh;
+  width: 90%;
+  height: 30%;
   background-color: #a5a5a5b7;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
   position: absolute;
-  bottom: 10vh;
+  bottom: 10%;
   img {
     width: 6vw;
     height: auto;
@@ -147,12 +215,13 @@ const TemaMenu = styled.div`
 `;
 
 const EmojiMenu = styled.div`
-  width: 54vw;
-  height: 18vh;
-  background-color: gray;
+  width: 100%;
+  height: 20%;
+  background-color: #dadada;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
+  align-items: center;
   position: absolute;
-  bottom: 10vh;
+  bottom: 8%;
   justify-content: space-around;
 `;
 
@@ -193,7 +262,7 @@ const InputText = styled.div`
     background-color: #ffffff;
   }
   .send {
-    width: 4vh;
+    width: 2%;
     height: 4vh;
     background-color: #fdff8f;
     margin-right: 2vw;
@@ -211,7 +280,7 @@ const InputText = styled.div`
     font-size: 20px;
     position: absolute;
     top: 50%;
-    right: 5px;
+    right: 8px;
     transform: translateY(-50%);
   }
   .plus {
@@ -243,10 +312,9 @@ const InputText = styled.div`
 
 const ChatMain = () => {
   const [isPlusMenuVisible, setPlusMenuVisible] = useState(false);
-  const [backgroundImage, setBackgroundImage] = useState(chatBack1);
+  const [backgroundImage, setBackgroundImage] = useState(chatBack7);
   const [isTemaMenuVisible, setTemaMenuVisible] = useState(false);
   const [isEmojiMenuVisible, setEmojiMenuVisible] = useState(false);
-  const inputFileRef = useRef(null);
   const { roomId } = useParams(); // 채팅방 번호
   const [chatList, setChatList] = useState([]); // 채팅 리스트
   const [socketConnected, setSocketConnected] = useState(false); // 웹소켓 연결여부
@@ -286,6 +354,7 @@ const ChatMain = () => {
           message
         );
         setInputMsg(""); // 메시지 전송 후 입력 필드 초기화
+        console.error("data:", rsp);
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -434,9 +503,15 @@ const ChatMain = () => {
     setModalOpen(true);
     setModalContent("채팅방을 삭제하시겠습니까?");
   };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const deleteOkHandler = () => {
     onClickMsgClose();
     setModalOpen(false);
+    navigate("/chat");
+  };
+  const clickTopBtn = () => {
     navigate("/chat");
   };
 
@@ -489,13 +564,18 @@ const ChatMain = () => {
         open={modalOpen}
         header="채팅방 삭제"
         type={true}
+        img={modalImg}
+        close={closeModal}
         confirm={deleteOkHandler}
-        // img={}
       >
         {modalContent}
       </Modal>
       <Chatpage backgroundImage={backgroundImage}>
-        <TopText>{coupleNickName[0]}</TopText>
+        <TopDiv>
+          <TopText>{coupleNickName[0]} 와의 채팅</TopText>
+          <TopName>채팅방 : {roomName}</TopName>
+          <TopBtn onClick={clickTopBtn}>나가기</TopBtn>
+        </TopDiv>
         <Textarea
           ref={chatContainerRef}
           isPlusMenuVisible={

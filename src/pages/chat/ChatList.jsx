@@ -1,48 +1,83 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import Common from "../../common/Common";
+import { useNavigate } from "react-router-dom";
 import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
-import { useRef } from "react";
 import ChatModal from "./ChatModal";
+import chat from "../../img/background/theme/chat.jpg";
+import chat_1 from "../../img/background/theme/chat-1.jpg";
 
-const ChatListContainer = styled.div`
-  /* width: 54vw; */
-  width: 1000px;
-  height: 68vh;
-  padding: 15px;
-  position: relative;
+const BookTheme = styled.div`
+  width: 497px;
+  height: 67vh;
   margin-top: 5vh;
-  background-color: #ffffff;
-  border-radius: 10px;
-  overflow-y: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* background-color: black; */
+  margin-left: 0.7vw;
+  background-image: url(${chat});
+  /* background-color: #d0d7e9; */
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media screen and (max-width: 1200px) {
-    width: 832px;
-    height: 60vh;
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
-    width: 560px;
-    height: 36vh;
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
   }
+`;
+
+const BookTheme2 = styled.div`
+  width: 497px;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.05vw;
+  background-image: url(${chat_1});
+  /* background-color: #d0d7e9; */
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
+  }
+`;
+
+const ChatListContainer = styled.div`
+  width: 90%;
+  height: 90%;
+  padding: 22px;
+  position: relative;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #dbe5f8;
+  overflow: auto;
 `;
 
 const ChatUl = styled.ul`
   list-style-type: none;
-  /* padding: 0; */
 `;
 
 const ChatRoom = styled.li`
   display: flex;
   background-color: #fff;
-  /* border: 1px solid #ddd; */
-  /* margin-bottom: 10px; */
-  padding: 13px;
-  /* border-radius: 5px; */
-
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  /* margin-bottom: 5px; */
+  padding: 12px;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+
   &:hover {
     background-color: #e9e9e9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -50,22 +85,18 @@ const ChatRoom = styled.li`
 `;
 
 const Header = styled.h1`
+  width: 100%;
+  height: 10%;
+  font-size: 1.4vw;
   color: #333;
   text-align: center;
-  margin-bottom: 20px;
+  border-bottom: 1px solid darkgray;
 `;
 
 const ChatName = styled.p`
   font-size: 1.5em;
-  margin: 0 0 10px 0;
+  margin: 0 10px 0;
   color: #444;
-`;
-
-const ChatDate = styled.p`
-  font-size: 1em;
-  color: #666;
-  margin: 0;
-  text-align: right;
 `;
 
 const CircleFixedButton = styled.button`
@@ -102,10 +133,6 @@ function ChatList() {
   const navigate = useNavigate();
   const email = sessionStorage.getItem("email");
   const [createModal, setCreateModal] = useState(false);
-
-  const openModal = () => {
-    setCreateModal(true);
-  };
 
   const closeModal = () => {
     setCreateModal(false);
@@ -147,20 +174,26 @@ function ChatList() {
   };
 
   return (
-    <ChatListContainer>
-      <ChatUl>
-        {chatRooms.map((room) => (
-          <ChatRoom
-            key={room.roomId}
-            onClick={() => enterChatRoom(room.roomId)}
-          >
-            <ChatName>{room.name}</ChatName>
-          </ChatRoom>
-        ))}
-      </ChatUl>
-      <CircleFixedButton onClick={createChatRoom}></CircleFixedButton>
-      <ChatModal isOpen={createModal} onClose={closeModal}></ChatModal>
-    </ChatListContainer>
+    <>
+      <BookTheme>
+        <ChatListContainer>
+          <Header>채팅방 목록</Header>
+          <ChatUl>
+            {chatRooms.map((room) => (
+              <ChatRoom
+                key={room.roomId}
+                onClick={() => enterChatRoom(room.roomId)}
+              >
+                <ChatName>{room.name}</ChatName>
+              </ChatRoom>
+            ))}
+          </ChatUl>
+          <CircleFixedButton onClick={createChatRoom}></CircleFixedButton>
+          <ChatModal isOpen={createModal} onClose={closeModal}></ChatModal>
+        </ChatListContainer>
+      </BookTheme>
+      <BookTheme2></BookTheme2>
+    </>
   );
 }
 
