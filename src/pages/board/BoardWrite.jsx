@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BoardAxios from "../../axiosapi/BoardAxios";
 import boardBg from "../../img/background/theme/9.jpg";
 import boardBg_1 from "../../img/background/theme/9-1.jpg";
@@ -57,57 +57,48 @@ const BookTheme2 = styled.div`
 `;
 
 const BoardSide = styled.div`
-  width: 25.5vw;
-  height: 68.5vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 `;
 const BoardTitle = styled.div`
-  margin-top: 2.5vh;
-  width: 25.5vw;
-  height: 5vh;
+  margin-top: 2%;
+  width: 100%;
+  height: 6%;
   font-size: 20px;
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    font-size: 17px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 const CoupleDiv = styled.div`
-  width: 25.5vw;
-  height: 12vh;
+  width: 100%;
+  height: 18%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const BoardGrayBar = styled.div`
   margin-top: 1.5vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 0.4vh;
+  width: 90%;
+  height: 0.5%;
   background-color: #b0b0b0;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const BoardPost = styled.div`
-  margin-top: 2vh;
-  margin-left: 18.5vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 11px;
-  font-weight: 600;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
 const BoardTable = styled.table`
   margin-top: 1vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
+  width: 87%;
   table-layout: fixed;
   border-collapse: collapse;
 `;
@@ -123,10 +114,19 @@ const BoardTh = styled.th`
   box-sizing: border-box;
   vertical-align: middle;
   &:nth-child(1) {
-    width: 3vw;
+    width: 15%;
+  }
+  &:nth-child(2) {
+    width: 60%;
   }
   &:nth-child(3) {
-    width: 4vw;
+    width: 25%;
+  }
+  @media screen and (max-width: 1200px) {
+    height: 25px;
+  }
+  @media screen and (max-width: 768px) {
+    height: 15px;
   }
 `;
 
@@ -142,6 +142,14 @@ const BoardTd = styled.td`
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+  @media screen and (max-width: 1200px) {
+    height: 25px;
+    font-size: 11px;
+  }
+  @media screen and (max-width: 768px) {
+    height: 15px;
+    font-size: 10px;
+  }
 `;
 
 const NameHover = styled(BoardTd)`
@@ -150,18 +158,20 @@ const NameHover = styled(BoardTd)`
     color: blue;
   }
 `;
+
 const BoardPaginationContainer = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-bottom: 3vh;
+  margin-bottom: 3%;
   margin-left: 1.5vw;
-  width: 22.5vw;
+  width: 87%;
   height: 3vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const BoardPaginationButton = styled.button`
   margin: 0 5px;
   padding: 5px 10px;
@@ -171,40 +181,53 @@ const BoardPaginationButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
-`;
-
-const CenterArea = styled.div`
-  width: 1.5vw;
-  height: 68.5vh;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    margin: 0 3px;
+    padding: 1px 5px;
+  }
 `;
 
 const WriteSide = styled.div`
-  width: 25.8vw;
-  height: 68.5vh;
+  width: 100%;
+  height: 100%;
 `;
+
 const BackToGuestbook = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
+  margin-top: 2%;
+  padding-right: 2%;
+  width: 100%;
   height: 1vh;
   font-size: 13px;
   font-weight: 600;
   color: black;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   cursor: pointer;
   &:hover {
     color: blue;
   }
 `;
+
 const WriteTitle = styled.div`
   margin-left: 1.5vw;
   margin-top: 4vh;
-  width: 22.8vw;
-  height: 7vh;
+  width: 100%;
+  height: 10%;
   display: flex;
+  @media screen and (max-width: 1200px) {
+    margin-top: 3vh;
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 1.5vh;
+  }
 `;
+
 const WriteTitleInput = styled.input`
   width: 100%;
   height: 100%;
@@ -212,19 +235,24 @@ const WriteTitleInput = styled.input`
   outline: none;
   background-color: transparent;
   font-size: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
+
 const WriteGrayBar = styled.div`
-  margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 0.4vh;
+  margin-left: 5%;
+  width: 90%;
+  height: 0.5%;
   background-color: #b0b0b0;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const WriteAddPhoto = styled.button`
-  margin-top: 1.2vh;
-  margin-left: 1.5vw;
+  margin-top: 2%;
+  margin-left: 5%;
   width: 2vw;
   height: 3.5vh;
   background-image: url(${AddPhoto});
@@ -237,12 +265,18 @@ const WriteAddPhoto = styled.button`
   &:hover {
     background-color: #aaa;
   }
+  @media screen and (max-width: 1200px) {
+    height: 3vh;
+  }
+  @media screen and (max-width: 768px) {
+    height: 1.5vh;
+  }
 `;
 const WriteMain = styled.div`
   margin-left: 1.5vw;
   margin-top: 1.2vh;
-  width: 22.8vw;
-  height: 40vh;
+  width: 90%;
+  height: 60%;
   display: flex;
   align-items: flex-start;
 `;
@@ -255,21 +289,27 @@ const WriteMainInput = styled.textarea`
   font-size: 20px;
   resize: none;
   overflow-y: auto;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 const WritePost = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
+  margin-top: 2%;
+  width: 100%;
+  padding-right: 5%;
   height: 1vh;
   font-size: 16px;
   font-weight: 600;
   color: black;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   cursor: pointer;
   &:hover {
     color: blue;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
   }
 `;
 
