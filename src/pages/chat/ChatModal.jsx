@@ -8,11 +8,11 @@ const ModalBackground = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  background-color: rgba(175, 175, 175, 0.2); /* 반투명 배경 */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 999;
 `;
 
 const ModalContent = styled.div`

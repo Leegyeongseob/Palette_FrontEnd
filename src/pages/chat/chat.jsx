@@ -572,7 +572,7 @@ const ChatMain = () => {
       </Modal>
       <Chatpage backgroundImage={backgroundImage}>
         <TopDiv>
-          <TopText>{coupleNickName[0]} 와의 채팅</TopText>
+          <TopText>{coupleNickName[1]} 의 채팅</TopText>
           <TopName>채팅방 : {roomName}</TopName>
           <TopBtn onClick={clickTopBtn}>나가기</TopBtn>
         </TopDiv>
