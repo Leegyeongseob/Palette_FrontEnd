@@ -236,6 +236,7 @@ const RecentTitle = styled.div`
 const Recents = styled.div`
   width: 308px;
   height: 4vh;
+  padding-left: 3%;
   display: flex;
   align-items: center;
   color: #000;
@@ -243,20 +244,20 @@ const Recents = styled.div`
   font-size: 16px;
   border-radius: 0.521vw;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   &:hover {
-    transform: scale(0.95);
-    color: blue;
-    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+    transform: scale(0.97);
+    color: royalblue;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.2);
   }
   @media screen and (max-width: 1200px) {
     width: 268px;
-    height: 3.5vh;
+    height: 2.8vh;
     font-size: 15px;
   }
   @media screen and (max-width: 768px) {
     width: 168px;
-    height: 2.3vh;
+    height: 2vh;
     font-size: 10px;
   }
 `;
@@ -313,15 +314,15 @@ const PictureDiv = styled.div`
   }
 `;
 const VisitDiv = styled.div`
-  width: 15vw;
-  height: auto;
+  width: 64%;
+  height: 3.5vh;
   border-radius: 10px;
   border: 1px solid #fff;
   & > .visitDiv {
     display: flex;
   }
   & > div > input {
-    width: 14vw;
+    width: 89%;
     height: 3vh;
     padding-left: 1.083vw;
     background-color: rgba(0, 0, 0, 0.4);
@@ -331,14 +332,28 @@ const VisitDiv = styled.div`
     font-size: 0.8vw;
     font-weight: 500;
   }
+  @media screen and (max-width: 1200px) {
+    height: 3vh;
+    & > div > input {
+      height: 2.5vh;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    height: 2.5vh;
+    & > div > input {
+      height: 2vh;
+    }
+  }
 `;
 const VisitList = styled.div`
-  width: 12vw;
+  width: 100%;
   height: 3vh;
   border-radius: 10px;
+  margin-top: 1%;
   border: 1px solid #fff;
   color: #fff;
-  font-size: 0.8vw;
+  background-color: #d2e2eb;
+  font-size: 16px;
   font-weight: 500;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   display: flex;
@@ -346,16 +361,30 @@ const VisitList = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
-    transform: scale(0.9);
+    transform: scale(0.95);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
     color: #5549f7;
   }
+  @media screen and (max-width: 1200px) {
+    height: 2.5vh;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 768px) {
+    height: 2.4vh;
+    font-size: 12px;
+  }
 `;
 const VisitSearchBtn = styled(GiArchiveResearch)`
-  width: 1.563vw;
+  width: 11%;
   height: 3.148vh;
   color: green;
   cursor: pointer;
+  @media screen and (max-width: 1200px) {
+    height: 3vh;
+  }
+  @media screen and (max-width: 768px) {
+    height: 2.5vh;
+  }
 `;
 const SettingDiv = styled.div`
   width: 497px;
@@ -475,11 +504,17 @@ const CloseBtn = styled(IoMdCloseCircleOutline)`
   }
 `;
 const VisitContainer = styled.div`
-  width: 25vw;
+  width: 90%;
   height: 13vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    height: 10vh;
+  }
+  @media screen and (max-width: 768px) {
+    height: 7vh;
+  }
 `;
 const BackMyHome = styled.div`
   width: 96px;
@@ -647,6 +682,15 @@ const MainPage = () => {
   const boardOnClickHandler = (id) => {
     navigate(`/${coupleName}/board-details/${id}`);
   };
+
+  // 방문자 검색 글자수
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  };
+
   return (
     <>
       <BookTheme>
@@ -674,7 +718,7 @@ const MainPage = () => {
                 {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
                 {searchCoupleList.map((couple, index) => (
                   <VisitList key={index} onClick={() => handleSearch(index)}>
-                    {couple}
+                    {truncateText(couple, 15)}
                   </VisitList>
                 ))}
               </VisitDiv>

@@ -3,10 +3,10 @@ import MainAxios from "../../axiosapi/MainAxios";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useEffect, useState } from "react";
 const Dday = styled.div`
-  width: 20vw;
+  width: 80%;
   height: 10vh;
   font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
-  font-weight: 700;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,14 +17,32 @@ const Dday = styled.div`
     font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
   }
 `;
+const DdayWhen = styled.div`
+  width: 25%;
+  font-size: 19px;
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
 const DdayInputForm = styled.input`
-  width: 8vw;
+  width: 50%;
   height: 3vh;
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+    height: 2.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    height: 1.8vh;
+  }
 `;
 const DdayInputDiv = styled.div`
-  width: 19vw;
+  width: 90%;
   height: auto;
   display: flex;
   justify-content: space-evenly;
@@ -35,9 +53,15 @@ const DdayInputDiv = styled.div`
   & > .day {
     color: #fff;
   }
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 const DDayInputBtn = styled.div`
-  width: 3vw;
+  width: 80%;
   height: 3vh;
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -50,9 +74,15 @@ const DDayInputBtn = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
+  @media screen and (max-width: 1200px) {
+    height: 2.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    height: 1.8vh;
+  }
 `;
 const ButtonDiv = styled.div`
-  width: 5vw;
+  width: 20%;
   height: auto;
   display: flex;
   justify-content: center;
@@ -117,7 +147,7 @@ const CoupleDday = ({ isMyHome }) => {
           <Dday isDday={isDday}>사귄지 {saveDday}일째!</Dday>
         ) : (
           <Dday isDday={isDday} isMyHome={isMyHome}>
-            <label>사귄날짜 : </label>
+            <DdayWhen>사귄날짜 : </DdayWhen>
             <DdayInputForm
               value={saveDday}
               onChange={dDayInputOnchangeHandler}

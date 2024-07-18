@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import BoardAxios from "../../axiosapi/BoardAxios";
 import boardBg from "../../img/background/theme/9.jpg";
+import boardBg_1 from "../../img/background/theme/9-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import AddPhoto from "../../img/board/AddPhoto.png";
 import {
@@ -13,15 +14,48 @@ import {
 } from "../../firebase/firebaseBoard";
 
 const BookTheme = styled.div`
-  width: 53vw;
-  height: 68.5vh;
-  margin-top: 4vh;
-  margin-left: 0.8vw;
+  width: 497px;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.7vw;
   background-image: url(${boardBg});
   background-size: cover;
-  opacity: 0.8;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
+  }
 `;
+
+const BookTheme2 = styled.div`
+  width: 497px;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.05vw;
+  background-image: url(${boardBg_1});
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 2.8vh;
+  }
+`;
+
 const BoardSide = styled.div`
   width: 25.5vw;
   height: 68.5vh;
@@ -54,22 +88,22 @@ const BoardGrayBar = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const BoardPost = styled.div`
-  margin-top: 2vh;
-  margin-left: 18.5vw;
-  width: 8vw;
-  height: 1vh;
-  font-size: 11px;
-  font-weight: 600;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
+// const BoardPost = styled.div`
+//   margin-top: 2vh;
+//   margin-left: 18.5vw;
+//   width: 8vw;
+//   height: 1vh;
+//   font-size: 11px;
+//   font-weight: 600;
+//   color: black;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+//   &:hover {
+//     color: blue;
+//   }
+// `;
 const BoardTable = styled.table`
   margin-top: 1vh;
   margin-left: 1.5vw;
@@ -137,11 +171,6 @@ const BoardPaginationButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
-`;
-
-const CenterArea = styled.div`
-  width: 1.5vw;
-  height: 68.5vh;
 `;
 
 const WriteSide = styled.div`
@@ -247,7 +276,7 @@ const BoardUpdate = () => {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [file, setFile] = useState(null);
-  const [url, setUrl] = useState("");
+  // const [url, setUrl] = useState("");
   const [boardData, setBoardData] = useState([]);
   const fileInputRef = useRef(null);
   const [placeholderTitle, setPlaceholderTitle] = useState("");
@@ -405,87 +434,90 @@ const BoardUpdate = () => {
     setPlaceholderContents(res.data.contents);
   };
   return (
-    <BookTheme>
-      <BoardSide>
-        <BoardTitle>알콩 달콩 커플게시판</BoardTitle>
-        <CoupleDiv>
-          <CoupleImg />
-        </CoupleDiv>
-        <BoardGrayBar />
-        <Link
-          to={`/${coupleName}/board-write`}
-          style={{ textDecoration: "none" }}
-        ></Link>
-        <BoardTable>
-          <thead>
-            <tr>
-              <BoardTh>ID</BoardTh>
-              <BoardTh>Name</BoardTh>
-              <BoardTh>Date</BoardTh>
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((item) => (
-              <tr key={item.id}>
-                <BoardTd>{item.id}</BoardTd>
-                <NameHover onClick={() => handleNameClick(item.id)}>
-                  {item.title}
-                </NameHover>
-                <BoardTd>{item.regDate}</BoardTd>
+    <>
+      <BookTheme>
+        <BoardSide>
+          <BoardTitle>알콩 달콩 커플게시판</BoardTitle>
+          <CoupleDiv>
+            <CoupleImg />
+          </CoupleDiv>
+          <BoardGrayBar />
+          <Link
+            to={`/${coupleName}/board-write`}
+            style={{ textDecoration: "none" }}
+          ></Link>
+          <BoardTable>
+            <thead>
+              <tr>
+                <BoardTh>ID</BoardTh>
+                <BoardTh>Name</BoardTh>
+                <BoardTh>Date</BoardTh>
               </tr>
-            ))}
-          </tbody>
-        </BoardTable>
-        <BoardPaginationContainer>
-          <BoardPaginationButton
-            onClick={() => handleClick(currentPage - 1)}
-            disabled={currentPage === 1}
+            </thead>
+            <tbody>
+              {currentData.map((item) => (
+                <tr key={item.id}>
+                  <BoardTd>{item.id}</BoardTd>
+                  <NameHover onClick={() => handleNameClick(item.id)}>
+                    {item.title}
+                  </NameHover>
+                  <BoardTd>{item.regDate}</BoardTd>
+                </tr>
+              ))}
+            </tbody>
+          </BoardTable>
+          <BoardPaginationContainer>
+            <BoardPaginationButton
+              onClick={() => handleClick(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt; 이전
+            </BoardPaginationButton>
+            {getPaginationButtons()}
+            <BoardPaginationButton
+              onClick={() => handleClick(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              다음 &gt;
+            </BoardPaginationButton>
+          </BoardPaginationContainer>
+        </BoardSide>
+      </BookTheme>
+      <BookTheme2>
+        <WriteSide>
+          <Link
+            to={`/${coupleName}/board-guestbook`}
+            style={{ textDecoration: "none" }}
           >
-            &lt; 이전
-          </BoardPaginationButton>
-          {getPaginationButtons()}
-          <BoardPaginationButton
-            onClick={() => handleClick(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            다음 &gt;
-          </BoardPaginationButton>
-        </BoardPaginationContainer>
-      </BoardSide>
-      <CenterArea />
-      <WriteSide>
-        <Link
-          to={`/${coupleName}/board-guestbook`}
-          style={{ textDecoration: "none" }}
-        >
-          <BackToGuestbook>돌아가기</BackToGuestbook>
-        </Link>
-        <WriteTitle>
-          <WriteTitleInput
-            type="text"
-            placeholder={placeholderTitle}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            <BackToGuestbook>돌아가기</BackToGuestbook>
+          </Link>
+          <WriteTitle>
+            <WriteTitleInput
+              type="text"
+              placeholder={placeholderTitle}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </WriteTitle>
+          <WriteGrayBar />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileInputChange}
+            style={{ display: "none" }}
           />
-        </WriteTitle>
-        <WriteGrayBar />
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileInputChange}
-          style={{ display: "none" }}
-        />
-        <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
-        <WriteMain>
-          <WriteMainInput
-            placeholder={placeholderContents}
-            value={contents}
-            onChange={(e) => setContents(e.target.value)}
-          />
-        </WriteMain>
-        <WritePost onClick={updatehandleSubmit}>수정하기</WritePost>
-      </WriteSide>
-    </BookTheme>
+          <WriteAddPhoto onClick={handleAddPhotoClick}></WriteAddPhoto>
+          <WriteMain>
+            <WriteMainInput
+              placeholder={placeholderContents}
+              value={contents}
+              onChange={(e) => setContents(e.target.value)}
+            />
+          </WriteMain>
+          <WritePost onClick={updatehandleSubmit}>수정하기</WritePost>
+        </WriteSide>
+      </BookTheme2>
+    </>
   );
 };
 
