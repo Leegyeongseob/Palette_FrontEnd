@@ -4,34 +4,45 @@ import { useNavigate, useParams } from "react-router-dom";
 import Common from "../../common/Common";
 import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
 import { useRef } from "react";
+import ChatModal from "./ChatModal";
 
 const ChatListContainer = styled.div`
-  width: 54vw;
+  /* width: 54vw; */
+  width: 1000px;
   height: 68vh;
-  padding: 30px;
+  padding: 15px;
   position: relative;
-  margin: 40px;
-  background-color: #f3f3f3;
+  margin-top: 5vh;
+  background-color: #ffffff;
   border-radius: 10px;
+  overflow-y: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: black;
+  /* background-color: black; */
+  @media screen and (max-width: 1200px) {
+    width: 832px;
+    height: 60vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 560px;
+    height: 36vh;
+  }
 `;
 
 const ChatUl = styled.ul`
   list-style-type: none;
-  padding: 0;
+  /* padding: 0; */
 `;
 
 const ChatRoom = styled.li`
   display: flex;
   background-color: #fff;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 5px;
+  /* border: 1px solid #ddd; */
+  /* margin-bottom: 10px; */
+  padding: 13px;
+  /* border-radius: 5px; */
+
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
   &:hover {
     background-color: #e9e9e9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -90,25 +101,15 @@ function ChatList() {
   const [chatRooms, setChatRooms] = useState([]);
   const navigate = useNavigate();
   const email = sessionStorage.getItem("email");
-  const ws = useRef(null); // 웹소켓 객체
-  const { roomId } = useParams(); // 채팅방 번호
-  const [sender, setSender] = useState(""); // 보내는 사람
-  const [roomName, setRoomName] = useState(""); // 채팅방 이름
-  const [socketConnected, setSocketConnected] = useState(false); // 웹소켓 연결 여부
+  const [createModal, setCreateModal] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchChatRooms = async () => {
-  //     try {
-  //       const response = await ChatAxiosApi.chatList(email);
-  //       console.log(response.data);
-  //       setChatRooms(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching chat rooms:", error);
-  //     }
-  //   };
-  //   fetchChatRooms();
+  const openModal = () => {
+    setCreateModal(true);
+  };
 
-  // }, [email]);
+  const closeModal = () => {
+    setCreateModal(false);
+  };
 
   useEffect(() => {
     const fetchChatRooms = async () => {
@@ -142,12 +143,11 @@ function ChatList() {
   };
 
   const createChatRoom = () => {
-    navigate("/chatcreate");
+    setCreateModal(true);
   };
 
   return (
     <ChatListContainer>
-      <Header>채팅방 목록</Header>
       <ChatUl>
         {chatRooms.map((room) => (
           <ChatRoom
@@ -159,6 +159,7 @@ function ChatList() {
         ))}
       </ChatUl>
       <CircleFixedButton onClick={createChatRoom}></CircleFixedButton>
+      <ChatModal isOpen={createModal} onClose={closeModal}></ChatModal>
     </ChatListContainer>
   );
 }

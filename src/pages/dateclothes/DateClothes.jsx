@@ -159,7 +159,7 @@ const DateClothes = () => {
         <BookSign>
           <Title>데이트룩 코디</Title>
           <div className="coupleimg">
-            <CoupleImage clothes={true}/>
+            <CoupleImage clothes={true} />
           </div>
           <BookDiv />
 

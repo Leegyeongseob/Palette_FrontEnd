@@ -48,31 +48,49 @@ const GlobalStyle = styled.div`
   }
 `;
 const Chatpage = styled.div`
-  width: 54vw;
+  width: 100%;
   height: 68vh;
   margin-top: 5vh;
   background: url(${(props) => props.backgroundImage}) no-repeat center center;
-  /* background-color: black; */
+  /* background-color: #9b9b9b; */
   background-size: cover;
   position: relative;
+
   @media screen and (max-width: 1200px) {
-    width: 300px;
-    height: 9vh;
+    width: 832px;
+    height: 60vh;
   }
   @media screen and (max-width: 768px) {
-    width: 180px;
-    height: 4vh;
+    width: 560px;
+    height: 36vh;
   }
 `;
 const Textarea = styled.div`
-  width: 54vw;
+  width: 1000px;
   display: flex;
   flex-direction: column;
-  height: ${(props) => (props.isPlusMenuVisible ? "30vh" : "50vh")};
   overflow-y: auto;
   padding: 7px;
   align-items: flex-start;
   background: transparent;
+  height: ${({ isPlusMenuVisible }) =>
+    isPlusMenuVisible
+      ? "calc(68vh - 35vh)"
+      : "calc(68vh - 10vh)"}; // 기본 화면 크기
+  @media screen and (max-width: 1200px) {
+    width: 832px;
+    height: ${({ isPlusMenuVisible }) =>
+      isPlusMenuVisible
+        ? "calc(60vh - 30vh)"
+        : "calc(60vh - 10vh)"}; // 중간 화면 크기
+  }
+  @media screen and (max-width: 768px) {
+    width: 560px;
+    height: ${({ isPlusMenuVisible }) =>
+      isPlusMenuVisible
+        ? "calc(36vh - 30vh)"
+        : "calc(36vh - 10vh)"}; // 작은 화면 크기
+  }
 `;
 
 // const MessageBox = styled.div`
@@ -101,8 +119,8 @@ const TopText = styled.div`
 `;
 
 const PlusMenu = styled.div`
-  width: 54vw;
-  height: 18vh;
+  width: 100%;
+  height: 30%;
   background-color: gray;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
   position: absolute;

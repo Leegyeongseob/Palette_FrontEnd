@@ -1,12 +1,13 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
-import { useEffect } from "react";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 20px;
 `;
 
@@ -25,7 +26,7 @@ const Input = styled.input`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px; // 버튼 사이의 간격
+  gap: 10px; /* 버튼 사이의 간격 */
 `;
 
 const Button = styled.button`
@@ -42,7 +43,7 @@ const Button = styled.button`
   }
 `;
 
-const ChatRoomCreate = () => {
+const ChatRoomCreate = ({ onClose }) => {
   const [chatRoomTitle, setChatRoomTitle] = useState("");
   const navigate = useNavigate();
   const [sender, setSender] = useState("");
@@ -57,14 +58,14 @@ const ChatRoomCreate = () => {
         receiver
       );
       console.log(response.data);
-      console.log(chatRoomTitle);
       navigate(`/chat/${response.data}`);
+      onClose(); // 모달 닫기
     } catch (e) {
       console.log(e);
     }
   };
 
-  //확인 이벤트 함수
+  // 확인 이벤트 함수
   const okOnClickHandler = () => {
     handleCreateChatRoom();
   };
@@ -84,7 +85,7 @@ const ChatRoomCreate = () => {
   }, [email]);
 
   const handleCancel = () => {
-    navigate(-1);
+    onClose(); // 모달 닫기
   };
 
   return (
