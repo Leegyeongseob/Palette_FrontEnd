@@ -155,59 +155,6 @@ function ChatList() {
     navigate(`/chat/${roomId}`);
   };
 
-  const deleteChatRoom = async (roomId, e) => {
-    e.stopPropagation(); // 이벤트 전파 차단
-    try {
-      await ChatAxiosApi.deleteChatRoom(roomId);
-      setChatRooms((prevChatRooms) =>
-        prevChatRooms.filter((room) => room.roomId !== roomId)
-      );
-    } catch (error) {
-      console.error("Error deleting chat room:", error);
-    }
-  };
-
-  useEffect(() => {
-    // console.log("방번호 : " + roomId);
-    if (!ws.current) {
-      ws.current = new WebSocket(Common.PALETTE_SOCKET_URL);
-      ws.current.onopen = () => {
-        console.log("connected to " + Common.PALETTE_SOCKET_URL);
-        setSocketConnected(true);
-      };
-    }
-    if (socketConnected) {
-      ws.current.send(
-        JSON.stringify({
-          type: "ENTER",
-          roomId: roomId,
-          sender: sender,
-          receiver: [],
-          message: "처음으로 접속 합니다.",
-        })
-      );
-    }
-  }, [socketConnected]);
-
-  const onClickMsgClose = () => {
-    // 채팅 종료
-    ws.current.send(
-      JSON.stringify({
-        type: "CLOSE",
-        roomId: roomId,
-        sender: sender,
-        message: "종료 합니다.",
-      })
-    );
-    ws.current.close();
-    navigate("/Chat");
-  };
-
-  const deleteChatroomOnClick = (e) => {
-    e.stopPropagation(); // 이벤트 전파 차단
-    onClickMsgClose();
-  };
-
   const createChatRoom = () => {
     navigate("/chatcreate");
   };
@@ -222,11 +169,6 @@ function ChatList() {
             onClick={() => enterChatRoom(room.roomId)}
           >
             <ChatName>{room.name}</ChatName>
-            {/* <ChatDate>{Common.formatDate(room.regDate)}</ChatDate> */}
-            <DeleteButton onClick={(e) => deleteChatRoom(room.roomId, e)}>
-              삭제
-            </DeleteButton>
-            <DeleteButton onClick={deleteChatroomOnClick}>delete</DeleteButton>
           </ChatRoom>
         ))}
       </ChatUl>

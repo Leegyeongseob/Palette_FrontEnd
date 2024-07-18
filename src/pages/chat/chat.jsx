@@ -14,6 +14,7 @@ import {
   BsEmojiGrin,
   BsEmojiHeartEyes,
 } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 import { MdEmojiEmotions } from "react-icons/md";
 import chatBack1 from "../../img/chat/pcchatimg/9.jpg";
 import chatBack2 from "../../img/chat/pcchatimg/6.jpg";
@@ -263,24 +264,22 @@ const ChatMain = () => {
       );
     }
 
-    const onClickMsgClose = () => {
-      // 채팅 종료
-      ws.current.send(
-        JSON.stringify({
-          type: "CLOSE",
-          roomId: roomId,
-          sender: sender,
-          message: `${coupleNickName[0]}+님이 나갔습니다`,
-        })
-      );
-      ws.current.close();
-      navigate("/Chat");
-    };
-
     // 서버에 메시지 저장
     sendMessage(roomId, sender, receiver, inputMsg);
   };
-
+  const onClickMsgClose = () => {
+    // 채팅 종료
+    ws.current.send(
+      JSON.stringify({
+        type: "CLOSE",
+        roomId: roomId,
+        sender: sender,
+        message: `${coupleNickName[0]}+님이 나갔습니다`,
+      })
+    );
+    ws.current.close();
+    navigate("/Chat");
+  };
   useEffect(() => {
     const coupleEmailAxios = async () => {
       try {
@@ -388,6 +387,10 @@ const ChatMain = () => {
     setBackgroundImage(image);
     setTemaMenuVisible(false);
   };
+  //삭제토글
+  const handleRoomDeleteClick = () => {
+    onClickMsgClose();
+  };
 
   // 이미지 업로드 부분
   const handleImageUpload = (event) => {
@@ -471,6 +474,7 @@ const ChatMain = () => {
             />
             <TbWallpaper className="icon 톱니" onClick={toggleTemaMenu} />
             <MdEmojiEmotions className="icon 임티" onClick={toggleEmojiMenu} />
+            <MdDelete className="방삭제" onClick={handleRoomDeleteClick} />
           </PlusMenuBtn>
         </PlusMenu>
         <TemaMenu isVisible={isTemaMenuVisible}>
