@@ -59,8 +59,8 @@ const BookTheme = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
-  @media screen and (max-width: 768px) {  
+  }
+  @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
     margin-top: 2.8vh;
@@ -80,7 +80,7 @@ const BookTheme2 = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
@@ -104,8 +104,8 @@ const BookSign = styled.div`
     `}
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh; 
-  } 
+    height: 56vh;
+  }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
@@ -130,8 +130,8 @@ const BookSign2 = styled.div`
     `}
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh; 
-  } 
+    height: 56vh;
+  }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
@@ -206,9 +206,9 @@ const ImgBox2 = styled.div`
     `}
   }
   @media screen and (max-width: 1200px) {
-  width: 120px;
-  height: 13vh;
-  } 
+    width: 120px;
+    height: 13vh;
+  }
   @media screen and (max-width: 768px) {
     width: 80px;
     height: 8vh;
@@ -218,22 +218,34 @@ const ImgBox2 = styled.div`
 const Dday = styled.div`
   width: 90%;
   height: 11%;
-  font-size: 30px;
+  font-size: 22px;
   margin-left: 5%;
   display: flex;
   justify-content: left;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const DdayCoupleName = styled.div`
   width: 90%;
   height: 11%;
-  font-size: 30px;
+  font-size: 22px;
   margin-left: 5%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   font-size: 1.5rem;
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const NextButton = styled.div`
@@ -311,9 +323,9 @@ const AddTema = styled.div`
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;
-  &:hover {
-    font-size: 10px;
-  }
+    &:hover {
+      font-size: 10px;
+    }
   }
 `;
 const AddAlbum = styled.div`
@@ -327,9 +339,9 @@ const AddAlbum = styled.div`
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;
-  &:hover {
-    font-size: 10px;
-  }
+    &:hover {
+      font-size: 10px;
+    }
   }
 `;
 const Img = styled.img`
@@ -339,15 +351,25 @@ const Img = styled.img`
 `;
 
 const PlusButton = styled.button`
-  width: 2.5vw;
+  width: 50px;
   height: 5vh;
-  font-size: 1.4vw;
+  font-size: 30px;
   border-radius: 50px;
   background-color: #ccc;
   border: none;
   cursor: pointer;
   &:hover {
     background-color: #aaa;
+  }
+  @media screen and (max-width: 1200px) {
+    width: 40px;
+    height: 4vh;
+    font-size: 25px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 25px;
+    height: 2.5vh;
+    font-size: 15px;
   }
 `;
 

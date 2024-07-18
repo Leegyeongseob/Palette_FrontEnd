@@ -10,6 +10,12 @@ const Dday = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
+  }
+  @media screen and (max-width: 768px) {
+    font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
+  }
 `;
 const DdayInputForm = styled.input`
   width: 8vw;
