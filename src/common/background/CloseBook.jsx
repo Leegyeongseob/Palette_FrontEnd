@@ -34,7 +34,7 @@ const Book = styled.div`
 `;
 
 const BookTheme = styled.div`
-border: 1px solid green;
+
   width: 100%;
   height: 100%;
   margin-left: 52px;
@@ -50,7 +50,7 @@ border: 1px solid green;
 `;
 
 const LogoDiv = styled.div`
-border: 1px solid red;
+
   width: 420px;
   aspect-ratio: 420 /170;
   display: flex;
@@ -83,7 +83,7 @@ const Logo = styled.div`
 `;
 
 const Contents = styled.div`
-border: 1px solid blue;
+
   width: 420px;
   aspect-ratio: 420 /460;
   display: flex;

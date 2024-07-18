@@ -7,25 +7,19 @@ import Modal from "../datediary/Modal";
 import findpwdImg from "../../img/loginImg/패스워드찾기.gif";
 
 const Contain = styled.div`
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 `;
 const IconDiv = styled.div`
   width: 100%;
-  height: 18vh;
+  height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 1080px) {
-    height: 90px;
-  }
-  @media screen and (max-height: 768px) {
-    height: 90px;
-  }
 `;
 const InputDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -33,14 +27,14 @@ const InputDiv = styled.div`
 `;
 const ButtonDiv = styled.div`
   width: 100%;
-  height: 20%;
+  height: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 180px;
-  height: 50px;
+  width: 40%;
+  height: 50%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1.042vw;
   font-size: 20px;
@@ -50,43 +44,37 @@ const FindButton = styled.div`
   align-items: center;
   font-weight: 600;
   cursor: pointer;
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
-  @media screen and (max-width: 1080px) {
-    width: 134px;
-    height: 42px;
-    font-size: 15px;
-  }
-  @media screen and (max-height: 768px) {
-    width: 134px;
-    height: 42px;
-    font-size: 15px;
+
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
   }
 `;
 const InputDetailDiv = styled.div`
-  width: 300px;
+  width: 100%;
+  height: 20%;
   display: flex;
-  gap: 6px;
+  gap: 2px;
 
-  @media (max-width: 1080px) {
-  }
   & > label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 84px;
+    display: block;
+    width: 29%;
     height: auto;
     font-size: 14px;
     color: #b44a4a;
+    text-align: center;
     font-weight: bolder;
-
-    @media (max-width: 768px) {
+    @media screen and (max-width: 654px) {
+      font-size: 2vw;
     }
   }
+
   & > .InputClass {
-    width: 150px;
-    height: 30px;
+    width: 53%;
+    height: auto;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -95,11 +83,15 @@ const InputDetailDiv = styled.div`
     padding-left: 0.521vw;
     font-size: 14px;
     font-weight: 600;
+    @media screen and (max-width: 654px) {
+      font-size: 3vw;
+    }
   }
 `;
+
 const RegisterationInput1 = styled.input`
-  width: 76px;
-  height: 30px;
+  width: 22%;
+  height: auto;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -108,20 +100,26 @@ const RegisterationInput1 = styled.input`
   padding-left: 0.521vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const Text = styled.div`
-  width: 10px;
-  height: 20px;
+  width: 3%;
+  height: auto;
   font-weight: bolder;
   font-size: 15px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const RegisterationInput2 = styled.input`
-  width: 16px;
-  height: 30px;
+  width: 7%;
+  height: auto;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -130,25 +128,27 @@ const RegisterationInput2 = styled.input`
   padding-left: 0.208vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 0.6vw;
+  font-size: 12px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const LuKeyRoundstyle = styled(LuKeyRound)`
   width: calc(110px - 1vw);
   height: calc(110px - 1vh);
   color: rgba(0, 0, 0, 0.7);
-  @media screen and (max-width: 1080px) {
-    width: 65px;
-    height: 65px;
-  }
-  @media screen and (max-height: 768px) {
-    width: 65px;
-    height: 65px;
+  @media screen and (max-width: 654px) {
+    width: 30%;
+    height: 100%;
   }
 `;
 const FindPassword = () => {
@@ -323,44 +323,42 @@ const FindPassword = () => {
         <LuKeyRoundstyle />
       </IconDiv>
       <InputDiv>
-        <InputDiv>
-          <div>
-            <InputDetailDiv>
-              <label>이메일</label>
-              <input
-                className="InputClass"
-                type="text"
-                onChange={onChangeEmail}
-              />
-            </InputDetailDiv>
-            {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
-          </div>
+        <>
           <InputDetailDiv>
-            <label>이름</label>
-            <input className="InputClass" onChange={onChangeName} />
+            <label>이메일</label>
+            <input
+              className="InputClass"
+              type="text"
+              onChange={onChangeEmail}
+            />
           </InputDetailDiv>
-          <div>
-            <InputDetailDiv>
-              <label>주민등록번호</label>
-              <RegisterationInput1
-                value={rrnFirstPart}
-                onChange={handleRrnFirstPartChange}
-              />
-              <Text> - </Text>
-              <RegisterationInput2
-                value={rrnSecondPart}
-                onChange={handleRrnSecondPartChange}
-              />
-              <Text>*</Text>
-              <Text>*</Text>
-              <Text>*</Text>
-              <Text>*</Text>
-              <Text>*</Text>
-              <Text>*</Text>
-            </InputDetailDiv>
-            <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
-          </div>
-        </InputDiv>
+          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
+        </>
+        <InputDetailDiv>
+          <label>이름</label>
+          <input className="InputClass" onChange={onChangeName} />
+        </InputDetailDiv>
+        <>
+          <InputDetailDiv>
+            <label>주민등록번호</label>
+            <RegisterationInput1
+              value={rrnFirstPart}
+              onChange={handleRrnFirstPartChange}
+            />
+            <Text> - </Text>
+            <RegisterationInput2
+              value={rrnSecondPart}
+              onChange={handleRrnSecondPartChange}
+            />
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+            <Text>*</Text>
+          </InputDetailDiv>
+          <Message isCorrect={isRrnValid}>{isRrnValidMessage}</Message>
+        </>
       </InputDiv>
       <ButtonDiv>
         <FindButton onClick={findPwdOnclickHandler}>찾기</FindButton>

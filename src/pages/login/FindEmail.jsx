@@ -15,7 +15,6 @@ const IconDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- 
 `;
 
 const InputDiv = styled.div`
@@ -25,7 +24,6 @@ const InputDiv = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  
 `;
 const ButtonDiv = styled.div`
   width: 100%;
@@ -35,8 +33,8 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 const FindButton = styled.div`
- width: 40%;
- height: 60%;
+  width: 40%;
+  height: 50%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1.042vw;
   font-size: 20px;
@@ -77,9 +75,9 @@ const InputDetailDiv = styled.div`
     font-weight: bolder;
     @media screen and (max-width: 654px) {
       font-size: 2vw;
+    }
   }
-}
-  
+
   & > .InputClass {
     width: 53%;
     height: auto;
@@ -92,9 +90,9 @@ const InputDetailDiv = styled.div`
     font-size: 14px;
     font-weight: 600;
     @media screen and (max-width: 654px) {
-    font-size: 3vw;
+      font-size: 3vw;
+    }
   }
-}
 `;
 
 const RegisterationInput1 = styled.input`
@@ -126,7 +124,7 @@ const Text = styled.div`
   }
 `;
 const RegisterationInput2 = styled.input`
-  width: 16px;
+  width: 7%;
   height: auto;
   border-radius: 0.521vw;
   border: none;
@@ -136,6 +134,9 @@ const RegisterationInput2 = styled.input`
   padding-left: 0.208vw;
   font-size: 14px;
   font-weight: 600;
+  @media screen and (max-width: 654px) {
+    font-size: 3vw;
+  }
 `;
 const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
   width: calc(110px - 1vw);
@@ -145,7 +146,7 @@ const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
     width: 30%;
     height: 100%;
   }
- 
+
   @media screen and (max-height: 768px) {
     width: 65px;
     height: 65px;
@@ -153,10 +154,13 @@ const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
 `;
 const Message = styled.div`
   width: 100%;
-  font-size: 0.6vw;
+  font-size: 12px;
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const FindEmail = () => {
   //주민등록번호 표현 상태 변수
