@@ -7,10 +7,9 @@ import couple2 from "../../img/mainImg/커플2.jpg";
 import couple3 from "../../img/mainImg/커플3.jpg";
 import couple4 from "../../img/mainImg/커플4.jpg";
 import { useEffect, useState } from "react";
-import { FcPlus } from "react-icons/fc";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import MainAxios from "../../axiosapi/MainAxios";
@@ -35,8 +34,8 @@ const BookTheme = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
-  @media screen and (max-width: 768px) {  
+  }
+  @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
     margin-top: 2.8vh;
@@ -59,8 +58,8 @@ const BookTheme2 = styled.div`
     width: 420px;
     height: 56vh;
     margin-top: 4.2vh;
-  } 
-  @media screen and (max-width: 768px) {  
+  }
+  @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
     margin-top: 2.8vh;
@@ -70,82 +69,178 @@ const BookTheme2 = styled.div`
 const BookSign = styled.div`
   width: 497px;
   height: 66vh;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 1vh;
+  }
 `;
 const BookSign2 = styled.div`
   width: 497px;
   height: 66vh;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 56vh;
+    margin-top: 4.2vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 35vh;
+    margin-top: 1vh;
+  }
 `;
 
 const CoupleDiv = styled.div`
-  width: 25.8vw;
+  width: 497px;
   height: 22vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 16vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 10vh;
+  }
 `;
 const PaletteBanner = styled.div`
-  width: 24vw;
+  width: 470px;
   height: 15vh;
   display: flex;
   background-image: url(${iu});
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  @media screen and (max-width: 1200px) {
+    width: 400px;
+    height: 12vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 360px;
+    height: 7vh;
+  }
 `;
 const DdayDiv = styled.div`
-  width: auto;
-  height: auto;
+  width: 490px;
+  height: 23vh;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 18vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 11vh;
+  }
 `;
 const GalleryDiv = styled.div`
-  width: 25.8vw;
-  height: 40vh;
+  width: 497px;
+  height: 38vh;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 32vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 20vh;
+  }
 `;
 const RecentPostDiv = styled.div`
-  width: 17vw;
+  width: 330px;
   height: 24vh;
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #000;
+  @media screen and (max-width: 1200px) {
+    width: 290px;
+    height: 17vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 180px;
+    height: 11vh;
+  }
 `;
 const RecentPosts = styled.div`
-  width: 16vw;
+  width: 308px;
   height: 20vh;
   border: 1px solid #000;
+  @media screen and (max-width: 1200px) {
+    width: 270px;
+    height: 15vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 170px;
+    height: 10vh;
+  }
 `;
 const DdayFormDiv = styled.div`
-  width: 8.8vw;
+  width: 150px;
   height: 24vh;
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #000;
+  @media screen and (max-width: 1200px) {
+    width: 130px;
+    height: 17vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 11vh;
+  }
 `;
 const Dday = styled.div`
-  width: 8vw;
+  width: 150px;
   height: 20vh;
   border: 1px solid #000;
+  @media screen and (max-width: 1200px) {
+    width: 130px;
+    height: 15vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 10vh;
+  }
 `;
 const RecentTitle = styled.div`
-  width: 15.9vw;
+  width: 308px;
   height: 4vh;
   border-bottom: 1px solid #000;
   display: flex;
   align-items: center;
   color: #000;
   font-weight: 800;
-  font-size: 0.9vw;
+  font-size: 17px;
+  @media screen and (max-width: 1200px) {
+    width: 268px;
+    height: 3.5vh;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 168px;
+    height: 2vh;
+    font-size: 10px;
+  }
 `;
 const Recents = styled.div`
-  width: 16vw;
+  width: 308px;
   height: 4vh;
   display: flex;
   align-items: center;
   color: #000;
   font-weight: 800;
-  font-size: 0.833vw;
+  font-size: 16px;
   border-radius: 0.521vw;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -154,34 +249,68 @@ const Recents = styled.div`
     color: blue;
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
+  @media screen and (max-width: 1200px) {
+    width: 268px;
+    height: 3.5vh;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 168px;
+    height: 2.3vh;
+    font-size: 10px;
+  }
 `;
 const Ddays = styled.div`
-  width: 8vw;
+  width: 150px;
   height: 4vh;
-  font-size: 0.833vw;
+  font-size: 16px;
   display: flex;
   align-items: center;
   color: #000;
   font-weight: 600;
+  @media screen and (max-width: 1200px) {
+    width: 120px;
+    height: 3vh;
+    font-size: 13px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 1.9vh;
+    font-size: 9px;
+  }
 `;
-const Picture = styled(Link)`
-  width: 7.813vw;
+const Picture = styled.div`
+  width: 150px;
   height: 15.74vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
   border: 1px solid black;
-  cursor: pointer;
   &:hover {
     transform: scale(1.02);
   }
-
+  @media screen and (max-width: 1200px) {
+    width: 130px;
+    height: 13vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 75px;
+    height: 8vh;
+  }
 `;
 const PictureDiv = styled.div`
-  width: 25.8vw;
+  width: 497px;
   height: 20vh;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;  
+  align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 16vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 300px;
+    height: 11vh;
+  }
 `;
 const VisitDiv = styled.div`
   width: 15vw;
@@ -229,13 +358,21 @@ const VisitSearchBtn = styled(GiArchiveResearch)`
   cursor: pointer;
 `;
 const SettingDiv = styled.div`
-  width: 25.8vw;
+  width: 497px;
   height: 4vh;
   display: flex;
   justify-content: end;
   align-items: center;
   & > .space {
     width: 1vw;
+  }
+  @media screen and (max-width: 1200px) {
+    width: 420px;
+    height: 3.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+    height: 1.7vh;
   }
 `;
 // flipInX 애니메이션 정의
@@ -270,7 +407,6 @@ const Setting = styled(IoSettingsSharp)`
   cursor: pointer;
   &:hover {
     color: rgba(131, 55, 55, 0.8);
-    
   }
 `;
 const SettingFormat = styled.div`
@@ -346,7 +482,7 @@ const VisitContainer = styled.div`
   align-items: center;
 `;
 const BackMyHome = styled.div`
-  width: 5vw;
+  width: 96px;
   height: 3vh;
   font-size: 0.6vw;
   font-weight: 700;
@@ -359,6 +495,14 @@ const BackMyHome = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
+  }
+  @media screen and (max-width: 1200px) {
+    width: 70px;
+    height: 2.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 40px;
+    height: 1.5vh;
   }
 `;
 const MainPage = () => {
@@ -623,12 +767,12 @@ const MainPage = () => {
           </DdayDiv>
           <GalleryDiv>
             <PictureDiv>
-              <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} to="/date-album"/>
-              <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} to="/date-album"/>
+              <Picture imageurl={gallaryImg[0] ? gallaryImg[0] : couple1} />
+              <Picture imageurl={gallaryImg[1] ? gallaryImg[1] : couple2} />
             </PictureDiv>
             <PictureDiv>
-              <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} to="/date-album"/>
-              <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} to="/date-album"/>
+              <Picture imageurl={gallaryImg[2] ? gallaryImg[2] : couple3} />
+              <Picture imageurl={gallaryImg[3] ? gallaryImg[3] : couple4} />
             </PictureDiv>
           </GalleryDiv>
         </BookSign2>

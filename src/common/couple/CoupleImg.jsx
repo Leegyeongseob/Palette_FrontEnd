@@ -14,24 +14,38 @@ import {
 } from "firebase/storage";
 
 const Contain = styled.div`
-  width: ${({ clothes }) => (clothes ? "70vw" : "26vw")};
+  width: ${({ clothes }) => (clothes ? "70vw" : "495px")};
   height: 100%;
   margin-right: 1.5%;
   display: flex;
   justify-content: ${({ clothes }) => (clothes ? "space-between" : "center")};
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "420px")};
+  }
+  @media screen and (max-width: 768px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "280px")};
+  }
   @media screen and (max-width: 840px) {
     aspect-ratio: 70/15;
     height: auto;
   }
 `;
 const ProfileDiv = styled.div`
-  width: ${({ clothes }) => (clothes ? "100%" : "11vw")};
+  width: ${({ clothes }) => (clothes ? "100%" : "211px")};
   height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: space-evenly;
   background-color: ${({ clothes }) => (clothes ? "aliceblue" : "none")};
+  @media screen and (max-width: 1200px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "190px")};
+    height: ${({ clothes }) => (clothes ? "12vh" : "19vh")};
+  }
+  @media screen and (max-width: 768px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "100px")};
+    height: ${({ clothes }) => (clothes ? "12vh" : "10vh")};
+  }
 `;
 const ProfileImgDiv = styled.div`
   width: 100%;
@@ -57,7 +71,7 @@ const Heart = styled.div`
   background-repeat: no-repeat;
 `;
 const Profile = styled.div`
-  width: ${({ clothes }) => (clothes ? "100px" : "6.771vw;")};
+  width: ${({ clothes }) => (clothes ? "100px" : "130px;")};
   height: ${({ clothes }) => (clothes ? "100px" : "13.641vh;")};
   background-image: ${({ imageurl }) =>
     `url(${imageurl ? imageurl : manprofile})`};
@@ -65,6 +79,14 @@ const Profile = styled.div`
   background-position: center;
   border-radius: 50%;
   position: absolute;
+  @media screen and (max-width: 1200px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "100px")};
+    height: ${({ clothes }) => (clothes ? "12vh" : "10vh")};
+  }
+  @media screen and (max-width: 768px) {
+    width: ${({ clothes }) => (clothes ? "70vw" : "60px")};
+    height: ${({ clothes }) => (clothes ? "12vh" : "6vh")};
+  }
 `;
 const Text = styled.div`
   width: ${({ clothes }) => (clothes ? "30%" : "8vw")};
