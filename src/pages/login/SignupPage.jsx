@@ -21,11 +21,11 @@ const TitleDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
   color: #b44a4a;
   @media screen and (max-width: 654px) {
-    font-size: 2vw;
+    font-size: 3vw;
   }
 `;
 const InputDiv = styled.div`
@@ -40,12 +40,18 @@ const JuminDiv = styled.div`
   width: 100%;
 `;
 const InputDetailDiv = styled.div`
-  width: 100%;
+ width: 100%;
+  height: 32px;
   display: flex;
   gap: 2px;
+  @media screen and (max-width: 654px) {
+    height: 5vw;
+  }
 
   & > label {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 29%;
     height: auto;
     font-size: 14px;
