@@ -16,7 +16,6 @@ const Tdfont = styled(Link)`
   display: flex;
   text-decoration: none;
   color: #000;
-
   table {
     border-collapse: collapse;
     width: 100%;
@@ -30,7 +29,7 @@ const Tdfont = styled(Link)`
   td {
     padding: 15px;
     border-bottom: 1px solid gray;
-    font-size: 0.9vw;
+    font-size: 1rem; /* 기본 폰트 크기 설정 */
     min-width: 220px;
   }
 
@@ -52,8 +51,16 @@ const Background = styled.div`
   height: 200vh;
   display: flex;
   flex-direction: column;
-  font-size: 1.8rem;
+
+  @media (max-width: 1200px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
+
 const Container = styled.div`
   width: 100%;
   height: 90%;
@@ -85,9 +92,15 @@ const HelpRoot = styled.div`
   height: 3%;
   display: flex;
   flex-direction: row;
-  font-size: 0.8vw;
-  justify-content: flex-start;
-  align-items: center;
+  font-size: 11px; /* 기본 폰트 크기 설정 */
+  /* 
+  @media (max-width: 1200px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  } */
 `;
 
 const Root = styled(Link)`
@@ -96,13 +109,16 @@ const Root = styled(Link)`
   display: flex;
   text-decoration: none;
   color: #000;
+
   &:hover {
     font-weight: bolder;
   }
 `;
+
 const Root2 = styled(Root)`
   width: 2%;
 `;
+
 const Root3 = styled(Root)`
   width: 6.5%;
 `;
@@ -116,6 +132,14 @@ const CustomerBox = styled.div`
   align-items: center;
   background-color: #dddddd;
   color: #303030;
+  font-size: 1rem;
+  @media (max-width: 1200px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const BoxLeft = styled.div`
@@ -131,16 +155,17 @@ const BoxLeft = styled.div`
 const BoxLeftUp = styled.div`
   width: 90%;
   height: 60%;
-  font-size: 1.6vw;
+  font-size: 1.6rem;
   font-weight: 600;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 `;
+
 const BoxLeftDown = styled.div`
   width: 90%;
   height: 30%;
-  font-size: 0.8vw;
+  font-size: 0.8rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -163,6 +188,10 @@ const BoxRightWrap = styled(Link)`
   color: #000;
   border: none;
   background-color: #dddddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   &:hover {
     font-weight: bolder;
   }
@@ -175,6 +204,10 @@ const BoxRightWrap2 = styled.div`
   color: #000;
   border: none;
   background-color: #dddddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   &:hover {
     font-weight: bolder;
   }
@@ -201,7 +234,7 @@ const BoxRightUp2 = styled.div`
 const BoxRightDown = styled.div`
   width: 90%;
   height: 50%;
-  font-size: 0.8vw;
+  font-size: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,12 +246,14 @@ const HelpBoard = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const HelpBoardDown = styled.div`
   width: 90%;
   height: 10%;
   display: flex;
   flex-direction: column;
 `;
+
 const HelpTitleDown = styled.div`
   width: 100%;
   height: 50%;
@@ -246,16 +281,17 @@ const HelpTitle = styled.div`
 const HelpTitleLeft = styled.div`
   width: 50%;
   height: 90%;
-  font-size: 1.1vw;
+  font-size: 1.1rem;
   font-weight: bolder;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 `;
+
 const HelpTitleRight = styled(Link)`
   width: 50%;
   height: 90%;
-  font-size: 0.8vw;
+  font-size: 0.8rem;
   text-decoration: none;
   color: #000;
   border: none;
@@ -272,7 +308,6 @@ const QuestionBox = styled.div`
   height: 80%;
   display: flex;
   flex-direction: row;
-  align-items: center;
 `;
 
 const CustomerPage = () => {
@@ -283,7 +318,7 @@ const CustomerPage = () => {
   const handleChat = () => {
     if (window.Kakao) {
       window.Kakao.Channel.chat({
-        channelPublicId: "_raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요
+        channelPublicId: "raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요
       });
     }
   };
@@ -304,7 +339,7 @@ const CustomerPage = () => {
               </HelpRoot>
               <CustomerBox>
                 <BoxLeft>
-                  <BoxLeftUp>무엇을 도와드릴까요 ?</BoxLeftUp>
+                  <BoxLeftUp>무엇을 도와드릴까요?</BoxLeftUp>
                   <BoxLeftDown>
                     고객센터 01025546626 | 평일 09:00 ~ 18:00 | 주말 및 공휴일
                     휴무

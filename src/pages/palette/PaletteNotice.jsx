@@ -212,6 +212,11 @@ const PageStyle = styled.div`
 
 const exText = [
   {
+    classNo: 13,
+    title: "사자와 나룻배의 공통점이 뭔지 아시나요",
+    join: "2024-01-19",
+  },
+  {
     classNo: 12,
     title: "비가 너무 많이 와서 오기가 싫어",
     join: "2024-07-02",
@@ -306,7 +311,7 @@ const NoticePage = () => {
   const handlePageChange = (page) => {
     setPage(page);
   };
-  
+
   const handleRowClick = (classNo) => {
     navigate(`/customer/notice/${classNo}`);
   };
@@ -357,7 +362,10 @@ const NoticePage = () => {
                     <tbody>
                       {notices &&
                         notices.map((notice) => (
-                          <tr key={notice.classNo} onClick={() => handleRowClick(notice.classNo)}>
+                          <tr
+                            key={notice.classNo}
+                            onClick={() => handleRowClick(notice.classNo)}
+                          >
                             <td className="number">{notice.classNo}</td>
                             <td>{notice.title}</td>
                             <td className="date">{notice.join}</td>

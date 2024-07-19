@@ -459,7 +459,15 @@ const ChatMain = () => {
       console.log("테스트" + data.message);
       setChatList((prevItems) => [...prevItems, data]);
     };
-  }, [socketConnected]);
+    // 컴포넌트 언마운트 시 웹소켓 연결 닫기
+    // return () => {
+    //   if (ws.current) {
+    //     ws.current.close();
+    //     ws.current = null;
+    //     setSocketConnected(false);
+    //   }
+    // };
+  }, [socketConnected, roomId, sender, receiver]);
 
   // 화면 하단으로 자동 스크롤
   useEffect(() => {
@@ -512,7 +520,7 @@ const ChatMain = () => {
     navigate("/chat");
   };
   const clickTopBtn = () => {
-    navigate("/chat");
+    navigate(-1);
   };
 
   // 이미지 업로드 부분
@@ -574,7 +582,7 @@ const ChatMain = () => {
         <TopDiv>
           <TopText>{coupleNickName[1]} 의 채팅</TopText>
           <TopName>채팅방 : {roomName}</TopName>
-          <TopBtn onClick={clickTopBtn}>나가기</TopBtn>
+          {/* <TopBtn onClick={clickTopBtn}>나가기</TopBtn> */}
         </TopDiv>
         <Textarea
           ref={chatContainerRef}

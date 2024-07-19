@@ -264,11 +264,6 @@ function ChatList() {
   );
 
   useEffect(() => {
-    const coupleName = sessionStorage.getItem("coupleName");
-    coupleNickNameAxois(coupleName);
-  }, [coupleNickNameAxois]);
-
-  useEffect(() => {
     const fetchChatRooms = async () => {
       try {
         const response = await ChatAxiosApi.chatList(email);
@@ -281,7 +276,7 @@ function ChatList() {
     fetchChatRooms(); // 최초 한 번 호출
 
     // 1초마다 채팅방 목록 업데이트
-    const intervalId = setInterval(fetchChatRooms, 1000);
+    const intervalId = setInterval(fetchChatRooms, 0);
 
     // 컴포넌트 언마운트 시 인터벌 해제
     return () => clearInterval(intervalId);
@@ -289,7 +284,9 @@ function ChatList() {
 
   const filterChatRooms = (rooms, email) => {
     return rooms.filter(
-      (room) => room.firstEmail === email || room.secondEmail === email
+      (room) =>
+        (room.firstEmail === email || room.secondEmail === email) &&
+        !room.deleted
     );
   };
 
