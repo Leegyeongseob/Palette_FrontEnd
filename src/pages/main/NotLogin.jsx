@@ -25,7 +25,7 @@ const PaletteDiv = styled.div`
   font-weight: normal;
   font-family: "Cafe24Lovingu";
   @media screen and (max-width: 654px) {
-    font-size: 20vw;
+    font-size: 27vw;
   }
 `;
 
@@ -35,10 +35,17 @@ const LoginDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  & > a{
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 130px;
-  height: 200px;
+  width: 77%;
+  height: 100%;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -47,8 +54,7 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
   @media screen and (max-width: 654px) {
-    width: 16vw;
-    height: 16vw;
+   
   }
 `;
 const NotLogin = () => {

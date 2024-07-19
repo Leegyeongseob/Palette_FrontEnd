@@ -33,8 +33,8 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 const FindButton = styled.div`
-  width: 40%;
-  height: 50%;
+  width: 27%;
+  height: 44%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1.042vw;
   font-size: 20px;
@@ -53,11 +53,6 @@ const FindButton = styled.div`
     font-size: 3vw;
   }
 
-  @media screen and (max-height: 768px) {
-    width: 134px;
-    height: 42px;
-    font-size: 15px;
-  }
 `;
 const InputDetailDiv = styled.div`
   width: 100%;
@@ -66,7 +61,9 @@ const InputDetailDiv = styled.div`
   gap: 2px;
 
   & > label {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 29%;
     height: auto;
     font-size: 14px;
@@ -143,14 +140,10 @@ const FaMagnifyingGlassStyle = styled(FaMagnifyingGlass)`
   height: calc(110px - 1vh);
   color: rgba(0, 0, 0, 0.7);
   @media screen and (max-width: 654px) {
-    width: 30%;
-    height: 100%;
+    width: 24%;
+    height: 60%;
   }
 
-  @media screen and (max-height: 768px) {
-    width: 65px;
-    height: 65px;
-  }
 `;
 const Message = styled.div`
   width: 100%;

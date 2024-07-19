@@ -17,11 +17,11 @@ const Contain = styled.div`
 
 const TitleDiv = styled.div`
   width: 100%;
-  height: 20%;
+  height: 13%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
   color: #b44a4a;
   @media screen and (max-width: 654px) {
@@ -40,12 +40,18 @@ const JuminDiv = styled.div`
   width: 100%;
 `;
 const InputDetailDiv = styled.div`
-  width: 100%;
+ width: 100%;
+  height: 32px;
   display: flex;
   gap: 2px;
+  @media screen and (max-width: 654px) {
+    height: 5vw;
+  }
 
   & > label {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 29%;
     height: auto;
     font-size: 14px;
@@ -71,7 +77,7 @@ const InputDetailDiv = styled.div`
     font-size: 14px;
     font-weight: 600;
     @media screen and (max-width: 654px) {
-      font-size: 3vw;
+      font-size: 2vw;
     }
   }
 `;
@@ -79,8 +85,7 @@ const Empty = styled.div`
   width: 2%;
 `;
 const EmailAthouized = styled.div`
-  width: 60px;
-  height: 30px;
+  width: 12%;
   border-radius: 10px;
   border: none;
   background-color: ${({ isActive }) =>
@@ -98,6 +103,9 @@ const EmailAthouized = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   }
+  @media screen and (max-width: 654px) {
+    font-size: 2vw;
+  }
 `;
 const RegisterationInput1 = styled.input`
   width: 22%;
@@ -111,7 +119,7 @@ const RegisterationInput1 = styled.input`
   font-size: 14px;
   font-weight: 600;
   @media screen and (max-width: 654px) {
-    font-size: 3vw;
+    font-size: 2vw;
   }
 `;
 const Text = styled.div`
@@ -139,7 +147,7 @@ const RegisterationInput2 = styled.input`
   font-size: 14px;
   font-weight: 600;
   @media screen and (max-width: 654px) {
-    font-size: 3vw;
+    font-size: 2vw;
   }
 `;
 const CoupleText = styled.div`
@@ -149,7 +157,7 @@ const CoupleText = styled.div`
   display: flex;
   align-items: center;
   @media screen and (max-width: 654px) {
-    font-size: 3vw;
+    font-size: 2vw;
   }
 `;
 const ButtonDiv = styled.div`
@@ -160,8 +168,8 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 const SignupButton = styled.div`
-  width: 40%;
-  height: 100%;
+  width: 30%;
+  height: 80%;
   background-color: ${({ isActive }) =>
     isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   border-radius: 1.042vw;
@@ -178,12 +186,12 @@ const SignupButton = styled.div`
       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
   @media screen and (max-width: 654px) {
-    font-size: 3vw;
+    font-size: 2vw;
   }
 `;
 const InputDetailDiv2 = styled.div`
   width: 100%;
-  height: 3.358vh;
+  height: 10%;
   display: flex;
   justify-content: center;
 `;
@@ -194,23 +202,25 @@ const Message = styled.div`
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
   @media screen and (max-width: 654px) {
-    font-size: 3vw;
+    font-size: 2vw;
   }
 `;
 const TermsForm = styled.div`
-  width: 400px;
-  height: 60vh;
+    width: 400px;
+    height: 56%;
   border-radius: 10px;
   padding: 20px;
   position: absolute;
   overflow-y: auto;
-  @media screen and (max-width: 1080px) {
-    width: 400px;
-    height: 60vh;
-  }
-  @media screen and (max-height: 768px) {
-    width: 400px;
-    height: 60vh;
+  
+  @media screen and (max-width: 715px) {
+    width: 42%; 
+    height: auto;
+    aspect-ratio: 358 / 482; /* 너비와 높이 비율 설정 */
+    min-width: 267;
+   
+   
+
   }
 `;
 // focus-in-expand 애니메이션 정의
@@ -225,8 +235,8 @@ const focusInExpand = keyframes`
 }
 `;
 const TermImgDiv = styled.div`
-  width: 1100px;
-  height: 120vh;
+  width: 1200px;
+  height: 100%;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   justify-content: center;
   align-items: center;
@@ -236,14 +246,11 @@ const TermImgDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   animation: ${focusInExpand} 0.5s ease-in-out; /* 애니메이션 적용 */
-  @media screen and (max-width: 1080px) {
-    width: 800px;
-    height: 900px;
+  @media screen and (max-width: 715px) {
+    width: 135%;
+    min-width: 687px;
   }
-  @media screen and (max-height: 768px) {
-    width: 800px;
-    height: 900px;
-  }
+
 `;
 const TermsTitle = styled.div`
   font-size: 24px; /* Adjust size as needed */

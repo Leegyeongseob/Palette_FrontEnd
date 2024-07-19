@@ -89,8 +89,8 @@ const Logo = styled.div`
   }
 
   @media screen and (max-width: 654px) {
-    width: 20vw;
-    height: 20vw;
+    width: 22vw;
+    height: 22vw;
   }
 `;
 
