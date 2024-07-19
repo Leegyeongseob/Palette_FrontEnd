@@ -42,10 +42,7 @@ const Icon = styled.div`
     width: 30%;
     height: 100%;
   }
-  @media screen and (max-height: 768px) {
-    width: 65px;
-    height: 65px;
-  }
+ 
 `;
 
 const LoginDiv = styled.div`
@@ -70,6 +67,7 @@ const InputContainer = styled.div`
 `;
 
 const IconWrapper = styled.div`
+  width: 15%;
   position: absolute;
   margin-left: 0.521vw;
   display: flex;
@@ -80,7 +78,7 @@ const IconWrapper = styled.div`
 const InputDiv = styled.input`
   width: 100%;
   height: 100%;
-  padding-left: 40px;
+  padding-left: 20%;
   border: none;
   border-bottom: 0.21vh solid gray;
   background-color: transparent;
@@ -101,11 +99,7 @@ const InputDiv = styled.input`
     height: 80%;
     font-size: 2vw;
   }
-  @media screen and (max-height: 768px) {
-    width: 90%;
-    height: 80%;
-    font-size: 10px;
-  }
+  
 `;
 const Message = styled.div`
   width: 100%;
@@ -116,11 +110,7 @@ const Message = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2vw;
   }
-  @media screen and (max-height: 768px) {
-    width: 80%;
-    height: 80%;
-    font-size: 0.6vw;
-  }
+
 `;
 
 const FindDiv = styled.div`
@@ -134,7 +124,6 @@ const FindDiv = styled.div`
     align-items: center;
   }
   & > a {
-    border: 1px solid red;
     width: 29%;
     width: 29%;
     display: flex;
@@ -147,7 +136,6 @@ const FindDiv = styled.div`
 `;
 
 const SigninDiv = styled.div`
-  border: 1px solid aqua;
   display: flex;
   width: 100%;
   height: 100%;
@@ -167,9 +155,7 @@ const Signin = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-  @media screen and (max-height: 768px) {
-    font-size: 14px;
-  }
+
 `;
 
 const ForgotId = styled.div`
@@ -184,9 +170,7 @@ const ForgotId = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-  @media screen and (max-height: 768px) {
-    font-size: 14px;
-  }
+
 `;
 
 const ForgotPassword = styled.div`
@@ -201,9 +185,7 @@ const ForgotPassword = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-  @media screen and (max-height: 768px) {
-    font-size: 14px;
-  }
+
 `;
 
 const ButtonDiv = styled.div`
@@ -236,11 +218,7 @@ const LoginButton = styled.div`
     height: 50%;
     font-size: 3vw;
   }
-  @media screen and (max-height: 768px) {
-    width: 134px;
-    height: 42px;
-    font-size: 15px;
-  }
+
 `;
 
 const SimpleLogin = styled.div`
@@ -256,16 +234,10 @@ const SimpleLogin = styled.div`
     justify-content: space-evenly;
     align-items: center;
   }
-  @media screen and (max-width: 1080px) {
-    font-size: 1.5vw;
-  }
-  @media screen and (max-height: 768px) {
-    font-size: 0.8vw;
-  }
+
 `;
 
 const CircleSide = styled.div`
-  border: 1px solid black;
   width: 12%;
   aspect-ratio: 1 / 1;
   border: none;
@@ -280,10 +252,7 @@ const CircleSide = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-  /* @media screen and (max-width: 1080px) {
-    width: 45px;
-    height: 45px;
-  } */
+
 `;
 const GoogleIcon = styled(FcGoogle)`
   width: 100%;
@@ -504,7 +473,7 @@ const LoginPage = () => {
             <ForgotId>Forgot ID</ForgotId>
           </Link>
           <Link to="/find-password" style={{ textDecoration: "none" }}>
-            <ForgotPassword>/Password?</ForgotPassword>
+            <ForgotPassword>Password?</ForgotPassword>
           </Link>
         </>
       </FindDiv>
