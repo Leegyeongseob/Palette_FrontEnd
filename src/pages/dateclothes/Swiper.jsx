@@ -137,6 +137,15 @@ const Swiper = ({ shoes, clothNum, OnePiece }) => {
         womanOnepiece: responses.data.womanOnepiece.map((data) => data.img_src),
       });
     } catch (error) {
+      setClothesData({
+        manTops,
+        manPants,
+        manShoes,
+        womanTops,
+        womanPants,
+        womanShoes,
+        womanOnepiece,
+      });
       console.error("Error fetching data:", error);
     }
   };
