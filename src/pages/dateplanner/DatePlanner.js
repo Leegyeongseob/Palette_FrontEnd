@@ -9,14 +9,14 @@ import DisplaceInfo from "./DisplaceInfo";
 import MapModal from "./MapModal";
 import DatePlannerAxios from "../../axiosapi/DatePlannerAxios";
 import useAddress from "../../hooks/useLocation";
-import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+// import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import { useParams } from "react-router-dom";
 import ReactDOMServer from "react-dom/server";
 const BookWrapper = styled.div`
-border: 1px solid green;
+  border: 1px solid green;
   width: 85%;
-  height: 83%;
-  margin-top: 3%;
+  height: 82.5%;
+  margin-top: 3.5%;
   margin-left: 14px;
  
   background-size: cover;
@@ -26,14 +26,14 @@ border: 1px solid green;
 `;
 
 const LBookContainer = styled.div`
-border: 1px solid red;
-background-image: url(${theme6});
+  border: 1px solid red;
+  background-image: url(${theme6});
   width: 50%;
   height: 100%;
 `;
 const RBookContainer = styled.div`
-border: 1px solid blue;
- background-image: url(${theme6});
+  border: 1px solid blue;
+  background-image: url(${theme6});
   width: 50%;
   height: 100%;
 `;
@@ -54,10 +54,10 @@ const DatePlanner = () => {
   const mapContainer = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSelectedPlaces, setModalSelectedPlaces] = useState([]);
-  const modalMapContainerRef = useRef(null);
+  // const modalMapContainerRef = useRef(null);
   const [numMarker, setNumMarker] = useState([]);
   const [title, setTitle] = useState("");
-  const email = sessionStorage.getItem("email");
+  // const email = sessionStorage.getItem("email");
   const { coupleName } = useParams(); // useParams를 통해 coupleName 파라미터 추출
   const currentOverlayRef = useRef(null); // CustomOverlay 상태를 useRef로 관리
   console.log("coupleName : ", coupleName);

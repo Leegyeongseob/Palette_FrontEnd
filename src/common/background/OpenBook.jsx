@@ -16,7 +16,7 @@ const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow: hidden;
 `;
 const LogoDiv = styled.div`
   width: 192px;
@@ -42,7 +42,6 @@ const BookMarkDiv = styled.div`
   align-items: flex-end;
   margin-top: 11.5vh; // 추가된 부분
   margin-right: 20%;
-  z-index: 98;
   @media screen and (max-width: 1200px) {
     width: 40vw;
     height: 15.5vh;

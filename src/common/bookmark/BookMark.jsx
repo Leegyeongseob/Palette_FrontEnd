@@ -7,12 +7,11 @@ import clothesBg from "../../img/background/theme/4.jpg";
 import boardBg from "../../img/background/theme/board_background.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useEffect } from "react";
 import Modal from "../../pages/datediary/Modal";
 import soleModalImg from "../../img/mainImg/솔로잠금.gif";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 import visitLcck from "../../img/mainImg/방문자 잠금.gif";
-import ChatAxiosApi from "../../axiosapi/ChatAxiosApi";
+
 const BookMarkDiv = styled.div`
   width: 358px;
   height: 10.493vh;
@@ -64,7 +63,6 @@ const BookMark = () => {
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
   const email = sessionStorage.getItem("email");
-  const [compareCoupleName, setCompareCoupleName] = useState("");
   const [notEqualCoupleName, setNotEqualCoupleName] = useState(false);
   //코드 모달 확인
   const codeModalOkBtnHandler = () => {

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import clothesBg from "../../img/album/1.jpeg";
 import CoupleImage from "../../common/couple/CoupleImg";
 import Swiper from "./Swiper";
 import { useState } from "react";
@@ -13,12 +12,7 @@ const BookSign = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Save2 = styled.div`
-  justify-content: end;
-`;
-const Save = styled.div`
-  justify-content: first baseline;
-`;
+
 const CoupleimgCon = styled.div`
   margin-left: 102.5%;
   /* aspect-ratio: 203/35; */
@@ -31,6 +25,7 @@ const CoupleimgCon = styled.div`
   /* margin-bottom: 5vh; */
   gap: 500px;
 `;
+
 const BookSign2 = styled.div`
   width: 100%;
   aspect-ratio: 50/20;
@@ -54,8 +49,8 @@ const BookSign2 = styled.div`
   }
 `;
 const BookTheme = styled.div`
-  width: 41.5%;
-  height: 81.5%;
+  width: 497px;
+  height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
   /* background-image: url(${clothesBg1}); */
@@ -77,8 +72,8 @@ const BookTheme = styled.div`
 `;
 
 const BookTheme2 = styled.div`
-  width: 41.5%;
-  height: 81.5%;
+  width: 497px;
+  height: 67vh;
   margin-top: 5vh;
   margin-left: 0.1vw;
   /* background-image: url(${clothesBg1}); */

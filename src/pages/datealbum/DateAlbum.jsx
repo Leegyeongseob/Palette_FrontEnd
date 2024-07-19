@@ -39,6 +39,7 @@ const BookTheme = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
+  border: 1px solid #696969;
   background-image: url(${theme8});
   background-size: cover;
   display: flex;
@@ -61,10 +62,12 @@ const BookTheme2 = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.05vw;
+  border: 1px solid #696969;
   background-image: url(${theme8_1});
   background-size: cover;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
     height: 56vh;
@@ -98,10 +101,10 @@ const BookSign2 = styled.div`
   height: 67vh;
   background-image: url(${theme8_1});
   background-size: cover;
+  border: 1px solid #696969;
   transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
   transform-origin: left;
-  border-left: 0.5px solid black;
-  overflow: hidden;
+  position: absolute;
   ${({ animate }) =>
     animate &&
     css`

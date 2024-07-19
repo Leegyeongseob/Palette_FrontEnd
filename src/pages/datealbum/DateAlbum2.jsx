@@ -50,11 +50,12 @@ const BookTheme = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
+  border: 1px solid #696969;
   background-image: url(${theme8});
   background-size: cover;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
     height: 56vh;
@@ -72,10 +73,12 @@ const BookTheme2 = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.05vw;
+  border: 1px solid #696969;
   background-image: url(${theme8_1});
   background-size: cover;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
     height: 56vh;
@@ -91,6 +94,7 @@ const BookTheme2 = styled.div`
 const BookSign = styled.div`
   width: 497px;
   height: 67vh;
+  border: 1px solid #696969;
   background-image: url(${theme8});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg);
@@ -115,13 +119,12 @@ const BookSign = styled.div`
 const BookSign2 = styled.div`
   width: 497px;
   height: 67vh;
+  border: 1px solid #696969;
   background-image: url(${theme8_1});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg);
   transform-origin: left;
   position: absolute;
-  border-left: 0.5px solid black;
-  display: flex;
   z-index: ${({ animate2 }) => (animate2 ? 2 : 1)};
   ${({ animate2 }) =>
     animate2 &&
