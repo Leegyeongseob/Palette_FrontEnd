@@ -202,7 +202,7 @@ const PreviewMessage = styled.div`
   margin-top: 3%;
   display: flex;
   align-items: center;
-  color: ${(props) => (props.isMe ? '#1d1d1d' : 'royalblue')};
+  color: ${(props) => (props.isMe ? "#1d1d1d" : "royalblue")};
   @media screen and (max-width: 768px) {
     font-size: 11px;
   }
@@ -217,7 +217,7 @@ const BtnBox = styled.div`
   border-bottom-right-radius: 10px;
   align-items: center;
   background-color: rgb(255, 255, 255, 0.8);
-`
+`;
 
 const EnterBtn = styled.div`
   width: 20%;
@@ -255,12 +255,14 @@ function ChatList() {
     setCreateModal(false);
   };
 
-  const coupleNickNameAxois = useCallback(async (couple) => {
-    const resNickName = await MainAxios.searchNickName(email, couple);
-    setCoupleNickName(resNickName.data);
-  }, [email]);
+  const coupleNickNameAxois = useCallback(
+    async (couple) => {
+      const resNickName = await MainAxios.searchNickName(email, couple);
+      setCoupleNickName(resNickName.data);
+    },
+    [email]
+  );
 
-  
   useEffect(() => {
     const coupleName = sessionStorage.getItem("coupleName");
     coupleNickNameAxois(coupleName);
@@ -270,7 +272,6 @@ function ChatList() {
     const fetchChatRooms = async () => {
       try {
         const response = await ChatAxiosApi.chatList(email);
-        console.log(response.data);
         const filteredRooms = filterChatRooms(response.data, email);
         setChatRooms(filteredRooms);
       } catch (error) {
@@ -293,28 +294,31 @@ function ChatList() {
   };
 
   const enterChatRoom = (roomId) => {
-    console.log(`Entering chat room ${roomId}`);
     navigate(`/chat/${roomId}`);
   };
 
   const selectChatRoom = async (roomId) => {
-    console.log(`Selecting chat room ${roomId}`);
     setSelectedRoom(roomId);
     try {
       const response = await ChatAxiosApi.pastChatDetail(roomId);
       let messages = response.data;
       // 최근에 온 5개까지 미리보기
       messages = messages.reverse();
-      setPreviewMessages(messages.length > 0 ? messages.slice(0, 5) : [{ sender: "", message: "내용이 없습니다" }]);
+      setPreviewMessages(
+        messages.length > 0
+          ? messages.slice(0, 5)
+          : [{ sender: "", message: "내용이 없습니다" }]
+      );
     } catch (error) {
       console.error("Error fetching chat room preview:", error);
     }
   };
 
   const getNickNameByEmail = (email) => {
-    return email === sessionStorage.getItem("email") ? coupleNickName[0] : coupleNickName[1];
+    return email === sessionStorage.getItem("email")
+      ? coupleNickName[0]
+      : coupleNickName[1];
   };
-
 
   const createChatRoom = () => {
     setCreateModal(true);
@@ -340,21 +344,34 @@ function ChatList() {
         </ChatListContainer>
       </BookTheme>
       <BookTheme2>
-      {selectedRoom && (
+        {selectedRoom && (
           <>
             <PreviewContainer>
               <HeaderDiv>
                 <HeaderView>미리보기</HeaderView>
-                <HeaderName> (채팅방 : {chatRooms.find(room => room.roomId === selectedRoom)?.name.slice(0,5)})</HeaderName>
+                <HeaderName>
+                  {" "}
+                  (채팅방 :{" "}
+                  {chatRooms
+                    .find((room) => room.roomId === selectedRoom)
+                    ?.name.slice(0, 5)}
+                  )
+                </HeaderName>
               </HeaderDiv>
               {previewMessages.map((message, index) => (
                 <PreviewMessage key={index} isMe={message.sender === email}>
-                  {message.sender ? `${getNickNameByEmail(message.sender)} : ${message.message}` : message.message}
+                  {message.sender
+                    ? `${getNickNameByEmail(message.sender)} : ${
+                        message.message
+                      }`
+                    : message.message}
                 </PreviewMessage>
               ))}
             </PreviewContainer>
             <BtnBox>
-              <EnterBtn onClick={() => enterChatRoom(selectedRoom)}>입장하기</EnterBtn>
+              <EnterBtn onClick={() => enterChatRoom(selectedRoom)}>
+                입장하기
+              </EnterBtn>
             </BtnBox>
           </>
         )}

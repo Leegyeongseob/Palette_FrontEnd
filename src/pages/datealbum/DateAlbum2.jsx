@@ -311,6 +311,13 @@ const TitleLine = styled.div`
   cursor: pointer;
   &:hover {
     font-size: 14px;
+    color: rgb(42, 65, 167);
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 9px;
+    &:hover {
+      font-size: 10px;
+    }
   }
 `;
 const AddTema = styled.div`
@@ -320,6 +327,7 @@ const AddTema = styled.div`
   cursor: pointer;
   &:hover {
     font-size: 14px;
+    color: rgb(42, 65, 167);
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;
@@ -336,6 +344,7 @@ const AddAlbum = styled.div`
   cursor: pointer;
   &:hover {
     font-size: 14px;
+    color: rgb(42, 65, 167);
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;

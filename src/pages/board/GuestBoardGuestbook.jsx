@@ -103,7 +103,8 @@ const BoardPost = styled.div`
   align-items: flex-end;
   cursor: pointer;
   &:hover {
-    color: blue;
+    font-size: 12px;
+    color: rgb(42, 65, 167);
   }
   @media screen and (max-width: 1200px) {
     margin-left: 65%;

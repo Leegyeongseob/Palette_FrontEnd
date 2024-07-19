@@ -40,7 +40,7 @@ const JuminDiv = styled.div`
   width: 100%;
 `;
 const InputDetailDiv = styled.div`
- width: 100%;
+  width: 100%;
   height: 32px;
   display: flex;
   gap: 2px;
@@ -206,21 +206,18 @@ const Message = styled.div`
   }
 `;
 const TermsForm = styled.div`
-    width: 400px;
-    height: 56%;
+  width: 400px;
+  height: 56%;
   border-radius: 10px;
   padding: 20px;
   position: absolute;
   overflow-y: auto;
-  
+
   @media screen and (max-width: 715px) {
-    width: 42%; 
+    width: 42%;
     height: auto;
     aspect-ratio: 358 / 482; /* 너비와 높이 비율 설정 */
     min-width: 267;
-   
-   
-
   }
 `;
 // focus-in-expand 애니메이션 정의
@@ -250,7 +247,6 @@ const TermImgDiv = styled.div`
     width: 135%;
     min-width: 687px;
   }
-
 `;
 const TermsTitle = styled.div`
   font-size: 24px; /* Adjust size as needed */
@@ -606,7 +602,7 @@ const SignupPage = () => {
     console.log(resCoupleName.data);
     // `coupleName`을 `sessionStorage`에 저장합니다.
     sessionStorage.setItem("coupleName", resCoupleName.data);
-    navigate(`/${resCoupleName.data}/main-page`);
+    navigate(`/main-page`);
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
@@ -622,9 +618,7 @@ const SignupPage = () => {
         Common.setRefreshToken(response.data.refreshToken);
         sessionStorage.setItem("email", kakoEmailvalue);
 
-        // 다시 로그인한 커플의 정보를 확인합니다.
-        const coupleName = sessionStorage.getItem("coupleName");
-        navigate(`/${coupleName}/main-page`);
+        navigate(`/main-page`);
       } else {
         setModalOpen(true);
         SetHeaderContents("로그인 에러");

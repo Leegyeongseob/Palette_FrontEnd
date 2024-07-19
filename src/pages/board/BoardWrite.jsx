@@ -210,7 +210,14 @@ const BackToGuestbook = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
+    font-size: 14px;
     color: blue;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    &:hover {
+      font-size: 11px;
+    }
   }
 `;
 
@@ -306,10 +313,14 @@ const WritePost = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
+    font-size: 14px;
     color: blue;
   }
   @media screen and (max-width: 768px) {
-    font-size: 12px;
+    font-size: 10px;
+    &:hover {
+      font-size: 11px;
+    }
   }
 `;
 

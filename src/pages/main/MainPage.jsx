@@ -438,7 +438,8 @@ const Setting = styled(IoSettingsSharp)`
   }
 `;
 const SettingFormat = styled.div`
-  width: 20vw;
+  width: 380px;
+  padding-left: 150px;
   height: auto;
   border-radius: 10px;
   margin-top: 22vh;
@@ -446,10 +447,16 @@ const SettingFormat = styled.div`
   justify-content: end;
   align-items: center;
   animation: ${flipInX} 0.5s ease-in-out; /* 애니메이션 적용 */
+  @media screen and (max-width: 1200px) {
+    margin-top: 20vh;
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 18vh;
+  }
 `;
 const SettingForm = styled.div`
-  width: 20vw;
-  height: 27vh;
+  width: 500px;
+  height: 360px;
   background-image: url(${postIt});
   background-size: cover;
   background-position: center;
@@ -458,6 +465,10 @@ const SettingForm = styled.div`
   justify-content: center;
   align-items: first baseline;
   z-index: 10;
+  @media screen and (max-width: 768px) {
+    width: 400px;
+    height: 300px;
+  }
 `;
 const Btn = styled.div`
   width: 70px;
@@ -465,7 +476,7 @@ const Btn = styled.div`
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
-  font-size: 0.8vw;
+  font-size: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -477,29 +488,42 @@ const Btn = styled.div`
   }
 `;
 const BtnDiv = styled.div`
-  width: 15vw;
-  height: 23vh;
+  width: 260px;
+  height: 20vh;
 
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 230px;
+    height: 17vh;
+  }
 `;
-const XbtnDiv = styled.div`
-  width: 14vw;
-  height: 4vh;
 
+const XbtnDiv = styled.div`
+  width: 250px;
+  height: 10vh;
+  padding-right: 20px;
   display: flex;
   justify-content: end;
-  align-items: center;
+  align-items: end;
+  @media screen and (max-width: 768px) {
+    width: 230px;
+    height: 8vh;
+  }
 `;
 const CloseBtn = styled(IoMdCloseCircleOutline)`
-  width: 1.563vw;
-  height: 3.148vh;
+  width: 25px;
+  height: 25px;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
   &:hover {
     color: rgba(131, 55, 55, 0.8);
+  }
+  @media screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
   }
 `;
 const VisitContainer = styled.div`

@@ -6,16 +6,16 @@ import { useEffect, useState } from "react";
 const Dday = styled.div`
   width: 80%;
   height: 10vh;
-  font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
+  font-size: ${({ isDday }) => (isDday ? "40px" : "30px")};
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 1200px) {
-    font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
+    font-size: ${({ isDday }) => (isDday ? "30px" : "20px")};
   }
   @media screen and (max-width: 768px) {
-    font-size: ${({ isDday }) => (isDday ? "2vw" : "1vw")};
+    font-size: ${({ isDday }) => (isDday ? "20px" : "15px")};
   }
 `;
 

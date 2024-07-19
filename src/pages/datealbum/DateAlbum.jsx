@@ -244,9 +244,12 @@ const AlbumTitle = styled.div`
   display: flex;
   align-items: center;
   padding-left: 2%;
-  font-size: 1.1vw;
+  font-size: 20px;
   color: #000;
   font-weight: 800;
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const AddButton = styled.div`
@@ -266,6 +269,7 @@ const AddTema = styled.div`
   cursor: pointer;
   &:hover {
     font-size: 13px;
+    color: rgb(42, 65, 167);
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;
@@ -283,6 +287,7 @@ const AddAlbum = styled.div`
   cursor: pointer;
   &:hover {
     font-size: 13px;
+    color: rgb(42, 65, 167);
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;
@@ -299,12 +304,13 @@ const TitleLine = styled.div`
   justify-content: flex-end;
   padding-right: 1%;
   border-bottom: 1px solid #c8c8c8;
-  font-size: 12px;
+  font-size: 13px;
   color: black;
   font-weight: bolder;
   cursor: pointer;
   &:hover {
-    font-size: 13px;
+    color: rgb(108, 101, 212);
+    font-size: 14px;
   }
   @media screen and (max-width: 768px) {
     font-size: 9px;

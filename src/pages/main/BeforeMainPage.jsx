@@ -72,12 +72,10 @@ const BookSign = styled.div`
   @media screen and (max-width: 1200px) {
     width: 420px;
     height: 56vh;
-    margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
-    margin-top: 1vh;
   }
 `;
 const BookSign2 = styled.div`
@@ -97,12 +95,10 @@ const BookSign2 = styled.div`
   @media screen and (max-width: 1200px) {
     width: 420px;
     height: 56vh;
-    margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
     height: 35vh;
-    margin-top: 1vh;
   }
 `;
 const ContentsDiv = styled.div`
@@ -115,6 +111,14 @@ const ContentsDiv = styled.div`
     font-size: 60px;
     font-weight: 600;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  @media screen and (max-width: 1200px) {
+    font-size: 40px;
+    font-weight: 500;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+    font-weight: 400;
   }
 `;
 const BeforeMainPage = () => {

@@ -57,23 +57,32 @@ const BookTheme2 = styled.div`
 `;
 
 const BoardSide = styled.div`
-  width: 25.5vw;
-  height: 68.5vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 `;
 const BoardTitle = styled.div`
-  margin-top: 2.5vh;
-  width: 25.5vw;
-  height: 5vh;
+  margin-top: 2%;
+  width: 100%;
+  height: 6%;
   font-size: 20px;
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    font-size: 17px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 const CoupleDiv = styled.div`
-  width: 25.5vw;
-  height: 12vh;
+  width: 100%;
+  height: 18%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,8 +90,8 @@ const CoupleDiv = styled.div`
 const BoardGrayBar = styled.div`
   margin-top: 1.5vh;
   margin-left: 1.5vw;
-  width: 22.5vw;
-  height: 0.4vh;
+  width: 90%;
+  height: 0.5%;
   background-color: #b0b0b0;
   display: flex;
   justify-content: center;
@@ -106,8 +115,7 @@ const BoardGrayBar = styled.div`
 // `;
 const BoardTable = styled.table`
   margin-top: 1vh;
-  margin-left: 1.5vw;
-  width: 22.5vw;
+  width: 87%;
   table-layout: fixed;
   border-collapse: collapse;
 `;
@@ -123,10 +131,19 @@ const BoardTh = styled.th`
   box-sizing: border-box;
   vertical-align: middle;
   &:nth-child(1) {
-    width: 3vw;
+    width: 15%;
+  }
+  &:nth-child(2) {
+    width: 60%;
   }
   &:nth-child(3) {
-    width: 4vw;
+    width: 25%;
+  }
+  @media screen and (max-width: 1200px) {
+    height: 25px;
+  }
+  @media screen and (max-width: 768px) {
+    height: 15px;
   }
 `;
 
@@ -142,6 +159,14 @@ const BoardTd = styled.td`
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+  @media screen and (max-width: 1200px) {
+    height: 25px;
+    font-size: 11px;
+  }
+  @media screen and (max-width: 768px) {
+    height: 15px;
+    font-size: 10px;
+  }
 `;
 
 const NameHover = styled(BoardTd)`
@@ -154,9 +179,9 @@ const BoardPaginationContainer = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-bottom: 3vh;
+  margin-bottom: 3%;
   margin-left: 1.5vw;
-  width: 22.5vw;
+  width: 87%;
   height: 3vh;
   display: flex;
   justify-content: center;
@@ -171,34 +196,57 @@ const BoardPaginationButton = styled.button`
   &:hover {
     background-color: #eeeeee;
   }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    margin: 0 3px;
+    padding: 1px 5px;
+  }
 `;
 
 const WriteSide = styled.div`
-  width: 25.8vw;
-  height: 68.5vh;
+  width: 100%;
+  height: 100%;
 `;
 const BackToGuestbook = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
+  margin-top: 2%;
+  padding-right: 2%;
+  width: 100%;
   height: 1vh;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: black;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   cursor: pointer;
   &:hover {
+    font-size: 16px;
     color: blue;
   }
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+    &:hover {
+      font-size: 11px;
+    }
+  }
 `;
+
 const WriteTitle = styled.div`
   margin-left: 1.5vw;
   margin-top: 4vh;
-  width: 22.8vw;
-  height: 7vh;
+  width: 100%;
+  height: 10%;
   display: flex;
+  @media screen and (max-width: 1200px) {
+    margin-top: 3vh;
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 1.5vh;
+  }
 `;
 const WriteTitleInput = styled.input`
   width: 100%;
@@ -207,21 +255,30 @@ const WriteTitleInput = styled.input`
   outline: none;
   background-color: transparent;
   font-size: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 const WriteGrayBar = styled.div`
   margin-left: 1.5vw;
-  width: 22.5vw;
+  width: 440px;
   height: 0.4vh;
   background-color: #b0b0b0;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 370px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 250px;
+  }
 `;
 const WriteAddPhoto = styled.button`
   margin-top: 1.2vh;
   margin-left: 1.5vw;
-  width: 2vw;
-  height: 3.5vh;
+  width: 70px;
+  height: 70px;
   background-image: url(${AddPhoto});
   background-size: contain;
   background-repeat: no-repeat;
@@ -232,14 +289,30 @@ const WriteAddPhoto = styled.button`
   &:hover {
     background-color: #aaa;
   }
+  @media screen and (max-width: 1200px) {
+    width: 50px;
+    height: 50px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 const WriteMain = styled.div`
   margin-left: 1.5vw;
   margin-top: 1.2vh;
-  width: 22.8vw;
-  height: 40vh;
+  width: 450px;
+  height: 370px;
   display: flex;
   align-items: flex-start;
+  @media screen and (max-width: 1200px) {
+    width: 380px;
+    height: 300px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 260px;
+    height: 190px;
+  }
 `;
 const WriteMainInput = styled.textarea`
   width: 100%;
@@ -252,10 +325,10 @@ const WriteMainInput = styled.textarea`
   overflow-y: auto;
 `;
 const WritePost = styled.div`
-  margin-top: 2vh;
-  margin-left: 19vw;
-  width: 8vw;
-  height: 1vh;
+  margin-top: 15px;
+  margin-left: 370px;
+  width: 160px;
+  height: 20px;
   font-size: 16px;
   font-weight: 600;
   color: black;
@@ -264,7 +337,19 @@ const WritePost = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
+    font-size: 17px;
     color: blue;
+  }
+  @media screen and (max-width: 1200px) {
+    margin-left: 300px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    margin-top: 0px;
+    margin-left: 175px;
+    &:hover {
+      font-size: 13px;
+    }
   }
 `;
 

@@ -21,7 +21,7 @@ const BookMarkDiv = styled.div`
   @media screen and (max-width: 1200px) {
     width: 300px;
     height: 9vh;
-  } 
+  }
   @media screen and (max-width: 768px) {
     width: 180px;
     height: 4vh;
@@ -29,7 +29,7 @@ const BookMarkDiv = styled.div`
 `;
 const BookMarks = styled.div`
   width: 50px;
-  height: 10.493vh;
+  height: 100px;
   border: 1px solid #000;
   border-radius: 10px 10px 0 0;
   font-size: 12.5px;
@@ -45,12 +45,13 @@ const BookMarks = styled.div`
   border-bottom: none;
   @media screen and (max-width: 1200px) {
     width: 40px;
-    height: 8vh;
-    font-size: 1vw;
-  } 
+    height: 80px;
+    font-size: 10px;
+  }
   @media screen and (max-width: 768px) {
     width: 25px;
-    height: 5vh;
+    height: 50px;
+    font-size: 7px;
     border-radius: 5px 5px 0 0;
   }
 `;

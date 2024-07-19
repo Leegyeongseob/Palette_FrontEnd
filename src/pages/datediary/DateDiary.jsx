@@ -190,6 +190,9 @@ const StyledDate = styled.div`
   border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 800;
+  @media screen and (max-width: 768px) {
+    font-size: 0.6rem;
+  }
 `;
 
 // const StyledToday = styled.div`
@@ -210,6 +213,9 @@ const StyledAnniversary = styled.div`
   top: 60%;
   left: 50%;
   transform: translateX(-50%);
+  @media screen and (max-width: 768px) {
+    font-size: 0.43rem;
+  }
 `;
 
 const StyledDot = styled.div`
@@ -294,11 +300,14 @@ const Dday = styled.div`
   width: 90%;
   height: 8%;
   margin-top: 2%;
-  font-size: 1.3vw;
+  font-size: 25px;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const BoardWrapper = styled.div`

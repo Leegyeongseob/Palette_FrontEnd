@@ -36,8 +36,6 @@ const ChatAxiosApi = {
   // },
 
   chatList: async (email, firstEmail, secondEmail, roomId) => {
-    console.log(roomId);
-    console.log(firstEmail);
     return await AxiosInstance.get(Common.PALLETE_DOMAIN + "/chat/list", {
       params: {
         email: email,
@@ -49,7 +47,6 @@ const ChatAxiosApi = {
   },
 
   chatCreate: async (name, sender, receiver) => {
-    console.log(name);
     const chat = {
       name: name,
       sender: sender,

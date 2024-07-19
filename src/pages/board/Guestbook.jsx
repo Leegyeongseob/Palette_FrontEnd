@@ -43,7 +43,7 @@ const GuestbookGrayBar = styled.div`
 const GuestbookWriteArea = styled.div`
   margin-top: 2vh;
   width: 400px;
-  height: 9vh;
+  height: 10vh;
   border: 1px solid black;
   background-color: #eccdb0;
   @media screen and (max-width: 1200px) {
@@ -107,6 +107,7 @@ const GuestbookList = styled.div`
   margin-right: 13px;
   height: 60%;
   overflow-y: auto; /* 세로 스크롤 추가 */
+  overflow-x: hidden;
   @media screen and (max-width: 1200px) {
     width: 380px;
   }
@@ -119,16 +120,17 @@ const GuestbookArea = styled.div`
   margin-top: 2vh;
   margin-left: 16px;
   background-color: #eccdb0;
-  width: 380px;
+  width: 400px;
   height: 12vh;
   border: 1px solid black;
+
   @media screen and (max-width: 1200px) {
-    width: 340px;
+    width: 355px;
     height: 10vh;
   }
   @media screen and (max-width: 768px) {
     margin-top: 1vh;
-    width: 210px;
+    width: 230px;
     height: 6vh;
   }
 `;
@@ -205,7 +207,7 @@ const GuestbookBody = styled.div`
   display: flex;
 `;
 const GuestbookImage = styled.div`
-  width: 25%;
+  width: 23%;
   height: 100%;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
@@ -213,7 +215,7 @@ const GuestbookImage = styled.div`
   background-repeat: no-repeat;
 `;
 const GuestWriteImg = styled.div`
-  width: 20%;
+  width: 23%;
   height: 99%;
   background-size: cover;
   background-position: center;

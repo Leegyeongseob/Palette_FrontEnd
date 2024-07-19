@@ -42,7 +42,6 @@ const Icon = styled.div`
     width: 30%;
     height: 100%;
   }
- 
 `;
 
 const LoginDiv = styled.div`
@@ -99,7 +98,6 @@ const InputDiv = styled.input`
     height: 80%;
     font-size: 2vw;
   }
-  
 `;
 const Message = styled.div`
   width: 100%;
@@ -110,7 +108,6 @@ const Message = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2vw;
   }
-
 `;
 
 const FindDiv = styled.div`
@@ -155,7 +152,6 @@ const Signin = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-
 `;
 
 const ForgotId = styled.div`
@@ -170,7 +166,6 @@ const ForgotId = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-
 `;
 
 const ForgotPassword = styled.div`
@@ -185,7 +180,6 @@ const ForgotPassword = styled.div`
   @media screen and (max-width: 654px) {
     font-size: 2.5vw;
   }
-
 `;
 
 const ButtonDiv = styled.div`
@@ -218,7 +212,6 @@ const LoginButton = styled.div`
     height: 50%;
     font-size: 3vw;
   }
-
 `;
 
 const SimpleLogin = styled.div`
@@ -234,7 +227,6 @@ const SimpleLogin = styled.div`
     justify-content: space-evenly;
     align-items: center;
   }
-
 `;
 
 const CircleSide = styled.div`
@@ -252,7 +244,6 @@ const CircleSide = styled.div`
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
-
 `;
 const GoogleIcon = styled(FcGoogle)`
   width: 100%;
@@ -362,9 +353,7 @@ const LoginPage = () => {
         Common.setRefreshToken(response.data.refreshToken);
         sessionStorage.setItem("email", email);
 
-        // 다시 로그인한 커플의 정보를 확인합니다.
-        const coupleName = sessionStorage.getItem("coupleName");
-        navigate(`/${coupleName}/main-page`);
+        navigate(`/main-page`);
       } else {
         setModalOpen(true);
         setIsModalImg(false);
