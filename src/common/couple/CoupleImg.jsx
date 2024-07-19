@@ -26,10 +26,6 @@ const Contain = styled.div`
   @media screen and (max-width: 768px) {
     width: ${({ clothes }) => (clothes ? "70vw" : "280px")};
   }
-  @media screen and (max-width: 840px) {
-    aspect-ratio: 70/15;
-    height: auto;
-  }
 `;
 const ProfileDiv = styled.div`
   width: ${({ clothes }) => (clothes ? "100%" : "211px")};
@@ -71,8 +67,8 @@ const Heart = styled.div`
   background-repeat: no-repeat;
 `;
 const Profile = styled.div`
-  width: ${({ clothes }) => (clothes ? "100px" : "130px;")};
-  height: ${({ clothes }) => (clothes ? "100px" : "13.641vh;")};
+  width: ${({ clothes }) => (clothes ? "100px" : "130px")};
+  height: ${({ clothes }) => (clothes ? "100px" : "130px")};
   background-image: ${({ imageurl }) =>
     `url(${imageurl ? imageurl : manprofile})`};
   background-size: cover;
@@ -80,12 +76,12 @@ const Profile = styled.div`
   border-radius: 50%;
   position: absolute;
   @media screen and (max-width: 1200px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "100px")};
-    height: ${({ clothes }) => (clothes ? "12vh" : "10vh")};
+    width: ${({ clothes }) => (clothes ? "70px" : "100px")};
+    height: ${({ clothes }) => (clothes ? "70px" : "100px")};
   }
   @media screen and (max-width: 768px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "60px")};
-    height: ${({ clothes }) => (clothes ? "12vh" : "6vh")};
+    width: ${({ clothes }) => (clothes ? "50px" : "60px")};
+    height: ${({ clothes }) => (clothes ? "50px" : "60px")};
   }
 `;
 const Text = styled.div`

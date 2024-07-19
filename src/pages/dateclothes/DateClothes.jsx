@@ -121,18 +121,11 @@ const Title = styled.div`
   }
 `;
 
-const BookDiv = styled.div`
-  width: auto;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-
 const Options = styled.div`
   width: 100px;
   height: 4vh;
   background-color: #fff;
-  font-size: 0.729vw;
+  font-size: 14px;
   font-weight: 600;
   display: flex;
   justify-content: center;
@@ -144,20 +137,22 @@ const Options = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    width: 80px;
+    height: 3vh;
+  }
 `;
 const OptionsSelectDiv = styled.div`
-  /* width: auto;
-  height: auto; */
+  width: auto;
+  height: auto;
   height: 4vh;
-  /* background-color: aqua; */
   display: flex;
   z-index: 100;
-  /* align-items: end; */
 `;
 
 const ButtonDiv = styled.div`
   display: flex;
-  /* background-color: #49cf8c; */
   justify-content: center;
   align-items: end;
 `;
@@ -196,7 +191,7 @@ const ClothesForm = styled.div`
   flex-direction: column;
   align-items: center;
   @media screen and (max-width: 1200px) {
-    width: 65%;
+    width: 220px;
     height: 35vh;
     margin-top: 4vh;
   }
@@ -217,7 +212,7 @@ const ClothesForm2 = styled.div`
   flex-direction: column;
   align-items: center;
   @media screen and (max-width: 1200px) {
-    width: 65%;
+    width: 220px;
     height: 35vh;
     margin-top: 4vh;
   }
@@ -227,23 +222,31 @@ const ClothesForm2 = styled.div`
     margin-top: 3vh;
   }
 `;
+const OptionDiv = styled.div`
+  width: 500px;
+  height: 38px;
+  display: flex;
+  justify-content: end;
+  @media screen and (max-width: 1200px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 280px;
+  }
+`;
 const DateClothes = () => {
   const [isOnePiece, setIsOnePiece] = useState(false);
   return (
     <>
       <BookTheme>
         <BookSign>
-          {/* <Title>데이트룩 코디</Title> */}
+          <Title>데이트룩 코디</Title>
           <CoupleimgCon>
-            {/* <CoupleImage clothes={true} /> */}
-            <CoupleImage />
+            <CoupleImage clothes={true} />
           </CoupleimgCon>
-          {/* <BookDiv /> */}
           <ClothesFormContainer>
             <ButtonDiv>
-              {/* <Save> */}
               <StroeButton>저장</StroeButton>
-              {/* </Save> */}
             </ButtonDiv>
             <ClothesForm>
               <Swiper clothNum={1} />
@@ -255,27 +258,25 @@ const DateClothes = () => {
       </BookTheme>
       <BookTheme2>
         <div className="clothDiv" />
-        {/* <div className="optionSDiv"> */}
-
-        {/* </div> */}
         <BookSign2>
-          <OptionsSelectDiv>
-            <Options
-              onClick={() => {
-                setIsOnePiece(true);
-              }}
-            >
-              원피스
-            </Options>
-            <Options
-              onClick={() => {
-                setIsOnePiece(false);
-              }}
-            >
-              상＆하의
-            </Options>
-          </OptionsSelectDiv>
-
+          <OptionDiv>
+            <OptionsSelectDiv>
+              <Options
+                onClick={() => {
+                  setIsOnePiece(true);
+                }}
+              >
+                원피스
+              </Options>
+              <Options
+                onClick={() => {
+                  setIsOnePiece(false);
+                }}
+              >
+                상＆하의
+              </Options>
+            </OptionsSelectDiv>
+          </OptionDiv>
           <ClothesFormContainer>
             <ClothesForm2>
               <Swiper clothNum={4} OnePiece={isOnePiece} />
