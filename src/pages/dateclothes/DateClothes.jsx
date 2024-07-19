@@ -26,9 +26,9 @@ const CoupleimgCon = styled.div`
   justify-content: center;
   width: 102.5%;
   height: auto;
-  background-color: black;
+  /* background-color: black; */
   position: relative;
-  margin-bottom: 5vh;
+  /* margin-bottom: 5vh; */
   gap: 500px;
 `;
 const BookSign2 = styled.div`
@@ -233,7 +233,7 @@ const DateClothes = () => {
     <>
       <BookTheme>
         <BookSign>
-          <Title>데이트룩 코디</Title>
+          {/* <Title>데이트룩 코디</Title> */}
           <CoupleimgCon>
             {/* <CoupleImage clothes={true} /> */}
             <CoupleImage />
