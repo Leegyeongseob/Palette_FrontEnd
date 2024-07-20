@@ -23,11 +23,13 @@ const BookTheme = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
+  border: 1px solid #696969;
   background-image: url(${theme3});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
     width: 420px;
@@ -46,6 +48,7 @@ const BookTheme2 = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.1vw;
+  border: 1px solid #696969;
   background-image: url(${theme3_1});
   background-size: cover;
   background-position: center;
@@ -67,7 +70,7 @@ const BookTheme2 = styled.div`
 
 const BookSign = styled.div`
   width: 497px;
-  height: 66vh;
+  height: 67vh;
 
   @media screen and (max-width: 1200px) {
     width: 420px;
@@ -80,7 +83,8 @@ const BookSign = styled.div`
 `;
 const BookSign2 = styled.div`
   width: 497px;
-  height: 66vh;
+  height: 67vh;
+  border: 1px solid #696969;
   background-image: url(${theme3_1});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
@@ -107,6 +111,12 @@ const ContentsDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
   & > p {
     font-size: 60px;
     font-weight: 600;
@@ -145,7 +155,7 @@ const BeforeMainPage = () => {
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate={animate}>
-          <ContentsDiv>
+          <ContentsDiv animate={animate}>
             <p>지금 시작합니다!</p>
           </ContentsDiv>
         </BookSign2>

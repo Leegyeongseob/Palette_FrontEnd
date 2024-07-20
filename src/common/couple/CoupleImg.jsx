@@ -14,33 +14,33 @@ import {
 } from "firebase/storage";
 
 const Contain = styled.div`
-  width: ${({ clothes }) => (clothes ? "70vw" : "495px")};
+  width: ${({ clothes }) => (clothes ? "100%" : "495px")};
   height: 100%;
   margin-right: 1.5%;
   display: flex;
   justify-content: ${({ clothes }) => (clothes ? "space-between" : "center")};
   align-items: center;
   @media screen and (max-width: 1200px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "420px")};
+    width: ${({ clothes }) => (clothes ? "100%" : "420px")};
   }
   @media screen and (max-width: 768px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "280px")};
+    width: ${({ clothes }) => (clothes ? "100%" : "280px")};
   }
 `;
 const ProfileDiv = styled.div`
   width: ${({ clothes }) => (clothes ? "100%" : "211px")};
-  height: ${({ clothes }) => (clothes ? "12vh" : "23vh")};
+  height: ${({ clothes }) => (clothes ? "100%" : "23vh")};
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: space-evenly;
-  background-color: ${({ clothes }) => (clothes ? "aliceblue" : "none")};
+  /* background-color: ${({ clothes }) => (clothes ? "aliceblue" : "none")}; */
   @media screen and (max-width: 1200px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "190px")};
-    height: ${({ clothes }) => (clothes ? "12vh" : "19vh")};
+    width: ${({ clothes }) => (clothes ? "100%" : "190px")};
+    height: ${({ clothes }) => (clothes ? "100%" : "19vh")};
   }
   @media screen and (max-width: 768px) {
-    width: ${({ clothes }) => (clothes ? "70vw" : "100px")};
-    height: ${({ clothes }) => (clothes ? "12vh" : "10vh")};
+    width: ${({ clothes }) => (clothes ? "100%" : "100px")};
+    height: ${({ clothes }) => (clothes ? "100%" : "10vh")};
   }
 `;
 const ProfileImgDiv = styled.div`
@@ -49,7 +49,7 @@ const ProfileImgDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: ${({ clothes }) => (clothes ? "lightblue" : "none")};
+  /* background-color: ${({ clothes }) => (clothes ? "lightblue" : "none")}; */
 `;
 const HeartDiv = styled.div`
   width: 4vw;
@@ -84,16 +84,29 @@ const Profile = styled.div`
     height: ${({ clothes }) => (clothes ? "50px" : "60px")};
   }
 `;
+
 const Text = styled.div`
   width: ${({ clothes }) => (clothes ? "30%" : "8vw")};
-  height: 7.345vh;
+  height: ${({ clothes }) => (clothes ? "3vh" : "7.345vh")};
+  background-color: ${({ clothes }) => (clothes ? "white" : "none")};
+  border-radius: ${({ clothes }) => (clothes ? "8px" : "none")};
+  border: ${({ clothes }) => (clothes ? "1px solid gray" : "none")};
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
   font-weight: 600;
   color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
+  @media screen and (max-width: 1200px) {
+    height: ${({ clothes }) => (clothes ? "2.5vh" : "7.345vh")};
+    font-size: 14px;
+  }
+  @media screen and (max-width: 768px) {
+    height: ${({ clothes }) => (clothes ? "2vh" : "7.345vh")};
+    font-size: 10px;
+  }
 `;
+
 const ProfileCover = styled.div`
   width: 6.771vw;
   height: 13.641vh;

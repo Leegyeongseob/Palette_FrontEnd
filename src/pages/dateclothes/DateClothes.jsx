@@ -3,6 +3,71 @@ import CoupleImage from "../../common/couple/CoupleImg";
 import Swiper from "./Swiper";
 import { useState } from "react";
 import clothesBg1 from "../../img/background/theme/clothes_background.jpg";
+
+const CoupleimgCon = styled.div`
+  margin-left: 103%;
+  display: flex;
+  justify-content: center;
+  width: 745px;
+  height: 20%;
+  position: relative;
+  gap: 500px;
+  @media screen and (max-width: 1200px) {
+    width: 610px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 380px;
+  }
+`;
+
+const BookTheme = styled.div`
+  width: 497px;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.7vw;
+  border: 1px solid #696969;
+  background-image: url(${clothesBg1});
+  background-size: cover;
+  background-position: left;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 41.5%;
+    height: 56vh;
+    margin-top: 4vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 41.5%;
+    height: 34.5vh;
+    margin-top: 3vh;
+  }
+`;
+
+const BookTheme2 = styled.div`
+  width: 497px;
+  height: 67vh;
+  margin-top: 5vh;
+  margin-left: 0.1vw;
+  border: 1px solid #696969;
+  background-image: url(${clothesBg1});
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 41.5%;
+    height: 56vh;
+    margin-top: 4vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 41.5%;
+    height: 34.5vh;
+    margin-top: 3vh;
+  }
+`;
+
 const BookSign = styled.div`
   width: 100%;
   aspect-ratio: 50/20;
@@ -11,19 +76,6 @@ const BookSign = styled.div`
   justify-content: end;
   flex-direction: column;
   align-items: center;
-`;
-
-const CoupleimgCon = styled.div`
-  margin-left: 102.5%;
-  /* aspect-ratio: 203/35; */
-  display: flex;
-  justify-content: center;
-  width: 102.5%;
-  height: auto;
-  /* background-color: black; */
-  position: relative;
-  /* margin-bottom: 5vh; */
-  gap: 500px;
 `;
 
 const BookSign2 = styled.div`
@@ -48,77 +100,35 @@ const BookSign2 = styled.div`
     justify-content: flex-end;
   }
 `;
-const BookTheme = styled.div`
-  width: 497px;
-  height: 67vh;
-  margin-top: 5vh;
-  margin-left: 0.7vw;
-  /* background-image: url(${clothesBg1}); */
-  background-size: cover;
-  background-position: left;
-  background-repeat: no-repeat;
+
+const Title = styled.div`
+  width: 100%;
+  height: 4%;
+  margin-top: 1%;
+  font-size: 28px;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-left: 3.5%;
   @media screen and (max-width: 1200px) {
-    width: 41.5%;
-    height: 56vh;
-    margin-top: 4vh;
+    font-size: 25px;
+    font-weight: 600;
   }
   @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 34.5vh;
-    margin-top: 3vh;
+    font-size: 19px;
   }
 `;
 
-const BookTheme2 = styled.div`
-  width: 497px;
-  height: 67vh;
-  margin-top: 5vh;
-  margin-left: 0.1vw;
-  /* background-image: url(${clothesBg1}); */
-  background-size: cover;
-  background-position: right;
-  background-repeat: no-repeat;
-  display: flex;
-  justify-content: space-between;
-  @media screen and (max-width: 1200px) {
-    width: 41.5%;
-    height: 56vh;
-    margin-top: 4vh;
-  }
-  @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 34.5vh;
-    margin-top: 3vh;
-  }
-`;
-const Title = styled.div`
+const OptionDiv = styled.div`
   width: 100%;
-  height: 6vh;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 28px;
-  font-weight: 600;
+  height: 38px;
   display: flex;
-  align-items: center;
-  /* padding-top: 3vh; */
-  margin-top: 10vh;
-  position: relative;
-  /* padding-left: 2vw; */
-  @media screen and (max-width: 1200px) {
-    position: relative;
-    top: 10vh;
-  }
-  @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 34.5vh;
-    margin-top: 3vh;
-  }
+  justify-content: end;
 `;
 
 const Options = styled.div`
   width: 100px;
-  height: 4vh;
+  height: 100%;
   background-color: #fff;
   font-size: 14px;
   font-weight: 600;
@@ -130,54 +140,100 @@ const Options = styled.div`
   border-radius: 10px 10px 0 0;
   cursor: pointer;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(189, 189, 189, 0.9);
+  }
+  @media screen and (max-width: 1200px) {
+    width: 85px;
+    height: 80%;
+    font-size: 12px;
   }
   @media screen and (max-width: 768px) {
-    font-size: 12px;
-    width: 80px;
-    height: 3vh;
+    width: 60px;
+    height: 60%;
+    font-size: 9px;
   }
 `;
+
 const OptionsSelectDiv = styled.div`
   width: auto;
-  height: auto;
   height: 4vh;
   display: flex;
+  align-items: flex-end;
   z-index: 100;
 `;
 
 const ButtonDiv = styled.div`
+  width: 79px;
+  height: 5vh;
+  margin-right: 5%;
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 70px;
+    height: 4.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 60px;
+    height: 3vh;
+  }
 `;
+
+const ButtonRightDiv = styled.div`
+  width: 79px;
+  height: 5vh;
+  margin-left: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 70px;
+    height: 4.5vh;
+  }
+  @media screen and (max-width: 768px) {
+    width: 60px;
+    height: 3vh;
+  }
+`;
+
 const StroeButton = styled.div`
-  width: 5vw;
-  height: 4vh;
+  width: 79px;
+  height: 3.5vh;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 1vw;
-  font-size: 1vw;
+  border-radius: 10px;
+  font-size: 16px;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
+  @media screen and (max-width: 1200px) {
+    width: 70px;
+    height: 3vh;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 50px;
+    height: 2.5vh;
+    font-size: 12px;
+  }
 `;
+
 const ClothesFormContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 75%;
   align-items: end;
 `;
 
 const ClothesForm = styled.div`
   width: 253px;
-  height: auto;
+  height: 100%;
   background-color: #fff;
   margin-right: 15%;
   border-radius: 0.521vw;
@@ -186,19 +242,15 @@ const ClothesForm = styled.div`
   flex-direction: column;
   align-items: center;
   @media screen and (max-width: 1200px) {
-    width: 220px;
-    height: 35vh;
-    margin-top: 4vh;
+    width: 230px;
   }
   @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 20.5vh;
-    margin-top: 3vh;
+    width: 150px;
   }
 `;
 const ClothesForm2 = styled.div`
   width: 253px;
-  height: auto;
+  height: 100%;
   background-color: #fff;
   margin-left: 15%;
   border-radius: 0.521vw;
@@ -207,35 +259,20 @@ const ClothesForm2 = styled.div`
   flex-direction: column;
   align-items: center;
   @media screen and (max-width: 1200px) {
-    width: 220px;
-    height: 35vh;
-    margin-top: 4vh;
+    width: 230px;
   }
   @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 20.5vh;
-    margin-top: 3vh;
+    width: 150px;
   }
 `;
-const OptionDiv = styled.div`
-  width: 500px;
-  height: 38px;
-  display: flex;
-  justify-content: end;
-  @media screen and (max-width: 1200px) {
-    width: 400px;
-  }
-  @media screen and (max-width: 768px) {
-    width: 280px;
-  }
-`;
+
 const DateClothes = () => {
   const [isOnePiece, setIsOnePiece] = useState(false);
   return (
     <>
       <BookTheme>
         <BookSign>
-          <Title>데이트룩 코디</Title>
+          <Title>데이트 룩 코디</Title>
           <CoupleimgCon>
             <CoupleImage clothes={true} />
           </CoupleimgCon>
@@ -279,9 +316,9 @@ const DateClothes = () => {
               <Swiper clothNum={7} OnePiece={isOnePiece} />
               <Swiper shoes={true} clothNum={6} />
             </ClothesForm2>
-            <ButtonDiv>
+            <ButtonRightDiv>
               <StroeButton>저장</StroeButton>
-            </ButtonDiv>
+            </ButtonRightDiv>
           </ClothesFormContainer>
         </BookSign2>
       </BookTheme2>

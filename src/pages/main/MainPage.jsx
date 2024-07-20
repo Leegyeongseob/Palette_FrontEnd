@@ -23,6 +23,7 @@ const BookTheme = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
+  border: 1px solid #696969;
   background-image: url(${theme3});
   background-size: cover;
   background-position: center;
@@ -46,6 +47,7 @@ const BookTheme2 = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.1vw;
+  border: 1px solid #696969;
   background-image: url(${theme3_1});
   background-size: cover;
   background-position: center;
