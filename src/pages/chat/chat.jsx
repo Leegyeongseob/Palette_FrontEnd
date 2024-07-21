@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { FaHeart } from "react-icons/fa6";
 import { TbWallpaper } from "react-icons/tb";
@@ -311,7 +311,7 @@ const InputText = styled.div`
   }
 `;
 
-const ChatMain = () => {
+const ChatMain = ({url, clearUrl}) => {
   const [isPlusMenuVisible, setPlusMenuVisible] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(chatBack7);
   const [isTemaMenuVisible, setTemaMenuVisible] = useState(false);
@@ -332,6 +332,22 @@ const ChatMain = () => {
   const [modalContent, setModalContent] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+
+  const pageMove = useCallback(() => {
+    navigate(url);
+    clearUrl();
+  }, [navigate, url, clearUrl]);
+
+  useEffect(() => {
+    if (url) {
+      const encodedUrl = encodeURI(url);
+      if (window.location.pathname !== encodedUrl) {
+        pageMove();
+      } else {
+        clearUrl();
+      }
+    }
+  }, [url, pageMove, clearUrl]);
 
   const onChangMsg = (e) => {
     setInputMsg(e.target.value);

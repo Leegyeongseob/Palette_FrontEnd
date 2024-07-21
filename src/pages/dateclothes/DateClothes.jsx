@@ -1,8 +1,24 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import CoupleImage from "../../common/couple/CoupleImg";
 import Swiper from "./Swiper";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import clothesBg1 from "../../img/background/theme/clothes_background.jpg";
+import { useNavigate } from "react-router-dom";
+
+const turnPageLeft = keyframes`
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+    transform-origin: left;
+  }
+  30% {
+    transform: perspective(1600px) rotateY(-25deg);
+    transform-origin: left;
+  } 
+  100% {
+    transform: perspective(1000px) rotateY(-180deg);
+    transform-origin: left;
+  }
+`;
 
 const CoupleimgCon = styled.div`
   margin-left: 103%;
@@ -12,6 +28,13 @@ const CoupleimgCon = styled.div`
   height: 20%;
   position: relative;
   gap: 500px;
+  z-index: 1;  
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1s;
+    `}
   @media screen and (max-width: 1200px) {
     width: 610px;
   }
@@ -85,7 +108,11 @@ const BookSign2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: end;  
+  background-image: url(${clothesBg1});
+  background-size: cover;
+  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
+  transform-origin: left;
 
   & > .save2 {
     justify-content: end;
@@ -99,6 +126,11 @@ const BookSign2 = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${turnPageLeft} 1.8s forwards;
+    `}
 `;
 
 const Title = styled.div`
@@ -123,7 +155,13 @@ const OptionDiv = styled.div`
   width: 100%;
   height: 38px;
   display: flex;
-  justify-content: end;
+  justify-content: end;  
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
 `;
 
 const Options = styled.div`
@@ -229,6 +267,12 @@ const ClothesFormContainer = styled.div`
   width: 100%;
   height: 75%;
   align-items: end;
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
 `;
 
 const ClothesForm = styled.div`
@@ -266,14 +310,36 @@ const ClothesForm2 = styled.div`
   }
 `;
 
-const DateClothes = () => {
+const DateClothes = ({ url, clearUrl }) => {
   const [isOnePiece, setIsOnePiece] = useState(false);
+
+  const [animate, setAnimate] = useState(false);
+  const navigate = useNavigate();
+
+  const pageMove = useCallback(() => {
+    setAnimate(true);
+    setTimeout(() => {
+      navigate(url);
+      clearUrl();
+    }, 1800);
+  }, [navigate, url, clearUrl]);
+
+  useEffect(() => {
+    if (url) {
+      if (window.location.pathname !== url) {
+        pageMove();
+      } else {
+        clearUrl();
+      }
+    }
+  }, [url, pageMove, clearUrl]);
+
   return (
     <>
       <BookTheme>
         <BookSign>
           <Title>데이트 룩 코디</Title>
-          <CoupleimgCon>
+          <CoupleimgCon animate={animate}>
             <CoupleImage clothes={true} />
           </CoupleimgCon>
           <ClothesFormContainer>
@@ -290,8 +356,8 @@ const DateClothes = () => {
       </BookTheme>
       <BookTheme2>
         <div className="clothDiv" />
-        <BookSign2>
-          <OptionDiv>
+        <BookSign2 animate={animate}>
+          <OptionDiv animate={animate}>
             <OptionsSelectDiv>
               <Options
                 onClick={() => {
@@ -309,7 +375,7 @@ const DateClothes = () => {
               </Options>
             </OptionsSelectDiv>
           </OptionDiv>
-          <ClothesFormContainer>
+          <ClothesFormContainer animate={animate}>
             <ClothesForm2>
               <Swiper clothNum={4} OnePiece={isOnePiece} />
               <Swiper clothNum={5} OnePiece={isOnePiece} />

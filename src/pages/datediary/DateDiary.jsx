@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import theme3 from "../../img/background/theme/3.jpg";
 import theme3_1 from "../../img/background/theme/3-1.jpg";
 import CoupleImg from "../../common/couple/CoupleImgMini";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment/locale/ko";
 import soleModalImg from "../../img/commonImg/전구 아이콘.gif";
@@ -286,9 +286,18 @@ const BookSign = styled.div`
 const BookSign2 = styled.div`
   width: 100%;
   height: 100%;
+  background-image: url(${theme3_1});
+  background-size: cover;
+  transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
+  transform-origin: left;
   display: flex;
   align-items: center;
   justify-content: center;
+  ${({ animate }) =>
+    animate &&
+    css`
+      animation: ${turnPageLeft} 1.8s forwards;
+    `}
 `;
 
 const CoupleDiv = styled.div`
@@ -320,6 +329,12 @@ const BoardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${({ animate }) =>
+    animate &&
+    css`
+      opacity: 0;
+      transition: opacity 1.4s;
+    `}
 `;
 
 const DiaryBoard = styled.div`
@@ -563,7 +578,22 @@ const RemoveButton = styled.button`
   }
 `;
 
-const DateDiary = () => {
+const turnPageLeft = keyframes`
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+    transform-origin: left;
+  }
+  30% {
+    transform: perspective(1600px) rotateY(-25deg);
+    transform-origin: left;
+  } 
+  100% {
+    transform: perspective(1000px) rotateY(-180deg);
+    transform-origin: left;
+  }
+`;
+
+const DateDiary = ({ url, clearUrl }) => {
   const today = new Date();
   //디데이 상태저장
   const [isDday, setIsDday] = useState();
@@ -593,6 +623,27 @@ const DateDiary = () => {
 
   const userEmail = sessionStorage.getItem("email");
   const coupleName = sessionStorage.getItem("coupleName");
+  
+  const [animate, setAnimate] = useState(false);
+  const navigate = useNavigate();
+
+  const pageMove = useCallback(() => {
+    setAnimate(true);
+    setTimeout(() => {
+      navigate(url);
+      clearUrl(); // URL 초기화
+    }, 1800);
+  }, [navigate, url, clearUrl]);
+
+  useEffect(() => {
+    if (url) {
+      if (window.location.pathname !== url) {
+        pageMove();
+      } else {
+        clearUrl();
+      }
+    }
+  }, [url, pageMove, clearUrl]);
 
   const modalOkBtnHandler = () => {
     closeModal();
@@ -899,8 +950,8 @@ const DateDiary = () => {
         </BookSign>
       </BookTheme>
       <BookTheme2>
-        <BookSign2>
-          <BoardWrapper>
+        <BookSign2 animate={animate}>
+          <BoardWrapper animate={animate}>
             <DiaryBoard>
               <LineUp>
                 <PicDate>

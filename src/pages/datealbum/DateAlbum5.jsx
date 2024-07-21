@@ -2,7 +2,7 @@ import styled, { keyframes, css } from "styled-components";
 import theme8 from "../../img/background/theme/8.jpg";
 import theme8_1 from "../../img/background/theme/8-1.jpg";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import PagePop from "./import/PagePop";
 import TemaPop from "./import/TemaPop";
@@ -338,7 +338,7 @@ const PlusButton = styled.button`
   }
 `;
 
-const DateAlbum5 = () => {
+const DateAlbum5 = ({ url, clearUrl }) => {
   const [animate, setAnimate] = useState(false);
 
   const [images, setImages] = useState(Array(18).fill(null));
@@ -359,6 +359,24 @@ const DateAlbum5 = () => {
   const [isDday, setIsDday] = useState();
   //디데이 값 저장
   const [saveDday, setSaveDday] = useState("");
+      
+  const pageMove = useCallback(() => {
+    setAnimate(true);
+    setTimeout(() => {
+      navigate(url);
+      clearUrl();
+    }, 1800);
+  }, [navigate, url, clearUrl]);
+
+  useEffect(() => {
+    if (url) {
+      if (window.location.pathname !== url) {
+        pageMove();
+      } else {
+        clearUrl();
+      }
+    }
+  }, [url, pageMove, clearUrl]);
 
   const closeModal = () => {
     setPageOpen(false);

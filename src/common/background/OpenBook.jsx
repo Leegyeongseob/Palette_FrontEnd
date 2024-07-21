@@ -108,7 +108,7 @@ const TopContain = styled.div`
     height: 15vh;
   }
 `;
-const OpenBook = () => {
+const OpenBook = ({ onNavigate }) => {
   // const coupleName = sessionStorage.getItem("coupleName");
   return (
     <Background>
@@ -120,7 +120,7 @@ const OpenBook = () => {
           </Link>
         </LogoDiv>
         <BookMarkDiv>
-          <BookMark />
+          <BookMark onNavigate={onNavigate}/>
         </BookMarkDiv>
       </TopContain>
       <Book>

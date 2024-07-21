@@ -6,7 +6,7 @@ import AlbumAxiosApi from "../../axiosapi/AlbumAxiosApi";
 import PagePop from "./import/PagePop";
 import TemaPop from "./import/TemaPop";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import deleteImageFromFirebase from "../../firebase/firebaseAlbumDel";
 import Modal from "../../pages/datediary/Modal";
 import modalImg from "../../img/commonImg/전구 아이콘.gif";
@@ -354,7 +354,7 @@ const PlusButton = styled.button`
   }
 `;
 
-const DateAlbum = () => {
+const DateAlbum = ({ url, clearUrl }) => {
   const [animate, setAnimate] = useState(false);
   const [imgBoxes, setImgBoxes] = useState(
     Array(15)
@@ -376,6 +376,25 @@ const DateAlbum = () => {
   //디데이 값 저장
   const [saveDday, setSaveDday] = useState("");
   //코드 모달 확인
+
+  const pageMove = useCallback(() => {
+    setAnimate(true);
+    setTimeout(() => {
+      navigate(url);
+      clearUrl();
+    }, 1800);
+  }, [navigate, url, clearUrl]);
+
+  useEffect(() => {
+    if (url) {
+      if (window.location.pathname !== url) {
+        pageMove();
+      } else {
+        clearUrl();
+      }
+    }
+  }, [url, pageMove, clearUrl]);
+
   const codeModalOkBtnHandler = () => {
     closeNextModal();
     navigate("/date-album");
