@@ -68,6 +68,11 @@ const BookTheme2 = styled.div`
   }
 `;
 
+const PaletteText = styled.div`
+  position: absolute;
+  font-size: 60px;
+`
+
 const BookSign = styled.div`
   width: 497px;
   height: 67vh;
@@ -91,6 +96,7 @@ const BookSign2 = styled.div`
   transform-origin: left;
   border-left: 0.5px solid black;
   overflow: hidden;
+  z-index: 999;
   ${({ animate }) =>
     animate &&
     css`
@@ -105,6 +111,7 @@ const BookSign2 = styled.div`
     height: 35vh;
   }
 `;
+
 const ContentsDiv = styled.div`
   width: 100%;
   height: 100%;
@@ -119,16 +126,14 @@ const ContentsDiv = styled.div`
     `}
   & > p {
     font-size: 60px;
-    font-weight: 600;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
   @media screen and (max-width: 1200px) {
-    font-size: 40px;
+    font-size: 45px;
     font-weight: 500;
   }
   @media screen and (max-width: 768px) {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 400;
+  }
   }
 `;
 const BeforeMainPage = () => {
@@ -149,16 +154,17 @@ const BeforeMainPage = () => {
       <BookTheme>
         <BookSign>
           <ContentsDiv>
-            <p>우리들의 이야기,</p>
+            <p>둘만의 공간,</p>
           </ContentsDiv>
         </BookSign>
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate={animate}>
           <ContentsDiv animate={animate}>
-            <p>지금 시작합니다!</p>
+            {/* <p>Palette</p> */}
           </ContentsDiv>
         </BookSign2>
+        <PaletteText>Palette</PaletteText>
       </BookTheme2>
     </>
   );
