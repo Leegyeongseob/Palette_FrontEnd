@@ -317,14 +317,14 @@ const QuestionBox = styled.div`
 `;
 
 const CustomerPage = () => {
-  useKakao("8f6501dd89f4d2c62daa077aaddd8ece"); // 여기에 본인의 카카오 앱 키를 입력하세요
+  useKakao("3e926147c6cccdc2e4dec8ce33bb6985"); // 여기에 본인의 카카오 앱 키를 입력하세요
   const recentNotices = notices.slice(0, 4);
   const recentQuestions = questions.slice(0, 5);
 
   const handleChat = () => {
     if (window.Kakao) {
       window.Kakao.Channel.chat({
-        channelPublicId: "raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요
+        channelPublicId: "_raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요
       });
     }
   };

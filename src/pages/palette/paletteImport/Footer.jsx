@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import one from "../../../img/loginImg/naver.png";
 import two from "../../../img/loginImg/kakako.png";
 import thr from "../../../img/commonImg/instagram.png";
+import useKakao from "./KakaoChat";
 
 const Footer = styled.div`
   width: 100%;
@@ -76,6 +77,7 @@ const Img = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  border: none;
   &:hover {
     transform: scale(0.9);
   }
@@ -114,7 +116,19 @@ const Copyright = styled.div`
   align-items: center;
 `;
 
-const Foot = () => (
+const Foot = () => {
+  useKakao("3e926147c6cccdc2e4dec8ce33bb6985"); // 여기에 본인의 카카오 앱 키를 입력하세요"3e926147c6cccdc2e4dec8ce33bb6985"
+
+  const handleChat = () => {
+    if (window.Kakao) {
+      window.Kakao.Channel.chat({
+        channelPublicId: "_raJpG", // 여기에 본인의 카카오톡 채널 ID를 입력하세요 "_raJpG"
+      });
+    }
+  };
+
+  return (
+    <>
   <Footer>
     <FooterLeft>
       <TitleBox>
@@ -124,7 +138,7 @@ const Foot = () => (
         </TitleLeft>
         <TitleRight>
           <Img url={one} />
-          <Img url={two} />
+          <Img url={two} as="button" onClick={handleChat} />
           <Img url={thr} />
         </TitleRight>
       </TitleBox>
@@ -147,6 +161,8 @@ const Foot = () => (
       </CopyrightBox>
     </FooterLeft>
   </Footer>
-);
+  </>
+)
+};
 
 export default Foot;

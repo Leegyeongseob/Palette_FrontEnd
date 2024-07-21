@@ -295,7 +295,7 @@ const InquiryPage = () => {
                 <InquiryTitle>❯❯ 1:1 문의하기</InquiryTitle>
                 <InfoBox>
                   <InfoTitle>연락처</InfoTitle>
-                  <InfoInput type="text" name="user_number" placeholder="ex)010-1234-5678" required />
+                  <InfoInput type="text" name="user_number" placeholder="ex) 010-1234-5678" required />
                   <CheckBox>
                     <CustomCheckbox type="checkbox" name="number_check" checked={numberCheck} onChange={handleNumberCheckChange} />
                     답변 등록 시 카카오톡 또는 문자 알림 수신 (미동의 할 경우 이메일만 답변)

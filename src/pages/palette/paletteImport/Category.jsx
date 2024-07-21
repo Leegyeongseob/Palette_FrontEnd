@@ -13,7 +13,7 @@ const Category = styled.div`
   border-right: 1px solid darkgray;
   @media screen and (max-width: 1100px) {
     width: 755px;
-    height: 6%;
+    height: 5%;
     flex-direction: row;
     margin-bottom: 3%;
     border-right: none;
@@ -47,7 +47,7 @@ const CateTitle = styled(Link)`
   ${(props) => props.isActive && activeTitleStyle}
   @media screen and (max-width: 1100px) {
     width: 20%;
-    height: 50%;
+    height: 55%;
     justify-content: center;
     margin-bottom: 0%;
     border-right: 1px solid gray;
@@ -70,7 +70,7 @@ const CateContent = styled(Link)`
   }
   ${(props) => props.isActive && activeStyle}
   @media screen and (max-width: 1100px) {
-    width: 15%;
+    width: 16%;
     height: 50%;
     margin-bottom: 0%;
     justify-content: center;
