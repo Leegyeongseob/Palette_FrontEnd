@@ -12,6 +12,7 @@ const BookTheme = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
+  border: 1px solid #696969;
   background-image: url(${chat});
   /* background-color: #d0d7e9; */
   background-size: cover;
@@ -35,6 +36,7 @@ const BookTheme2 = styled.div`
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.05vw;
+  border: 1px solid #696969;
   background-image: url(${chat_1});
   /* background-color: #d0d7e9; */
   background-size: cover;

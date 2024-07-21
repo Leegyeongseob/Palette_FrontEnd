@@ -50,6 +50,7 @@ const Chatpage = styled.div`
   height: 67vh;
   margin-top: 4.5%;
   margin-left: 0.7vw;
+  border: 1px solid #696969;  
   background: url(${(props) => props.backgroundImage}) no-repeat center center;
   /* background-color: #9b9b9b; */
   background-size: cover;
@@ -518,9 +519,6 @@ const ChatMain = () => {
     onClickMsgClose();
     setModalOpen(false);
     navigate("/chat");
-  };
-  const clickTopBtn = () => {
-    navigate(-1);
   };
 
   // 이미지 업로드 부분

@@ -11,6 +11,7 @@ import useKakao from "./paletteImport/KakaoChat";
 import { exText as notices } from "./PaletteNotice";
 import { questions } from "./PaletteHelp";
 import QnAItem from "./paletteImport/CustomerQnA";
+import ScrollToTop from "./paletteImport/ScrollToTop";
 
 const Tdfont = styled(Link)`
   display: flex;
@@ -29,7 +30,7 @@ const Tdfont = styled(Link)`
   td {
     padding: 15px;
     border-bottom: 1px solid gray;
-    font-size: 1rem; /* 기본 폰트 크기 설정 */
+    font-size: 16px; /* 기본 폰트 크기 설정 */
     min-width: 220px;
   }
 
@@ -51,8 +52,7 @@ const Background = styled.div`
   height: 200vh;
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 1200px) {
+  @media (max-width: 1100px) {
     font-size: 20px;
   }
 
@@ -69,12 +69,23 @@ const Container = styled.div`
   align-items: center;
   background-color: #fff9f2;
   position: sticky;
+  @media screen and (max-width: 1100px) {
+    min-width: 840px;
+  }
 `;
 
 const BoardWrapper = styled.div`
-  width: 70%;
+  width: 1380px;
   height: 90%;
   display: flex;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    margin-left: 10%;
+    min-width: 755px;
+  }
+  @media screen and (max-width: 768px) {
+    margin-left: 5%;
+  }
 `;
 
 const Board = styled.div`
@@ -85,6 +96,9 @@ const Board = styled.div`
   justify-content: flex-start;
   align-items: center;
   background-color: #fff9f0;
+  @media screen and (max-width: 1100px) {
+    min-width: 755px;
+  }
 `;
 
 const HelpRoot = styled.div`
@@ -92,19 +106,11 @@ const HelpRoot = styled.div`
   height: 3%;
   display: flex;
   flex-direction: row;
-  font-size: 11px; /* 기본 폰트 크기 설정 */
-  /* 
-  @media (max-width: 1200px) {
-    font-size: 1.2rem;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-  } */
+  font-size: 14px; 
 `;
 
 const Root = styled(Link)`
-  width: 6%;
+  width: 7%;
   height: 100%;
   display: flex;
   text-decoration: none;
@@ -120,7 +126,7 @@ const Root2 = styled(Root)`
 `;
 
 const Root3 = styled(Root)`
-  width: 6.5%;
+  width: 8%;
 `;
 
 const CustomerBox = styled.div`
@@ -133,7 +139,7 @@ const CustomerBox = styled.div`
   background-color: #dddddd;
   color: #303030;
   font-size: 1rem;
-  @media (max-width: 1200px) {
+  @media (max-width: 1100px) {
     font-size: 0.8rem;
   }
 
@@ -165,7 +171,7 @@ const BoxLeftUp = styled.div`
 const BoxLeftDown = styled.div`
   width: 90%;
   height: 30%;
-  font-size: 0.8rem;
+  font-size: 16px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -418,6 +424,7 @@ const CustomerPage = () => {
           </BoardWrapper>
         </Container>
         <Footer />
+        <ScrollToTop/>
       </Background>
     </>
   );

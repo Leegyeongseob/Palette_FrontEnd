@@ -18,7 +18,6 @@ const BookWrapper = styled.div`
   height: 82.5%;
   margin-top: 3.5%;
   margin-left: 14px;
- 
   background-size: cover;
   opacity: 0.8;
   display: flex;
@@ -28,12 +27,16 @@ const BookWrapper = styled.div`
 const LBookContainer = styled.div`
   border: 1px solid red;
   background-image: url(${theme6});
+  background-size: cover;
+  background-position: left;
   width: 50%;
   height: 100%;
 `;
 const RBookContainer = styled.div`
   border: 1px solid blue;
   background-image: url(${theme6});
+  background-size: cover;
+  background-position: right;
   width: 50%;
   height: 100%;
 `;
