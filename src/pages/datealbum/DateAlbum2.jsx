@@ -410,7 +410,6 @@ const DateAlbum2 = ({ url, clearUrl }) => {
   //디데이 값 저장
   const [saveDday, setSaveDday] = useState("");
 
-  
   const pageMove = useCallback(() => {
     setAnimate2(true);
     setTimeout(() => {

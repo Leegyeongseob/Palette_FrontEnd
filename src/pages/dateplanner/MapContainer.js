@@ -15,27 +15,27 @@ const MapWrap = styled.div`
 `;
 
 const CategoryList = styled.ul`
-    position: absolute;
-    width: 339px;
-    bottom: 10px;
-    left: 10px;
-    border-radius: 5px;
-    border: 1px solid #909090;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-    background: #fff;
-    z-index: 2;
-    display: flex;
-    @media screen and (max-width: 768px) {
+  position: absolute;
+  width: 339px;
+  bottom: 10px;
+  left: 10px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  z-index: 2;
+  display: flex;
+  @media screen and (max-width: 768px) {
     width: 80%;
     left: 18%;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
-  max-height: ${({ expanded }) => (expanded ? '300px' : '0')}; /* 기본적으로 접힌 상태로 설정 */
-    
+    max-height: ${({ expanded }) =>
+      expanded ? "300px" : "0"}; /* 기본적으로 접힌 상태로 설정 */
+
     .category-text {
-      display: none; 
+      display: none;
     }
-    
   }
 `;
 
@@ -51,22 +51,20 @@ const ToggleButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 2vw;
-  display:none;
+  display: none;
   @media screen and (max-width: 768px) {
-    display:block;
+    display: block;
   }
-
 `;
 
-
 const CategoryItem = styled.li`
-    float: left;
-    width: 20%;
-    padding: 6px 0;
-    text-align: center;
-    cursor: pointer;
-    border-right: 1px solid #acacac;
-    font-size: 13px;
+  float: left;
+  width: 20%;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+  border-right: 1px solid #acacac;
+  font-size: 13px;
   &.on {
     background: #eee;
   }
@@ -95,12 +93,10 @@ const CategoryIcon = styled.span`
 
 const Search = styled.form`
   margin: 10px 10px 10px 0;
-  
+
   display: flex;
   justify-content: flex-end;
 `;
-
-
 
 const MapContainer = ({
   clearOverlay,
@@ -117,7 +113,6 @@ const MapContainer = ({
   const [markers, setMarkers] = useState([]);
   const ps = new window.kakao.maps.services.Places(map);
   const [expanded, setExpanded] = useState(false); // 토글 상태
-  
 
   useEffect(() => {
     const { kakao } = window;
@@ -126,14 +121,15 @@ const MapContainer = ({
     if (!Container) return;
 
     const mapOption = {
-      center: new kakao.maps.LatLng(location.lat, location.long),
+      // center: new kakao.maps.LatLng(location.lat, location.long),
+      center: new kakao.maps.LatLng(37.4979, 127.0276), // 초기 위치 설정
       level: 6,
     };
 
     const newMap = new kakao.maps.Map(Container, mapOption);
     setMap(newMap);
     ps.current = new kakao.maps.services.Places(newMap);
-  }, [location.lat, location.long]);
+  }, []);
 
   useEffect(() => {
     if (map) {
@@ -279,10 +275,6 @@ const MapContainer = ({
     map.setBounds(bounds);
   };
 
-  
-
-  
-
   return (
     <>
       <MapSection
@@ -291,7 +283,7 @@ const MapContainer = ({
         placesSearchCB={placesSearchCB}
       >
         <MapWrap ref={mapContainer}>
-        <CategoryList expanded={expanded} id="category">
+          <CategoryList expanded={expanded} id="category">
             {["CE7", "FD6", "AD5", "AT4", "CT1", "CS2"].map((id) => (
               <CategoryItem
                 key={id}

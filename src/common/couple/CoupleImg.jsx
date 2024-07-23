@@ -33,7 +33,6 @@ const ProfileDiv = styled.div`
   display: ${({ clothes }) => (clothes ? "flex" : "block")};
   flex-direction: ${({ direction }) => (direction ? "row-reverse" : "row")};
   justify-content: space-evenly;
-  /* background-color: ${({ clothes }) => (clothes ? "aliceblue" : "none")}; */
   @media screen and (max-width: 1200px) {
     width: ${({ clothes }) => (clothes ? "100%" : "190px")};
     height: ${({ clothes }) => (clothes ? "100%" : "19vh")};
@@ -47,9 +46,15 @@ const ProfileImgDiv = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: ${({ clothes }) => (clothes ? "first baseline" : "center")};
   align-items: center;
-  /* background-color: ${({ clothes }) => (clothes ? "lightblue" : "none")}; */
+`;
+const ProfileImgDiv2 = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: ${({ clothes }) => (clothes ? "end" : "center")};
+  align-items: center;
 `;
 const HeartDiv = styled.div`
   width: 4vw;
@@ -150,6 +155,8 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
   const coupleName = sessionStorage.getItem("coupleName");
   const [IsExistImg, setIsExistImg] = useState([false, false]);
   const [saveFirstEmail, setSaveFirstEmail] = useState("");
+  // 성별을 저장하는 변수
+  const [firstProfileUrl, setFirstProfileUrl] = useState([]);
 
   //카카오 로그인시 프로필 자동 변경
   const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
@@ -164,6 +171,9 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
     if (kakaoProfileUrl !== null) {
       kakaoProfileImgAxios(email, kakaoProfileUrl);
     }
+    mySexSearchAxios(email);
+    sessionStorage.setItem("imgUrl", firstProfileUrl[0]);
+    sessionStorage.setItem("myDarling", firstProfileUrl[1]);
   }, []);
   const coupleNickNameAxios = async (emailData) => {
     console.log("emailData : " + emailData);
@@ -247,8 +257,6 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       coupleNameData,
       emailData
     );
-    sessionStorage.setItem("imgUrl", manprofile);
-    sessionStorage.setItem("myDarling", womanprofile);
 
     console.log(res.data);
 
@@ -263,13 +271,22 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       sessionStorage.setItem("myDarling", res.data[1]);
     }
   };
-
+  //본인 성별 가져오는 비동기 함수
+  const mySexSearchAxios = async (emailValue) => {
+    const resSex = await MainAxios.mySexSearch(emailValue);
+    console.log("resSex :" + resSex.data);
+    if (resSex.data === "Man") {
+      setFirstProfileUrl([manprofile, womanprofile]);
+    } else {
+      setFirstProfileUrl([womanprofile, manprofile]);
+    }
+  };
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv clothes={clothes}>
           <Profile
-            imageurl={IsExistImg[0] ? imgUrl : manprofile}
+            imageurl={IsExistImg[0] ? imgUrl : firstProfileUrl[0]}
             clothes={clothes}
           >
             {isMyHome && (
@@ -291,12 +308,12 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
         <Heart clothes={clothes} />
       </HeartDiv>
       <ProfileDiv clothes={clothes} direction={true}>
-        <ProfileImgDiv clothes={clothes}>
+        <ProfileImgDiv2 clothes={clothes}>
           <Profile
-            imageurl={IsExistImg[1] ? myDarling : womanprofile}
+            imageurl={IsExistImg[1] ? myDarling : firstProfileUrl[1]}
             clothes={clothes}
           />
-        </ProfileImgDiv>
+        </ProfileImgDiv2>
         <Text clothes={clothes}>{coupleNickName[1] || "달콩"}</Text>
       </ProfileDiv>
     </Contain>

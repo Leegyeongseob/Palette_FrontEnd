@@ -610,7 +610,7 @@ const BackMyHome = styled.div`
   }
 `;
 
-const MainPage = ({url, clearUrl}) => {
+const MainPage = ({ url, clearUrl }) => {
   const coupleName = sessionStorage.getItem("coupleName");
   const navigate = useNavigate();
   // 커플 이름 검색 후 추가

@@ -2,7 +2,7 @@ import styled, { css, keyframes } from "styled-components";
 import CoupleImage from "../../common/couple/CoupleImg";
 import Swiper from "./Swiper";
 import { useCallback, useEffect, useState } from "react";
-import clothesBg1 from "../../img/background/theme/clothes_background.jpg";
+import clothesBg1 from "../../img/background/theme/4.jpg";
 import { useNavigate } from "react-router-dom";
 
 const turnPageLeft = keyframes`
@@ -24,11 +24,11 @@ const CoupleimgCon = styled.div`
   margin-left: 103%;
   display: flex;
   justify-content: center;
-  width: 745px;
+  width: 580px;
   height: 20%;
   position: relative;
   gap: 500px;
-  z-index: 1;  
+  z-index: 1;
   ${({ animate }) =>
     animate &&
     css`
@@ -108,7 +108,7 @@ const BookSign2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;  
+  justify-content: end;
   background-image: url(${clothesBg1});
   background-size: cover;
   transform: perspective(1000px) rotateY(0deg); /* 애니메이션 초기 위치 */
@@ -155,7 +155,7 @@ const OptionDiv = styled.div`
   width: 100%;
   height: 38px;
   display: flex;
-  justify-content: end;  
+  justify-content: end;
   ${({ animate }) =>
     animate &&
     css`
@@ -197,70 +197,8 @@ const OptionsSelectDiv = styled.div`
   height: 4vh;
   display: flex;
   align-items: flex-end;
-  z-index: 100;
+  z-index: 1;
 `;
-
-const ButtonDiv = styled.div`
-  width: 79px;
-  height: 5vh;
-  margin-right: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 1200px) {
-    width: 70px;
-    height: 4.5vh;
-  }
-  @media screen and (max-width: 768px) {
-    width: 60px;
-    height: 3vh;
-  }
-`;
-
-const ButtonRightDiv = styled.div`
-  width: 79px;
-  height: 5vh;
-  margin-left: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 1200px) {
-    width: 70px;
-    height: 4.5vh;
-  }
-  @media screen and (max-width: 768px) {
-    width: 60px;
-    height: 3vh;
-  }
-`;
-
-const StroeButton = styled.div`
-  width: 79px;
-  height: 3.5vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-  font-size: 16px;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-  }
-  @media screen and (max-width: 1200px) {
-    width: 70px;
-    height: 3vh;
-    font-size: 15px;
-  }
-  @media screen and (max-width: 768px) {
-    width: 50px;
-    height: 2.5vh;
-    font-size: 12px;
-  }
-`;
-
 const ClothesFormContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -278,7 +216,7 @@ const ClothesFormContainer = styled.div`
 const ClothesForm = styled.div`
   width: 253px;
   height: 100%;
-  background-color: #fff;
+  background-color: #fafafa;
   margin-right: 15%;
   border-radius: 0.521vw;
   border: 2px solid pink;
@@ -295,7 +233,7 @@ const ClothesForm = styled.div`
 const ClothesForm2 = styled.div`
   width: 253px;
   height: 100%;
-  background-color: #fff;
+  background-color: #fafafa;
   margin-left: 15%;
   border-radius: 0.521vw;
   border: 2px solid pink;
@@ -343,9 +281,6 @@ const DateClothes = ({ url, clearUrl }) => {
             <CoupleImage clothes={true} />
           </CoupleimgCon>
           <ClothesFormContainer>
-            <ButtonDiv>
-              <StroeButton>저장</StroeButton>
-            </ButtonDiv>
             <ClothesForm>
               <Swiper clothNum={1} />
               <Swiper clothNum={2} />
@@ -382,9 +317,6 @@ const DateClothes = ({ url, clearUrl }) => {
               <Swiper clothNum={7} OnePiece={isOnePiece} />
               <Swiper shoes={true} clothNum={6} />
             </ClothesForm2>
-            <ButtonRightDiv>
-              <StroeButton>저장</StroeButton>
-            </ButtonRightDiv>
           </ClothesFormContainer>
         </BookSign2>
       </BookTheme2>
