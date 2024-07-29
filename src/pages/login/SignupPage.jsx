@@ -24,7 +24,7 @@ const TitleDiv = styled.div`
   font-size: 18px;
   font-weight: 900;
   color: #b44a4a;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 3vw;
   }
 `;
@@ -44,7 +44,7 @@ const InputDetailDiv = styled.div`
   height: 32px;
   display: flex;
   gap: 2px;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     height: 5vw;
   }
 
@@ -58,7 +58,7 @@ const InputDetailDiv = styled.div`
     color: #b44a4a;
     text-align: center;
     font-weight: bolder;
-    @media screen and (max-width: 654px) {
+    @media screen and (max-aspect-ratio: 0.7) {
       font-size: 2vw;
     }
   }
@@ -67,7 +67,7 @@ const InputDetailDiv = styled.div`
   & > .InputCoupleName,
   & > .InputCode {
     width: 53%;
-    height: 100%;
+    height: 70%;
     border-radius: 0.521vw;
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
@@ -76,7 +76,7 @@ const InputDetailDiv = styled.div`
     padding-left: 0.521vw;
     font-size: 14px;
     font-weight: 600;
-    @media screen and (max-width: 654px) {
+    @media screen and (max-aspect-ratio: 0.7) {
       font-size: 2vw;
     }
   }
@@ -103,7 +103,7 @@ const EmailAthouized = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   }
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
@@ -127,13 +127,13 @@ const CoupleEmailAthouized = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.2)"};
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 14px;
   }
 `;
 const RegisterationInput1 = styled.input`
   width: 22%;
-  height: 100%;
+  height: 70%;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -142,26 +142,26 @@ const RegisterationInput1 = styled.input`
   padding-left: 0.521vw;
   font-size: 14px;
   font-weight: 600;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
 const Text = styled.div`
   width: 3%;
-  height: 100%;
+  height: 70%;
   font-weight: bolder;
   font-size: 15px;
   color: #b44a4a;
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
 const RegisterationInput2 = styled.input`
   width: 7%;
-  height: 100%;
+  height: 70%;
   border-radius: 0.521vw;
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -170,7 +170,7 @@ const RegisterationInput2 = styled.input`
   padding-left: 0.208vw;
   font-size: 14px;
   font-weight: 600;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
@@ -180,7 +180,7 @@ const CoupleText = styled.div`
   color: #b44a4a;
   display: flex;
   align-items: center;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
@@ -209,7 +209,7 @@ const SignupButton = styled.div`
     background-color: ${({ isActive }) =>
       isActive ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.2)"};
   }
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
@@ -225,7 +225,7 @@ const Message = styled.div`
   display: flex;
   justify-content: center;
   color: ${({ isCorrect }) => (isCorrect ? "green" : "red")};
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 2vw;
   }
 `;
@@ -237,7 +237,7 @@ const TermsForm = styled.div`
   position: absolute;
   overflow-y: auto;
 
-  @media screen and (max-width: 715px) {
+  @media screen and (max-aspect-ratio: 0.75) {
     width: 42%;
     height: auto;
     aspect-ratio: 358 / 482; /* 너비와 높이 비율 설정 */
@@ -267,7 +267,7 @@ const TermImgDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   animation: ${focusInExpand} 0.5s ease-in-out; /* 애니메이션 적용 */
-  @media screen and (max-width: 715px) {
+  @media screen and (max-aspect-ratio: 0.75) {
     width: 135%;
     min-width: 687px;
   }

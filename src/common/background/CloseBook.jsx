@@ -51,33 +51,33 @@ const Book = styled.div`
 const BookTheme = styled.div`
   width: 100%;
   height: 100%;
-  margin-left: 52px;
-  margin-bottom: 63px;
+  margin-left: 2.5vw;
+  margin-bottom: 9vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 654px) {
-    margin-left: 8%;
+  @media screen and (max-aspect-ratio: 0.7) {
+    margin-left: calc(0.3vh + 1.5vw);
     margin-bottom: 10%;
   }
 `;
 
 const LogoDiv = styled.div`
-  width: 420px;
-  aspect-ratio: 420 /170;
+  width: 50vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     width: 70%;
     height: auto; /* 높이 자동 조절 */
   }
 `;
 
 const Logo = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 18vh;
+  height: 18vh;
   background-image: url(${logo});
   background-size: contain;
   background-repeat: no-repeat;
@@ -88,25 +88,24 @@ const Logo = styled.div`
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
   }
 
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     width: 22vw;
     height: 22vw;
   }
 `;
 
 const Contents = styled.div`
-  width: 420px;
-  aspect-ratio: 420 /460;
+  width: 50vh;
+  height: 57vh;
   display: flex;
   flex-direction: column;
-
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
-
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     width: 70%;
-    height: auto; /* 높이 자동 조절 */
+    height: auto;
+    aspect-ratio: 0.84; /* 높이 자동 조절 */
   }
 `;
 

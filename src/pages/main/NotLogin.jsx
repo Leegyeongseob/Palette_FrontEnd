@@ -21,10 +21,10 @@ const PaletteDiv = styled.div`
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: 177px;
+  font-size: 18vh;
   font-weight: normal;
   font-family: "Cafe24Lovingu";
-  @media screen and (max-width: 654px) {
+  @media screen and (max-aspect-ratio: 0.7) {
     font-size: 27vw;
   }
 `;
@@ -44,14 +44,16 @@ const LoginDiv = styled.div`
   }
 `;
 const StyledBsPersonCircle = styled(BsPersonCircle)`
-  width: 77%;
-  height: 100%;
+  width: 75%;
+  height: 92%;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   &:hover {
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
+  }
+  @media screen and (max-aspect-ratio: 0.7) {
   }
 `;
 const NotLogin = () => {
