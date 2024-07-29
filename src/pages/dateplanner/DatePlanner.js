@@ -29,19 +29,16 @@ const turnPageLeft = keyframes`
 `;
 
 const BookWrapper = styled.div`
-  border: 1px solid green;
   width: 85%;
   height: 82.5%;
   margin-top: 3.5%;
   margin-left: 14px;
   background-size: cover;
-  /* opacity: 0.8; */
   display: flex;
   justify-content: space-between;
 `;
 
 const LBookContainer = styled.div`
-  border: 1px solid red;
   background-image: url(${theme6});
   background-size: cover;
   background-position: left;
@@ -81,7 +78,6 @@ const BookSign2 = styled.div`
 `;
 
 const RBookContainer = styled.div`
-  border: 1px solid blue;
   width: 100%;
   height: 100%;
   ${({ animate }) =>

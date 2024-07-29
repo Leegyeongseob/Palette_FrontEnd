@@ -44,7 +44,7 @@ const CoupleimgCon = styled.div`
 `;
 
 const BookTheme = styled.div`
-  width: 497px;
+  width: 500px;
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.7vw;
@@ -56,19 +56,19 @@ const BookTheme = styled.div`
   display: flex;
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
-    width: 41.5%;
-    height: 56vh;
-    margin-top: 4vh;
+    width: 42%;
+    height: 530px;
+    margin-top: 3.6vh;
   }
   @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 34.5vh;
-    margin-top: 3vh;
+    width: 42%;
+    height: 338px;
+    margin-top: 2vh;
   }
 `;
 
 const BookTheme2 = styled.div`
-  width: 497px;
+  width: 500px;
   height: 67vh;
   margin-top: 5vh;
   margin-left: 0.1vw;
@@ -80,14 +80,14 @@ const BookTheme2 = styled.div`
   display: flex;
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
-    width: 41.5%;
-    height: 56vh;
-    margin-top: 4vh;
+    width: 42%;
+    height: 530px;
+    margin-top: 3.6vh;
   }
   @media screen and (max-width: 768px) {
-    width: 41.5%;
-    height: 34.5vh;
-    margin-top: 3vh;
+    width: 42%;
+    height: 338px;
+    margin-top: 2vh;
   }
 `;
 

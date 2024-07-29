@@ -50,21 +50,20 @@ const Chatpage = styled.div`
   height: 67vh;
   margin-top: 4.5%;
   margin-left: 0.7vw;
-  border: 1px solid #696969;  
+  border: 1px solid #696969;
   background: url(${(props) => props.backgroundImage}) no-repeat center center;
-  /* background-color: #9b9b9b; */
   background-size: cover;
   position: relative;
 
   @media screen and (max-width: 1200px) {
     width: 100%;
-    height: 56vh;
-    margin-top: 4vh;
+    height: 530px;
+    margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 34.5vh;
-    margin-top: 3vh;
+    height: 338px;
+    margin-top: 2.8vh;
   }
 `;
 const Textarea = styled.div`
@@ -311,7 +310,7 @@ const InputText = styled.div`
   }
 `;
 
-const ChatMain = ({url, clearUrl}) => {
+const ChatMain = ({ url, clearUrl }) => {
   const [isPlusMenuVisible, setPlusMenuVisible] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(chatBack7);
   const [isTemaMenuVisible, setTemaMenuVisible] = useState(false);

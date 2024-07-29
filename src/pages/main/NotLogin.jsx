@@ -35,7 +35,7 @@ const LoginDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  & > a{
+  & > a {
     width: 50%;
     height: 50%;
     display: flex;
@@ -52,9 +52,6 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
   &:hover {
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
-  }
-  @media screen and (max-width: 654px) {
-   
   }
 `;
 const NotLogin = () => {

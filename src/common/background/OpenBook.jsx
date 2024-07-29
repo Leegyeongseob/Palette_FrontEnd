@@ -78,7 +78,6 @@ const Book = styled.div`
   width: 1190px;
   height: 85vh;
   background-image: url(${openbook});
-  /* background-size: contain; */
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -109,7 +108,6 @@ const TopContain = styled.div`
   }
 `;
 const OpenBook = ({ onNavigate }) => {
-  // const coupleName = sessionStorage.getItem("coupleName");
   return (
     <Background>
       <TopContain>
@@ -120,7 +118,7 @@ const OpenBook = ({ onNavigate }) => {
           </Link>
         </LogoDiv>
         <BookMarkDiv>
-          <BookMark onNavigate={onNavigate}/>
+          <BookMark onNavigate={onNavigate} />
         </BookMarkDiv>
       </TopContain>
       <Book>

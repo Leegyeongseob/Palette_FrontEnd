@@ -28,7 +28,7 @@ const BookMarkDiv = styled.div`
 `;
 const BookMarks = styled.div`
   width: 50px;
-  height: 100px;
+  height: 10.5vh;
   border: 1px solid #000;
   border-radius: 10px 10px 0 0;
   font-size: 12.5px;
@@ -44,12 +44,12 @@ const BookMarks = styled.div`
   border-bottom: none;
   @media screen and (max-width: 1200px) {
     width: 40px;
-    height: 80px;
+    height: 8vh;
     font-size: 10px;
   }
   @media screen and (max-width: 768px) {
     width: 25px;
-    height: 50px;
+    height: 5.5vh;
     font-size: 7px;
     border-radius: 5px 5px 0 0;
   }
@@ -90,7 +90,9 @@ const BookMark = ({ onNavigate }) => {
   // 주인인지 방문객인지 확인
   const compareCoulpleNameFunction = async (emailData) => {
     try {
-      const coupleNameData = await MemberAxiosApi.renderCoupleNameSearch(emailData);
+      const coupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
+        emailData
+      );
       if (coupleNameData.data !== coupleName) {
         // 본인이 아닌 경우
         return false; // 결과를 false로 반환
@@ -103,23 +105,26 @@ const BookMark = ({ onNavigate }) => {
       return false; // 오류 발생 시 false 반환
     }
   };
-  
+
   const OpenDiaryOnClickHandler = async () => {
     try {
       const isCouple = await compareCoulpleNameFunction(email);
-      
-      if (isCouple) { // 커플일 경우
+
+      if (isCouple) {
+        // 커플일 경우
         if (await isCoupleAxios(email)) {
           onNavigate("/date-diary");
-        } else { // 모달
+        } else {
+          // 모달
           soloModal();
           console.log("솔로는 웁니다.");
         }
-      } else { // 커플이 아닌 경우
-      setModalOpen(true);
-      setNotEqualCoupleName(true);
-      setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-      navigator(`/${coupleName}/main-page`);
+      } else {
+        // 커플이 아닌 경우
+        setModalOpen(true);
+        setNotEqualCoupleName(true);
+        setModalContent("방문자는 해당 기능이 잠겨있습니다.");
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -130,19 +135,22 @@ const BookMark = ({ onNavigate }) => {
   const OpenAlbumOnClickHandler = async () => {
     try {
       const isCouple = await compareCoulpleNameFunction(email);
-      
-      if (isCouple) { // 커플일 경우
+
+      if (isCouple) {
+        // 커플일 경우
         if (await isCoupleAxios(email)) {
           onNavigate("/date-album");
-        } else { // 모달
+        } else {
+          // 모달
           soloModal();
           console.log("솔로는 웁니다.");
         }
-      } else { // 커플이 아닌 경우
-      setModalOpen(true);
-      setNotEqualCoupleName(true);
-      setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-      navigator(`/${coupleName}/main-page`);
+      } else {
+        // 커플이 아닌 경우
+        setModalOpen(true);
+        setNotEqualCoupleName(true);
+        setModalContent("방문자는 해당 기능이 잠겨있습니다.");
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -153,19 +161,22 @@ const BookMark = ({ onNavigate }) => {
   const OpenClothesOnClickHandler = async () => {
     try {
       const isCouple = await compareCoulpleNameFunction(email);
-      
-      if (isCouple) { // 커플일 경우
+
+      if (isCouple) {
+        // 커플일 경우
         if (await isCoupleAxios(email)) {
           onNavigate("/date-clothes");
-        } else { // 모달
+        } else {
+          // 모달
           soloModal();
           console.log("솔로는 웁니다.");
         }
-      } else { // 커플이 아닌 경우
-      setModalOpen(true);
-      setNotEqualCoupleName(true);
-      setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-      navigator(`/${coupleName}/main-page`);
+      } else {
+        // 커플이 아닌 경우
+        setModalOpen(true);
+        setNotEqualCoupleName(true);
+        setModalContent("방문자는 해당 기능이 잠겨있습니다.");
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -176,19 +187,22 @@ const BookMark = ({ onNavigate }) => {
   const OpenDateplannerOnClickHandler = async () => {
     try {
       const isCouple = await compareCoulpleNameFunction(email);
-      
-      if (isCouple) { // 커플일 경우
+
+      if (isCouple) {
+        // 커플일 경우
         if (await isCoupleAxios(email)) {
           onNavigate(`/${coupleName}/dateplanner`);
-        } else { // 모달
+        } else {
+          // 모달
           soloModal();
           console.log("솔로는 웁니다.");
         }
-      } else { // 커플이 아닌 경우
-      setModalOpen(true);
-      setNotEqualCoupleName(true);
-      setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-      navigator(`/${coupleName}/main-page`);
+      } else {
+        // 커플이 아닌 경우
+        setModalOpen(true);
+        setNotEqualCoupleName(true);
+        setModalContent("방문자는 해당 기능이 잠겨있습니다.");
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -209,19 +223,22 @@ const BookMark = ({ onNavigate }) => {
   const OpenChatOnClickHandler = async () => {
     try {
       const isCouple = await compareCoulpleNameFunction(email);
-      
-      if (isCouple) { // 커플일 경우
+
+      if (isCouple) {
+        // 커플일 경우
         if (await isCoupleAxios(email)) {
           onNavigate(`/Chat`);
-        } else { // 모달
+        } else {
+          // 모달
           soloModal();
           console.log("솔로는 웁니다.");
         }
-      } else { // 커플이 아닌 경우
-      setModalOpen(true);
-      setNotEqualCoupleName(true);
-      setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-      navigator(`/${coupleName}/main-page`);
+      } else {
+        // 커플이 아닌 경우
+        setModalOpen(true);
+        setNotEqualCoupleName(true);
+        setModalContent("방문자는 해당 기능이 잠겨있습니다.");
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리

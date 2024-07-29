@@ -47,12 +47,12 @@ const BookTheme = styled.div`
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -70,12 +70,12 @@ const BookTheme2 = styled.div`
   justify-content: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -88,11 +88,11 @@ const BookSign = styled.div`
   align-items: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
   }
 `;
 
@@ -112,11 +112,11 @@ const BookSign2 = styled.div`
     `}
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
   }
 `;
 

@@ -33,7 +33,6 @@ const turnPageLeft = keyframes`
     transform-origin: left;
   }
 `;
-
 const BookTheme = styled.div`
   width: 497px;
   height: 67vh;
@@ -48,12 +47,12 @@ const BookTheme = styled.div`
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -73,12 +72,12 @@ const BookTheme2 = styled.div`
   align-items: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -88,12 +87,12 @@ const BookSign = styled.div`
   height: 100%;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 1vh;
   }
 `;
@@ -114,28 +113,27 @@ const BookSign2 = styled.div`
 
   @media screen and (max-width: 1200px) {
     width: 430px;
-    height: 56vh;
+    height: 530px;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
   }
 `;
 
 const CoupleDiv = styled.div`
   width: 497px;
-  height: 22vh;
+  height: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 16vh;
+    height: 26%;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 10vh;
   }
 `;
 const PaletteBanner = styled.div`
@@ -488,7 +486,7 @@ const SettingFormat = styled.div`
   padding-left: 150px;
   height: auto;
   border-radius: 10px;
-  margin-top: 22vh;
+  margin-top: 200px;
   display: flex;
   justify-content: end;
   align-items: center;
@@ -535,7 +533,7 @@ const Btn = styled.div`
 `;
 const BtnDiv = styled.div`
   width: 260px;
-  height: 20vh;
+  height: 200px;
 
   display: flex;
   flex-direction: column;

@@ -33,12 +33,12 @@ const BookTheme = styled.div`
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -58,12 +58,12 @@ const BookTheme2 = styled.div`
   align-items: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
     margin-top: 4.2vh;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
     margin-top: 2.8vh;
   }
 `;
@@ -71,7 +71,7 @@ const BookTheme2 = styled.div`
 const PaletteText = styled.div`
   position: absolute;
   font-size: 60px;
-`
+`;
 
 const BookSign = styled.div`
   width: 497px;
@@ -79,11 +79,11 @@ const BookSign = styled.div`
 
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
   }
 `;
 const BookSign2 = styled.div`
@@ -104,11 +104,11 @@ const BookSign2 = styled.div`
     `}
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 56vh;
+    height: 530px;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
-    height: 35vh;
+    height: 338px;
   }
 `;
 
@@ -126,14 +126,14 @@ const ContentsDiv = styled.div`
     `}
   & > p {
     font-size: 60px;
-  @media screen and (max-width: 1200px) {
-    font-size: 45px;
-    font-weight: 500;
-  }
-  @media screen and (max-width: 768px) {
-    font-size: 25px;
-    font-weight: 400;
-  }
+    @media screen and (max-width: 1200px) {
+      font-size: 45px;
+      font-weight: 500;
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 25px;
+      font-weight: 400;
+    }
   }
 `;
 const BeforeMainPage = () => {
@@ -160,9 +160,7 @@ const BeforeMainPage = () => {
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate={animate}>
-          <ContentsDiv animate={animate}>
-            {/* <p>Palette</p> */}
-          </ContentsDiv>
+          <ContentsDiv animate={animate}>{/* <p>Palette</p> */}</ContentsDiv>
         </BookSign2>
         <PaletteText>Palette</PaletteText>
       </BookTheme2>
