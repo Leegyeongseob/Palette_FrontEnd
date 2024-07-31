@@ -61,7 +61,7 @@ const HelpRoot = styled.div`
   width: 90%;
   height: 5%;
   display: flex;
-  font-size: 14px; 
+  font-size: 14px;
 `;
 
 const Root = styled(Link)`
@@ -398,7 +398,7 @@ const NoticePage = () => {
           </BoardWrapper>
         </Container>
         <Footer />
-        <ScrollToTop/>
+        <ScrollToTop />
       </Background>
     </>
   );

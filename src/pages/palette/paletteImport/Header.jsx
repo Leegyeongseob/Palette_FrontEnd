@@ -5,8 +5,8 @@ import Logo from "../../../img/background/logo.png";
 import PLogo from "../../../img/background/paletteLogo.png";
 
 const HeaderContainer = styled.div`
-  width: 100%;
-  height: 10vh;
+  width: 100vw;
+  height: 17vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
@@ -53,13 +53,14 @@ const CenterLogo = styled(Link)`
 `;
 
 const MenuBar = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 5vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: sticky;
   top: 0;
   z-index: 1000;

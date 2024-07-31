@@ -623,7 +623,7 @@ const SignupPage = () => {
     console.log(resCoupleName.data);
     // `coupleName`을 `sessionStorage`에 저장합니다.
     sessionStorage.setItem("coupleName", resCoupleName.data);
-    navigate(`/${resCoupleName.data}/main-page`);
+    navigate(`/main-page`);
   };
   //카카오 바로 로그인
   const kakaoLogin = async (kakoEmailvalue, kakaoPwdValue) => {
@@ -632,7 +632,6 @@ const SignupPage = () => {
       if (response.data.grantType === "bearer") {
         console.log("이거 : " + kakoEmailvalue);
         console.log("제발 : " + kakaoPwdValue);
-        const response = await LoginAxios.login(kakoEmailvalue, kakaoPwdValue);
         console.log("accessToken : ", response.data.accessToken);
         console.log("refreshToken : ", response.data.refreshToken);
         Common.setAccessToken(response.data.accessToken);
