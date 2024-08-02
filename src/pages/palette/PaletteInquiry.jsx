@@ -4,7 +4,7 @@ import Header from "./paletteImport/Header";
 import Category from "./paletteImport/Category";
 import Footer from "./paletteImport/Footer";
 import { Link } from "react-router-dom";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 import { useRef, useState } from "react";
 import Modal from "../datediary/Modal";
 import modalImg from "../../img/commonImg/전구 아이콘.gif";
@@ -46,7 +46,7 @@ const BoardWrapper = styled.div`
     min-width: 755px;
   }
   @media screen and (max-width: 768px) {
-    margin-left: 5%;
+    margin-left: 3%;
   }
 `;
 
@@ -67,7 +67,7 @@ const HelpRoot = styled.div`
   width: 90%;
   height: 5%;
   display: flex;
-  font-size: 14px; 
+  font-size: 14px;
 `;
 
 const Root = styled(Link)`
@@ -232,17 +232,17 @@ const InquiryPage = () => {
   const [numberCheck, setNumberCheck] = useState(false);
   const [userCheck, setUserCheck] = useState(false);
   const form = useRef();
-    
+
   const codeModalOkBtnHandler = () => {
     closeNextModal();
   };
   const closeNextModal = () => {
     setModalOpen(false);
-    window.location.reload()
+    window.location.reload();
   };
   const closeModal = () => {
     setModalOpen(false);
-    window.location.reload()
+    window.location.reload();
   };
 
   const handleNumberCheckChange = (e) => {
@@ -253,27 +253,32 @@ const InquiryPage = () => {
     setUserCheck(e.target.checked);
   };
 
-
-  const sendEmail = e => {
+  const sendEmail = (e) => {
     e.preventDefault();
     const formData = new FormData(form.current);
     formData.append("number_check", numberCheck);
     formData.append("user_check", userCheck);
 
-    emailjs.sendForm("service_clr6n2r", "template_6xr5ezh", form.current, "9YS83vnE1IHakDSR9").then(
-      (result) => {
-        setModalOpen(true);
-        setModalContent("성공적으로 이메일이 전송되었습니다.");
-        form.current.reset();
-      },
-      (error) => {
-        console.log(error.text);
-        setModalOpen(true);
-        setModalContent("이메일 전송에 실패 하였습니다. ");
-      },
-    );
+    emailjs
+      .sendForm(
+        "service_clr6n2r",
+        "template_6xr5ezh",
+        form.current,
+        "9YS83vnE1IHakDSR9"
+      )
+      .then(
+        (result) => {
+          setModalOpen(true);
+          setModalContent("성공적으로 이메일이 전송되었습니다.");
+          form.current.reset();
+        },
+        (error) => {
+          console.log(error.text);
+          setModalOpen(true);
+          setModalContent("이메일 전송에 실패 하였습니다. ");
+        }
+      );
   };
-
 
   return (
     <>
@@ -291,30 +296,52 @@ const InquiryPage = () => {
                 <Root2>{">"}</Root2>
                 <Root4 to="/customer/inquiry">1:1 문의하기</Root4>
               </HelpRoot>
-              <HelpBoard ref={form} onSubmit={sendEmail} >
+              <HelpBoard ref={form} onSubmit={sendEmail}>
                 <InquiryTitle>❯❯ 1:1 문의하기</InquiryTitle>
                 <InfoBox>
                   <InfoTitle>연락처</InfoTitle>
-                  <InfoInput type="text" name="user_number" placeholder="ex) 010-1234-5678" required />
+                  <InfoInput
+                    type="text"
+                    name="user_number"
+                    placeholder="ex) 010-1234-5678"
+                    required
+                  />
                   <CheckBox>
-                    <CustomCheckbox type="checkbox" name="number_check" checked={numberCheck} onChange={handleNumberCheckChange} />
-                    답변 등록 시 카카오톡 또는 문자 알림 수신 (미동의 할 경우 이메일만 답변)
+                    <CustomCheckbox
+                      type="checkbox"
+                      name="number_check"
+                      checked={numberCheck}
+                      onChange={handleNumberCheckChange}
+                    />
+                    답변 등록 시 카카오톡 또는 문자 알림 수신 (미동의 할 경우
+                    이메일만 답변)
                   </CheckBox>
                   <InfoTitle>이메일</InfoTitle>
-                  <InfoInput type="email" 
-                  name="user_email" 
-                  placeholder="ex)abcd@mail.com"
-                  maxLength={20}
-                  required />
+                  <InfoInput
+                    type="email"
+                    name="user_email"
+                    placeholder="ex)abcd@mail.com"
+                    maxLength={20}
+                    required
+                  />
                 </InfoBox>
                 <ContentBox>
                   <InfoTitle>문의 내용</InfoTitle>
-                  <ContentInput name="message" placeholder="문의 사항을 입력해주세요." required />
+                  <ContentInput
+                    name="message"
+                    placeholder="문의 사항을 입력해주세요."
+                    required
+                  />
                 </ContentBox>
                 <AgreeBox>
                   <InfoTitle>약관 동의</InfoTitle>
                   <CheckBox>
-                    <CustomCheckbox type="checkbox" name="user_check" checked={userCheck} onChange={handleUserCheckChange} />
+                    <CustomCheckbox
+                      type="checkbox"
+                      name="user_check"
+                      checked={userCheck}
+                      onChange={handleUserCheckChange}
+                    />
                     <AgreeTitle>비회원 개인정보 수집 이용 동의</AgreeTitle>
                     <AgreeCheck>자세히</AgreeCheck>
                   </CheckBox>
@@ -332,12 +359,12 @@ const InquiryPage = () => {
             close={closeModal}
             img={modalImg}
             confirm={codeModalOkBtnHandler}
-            >
+          >
             {modalContent}
           </Modal>
         </Container>
         <Footer />
-        <ScrollToTop/>
+        <ScrollToTop />
       </Background>
     </>
   );

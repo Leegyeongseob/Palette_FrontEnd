@@ -22,7 +22,7 @@ const Category = styled.div`
 `;
 
 const activeTitleStyle = css`
-  font-size: 38px; /* CateTitle의 글씨체가 커지는 효과 */
+  font-size: 32px; /* CateTitle의 글씨체가 커지는 효과 */
   font-weight: bold;
 `;
 
@@ -32,12 +32,13 @@ const activeStyle = css`
 `;
 
 const CateTitle = styled(Link)`
-  width: 55%;
+  width: 150px;
   height: 5%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 36px;
+  font-size: 28px;
+  white-space: nowrap;
   text-decoration: none;
   color: #000;
   margin-bottom: 15%;
@@ -51,12 +52,12 @@ const CateTitle = styled(Link)`
     justify-content: center;
     margin-bottom: 0%;
     border-right: 1px solid gray;
-    font-size: 26px;
+    font-size: 23px;
   }
 `;
 
 const CateContent = styled(Link)`
-  width: 55%; 
+  width: 150px;
   height: 3%;
   margin-bottom: 3%;
   display: flex;

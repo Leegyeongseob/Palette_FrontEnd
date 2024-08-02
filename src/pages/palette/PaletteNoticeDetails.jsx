@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import Globalstyle from '../../PaletteStyle';
-import Header from './paletteImport/Header';
-import Footer from './paletteImport/Footer';
+import React from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import Globalstyle from "../../PaletteStyle";
+import Header from "./paletteImport/Header";
+import Footer from "./paletteImport/Footer";
 import Category from "./paletteImport/Category";
-import { exText } from './PaletteNotice'; // 예시 데이터 사용
-import ScrollToTop from './paletteImport/ScrollToTop';
+import { exText } from "./PaletteNotice"; // 예시 데이터 사용
+import ScrollToTop from "./paletteImport/ScrollToTop";
 
 const Background = styled.div`
   width: 100%;
@@ -38,7 +38,7 @@ const BoardWrapper = styled.div`
     min-width: 755px;
   }
   @media screen and (max-width: 768px) {
-    margin-left: 5%;
+    margin-left: 3%;
   }
 `;
 
@@ -46,7 +46,7 @@ const HelpRoot = styled.div`
   width: 90%;
   height: 5%;
   display: flex;
-  font-size: 14px; 
+  font-size: 14px;
 `;
 
 const Root = styled(Link)`
@@ -63,12 +63,11 @@ const Root2 = styled(Root)`
   width: 2%;
 `;
 const Root3 = styled(Root)`
-  width: 9%;
+  width: 8%;
 `;
 const Root4 = styled(Root)`
   width: 10%;
 `;
-
 
 const HelpBoard = styled.div`
   width: 90%;
@@ -154,19 +153,19 @@ const BackBtn = styled.button`
   &:hover {
     background-color: #dadada;
   }
-`
+`;
 
 const NoticeDetailPage = () => {
   const { id } = useParams();
   const notice = exText.find((item) => item.classNo.toString() === id);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const backBtnClick = () => {
     navigate(`/customer/notice`);
   };
 
   return (
-<>
+    <>
       <Globalstyle />
       <Header />
       <Background>
@@ -182,23 +181,19 @@ const NoticeDetailPage = () => {
                 <Root4 to="/customer/notice">공지사항</Root4>
               </HelpRoot>
               <TitleBox>
-                <TitleLeft>
-                제목 : {notice.title}
-                </TitleLeft>
-                <TitleRight>
-                작성일: {notice.join}
-                </TitleRight>
+                <TitleLeft>제목 : {notice.title}</TitleLeft>
+                <TitleRight>작성일: {notice.join}</TitleRight>
               </TitleBox>
               <HelpBoard>
-                    <HelpBoardText>
-                    {notice ? (
-                        <div>
-                        <p>{notice.title}</p>
-                        </div>
-                    ) : (
-                        <p>공지사항을 찾을 수 없습니다.</p>
-                    )}
-                    </HelpBoardText>
+                <HelpBoardText>
+                  {notice ? (
+                    <div>
+                      <p>{notice.title}</p>
+                    </div>
+                  ) : (
+                    <p>공지사항을 찾을 수 없습니다.</p>
+                  )}
+                </HelpBoardText>
               </HelpBoard>
               <BtnBox>
                 <BackBtn onClick={() => backBtnClick()}>뒤로가기</BackBtn>
@@ -207,7 +202,7 @@ const NoticeDetailPage = () => {
           </BoardWrapper>
         </Container>
         <Footer />
-        <ScrollToTop/>
+        <ScrollToTop />
       </Background>
     </>
   );

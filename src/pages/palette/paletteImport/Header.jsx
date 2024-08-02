@@ -5,8 +5,8 @@ import Logo from "../../../img/background/logo.png";
 import PLogo from "../../../img/background/paletteLogo.png";
 
 const HeaderContainer = styled.div`
-  width: 100vw;
-  height: 17vh;
+  width: 100%;
+  height: 10vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
@@ -26,7 +26,7 @@ const LogoBox = styled.div`
 `;
 
 const PaletteLogo = styled(Link)`
-  width: 47%;
+  width: 812px;
   height: 70%;
   display: flex;
   margin-top: 1%;
@@ -37,8 +37,8 @@ const PaletteLogo = styled(Link)`
 `;
 
 const CenterLogo = styled(Link)`
-  width: 7.292vw;
-  height: 14.69vh;
+  width: 110px;
+  height: 110px;
   display: flex;
   margin-top: 2.8%;
   border-radius: 50%;
@@ -50,10 +50,13 @@ const CenterLogo = styled(Link)`
   &:hover {
     transform: scale(0.95);
   }
+  @media (max-width: 1100px) {
+    display: none;
+  }
 `;
 
 const MenuBar = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 5vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
@@ -82,19 +85,23 @@ const MenuBox = styled.div`
 `;
 
 const Menu = styled(Link)`
-  width: 10%;
+  width: 150px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  font-size: 1vw;
+  font-size: 18px;
   color: #000;
   &:hover {
     font-weight: bolder;
   }
-  @media screen and (max-width: 1210px) {
-    font-size: 13px;
+  @media screen and (max-width: 1100px) {
+    width: 130px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 110px;
+    font-size: 16px;
   }
 `;
 

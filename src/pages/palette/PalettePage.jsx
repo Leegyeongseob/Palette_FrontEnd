@@ -33,6 +33,9 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   /* overflow: hidden; */
+  @media screen and (max-width: 1100px) {
+    min-width: 840px;
+  }
 `;
 
 const Intro = styled(AnimatedDiv)`
@@ -89,7 +92,10 @@ const PageIntro = styled(AnimatedDiv)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.8vw;
+  font-size: 25px;
+  @media screen and (max-width: 1100px) {
+    font-size: 18px;
+  }
 `;
 
 const Outer = styled.div`
@@ -203,38 +209,138 @@ const PalettePage = () => {
       <Outer ref={outerDivRef}>
         <Background>
           <Header />
-          <Intro ref={(el) => animatedElementsRef.current[0] = el} data-animate>
-            <PageIntro ref={(el) => animatedElementsRef.current[1] = el} data-animate>연애의 시작,</PageIntro>
-            <CloseBookImg ref={(el) => animatedElementsRef.current[2] = el} data-animate />
-            <PageIntro ref={(el) => animatedElementsRef.current[3] = el} data-animate>Palette</PageIntro>
+          <Intro
+            ref={(el) => (animatedElementsRef.current[0] = el)}
+            data-animate
+          >
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[1] = el)}
+              data-animate
+            >
+              연애의 시작,
+            </PageIntro>
+            <CloseBookImg
+              ref={(el) => (animatedElementsRef.current[2] = el)}
+              data-animate
+            />
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[3] = el)}
+              data-animate
+            >
+              Palette
+            </PageIntro>
           </Intro>
-          <Intro1 ref={(el) => animatedElementsRef.current[4] = el} data-animate>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[5] = el} imageurl={page1} data-animate />
-            <PageIntro ref={(el) => animatedElementsRef.current[6] = el} data-animate>지금 연애하고 계신가요?</PageIntro>
+          <Intro1
+            ref={(el) => (animatedElementsRef.current[4] = el)}
+            data-animate
+          >
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[5] = el)}
+              imageurl={page1}
+              data-animate
+            />
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[6] = el)}
+              data-animate
+            >
+              지금 연애하고 계신가요?
+            </PageIntro>
           </Intro1>
-          <Intro2 ref={(el) => animatedElementsRef.current[7] = el} data-animate>
-            <PageIntro ref={(el) => animatedElementsRef.current[8] = el} data-animate>팔레트를 시작하세요!</PageIntro>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[9] = el} imageurl={page2} data-animate />
+          <Intro2
+            ref={(el) => (animatedElementsRef.current[7] = el)}
+            data-animate
+          >
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[8] = el)}
+              data-animate
+            >
+              팔레트를 시작하세요!
+            </PageIntro>
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[9] = el)}
+              imageurl={page2}
+              data-animate
+            />
           </Intro2>
-          <Intro1 ref={(el) => animatedElementsRef.current[10] = el} data-animate>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[11] = el} imageurl={page3} data-animate />
-            <PageIntro ref={(el) => animatedElementsRef.current[12] = el} data-animate>팔레트는 연인과 더 가까워지며,</PageIntro>
+          <Intro1
+            ref={(el) => (animatedElementsRef.current[10] = el)}
+            data-animate
+          >
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[11] = el)}
+              imageurl={page3}
+              data-animate
+            />
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[12] = el)}
+              data-animate
+            >
+              팔레트는 연인과 더 가까워지며,
+            </PageIntro>
           </Intro1>
-          <Intro2 ref={(el) => animatedElementsRef.current[13] = el} data-animate>
-            <PageIntro ref={(el) => animatedElementsRef.current[14] = el} data-animate>서로만의 공간을 만들어 나갈 수 있습니다.</PageIntro>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[15] = el} imageurl={page2} data-animate />
+          <Intro2
+            ref={(el) => (animatedElementsRef.current[13] = el)}
+            data-animate
+          >
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[14] = el)}
+              data-animate
+            >
+              서로만의 공간을 만들어 나갈 수 있습니다.
+            </PageIntro>
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[15] = el)}
+              imageurl={page2}
+              data-animate
+            />
           </Intro2>
-          <Intro1 ref={(el) => animatedElementsRef.current[16] = el} data-animate>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[17] = el} imageurl={page3} data-animate />
-            <PageIntro ref={(el) => animatedElementsRef.current[18] = el} data-animate>둘만의 추억,</PageIntro>
+          <Intro1
+            ref={(el) => (animatedElementsRef.current[16] = el)}
+            data-animate
+          >
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[17] = el)}
+              imageurl={page3}
+              data-animate
+            />
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[18] = el)}
+              data-animate
+            >
+              둘만의 추억,
+            </PageIntro>
           </Intro1>
-          <Intro2 ref={(el) => animatedElementsRef.current[19] = el} data-animate>
-            <PageIntro ref={(el) => animatedElementsRef.current[20] = el} data-animate>특별한 기억,</PageIntro>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[21] = el} imageurl={page2} data-animate />
+          <Intro2
+            ref={(el) => (animatedElementsRef.current[19] = el)}
+            data-animate
+          >
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[20] = el)}
+              data-animate
+            >
+              특별한 기억,
+            </PageIntro>
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[21] = el)}
+              imageurl={page2}
+              data-animate
+            />
           </Intro2>
-          <Intro1 ref={(el) => animatedElementsRef.current[22] = el} data-animate>
-            <OpenBookImg ref={(el) => animatedElementsRef.current[23] = el} imageurl={page3} data-animate />
-            <PageIntro ref={(el) => animatedElementsRef.current[24] = el} data-animate>Palette로 시작해보세요.</PageIntro>
+          <Intro1
+            ref={(el) => (animatedElementsRef.current[22] = el)}
+            data-animate
+          >
+            <OpenBookImg
+              ref={(el) => (animatedElementsRef.current[23] = el)}
+              imageurl={page3}
+              data-animate
+            />
+            <PageIntro
+              ref={(el) => (animatedElementsRef.current[24] = el)}
+              data-animate
+            >
+              Palette로 시작해보세요.
+            </PageIntro>
           </Intro1>
           <Footer />
         </Background>

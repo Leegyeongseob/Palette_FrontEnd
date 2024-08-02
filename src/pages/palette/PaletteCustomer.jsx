@@ -56,7 +56,7 @@ const Background = styled.div`
     font-size: 20px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 840px) {
     font-size: 14px;
   }
 `;
@@ -84,7 +84,7 @@ const BoardWrapper = styled.div`
     min-width: 755px;
   }
   @media screen and (max-width: 768px) {
-    margin-left: 5%;
+    margin-left: 3%;
   }
 `;
 
@@ -143,7 +143,7 @@ const CustomerBox = styled.div`
     font-size: 0.8rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 840px) {
     font-size: 0.9rem;
   }
 `;

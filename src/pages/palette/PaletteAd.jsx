@@ -55,6 +55,9 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1100px) {
+    min-width: 840px;
+  }
 `;
 
 const AdTitle = styled.div`

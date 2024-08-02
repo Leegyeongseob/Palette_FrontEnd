@@ -38,7 +38,7 @@ const BoardWrapper = styled.div`
     min-width: 755px;
   }
   @media screen and (max-width: 768px) {
-    margin-left: 5%;
+    margin-left: 3%;
   }
 `;
 
@@ -59,7 +59,7 @@ const HelpRoot = styled.div`
   width: 90%;
   height: 5%;
   display: flex;
-  font-size: 14px; 
+  font-size: 14px;
 `;
 
 const Root = styled(Link)`
@@ -123,7 +123,7 @@ const HelpBoard = styled.div`
 const HelpTitle = styled.div`
   width: 90%;
   height: 8%;
-  font-size: 1.2vw;
+  font-size: 22px;
   border-bottom: 2px solid gray;
   display: flex;
   justify-content: center;
@@ -214,7 +214,7 @@ const HelpPage = () => {
     <>
       <Globalstyle />
       <Header />
-      <ScrollToTop/>
+      <ScrollToTop />
       <Background>
         <Container>
           <BoardWrapper>

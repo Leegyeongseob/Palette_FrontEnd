@@ -40,7 +40,7 @@ const BoardWrapper = styled.div`
     min-width: 755px;
   }
   @media screen and (max-width: 768px) {
-    margin-left: 5%;
+    margin-left: 3%;
   }
 `;
 

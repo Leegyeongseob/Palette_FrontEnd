@@ -73,7 +73,7 @@ const TextTitle = styled(Link)`
 const Img = styled.div`
   width: 45px;
   height: 90%;
-  background-image: url(${props => props.url});
+  background-image: url(${(props) => props.url});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -129,40 +129,42 @@ const Foot = () => {
 
   return (
     <>
-  <Footer>
-    <FooterLeft>
-      <TitleBox>
-        <TitleLeft>
-          <TextTitle to="">개인정보처리방침</TextTitle>
-          <TextTitle to="">이용약관</TextTitle>
-        </TitleLeft>
-        <TitleRight>
-          <Img url={one} />
-          <Img url={two} as="button" onClick={handleChat} />
-          <Img url={thr} />
-        </TitleRight>
-      </TitleBox>
-      <IntroBox>
-        <IntroText>
-          Palette | 대표 : 곰돌이사육사 | 사업자등록번호 : 000-00-00000 |
-          통신판매업 신고번호 : 제2024-서울강남-00000호 | 개인정보보호 책임자 :
-          백승재
-        </IntroText>
-        <IntroText>
-          주소 : 서울시 강남구 테헤란로14길 6 | 대표전화 : 02-000-0000
-        </IntroText>
-        <IntroText>
-          고객센터 : @palette_service | 운영시간 : 평일 오전 9시 ~ 오후
-          6시(주말/공휴일 휴무)
-        </IntroText>
-      </IntroBox>
-      <CopyrightBox>
-        <Copyright>Copyright 2024. Palette inc. all rights reserved.</Copyright>
-      </CopyrightBox>
-    </FooterLeft>
-  </Footer>
-  </>
-)
+      <Footer>
+        <FooterLeft>
+          <TitleBox>
+            <TitleLeft>
+              <TextTitle to="">개인정보처리방침</TextTitle>
+              <TextTitle to="">이용약관</TextTitle>
+            </TitleLeft>
+            <TitleRight>
+              <Img url={one} />
+              <Img url={two} as="button" onClick={handleChat} />
+              <Img url={thr} />
+            </TitleRight>
+          </TitleBox>
+          <IntroBox>
+            <IntroText>
+              Palette | 대표 : 곰돌이사육사 | 사업자등록번호 : 000-00-00000 |
+              통신판매업 신고번호 : 제2024-서울강남-00000호 | 개인정보보호
+              책임자 : 백승재
+            </IntroText>
+            <IntroText>
+              주소 : 서울시 강남구 테헤란로14길 6 | 대표전화 : 02-000-0000
+            </IntroText>
+            <IntroText>
+              고객센터 : @palette_service | 운영시간 : 평일 오전 9시 ~ 오후
+              6시(주말/공휴일 휴무)
+            </IntroText>
+          </IntroBox>
+          <CopyrightBox>
+            <Copyright>
+              Copyright 2024. Palette inc. all rights reserved.
+            </Copyright>
+          </CopyrightBox>
+        </FooterLeft>
+      </Footer>
+    </>
+  );
 };
 
 export default Foot;
