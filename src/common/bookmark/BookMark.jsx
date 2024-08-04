@@ -125,7 +125,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/main-page`);
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -152,7 +152,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/main-page`);
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -179,7 +179,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/main-page`);
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -206,7 +206,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/main-page`);
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -244,7 +244,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/main-page`);
+        navigator(`/${coupleName}/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -257,7 +257,7 @@ const BookMark = ({ onNavigate }) => {
     navigator(`/main-page`);
   };
   // 세션 초기화 함수
-  const setSession = () =>{
+  const setSession = () => {
     sessionStorage.setItem("email", "");
     sessionStorage.setItem("coupleName", "");
     sessionStorage.setItem("imgUrl", "");
