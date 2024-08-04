@@ -425,7 +425,7 @@ const ChatMain = ({ url, clearUrl }) => {
     ws.current = null; // WebSocket 객체를 null로 설정
     //DB에서 채팅방 삭제
     deleteChatRoom(roomId);
-    navigate("/Chat");
+    navigate("/chat");
   };
   //채팅방 삭제하는 Axios함수
   const deleteChatRoom = async (roomId) => {

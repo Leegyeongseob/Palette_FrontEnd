@@ -79,20 +79,20 @@ function App() {
             <Route path="/date-album4" element={<DateAlbum4 url={url} clearUrl={clearUrl}/>} />
             <Route path="/date-album5" element={<DateAlbum5 url={url} clearUrl={clearUrl}/>} />
             <Route path="/date-diary" element={<DateDiary url={url} clearUrl={clearUrl}/>} />
-            <Route path="/Chat" element={<ChatList url={url} clearUrl={clearUrl}/>} />
-            <Route path="/Chatcreate" element={<ChatRoomCreate />} />
-            <Route path="/Chat/:roomId" element={<ChatMain url={url} clearUrl={clearUrl}/>} />
-            <Route path="/:coupleName/dateplanner" element={<DatePlanner url={url} clearUrl={clearUrl}/>} />
+            <Route path="/chat" element={<ChatList url={url} clearUrl={clearUrl}/>} />
+            <Route path="/chatcreate" element={<ChatRoomCreate />} />
+            <Route path="/chat/:roomId" element={<ChatMain url={url} clearUrl={clearUrl}/>} />
+            <Route path="/dateplanner" element={<DatePlanner url={url} clearUrl={clearUrl}/>} />
             <Route
-              path="/:coupleName/board-guestbook"
+              path="/board-guestbook"
               element={<GuestBoardGuestbook url={url} clearUrl={clearUrl}/>}
             />
             <Route
-              path="/:coupleName/board-details/:id"
+              path="/board-details/:id"
               element={<BoardDetails url={url} clearUrl={clearUrl}/>}
             />
-            <Route path="/:coupleName/board-write" element={<BoardWrite url={url} clearUrl={clearUrl}/>} />
-            <Route path="/:coupleName/board-update" element={<BoardUpdate url={url} clearUrl={clearUrl}/>} />
+            <Route path="/board-write" element={<BoardWrite url={url} clearUrl={clearUrl}/>} />
+            <Route path="/board-update" element={<BoardUpdate url={url} clearUrl={clearUrl}/>} />
             <Route
               path="/guest-board-guestbook"
               element={<GuestBoardGuestbook />}

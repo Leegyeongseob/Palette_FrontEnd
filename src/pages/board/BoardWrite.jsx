@@ -422,7 +422,7 @@ const BoardWrite = ({url, clearUrl}) => {
   };
 
   const handleNameClick = (id) => {
-    navigate(`/${coupleName}/board-details/${id}`);
+    navigate(`/board-details/${id}`);
   };
 
   const handleClick = (pageNumber) => {
@@ -552,7 +552,7 @@ const BoardWrite = ({url, clearUrl}) => {
       const response = await BoardAxios.createBoard(boardReqDto, coupleName);
 
       console.log("서버 응답 데이터:", response);
-      navigate(`/${coupleName}/board-guestbook`); // 리다이렉트
+      navigate(`/board-guestbook`); // 리다이렉트
     } catch (error) {
       console.error(
         "게시글 생성 실패:",
@@ -575,7 +575,7 @@ const BoardWrite = ({url, clearUrl}) => {
           </CoupleDiv>
           <BoardGrayBar />
           <Link
-            to={`/${coupleName}/board-write`}
+            to={`/board-write`}
             style={{ textDecoration: "none" }}
           ></Link>
           <BoardTable>
@@ -619,7 +619,7 @@ const BoardWrite = ({url, clearUrl}) => {
         <BookSign2 animate={animate}>
         <WriteSide animate={animate}>
           <Link
-            to={`/${coupleName}/board-guestbook`}
+            to={`/board-guestbook`}
             style={{ textDecoration: "none" }}
           >
             <BackToGuestbook>돌아가기</BackToGuestbook>

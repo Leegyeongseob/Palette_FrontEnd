@@ -321,6 +321,8 @@ const Picture = styled.div`
   height: 15.74vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
+  background-position:center;
+  background-repeat:no-repeat;
   border: 1px solid black;
   &:hover {
     transform: scale(1.02);
@@ -760,7 +762,7 @@ const MainPage = ({ url, clearUrl }) => {
   };
   //게시물 보기로 이동
   const boardOnClickHandler = (id) => {
-    navigate(`/${coupleName}/board-details/${id}`);
+    navigate(`/board-details/${id}`);
   };
 
   // 방문자 검색 글자수

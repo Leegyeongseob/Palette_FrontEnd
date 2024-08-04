@@ -469,7 +469,7 @@ const BoardDetails = ({ url, clearUrl }) => {
     }
   };
   const handleNameClick = (id) => {
-    navigate(`/${coupleName}/board-details/${id}`);
+    navigate(`/board-details/${id}`);
   };
 
   const handleClick = (pageNumber) => {
@@ -511,12 +511,12 @@ const BoardDetails = ({ url, clearUrl }) => {
   };
   // 게시글 수정하기
   const updateBoardContentsAxios = async (idValue) => {
-    navigate(`/${coupleName}/board-update`, { state: idValue });
+    navigate(`/board-update`, { state: idValue });
   };
   // 게시글 삭제하기
   const deleteBoardContentsAxios = async (idValue) => {
     const res = await BoardAxios.deleteBoard(idValue);
-    navigate(`/${coupleName}/board-guestbook`);
+    navigate(`/board-guestbook`);
 
     console.log(res);
   };
@@ -537,7 +537,7 @@ const BoardDetails = ({ url, clearUrl }) => {
           </CoupleDiv>
           <BoardGrayBar />
           <Link
-            to={`/${coupleName}/board-write`}
+            to={`/board-write`}
             style={{ textDecoration: "none" }}
           >
             {isMyHome && <BoardPost>새 게시물 작성</BoardPost>}
@@ -597,7 +597,7 @@ const BoardDetails = ({ url, clearUrl }) => {
                   </>
                 )}
                 <Link
-                  to={`/${coupleName}/board-guestbook`}
+                  to={`/board-guestbook`}
                   style={{ textDecoration: "none" }}
                 >
                   <BackToGuestbook>돌아가기</BackToGuestbook>

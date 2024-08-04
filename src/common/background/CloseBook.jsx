@@ -132,7 +132,7 @@ const CloseBook = ({ modify }) => {
               </Link>
             )}
             {modify && (
-              <Link to={`/${coupleName}/main-page`}>
+              <Link to={`/main-page`}>
                 <Logo />
               </Link>
             )}

@@ -125,7 +125,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/${coupleName}/main-page`);
+        navigator(`/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -152,7 +152,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/${coupleName}/main-page`);
+        navigator(`/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -179,7 +179,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/${coupleName}/main-page`);
+        navigator(`/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -194,7 +194,7 @@ const BookMark = ({ onNavigate }) => {
       if (isCouple) {
         // 커플일 경우
         if (await isCoupleAxios(email)) {
-          onNavigate(`/${coupleName}/dateplanner`);
+          onNavigate(`/dateplanner`);
         } else {
           // 모달
           soloModal();
@@ -206,7 +206,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/${coupleName}/main-page`);
+        navigator(`/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -216,7 +216,7 @@ const BookMark = ({ onNavigate }) => {
 
   const OpenBoardOnClickHandler = async () => {
     if ((await isCoupleAxios(email)) === true) {
-      onNavigate(`/${coupleName}/board-guestbook`);
+      onNavigate(`/board-guestbook`);
     } else {
       // 모달
       soloModal();
@@ -232,7 +232,7 @@ const BookMark = ({ onNavigate }) => {
       if (isCouple) {
         // 커플일 경우
         if (await isCoupleAxios(email)) {
-          onNavigate(`/Chat`);
+          onNavigate(`/chat`);
         } else {
           // 모달
           soloModal();
@@ -244,7 +244,7 @@ const BookMark = ({ onNavigate }) => {
         setModalOpen(true);
         setNotEqualCoupleName(true);
         setModalContent("방문자는 해당 기능이 잠겨있습니다.");
-        navigator(`/${coupleName}/main-page`);
+        navigator(`/main-page`);
       }
     } catch (error) {
       // 에러 처리
@@ -254,7 +254,7 @@ const BookMark = ({ onNavigate }) => {
   //방문객 모달 확인버튼 이벤트함수
   const visitCodeModalOkBtnHandler = () => {
     closeModal();
-    navigator(`/${coupleName}/main-page`);
+    navigator(`/main-page`);
   };
   // 세션 초기화 함수
   const setSession = () =>{
@@ -263,7 +263,7 @@ const BookMark = ({ onNavigate }) => {
     sessionStorage.setItem("imgUrl", "");
     sessionStorage.setItem("myDarling", "");
     sessionStorage.setItem("kakaoImgUrl", "");
-  }
+  };
   return (
     <BookMarkDiv>
       {notEqualCoupleName ? (

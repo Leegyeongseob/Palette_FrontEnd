@@ -258,7 +258,7 @@ const GuestbookSide = styled.div`
 const itemsPerPage = 10;
 const maxPageButtons = 5;
 
-const GuestBoardGuestbook = ({url, clearUrl}) => {
+const GuestBoardGuestbook = ({ url, clearUrl }) => {
   const coupleName = sessionStorage.getItem("coupleName");
   const email = sessionStorage.getItem("email");
   const [currentPage, setCurrentPage] = useState(1);
@@ -312,7 +312,7 @@ const GuestBoardGuestbook = ({url, clearUrl}) => {
   };
 
   const handleNameClick = (id) => {
-    navigate(`/${coupleName}/board-details/${id}`);
+    navigate(`/board-details/${id}`);
   };
 
   const handleClick = (pageNumber) => {
@@ -362,10 +362,7 @@ const GuestBoardGuestbook = ({url, clearUrl}) => {
             <CoupleImg />
           </CoupleDiv>
           <BoardGrayBar />
-          <Link
-            to={`/${coupleName}/board-write`}
-            style={{ textDecoration: "none" }}
-          >
+          <Link to={`/board-write`} style={{ textDecoration: "none" }}>
             {isMyHome && <BoardPost>새 게시물 작성</BoardPost>}
           </Link>
           <BoardTable>
@@ -407,9 +404,9 @@ const GuestBoardGuestbook = ({url, clearUrl}) => {
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate={animate}>
-        <GuestbookSide animate={animate}>
-          <Guestbook />
-        </GuestbookSide>
+          <GuestbookSide animate={animate}>
+            <Guestbook />
+          </GuestbookSide>
         </BookSign2>
       </BookTheme2>
     </>
