@@ -139,7 +139,7 @@ const SigninDiv = styled.div`
 const Signin = styled.div`
   width: 70px;
   height: 100%;
-  font-size: 20px;
+  font-size: 16px;
   color: #b44a4a;
   font-weight: bolder;
   display: flex;
@@ -330,10 +330,18 @@ const LoginPage = () => {
   };
   //이메일로 커플이름 찾는 비동기 함수
   const coupleNameSearchAxios = async (email) => {
-    const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
-    console.log(resCoupleName.data);
-    // `coupleName`을 `sessionStorage`에 저장합니다.
-    sessionStorage.setItem("coupleName", resCoupleName.data);
+    try {
+      const resCoupleName = await LoginAxios.emailToCoupleNameSearch(email);
+      console.log(resCoupleName.data);
+      // `coupleName`을 `sessionStorage`에 저장합니다.
+      sessionStorage.setItem("coupleName", resCoupleName.data);
+    } catch (error) {
+      console.log(error);
+      setModalOpen(true);
+      setModalheader("로그인 에러");
+      setIsModalImg(false);
+      setModalContent("계정이 없습니다.");
+    }
   };
   const loginBtnHandler = () => {
     if (isId && isPwd) {

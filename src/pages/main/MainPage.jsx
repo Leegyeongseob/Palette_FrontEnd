@@ -123,14 +123,13 @@ const BookSign2 = styled.div`
 
 const CoupleDiv = styled.div`
   width: 497px;
-  height: 30%;
+  height: 24%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 1200px) {
     width: 420px;
-    height: 26%;
   }
   @media screen and (max-width: 768px) {
     width: 280px;
@@ -383,7 +382,7 @@ const VisitDiv = styled.div`
   }
 `;
 const VisitList = styled.div`
-  width: 100%;
+  width: 65%;
   height: 3vh;
   border-radius: 10px;
   margin-top: 1%;
@@ -574,7 +573,8 @@ const VisitContainer = styled.div`
   width: 90%;
   height: 13vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: end;
   align-items: center;
   @media screen and (max-width: 1200px) {
     height: 10vh;
@@ -584,11 +584,11 @@ const VisitContainer = styled.div`
   }
 `;
 const BackMyHome = styled.div`
-  width: 96px;
-  height: 3vh;
-  font-size: 0.6vw;
+  width: 100px;
+  aspect-ratio: 4.5/1;
+  font-size: 11px;
   font-weight: 700;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: #ffd2c2;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -613,19 +613,16 @@ const MainPage = ({ url, clearUrl }) => {
   const navigate = useNavigate();
   // 커플 이름 검색 후 추가
   const [searchTerm, setSearchTerm] = useState("");
-
   // 설정 폼 변화
   const [settingForm, setSettingForm] = useState(false);
-  // 커플 이름 검색 함수
-
   //디데이 값 저장
   const [saveDday, setSaveDday] = useState("");
   //디데이 존재하는지
   const [isDday, setIsDday] = useState(false);
   //searchCouple 포함 리스트 저장
   const [searchCoupleList, setSearchCoupleList] = useState([]);
-  // 내 방이면 true 아니면 false
-  const [isMyHome, setIsMyHome] = useState(true);
+  //내홈으로 돌아가기 숨기기 변수
+  const [MyHomeBtnState, setMyHomeBtnState] = useState(true);
   //갤러리에서 이미지 메인 화면에 오도록 저장하는 변수
   const [gallaryImg, setGallaryImg] = useState(Array(4).fill(null));
   //갤러리 이미지 받아오는 비동기 함수
@@ -683,8 +680,7 @@ const MainPage = ({ url, clearUrl }) => {
         " coupleName",
         coupleName
       );
-      navigate(`/${coupleName}/main-page`);
-      setIsMyHome(false);
+      navigate(`/main-page`);
       setSearchTerm(""); // 필요시 네비게이션 후 검색어 초기화
     }
   };
@@ -692,9 +688,11 @@ const MainPage = ({ url, clearUrl }) => {
   //설정 폼 변화 함수
   const settingFromStatus = () => {
     setSettingForm(true);
+    setMyHomeBtnState(false);
   };
   const closeFromStatus = () => {
     setSettingForm(false);
+    setMyHomeBtnState(true);
   };
   const [boardSaveData, setBoardSaveData] = useState([]);
   const email = sessionStorage.getItem("email");
@@ -752,14 +750,13 @@ const MainPage = ({ url, clearUrl }) => {
   }, [searchTerm]);
   const goHomeOnClickHandler = () => {
     MycoupleNameSearch(email);
-    setIsMyHome(true);
   };
   const MycoupleNameSearch = async (emailValue) => {
     const myCoupleNameData = await MemberAxiosApi.renderCoupleNameSearch(
       emailValue
     );
     sessionStorage.setItem("coupleName", myCoupleNameData.data);
-    navigate(`/${myCoupleNameData.data}/main-page`);
+    navigate(`/main-page`);
   };
   //게시물 보기로 이동
   const boardOnClickHandler = (id) => {
@@ -782,10 +779,10 @@ const MainPage = ({ url, clearUrl }) => {
             <PaletteBanner />
           </CoupleDiv>
           <CoupleDiv>
-            <CoupleImg isMyHome={isMyHome} />
+            <CoupleImg />
           </CoupleDiv>
           <CoupleDiv>
-            <CoupleDday isMyHome={isMyHome} />
+            <CoupleDday />
             <VisitContainer>
               <VisitDiv>
                 <div className="visitDiv">
@@ -798,13 +795,13 @@ const MainPage = ({ url, clearUrl }) => {
                   />
                   <VisitSearchBtn />
                 </div>
-                {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
-                {searchCoupleList.map((couple, index) => (
-                  <VisitList key={index} onClick={() => handleSearch(index)}>
-                    {truncateText(couple, 15)}
-                  </VisitList>
-                ))}
               </VisitDiv>
+              {/* 여기 검색단어 맵으로 뿌려줄 예정 */}
+              {searchCoupleList.map((couple, index) => (
+                <VisitList key={index} onClick={() => handleSearch(index)}>
+                  {truncateText(couple, 15)}
+                </VisitList>
+              ))}
             </VisitContainer>
           </CoupleDiv>
         </BookSign>
@@ -812,9 +809,11 @@ const MainPage = ({ url, clearUrl }) => {
       <BookTheme2>
         <BookSign2 animate={animate}>
           <SettingDiv animate={animate}>
-            <BackMyHome onClick={goHomeOnClickHandler}>
-              내 홈으로 돌아가기
-            </BackMyHome>
+            {MyHomeBtnState && (
+              <BackMyHome onClick={goHomeOnClickHandler}>
+                내 홈으로 돌아가기
+              </BackMyHome>
+            )}
             <div className="space" />
             {!settingForm && (
               <Setting onClick={settingFromStatus} openform={settingForm} />
@@ -837,6 +836,10 @@ const MainPage = ({ url, clearUrl }) => {
                       <Btn
                         onClick={() => {
                           sessionStorage.setItem("email", "");
+                          sessionStorage.setItem("coupleName", "");
+                          sessionStorage.setItem("imgUrl", "");
+                          sessionStorage.setItem("myDarling", "");
+                          sessionStorage.setItem("kakaoImgUrl", "");
                           navigate("/");
                         }}
                       >

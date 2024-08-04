@@ -338,9 +338,8 @@ function ChatList({url, clearUrl}) {
       }
     };
     fetchChatRooms(); // 최초 한 번 호출
-
-    // 1초마다 채팅방 목록 업데이트
-    const intervalId = setInterval(fetchChatRooms, 0);
+    // 3초마다 채팅방 목록 업데이트
+    const intervalId = setInterval(fetchChatRooms, 3000);
 
     // 컴포넌트 언마운트 시 인터벌 해제
     return () => clearInterval(intervalId);
@@ -370,6 +369,9 @@ function ChatList({url, clearUrl}) {
           ? messages.slice(0, 5)
           : [{ sender: "", message: "내용이 없습니다" }]
       );
+      //닉네임 뽑아오기
+      const coupleName = sessionStorage.getItem("coupleName");
+      coupleNickNameAxois(coupleName);
     } catch (error) {
       console.error("Error fetching chat room preview:", error);
     }

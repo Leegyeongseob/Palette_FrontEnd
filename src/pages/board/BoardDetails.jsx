@@ -252,7 +252,7 @@ const DetailsSide = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;  
+  position: relative;
   ${({ animate }) =>
     animate &&
     css`
@@ -394,7 +394,7 @@ const BoardImgDetail = styled.div`
 const itemsPerPage = 10;
 const maxPageButtons = 5;
 
-const BoardDetails = ({url, clearUrl}) => {
+const BoardDetails = ({ url, clearUrl }) => {
   const [boardDetails, setBoardDetails] = useState(null); // State to store board details
   const [boardData, setBoardData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -524,7 +524,9 @@ const BoardDetails = ({url, clearUrl}) => {
   const deleteOnClickHandler = () => {
     deleteBoardContentsAxios(id);
   };
-  console.log("currentData", currentData);
+  const truncateRoomName = (name) => {
+    return name.length > 20 ? name.slice(0, 20) + "..." : name;
+  };
   return (
     <>
       <BookTheme>
@@ -579,37 +581,39 @@ const BoardDetails = ({url, clearUrl}) => {
       </BookTheme>
       <BookTheme2>
         <BookSign2 animate={animate}>
-        {boardDetails && ( // Render DetailsSide if boardDetails is not null
-          <DetailsSide animate={animate}>
-            <EditBackContainer isMyHome={isMyHome}>
-              {isMyHome && (
-                <>
-                  <EditPost
-                    onClick={() => {
-                      updateBoardContentsAxios(id);
-                    }}
-                  >
-                    수정하기
-                  </EditPost>
-                  <EditPost onClick={deleteOnClickHandler}>삭제하기</EditPost>
-                </>
+          {boardDetails && ( // Render DetailsSide if boardDetails is not null
+            <DetailsSide animate={animate}>
+              <EditBackContainer isMyHome={isMyHome}>
+                {isMyHome && (
+                  <>
+                    <EditPost
+                      onClick={() => {
+                        updateBoardContentsAxios(id);
+                      }}
+                    >
+                      수정하기
+                    </EditPost>
+                    <EditPost onClick={deleteOnClickHandler}>삭제하기</EditPost>
+                  </>
+                )}
+                <Link
+                  to={`/${coupleName}/board-guestbook`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <BackToGuestbook>돌아가기</BackToGuestbook>
+                </Link>
+              </EditBackContainer>
+              <DetailsNumber>No. {boardDetails.id}</DetailsNumber>
+              <DetailsTitle>
+                {truncateRoomName(boardDetails.title)}
+              </DetailsTitle>
+              <DetailsGrayBar />
+              {boardDetails.imgUrl && (
+                <BoardImgDetail imageurl={boardDetails.imgUrl} />
               )}
-              <Link
-                to={`/${coupleName}/board-guestbook`}
-                style={{ textDecoration: "none" }}
-              >
-                <BackToGuestbook>돌아가기</BackToGuestbook>
-              </Link>
-            </EditBackContainer>
-            <DetailsNumber>No. {boardDetails.id}</DetailsNumber>
-            <DetailsTitle>{boardDetails.title}</DetailsTitle>
-            <DetailsGrayBar />
-            {boardDetails.imgUrl && (
-              <BoardImgDetail imageurl={boardDetails.imgUrl} />
-            )}
-            <DetailsMain>{boardDetails.contents}</DetailsMain>
-          </DetailsSide>
-        )}
+              <DetailsMain>{boardDetails.contents}</DetailsMain>
+            </DetailsSide>
+          )}
         </BookSign2>
       </BookTheme2>
     </>

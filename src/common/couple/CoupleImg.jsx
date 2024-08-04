@@ -101,7 +101,7 @@ const Text = styled.div`
   align-items: center;
   font-size: 16px;
   font-weight: 600;
-  color: ${({ clothes }) => (clothes ? "#000" : "#fff")};
+  color: #000;
   @media screen and (max-width: 1200px) {
     height: ${({ clothes }) => (clothes ? "2.5vh" : "7.345vh")};
     font-size: 14px;
@@ -113,8 +113,8 @@ const Text = styled.div`
 `;
 
 const ProfileCover = styled.div`
-  width: 6.771vw;
-  height: 13.641vh;
+  width: 130px;
+  height: 130px;
   background-color: transparent;
   border-radius: 50%;
   position: relative;
@@ -125,11 +125,19 @@ const ProfileCover = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
   }
+  @media screen and (max-width: 1200px) {
+    width: 100px;
+    height: 100px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 const Label = styled.label`
   cursor: pointer;
-  width: 5vw;
+  width: 8vw;
   height: 40px;
   display: none;
   align-items: center;
@@ -141,39 +149,59 @@ const Label = styled.label`
   ${ProfileCover}:hover & {
     display: flex;
   }
+  @media screen and (max-width: 1200px) {
+    width: 8vw;
+    height: 40px;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 8vw;
+    height: 40px;
+    font-size: 12px;
+  }
 `;
 
 const Input = styled.input`
   display: none;
 `;
-
-const CoupleImg = ({ clothes = false, isMyHome }) => {
+const TextDiv = styled.div`
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const CoupleImg = ({ clothes = false }) => {
   const [coupleNickName, setCoupleNickName] = useState(["", ""]);
   const [imgUrl, setImgUrl] = useState();
   const [myDarling, setMyDarling] = useState();
-  const email = sessionStorage.getItem("email");
+  const [isMyHome, setIsMyHome] = useState(true);
   const coupleName = sessionStorage.getItem("coupleName");
-  const [IsExistImg, setIsExistImg] = useState([false, false]);
-  const [saveFirstEmail, setSaveFirstEmail] = useState("");
-  // 성별을 저장하는 변수
-  const [firstProfileUrl, setFirstProfileUrl] = useState([]);
-
   //카카오 로그인시 프로필 자동 변경
   const kakaoProfileUrl = sessionStorage.getItem("kakaoImgUrl");
+  const email = sessionStorage.getItem("email");
+
   //카카오 프로필 사진저장 비동기 함수
   const kakaoProfileImgAxios = async (emailvalue, kakaoProfile) => {
     const res = await MemberAxiosApi.profileUrlSave(emailvalue, kakaoProfile);
-    if (kakaoProfileUrl && res.data) {
+    if (kakaoProfileUrl !== null && kakaoProfile !== "" && res.data) {
       setImgUrl(kakaoProfile);
     }
   };
   useEffect(() => {
-    if (kakaoProfileUrl !== null) {
-      kakaoProfileImgAxios(email, kakaoProfileUrl);
-    }
-    mySexSearchAxios(email);
-    sessionStorage.setItem("imgUrl", firstProfileUrl[0]);
-    sessionStorage.setItem("myDarling", firstProfileUrl[1]);
+    const fetchData = async () => {
+      if (kakaoProfileUrl !== null && kakaoProfileUrl !== "") {
+        await kakaoProfileImgAxios(email, kakaoProfileUrl);
+      }
+      const getCoupleName = await MemberAxiosApi.renderCoupleNameSearch(email);
+      if (coupleName === getCoupleName.data) {
+        setIsMyHome(true);
+        await coupleNickNameAxios(email);
+        await getUserSex();
+        await coupleProfileAxios(getCoupleName.data, email);
+      }
+    };
+    fetchData();
   }, []);
   const coupleNickNameAxios = async (emailData) => {
     console.log("emailData : " + emailData);
@@ -183,33 +211,40 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       emailData,
       resCouple.data
     );
-
     setCoupleNickName(resNickName.data);
     console.log("커플닉네임 확인:" + resNickName.data);
   };
-
   //세션 커플이름이 바뀌었을 경우
   useEffect(() => {
     const fetchData = async (coupleNameData) => {
       try {
-        console.log("커플이름 :" + coupleNameData);
-        // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
-        const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
-          coupleNameData
+        const getCoupleName = await MemberAxiosApi.renderCoupleNameSearch(
+          email
         );
-        const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
-        setSaveFirstEmail(firstEmail);
-        // 첫 번째 이메일을 사용하여 다른 비동기 작업을 진행합니다.
-        await Promise.all([
-          coupleNickNameAxios(firstEmail),
-          coupleProfileAxios(coupleNameData, email),
-        ]);
+        // 방문했을 경우에만 해당 로직을 수행합니다.
+        console.log("본인의 커플이름 :" + getCoupleName.data);
+        console.log("현재 커플 이름:" + coupleNameData);
+        if (getCoupleName.data !== coupleNameData) {
+          setIsMyHome(false);
+          // 커플이름에 해당하는 첫 번째 이메일을 검색하고 저장합니다.
+          const firstEmailResponse = await MemberAxiosApi.firstEmailGet(
+            coupleNameData
+          );
+          const firstEmail = firstEmailResponse.data; // 예시에서는 firstEmailResponse에서 실제 데이터를 얻어오는 방법으로 수정해야 합니다.
+          // 첫 번째 이메일을 사용하여 다른 비동기 작업을 진행합니다.
+          await Promise.all([
+            coupleNickNameAxios(firstEmail),
+            coupleProfileAxios(coupleNameData, email),
+          ]);
+          console.log("isMyHome 상태 확인:", isMyHome);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData(coupleName);
   }, [coupleName]);
+
   //파일 업로드 이벤트 함수
   const AddImgBtnOnChangeHandler = (e) => {
     const selectedFile = e.target.files[0];
@@ -226,7 +261,7 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       console.log("File uploaded successfully!");
 
       // 이전 이미지가 있는 경우 삭제
-      if (imgUrl) {
+      if (imgUrl && imgUrl !== "") {
         try {
           const oldFileRef = ref(profileStorage, imgUrl);
           await deleteObject(oldFileRef);
@@ -257,38 +292,72 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
       coupleNameData,
       emailData
     );
-
-    console.log(res.data);
-
+    console.log("CoupleNameData좀 보자", coupleNameData);
+    console.log("emailData보자", emailData);
+    console.log("커플 두사람의 profileImgUrl:", res.data);
     if (res.data[0]) {
       setImgUrl(res.data[0]);
-      setIsExistImg((prevState) => [true, prevState[1]]); // 첫 번째 요소를 true로 업데이트
       sessionStorage.setItem("imgUrl", res.data[0]);
     }
     if (res.data[1]) {
       setMyDarling(res.data[1]);
-      setIsExistImg((prevState) => [prevState[0], true]); // 두 번째 요소를 true로 업데이트
       sessionStorage.setItem("myDarling", res.data[1]);
     }
   };
-  //본인 성별 가져오는 비동기 함수
-  const mySexSearchAxios = async (emailValue) => {
-    const resSex = await MainAxios.mySexSearch(emailValue);
-    console.log("resSex :" + resSex.data);
-    if (resSex.data === "Man") {
-      setFirstProfileUrl([manprofile, womanprofile]);
-    } else {
-      setFirstProfileUrl([womanprofile, manprofile]);
+  //사용자의 기본 이미지 저장하기
+  const getUserSex = async () => {
+    try {
+      // 사용자의 성별 가져오기
+      const res = await MainAxios.mySexSearch(email);
+      console.log("Sex:", res.data);
+      // 이미지가 존재하는 확인
+      const existUrl = await MemberAxiosApi.searchProfileUrl(email);
+      console.log("내 프로필 이미지:", existUrl.data);
+      const isCoupleTrue = await MemberAxiosApi.isCoupleTrue(coupleName);
+      if (
+        (existUrl.data === null ||
+          existUrl.data === "" ||
+          existUrl.data === "notExist") &&
+        res.data === "Man"
+      ) {
+        const resMan = await MemberAxiosApi.profileUrlSave(email, manprofile);
+     
+        console.log(resMan.data);
+      } else if (
+        (existUrl.data === null ||
+          existUrl.data === "" ||
+          existUrl.data === "notExist") &&
+        res.data === "Woman"
+      ) {
+        const resWoman = await MemberAxiosApi.profileUrlSave(
+          email,
+          womanprofile
+        );
+        if (!(isCoupleTrue.data)) {
+          sessionStorage.setItem("myDarling", manprofile);
+        }
+        console.log(resWoman.data);
+      }
+      if (!(isCoupleTrue.data)&&
+      res.data === "Man") {
+        sessionStorage.setItem("myDarling", womanprofile);
+      }
+      if (!(isCoupleTrue.data)&&
+      res.data === "Woman") {
+        sessionStorage.setItem("myDarling", manprofile);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while fetching user sex or saving profile URL:",
+        error
+      );
     }
   };
   return (
     <Contain clothes={clothes}>
       <ProfileDiv clothes={clothes}>
         <ProfileImgDiv clothes={clothes}>
-          <Profile
-            imageurl={IsExistImg[0] ? imgUrl : firstProfileUrl[0]}
-            clothes={clothes}
-          >
+          <Profile imageurl={imgUrl}>
             {isMyHome && (
               <ProfileCover clothes={clothes}>
                 <Label htmlFor="fileInput">Choose File</Label>
@@ -302,19 +371,20 @@ const CoupleImg = ({ clothes = false, isMyHome }) => {
             )}
           </Profile>
         </ProfileImgDiv>
-        <Text clothes={clothes}>{coupleNickName[0] || "알콩"}</Text>
+        <TextDiv>
+          <Text clothes={clothes}>{coupleNickName[0] || "알콩"}</Text>
+        </TextDiv>
       </ProfileDiv>
       <HeartDiv>
-        <Heart clothes={clothes} />
+        <Heart />
       </HeartDiv>
       <ProfileDiv clothes={clothes} direction={true}>
-        <ProfileImgDiv2 clothes={clothes}>
-          <Profile
-            imageurl={IsExistImg[1] ? myDarling : firstProfileUrl[1]}
-            clothes={clothes}
-          />
-        </ProfileImgDiv2>
-        <Text clothes={clothes}>{coupleNickName[1] || "달콩"}</Text>
+        <ProfileImgDiv clothes={clothes}>
+          <Profile imageurl={myDarling} />
+        </ProfileImgDiv>
+        <TextDiv>
+          <Text clothes={clothes}>{coupleNickName[1] || "달콩"}</Text>
+        </TextDiv>
       </ProfileDiv>
     </Contain>
   );

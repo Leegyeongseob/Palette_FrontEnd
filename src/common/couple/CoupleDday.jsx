@@ -75,6 +75,7 @@ const DDayInputBtn = styled.div`
   align-items: center;
   border-radius: 10px;
   border: 1px solid #000;
+  font-size: 15px;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
@@ -95,11 +96,12 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 
-const CoupleDday = ({ isMyHome }) => {
+const CoupleDday = () => {
   const coupleName = sessionStorage.getItem("coupleName");
   const [isDday, setIsDday] = useState();
   const [saveCoupleName, setSaveCoupleName] = useState("");
   const [saveDday, setSaveDday] = useState("");
+  const [isMyHome, setIsMyHome] = useState(true);
   const email = sessionStorage.getItem("email");
 
   useEffect(() => {
@@ -110,15 +112,18 @@ const CoupleDday = ({ isMyHome }) => {
   const dDayAxois = async () => {
     // 이메일로 커플 이름 search
     const loginCoupleName = await MemberAxiosApi.renderCoupleNameSearch(email);
-    console.log("5. 이메일로 커플 이름 서치", loginCoupleName);
+    console.log("5. 이메일로 커플 이름 서치", loginCoupleName.data);
     setSaveCoupleName(loginCoupleName.data);
+    if (loginCoupleName.data !== coupleName) {
+      setIsMyHome(false);
+    } else {
+      setIsMyHome(true);
+    }
     console.log("6. 커플 이름 저장", loginCoupleName.data);
-
     // Dday 값 가져오기
     console.log("이거이거" + coupleName);
     const resDday = await MainAxios.searchDday(coupleName);
     console.log("7. 디데이 가져오기", resDday.data);
-
     if (resDday.data !== "") {
       setIsDday(true);
       setSaveDday(resDday.data);

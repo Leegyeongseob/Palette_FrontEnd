@@ -43,16 +43,16 @@ const GuestbookGrayBar = styled.div`
 const GuestbookWriteArea = styled.div`
   margin-top: 2vh;
   width: 400px;
-  height: 10vh;
+  aspect-ratio: 5/1;
   border: 1px solid black;
   background-color: #eccdb0;
   @media screen and (max-width: 1200px) {
     width: 350px;
-    height: 9vh;
+    aspect-ratio: 5/1;
   }
   @media screen and (max-width: 768px) {
     width: 230px;
-    height: 6vh;
+    aspect-ratio: 5/1;
   }
 `;
 const GuestbookWriteMain = styled.div`
@@ -121,7 +121,7 @@ const GuestbookArea = styled.div`
   margin-left: 16px;
   background-color: #eccdb0;
   width: 400px;
-  height: 12vh;
+  aspect-ratio:4/1;
   border: 1px solid black;
 
   @media screen and (max-width: 1200px) {
@@ -314,6 +314,9 @@ const Guestbook = ({}) => {
       setIsMyHome(true);
     }
   };
+  const truncateContents = (name) => {
+    return name.length > 138 ? name.slice(0, 138) + "..." : name;
+  };
   return (
     <GuestbookSide>
       <GuestbookTitle>방명록</GuestbookTitle>
@@ -357,7 +360,7 @@ const Guestbook = ({}) => {
               <GuestWriteImg
                 style={{ backgroundImage: `url(${entry.imgUrl})` }}
               />
-              <GuestbookMain>{entry.contents}</GuestbookMain>
+              <GuestbookMain>{truncateContents(entry.contents)}</GuestbookMain>
             </GuestbookBody>
           </GuestbookArea>
         ))}

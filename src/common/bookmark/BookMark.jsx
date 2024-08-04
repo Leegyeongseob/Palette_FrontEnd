@@ -117,6 +117,7 @@ const BookMark = ({ onNavigate }) => {
         } else {
           // 모달
           soloModal();
+          setSession();
           console.log("솔로는 웁니다.");
         }
       } else {
@@ -143,6 +144,7 @@ const BookMark = ({ onNavigate }) => {
         } else {
           // 모달
           soloModal();
+          setSession();
           console.log("솔로는 웁니다.");
         }
       } else {
@@ -169,6 +171,7 @@ const BookMark = ({ onNavigate }) => {
         } else {
           // 모달
           soloModal();
+          setSession();
           console.log("솔로는 웁니다.");
         }
       } else {
@@ -195,6 +198,7 @@ const BookMark = ({ onNavigate }) => {
         } else {
           // 모달
           soloModal();
+          setSession();
           console.log("솔로는 웁니다.");
         }
       } else {
@@ -216,6 +220,7 @@ const BookMark = ({ onNavigate }) => {
     } else {
       // 모달
       soloModal();
+      setSession();
       console.log("솔로는 웁니다.");
     }
   };
@@ -231,6 +236,7 @@ const BookMark = ({ onNavigate }) => {
         } else {
           // 모달
           soloModal();
+          setSession();
           console.log("솔로는 웁니다.");
         }
       } else {
@@ -245,23 +251,19 @@ const BookMark = ({ onNavigate }) => {
       console.error("오류가 발생했습니다:", error);
     }
   };
-
-  // const OpenChatOnClickHandler = async () => {
-  //   compareCoulpleNameFunction(email);
-  //   if ((await isCoupleAxios(email)) === true) {
-  //     onNavigate(`/Chat`);
-  //   } else {
-  //     // 모달
-  //     soloModal();
-  //     console.log("솔로는 웁니다.");
-  //   }
-  // };
-
   //방문객 모달 확인버튼 이벤트함수
   const visitCodeModalOkBtnHandler = () => {
     closeModal();
     navigator(`/${coupleName}/main-page`);
   };
+  // 세션 초기화 함수
+  const setSession = () =>{
+    sessionStorage.setItem("email", "");
+    sessionStorage.setItem("coupleName", "");
+    sessionStorage.setItem("imgUrl", "");
+    sessionStorage.setItem("myDarling", "");
+    sessionStorage.setItem("kakaoImgUrl", "");
+  }
   return (
     <BookMarkDiv>
       {notEqualCoupleName ? (

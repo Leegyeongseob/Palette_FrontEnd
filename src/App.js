@@ -25,7 +25,6 @@ import Modify from "./pages/setting/Modify";
 import Withdrawal from "./pages/setting/Withdrawal";
 import PalettePage from "./pages/palette/PalettePage";
 import GuestBoardGuestbook from "./pages/board/GuestBoardGuestbook";
-import GuestBoardDetails from "./pages/board/GuestBoardDetails";
 import PaletteHelp from "./pages/palette/PaletteHelp";
 import PaletteNotice from "./pages/palette/PaletteNotice";
 import PaletteNoticeDetails from "./pages/palette/PaletteNoticeDetails";
@@ -97,10 +96,6 @@ function App() {
             <Route
               path="/guest-board-guestbook"
               element={<GuestBoardGuestbook />}
-            />
-            <Route
-              path="/guest-board-details"
-              element={<GuestBoardDetails />}
             />
           </Route>
           <Route element={<CloseBook />}>
