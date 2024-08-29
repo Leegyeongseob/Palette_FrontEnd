@@ -321,8 +321,8 @@ const Picture = styled.div`
   height: 15.74vh;
   background-image: ${({ imageurl }) => `url(${imageurl})`};
   background-size: cover;
-  background-position:center;
-  background-repeat:no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 1px solid black;
   &:hover {
     transform: scale(1.02);
@@ -366,7 +366,7 @@ const VisitDiv = styled.div`
     background-color: rgba(255, 255, 255, 0.507);
     border-radius: 10px;
     outline: none;
-    color: #fff;
+    color: #000;
     font-size: 0.8vw;
     font-weight: 500;
   }
