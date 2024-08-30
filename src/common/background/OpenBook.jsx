@@ -12,11 +12,12 @@ const Background = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-height: 840px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 `;
 const LogoDiv = styled.div`
   width: 192px;

@@ -27,11 +27,11 @@ const Background = styled.div`
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
+  min-height: 840px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   font-size: 16px;
 `;
 
