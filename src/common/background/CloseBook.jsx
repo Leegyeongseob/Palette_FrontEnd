@@ -61,6 +61,10 @@ const BookTheme = styled.div`
     margin-left: calc(0.3vh + 1.5vw);
     margin-bottom: 10%;
   }
+  @media (min-width: 640px) and (max-height: 840px) {
+    margin-left: calc(0.3vh + 1.5vw);
+    margin-bottom: 10%;
+  }
 `;
 
 const LogoDiv = styled.div`
@@ -72,6 +76,12 @@ const LogoDiv = styled.div`
   @media screen and (max-aspect-ratio: 0.7) {
     width: 70%;
     height: auto; /* 높이 자동 조절 */
+  }
+  @media (min-width: 640px) and (max-height: 840px) {
+    margin-left: 25px;
+    margin-top: 7vw;
+    width:400px;
+    height: 120px;
   }
 `;
 
@@ -92,6 +102,10 @@ const Logo = styled.div`
     width: 22vw;
     height: 22vw;
   }
+  @media (min-width: 640px) and (max-height: 840px) {
+    width: 130px;
+    height: 130px;
+  }
 `;
 
 const Contents = styled.div`
@@ -106,6 +120,11 @@ const Contents = styled.div`
     width: 70%;
     height: auto;
     aspect-ratio: 0.84; /* 높이 자동 조절 */
+  };
+  @media (min-width: 640px) and (max-height: 840px) {
+    margin-left: 25px;
+    width: 400px;
+    height: 490px;
   }
 `;
 

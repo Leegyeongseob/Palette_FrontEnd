@@ -27,6 +27,11 @@ const PaletteDiv = styled.div`
   @media screen and (max-aspect-ratio: 0.7) {
     font-size: 27vw;
   }
+  @media (min-width: 640px) and (max-height: 840px) {
+    width: 400px;
+    height: 200px;
+    font-size: 160px;
+  }
 `;
 
 const LoginDiv = styled.div`
@@ -52,8 +57,6 @@ const StyledBsPersonCircle = styled(BsPersonCircle)`
   &:hover {
     transform: scale(0.9);
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.4);
-  }
-  @media screen and (max-aspect-ratio: 0.7) {
   }
 `;
 const NotLogin = () => {

@@ -29,7 +29,7 @@ const AnimatedDiv = styled.div`
 
 const Background = styled.div`
   width: 100%;
-  height: 835vh;
+  height: 840vh;
   display: flex;
   flex-direction: column;
   /* overflow: hidden; */

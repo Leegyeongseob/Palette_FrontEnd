@@ -131,7 +131,7 @@ const Root3 = styled(Root)`
 
 const CustomerBox = styled.div`
   width: 90%;
-  height: 8%;
+  height: 90px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -156,7 +156,7 @@ const BoxLeft = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 18px 18px;
-  & > div {
+  & > .empty {
     height: 20px;
   }
 `;
@@ -251,7 +251,7 @@ const BoxRightDown = styled.div`
 
 const HelpBoard = styled.div`
   width: 90%;
-  height: 23%;
+  height: 29%;
   display: flex;
   flex-direction: column;
 `;
@@ -281,7 +281,7 @@ const HelpWrap = styled.div`
 
 const HelpTitle = styled.div`
   width: 100%;
-  height: 15%;
+  height: 20%;
   border-bottom: 1px solid gray;
   display: flex;
   flex-direction: row;
@@ -349,7 +349,7 @@ const CustomerPage = () => {
               <CustomerBox>
                 <BoxLeft>
                   <BoxLeftUp>무엇을 도와드릴까요?</BoxLeftUp>
-                  <div />
+                  <div className="empty" />
                   <BoxLeftDown>
                     고객센터 01025546626 | 평일 09:00 ~ 18:00 | 주말 및 공휴일
                     휴무

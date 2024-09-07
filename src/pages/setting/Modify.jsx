@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
 const Contain = styled.div`
@@ -29,7 +29,6 @@ const InputDiv = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  
 `;
 
 const EmailDiv = styled.div`
@@ -58,7 +57,24 @@ const InputDetailDiv = styled.div`
       font-size: 2vw;
     }
   }
-  & > .InputEmail,
+  & > .Email {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 53%;
+    height: 100%;
+    border-radius: 0.521vw;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.3);
+    padding-left: 0.521vw;
+    font-size: 14px;
+    font-weight: 600;
+    @media screen and (max-width: 654px) {
+      font-size: 2vw;
+    }
+  }
   & > .InputClass {
     width: 53%;
     height: 100%;
@@ -83,10 +99,10 @@ const ButtonDiv = styled.div`
   align-items: center;
   & > a {
     width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 const SignupButton = styled.div`
@@ -124,27 +140,26 @@ const Message = styled.div`
 
 const Modify = () => {
   // 키보드 입력
-  const [inputEmail, setInputEmail] = useState("");
   const [inputName, setInputName] = useState("");
+  const [emailData, setEmailData] = useState("");
   const [inputPwd, setInputPwd] = useState("");
   const [inputNickName, setInputNickName] = useState("");
   const [inputcoupleName, setInputCoupleName] = useState("");
   // 유효성 확인
-  const [isId, setIsId] = useState("");
   const [isPwd, setIsPwd] = useState("");
   // 에러 메세지
-  const [idMessage, setIdMessage] = useState("");
   const [pwdMessage, setPwMessage] = useState("");
   //정보 저장(placeholder)
   const [memberInfo, setMemberInfo] = useState([]);
   const email = sessionStorage.getItem("email"); // 세션 스토리지에서 이메일 가져오기
+  const navigate = useNavigate();
   //회원정보를 가져오기 위한 Axois통신
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await MemberAxiosApi.memberAxios(email); // Axios로 회원 정보 요청
         setMemberInfo(response.data); // 객체를 저장
-        setInputEmail(response.data.email);
+        setEmailData(response.data.email);
         setInputName(response.data.name);
         setInputNickName(response.data.nickName);
         setInputCoupleName(response.data.coupleName);
@@ -169,31 +184,17 @@ const Modify = () => {
       setIsPwd(true);
     }
   };
-  // 5~ 20자리의 영문자, 숫자, 언더스코어(_)로 이루어진 문자열이 유효한 아이디 형식인지 검사하는 정규표현식
-  const onChangeEmail = (e) => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    setInputEmail(e.target.value);
-    if (!emailRegex.test(e.target.value)) {
-      setIdMessage("이메일 형식이 올바르지 않습니다.");
-      setIsId(false);
-    } else {
-      setIdMessage("올바른 형식 입니다.");
-      setIsId(true);
-    }
-  };
 
   const modifyOnClickHandler = () => {
     const modifyHandler = async (
-      email,
-      updateEmail,
+      emailValue,
       pwd,
       name,
       nickName,
       coupleName
     ) => {
       const rsp = await MemberAxiosApi.memberModify(
-        email,
-        updateEmail,
+        emailValue,
         pwd,
         name,
         nickName,
@@ -201,13 +202,15 @@ const Modify = () => {
       );
       if (rsp.data === "Success") {
         console.log("수정되었습니다.");
+        sessionStorage.setItem("coupleName",coupleName);
+        navigate("/main-page");
+        
       } else {
         console.log("수정에러", rsp.data);
       }
     };
     modifyHandler(
-      email,
-      inputEmail,
+      emailData,
       inputPwd,
       inputName,
       inputNickName,
@@ -221,13 +224,8 @@ const Modify = () => {
         <EmailDiv>
           <InputDetailDiv>
             <label>이메일</label>
-            <input
-              className="InputEmail"
-              onChange={onChangeEmail}
-              placeholder={memberInfo.email}
-            />
+            <div className="Email">{emailData}</div>
           </InputDetailDiv>
-          {inputEmail && <Message isCorrect={isId}>{idMessage}</Message>}
         </EmailDiv>
         <InputDetailDiv>
           <label>비밀번호</label>
@@ -272,16 +270,12 @@ const Modify = () => {
         </InputDetailDiv>
       </InputDiv>
       <ButtonDiv>
-        <Link to="/main-page" style={{ textDecoration: "none" }}>
-          <SignupButton
-            isActive={
-              inputEmail || inputName || inputNickName || inputcoupleName
-            }
-            onClick={modifyOnClickHandler}
-          >
-            수정하기
-          </SignupButton>
-        </Link>
+        <SignupButton
+          isActive={inputName || inputNickName || inputcoupleName}
+          onClick={modifyOnClickHandler}
+        >
+          수정하기
+        </SignupButton>
       </ButtonDiv>
     </Contain>
   );

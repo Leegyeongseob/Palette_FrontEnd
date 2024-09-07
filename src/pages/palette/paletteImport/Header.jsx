@@ -6,7 +6,7 @@ import PLogo from "../../../img/background/paletteLogo.png";
 
 const HeaderContainer = styled.div`
   width: 100%;
-  height: 10vh;
+  height: 12vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
@@ -26,7 +26,7 @@ const LogoBox = styled.div`
 `;
 
 const PaletteLogo = styled(Link)`
-  width: 812px;
+  width: 30%;
   height: 70%;
   display: flex;
   margin-top: 1%;
@@ -37,7 +37,7 @@ const PaletteLogo = styled(Link)`
 `;
 
 const CenterLogo = styled(Link)`
-  width: 110px;
+  width: 40%;
   height: 110px;
   display: flex;
   margin-top: 2.8%;
@@ -50,14 +50,14 @@ const CenterLogo = styled(Link)`
   &:hover {
     transform: scale(0.95);
   }
-  @media (max-width: 1100px) {
+  @media (max-width: 1300px) {
     display: none;
   }
 `;
 
 const MenuBar = styled.div`
   width: 100%;
-  height: 5vh;
+  height: 6vh;
   background-color: ${({ bgColor }) => bgColor || "#feeee8"};
   transition: background-color 1.2s;
   display: flex;
@@ -66,7 +66,7 @@ const MenuBar = styled.div`
   justify-content: center;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
   &:hover {
     opacity: 90%;
   }
@@ -104,6 +104,10 @@ const Menu = styled(Link)`
     font-size: 16px;
   }
 `;
+const HeaderContainWarp = styled.div`
+  width: 100%;
+  height: 18vh;
+`;
 
 const Header = ({ bgColor }) => {
   const location = useLocation();
@@ -115,7 +119,7 @@ const Header = ({ bgColor }) => {
   }, [pathname]);
 
   return (
-    <>
+    <HeaderContainWarp>
       <HeaderContainer bgColor={bgColor}>
         <LogoBox>
           <PaletteLogo to="/"></PaletteLogo>
@@ -132,7 +136,7 @@ const Header = ({ bgColor }) => {
           <Menu to="/not-login">시작하기</Menu>
         </MenuBox>
       </MenuBar>
-    </>
+    </HeaderContainWarp>
   );
 };
 

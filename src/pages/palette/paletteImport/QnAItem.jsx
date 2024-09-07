@@ -31,7 +31,7 @@ const HelpQText = styled.div`
 `;
 
 const HelpAText = styled.div`
-  width: 95%;
+  width: 100%;
   padding: 8px;
   display: flex;
   font-size: 18px;

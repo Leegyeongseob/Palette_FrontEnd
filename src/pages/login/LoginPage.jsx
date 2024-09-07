@@ -25,10 +25,14 @@ const Contain = styled.div`
 `;
 
 const IconDiv = styled.div`
-  width: 90%;
+  width: 96%;
   height: 22%;
   display: flex;
   justify-content: center;
+  @media screen and (max-aspect-ratio: 0.7) {
+    margin-left: calc(0.3vh + 1.5vw);
+
+  }
 `;
 
 const Icon = styled.div`
@@ -42,6 +46,10 @@ const Icon = styled.div`
   @media screen and (max-aspect-ratio: 0.7) {
     width: 30%;
     height: 100%;
+  }
+  @media (min-width: 640px) and (max-height: 840px) {
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -86,7 +94,11 @@ const InputDiv = styled.input`
   font-weight: bolder;
   outline: none;
   &::placeholder {
-    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 2vh;
     color: #b44a4a;
     font-weight: bolder;

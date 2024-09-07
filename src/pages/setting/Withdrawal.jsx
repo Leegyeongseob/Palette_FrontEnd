@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import LoginAxios from "../../axiosapi/LoginAxios";
 import emailjs from "emailjs-com";
 import Modal from "../../common/utils/Modal";
+import ImageModal from "../datediary/Modal";
 import MemberAxiosApi from "../../axiosapi/MemberAxiosApi";
+import cry from "../../img/modalImg/울음.gif";
 const Contain = styled.div`
   width: 100%;
   height: 100%;
@@ -183,6 +184,7 @@ const Withdrawal = () => {
   const [headerContents, SetHeaderContents] = useState("");
   //팝업 처리
   const [modalOpen, setModalOpen] = useState(false);
+  const [imageModalOpen,setImageModalOpen] = useState(false);
   const emailplaceholder = sessionStorage.getItem("email");
   const closeModal = () => {
     setModalOpen(false);
@@ -263,17 +265,33 @@ const Withdrawal = () => {
     closeModal();
     setIsEmail(true);
   };
+  const codeImageModalOkBtnHandler =()=>{
+    closeModal();
+    sessionStorage.setItem("email", "");
+    navigate("/");
+  }
   //회원 탈퇴하는 로직 함수
   const signuOutBtnOnclickHandler = () => {
     const memberDeleteAxios = async () => {
       const rsp = await MemberAxiosApi.memberDelete(inputEmail);
       console.log(rsp.data);
+      if(rsp.data==="회원 정보 및 관련 데이터가 삭제되었습니다."){
+        SetHeaderContents("회원탈퇴");
+        setModalContent(rsp.data);
+        setImageModalOpen(true);
+      }
+      else if(rsp.data ==="회원 정보를 찾을 수 없습니다."){
+        SetHeaderContents("회원탈퇴");
+        setModalContent(rsp.data);
+        setModalOpen(true);
+      }
+      else{
+        SetHeaderContents("회원탈퇴");
+        setModalContent("회원 정보 삭제 중 오류가 발생했습니다.");
+        setModalOpen(true);
+      }
     };
     memberDeleteAxios();
-    if (isEmail && isCode) {
-      sessionStorage.setItem("email", "");
-      navigate("/");
-    }
   };
   // 인증 코드 입력 처리 함수 수정
   const handleCertificationCodeInput = (e) => {
@@ -293,6 +311,11 @@ const Withdrawal = () => {
       >
         {modalContent}
       </Modal>
+      <ImageModal open={imageModalOpen}
+        header={headerContents}
+        type={true}
+        confirm={codeImageModalOkBtnHandler}
+        img={cry}>{modalContent}</ImageModal>
       <InputDiv>
         <InputDetailDiv>
           <label>이메일</label>
